@@ -69,25 +69,26 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <p>
+                <!-- <p>
                     latitude: <span id="lat"></span><br />
                     longitude: <span id="lng"></span>
-                </p>
+                </p> -->
             </div>
             <div class="col order-12">
                 <div id="clockbox"></div>
 
             </div>
-            <div class="col order-1">
-                <p>Calado<input type="text" id="calado_span" /> metro(s)</p>
-                <button type="button" class="btn btn-primary" onclick="changeValue()">Alterar</button>
-            </div>
+
         </div>
         <h4>Escolha uma rota</h4>
         <div class="row">
 
-            <div class="col">
-                <button type="button" class="btn btn-warning" onclick="rota('r2')">Rota 2</button>
+            <div class="col text-left">
+                <p>Calado<input type="text" id="calado_span" /> metro(s)</p>
+                <p>Limite Superior<input type="text" id="calado_sup_span" /> metro(s)</p>
+                <p>Limite Inferior<input type="text" id="calado_inf_span" /> metro(s)</p>
+                <button type="button" class="btn btn-primary" onclick="changeValue()">Alterar</button>
+
             </div>
             <div class="col">
                 <button type="button" class="btn btn-danger" onclick="clearmap()">Apagar</button>
@@ -98,7 +99,7 @@
 
             <div class="col">
                 <input type="time" id="time" />
-                <button type="button" class="btn btn-warning" onclick="calculo()">Escolher Hora</button>
+                <button type="button" class="btn btn-warning" onclick="calculo()">Alterar Hora</button>
             </div>
 
         </div>
@@ -137,26 +138,30 @@
 
         var linesFeatureLayer
         function onClick(e) {
-            console.log(e.latlng);
-            console.log(e.latlng.lat);
-            console.log(e.latlng.lng);
-            document.getElementById('lat').innerHTML = "<p>" + e.latlng.lat + "</p>";
-            document.getElementById('lng').innerHTML = "<p>" + e.latlng.lng + "</p>";
+            // console.log(e.latlng);
+            // console.log(e.latlng.lat);
+            // console.log(e.latlng.lng);
+            // document.getElementById('lat').innerHTML = "<p>" + e.latlng.lat + "</p>";
+            // document.getElementById('lng').innerHTML = "<p>" + e.latlng.lng + "</p>";
             if (e.latlng.lat == 40.727291289709356 && e.latlng.lng == -8.652763366699219) {
                 mymap.eachLayer(function (layer) {
                     //console.log(layer)
-                    console.log(layer.options.pane)
+                    //console.log(layer.options.pane)
                     if (layer.options.pane == "overlayPane") {
                         mymap.removeLayer(layer);
                     }
 
                 });
                 var valorInput = document.getElementById('calado_span').value;
-
-                if (valorInput != "") {
-                    calculo(valorInput);
+                var valorInput2 = document.getElementById('calado_sup_span').value;
+                var valorInput3 = document.getElementById('calado_inf_span').value;
+                if (valorInput != "" && valorInput2 != "" && valorInput3 != "") {
+                    calculo(valorInput, valorInput2, valorInput3);
                 } else {
-                    calculo(1);
+                    calado = 1;
+                    margemcaladoSup = 0.2;
+                    margemcaladoInf = 0.1;
+                    calculo(1, 0.2, 0.1);
                 }
 
             }
@@ -232,10 +237,23 @@
 
         getInfo();
 
+        function changeValue(e) {
+            var valorInput = document.getElementById('calado_span').value;
+            var valorInput2 = document.getElementById('calado_sup_span').value;
+            var valorInput3 = document.getElementById('calado_inf_span').value;
+            if (valorInput != "" && valorInput2 != "" && valorInput3 != "") {
+                calculo(valorInput, valorInput2, valorInput3);
+            } else {
+                calado = 1;
+                margemcaladoSup = 0.2;
+                margemcaladoInf = 0.1;
+                calculo(1, 0.2, 0.1);
+            }
+        }
 
 
         //Realiza o calculo com base no excel
-        function calculo() {
+        function calculo(valor_cal, cal_sup, cal_inf) {
             //remover a rota realizada e atualizar
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
@@ -267,14 +285,20 @@
                     ndate = d.getDate(),
                     nyear = d.getYear();
                 if (nyear < 1000) nyear += 1900;
-                let hora = "20";
-                let min = "00";
-
-                UserHoras = new Date(nyear, nmonth, nday, hora, min);
+                nhour = d.getHours(), nmin = d.getMinutes();
+                // let hora = "20";
+                // let min = "00";
+                document.getElementById('time').value = nhour + ":" + nmin;
+                UserHoras = new Date(nyear, nmonth, nday, nhour, nmin);
             }
 
             var guardarHoras = [];
             let sortedData;
+            var arRetirMare = [];
+            let count = 0, mare_max, mare_min, variacaomare, variaca;
+            let soma = 0, somamare2 = 0;
+            var arrayMares = [];
+            var mareUser = [];
             if (arrayhidrografico.length > 0) {
 
 
@@ -283,18 +307,16 @@
                     let datefrente;
                     console.log(arrayhidrografico[i])
                     for (let j = 0; j < arrayhidrografico[i].length; j++) {
+
                         let date = new Date(arrayhidrografico[i][j].SDATA);
                         let horatempoAPI = date.getHours() + ":" + date.getMinutes();
                         guardarHoras.push(arrayhidrografico[i][j])
 
                     }
-
                     sortedData = guardarHoras.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
-
                 }
 
-                var arrayMares = [];
-                var mareUser = [];
+
                 for (let k = 0; k < sortedData.length; k++) {
 
                     let date = new Date(sortedData[k].SDATA);
@@ -310,26 +332,37 @@
                     arrayMares.push(sortedData[k].ALT)
                     let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
 
+                    console.log(UserHoras.getHours())
+                    console.log(date.getHours())
+
                     if (sortedData[k] == sortedData[0]) {
                         if (UserHoras.getHours() <= date.getHours()) {
-
                             mareUser.push(sortedData[k].ALT)
                         }
-                    } else if (UserHoras.getHours() >= date.getHours() && UserHoras.getHours() < datefrente.getHours()) {
-
-                        mareUser.push(sortedData[k].ALT)
-                    } else if (sortedData[k] == sortedData[3]) {
-                        if (UserHoras.getHours() >= date.getHours()) {
+                    } else if (sortedData[k] == sortedData[1]) {
+                        dateatras = new Date(sortedData[k - 1].SDATA);
+                        if (UserHoras.getHours() > dateatras.getHours() && UserHoras.getHours() <= date.getHours()) {
                             mareUser.push(sortedData[k].ALT)
+                        }
+                    } else if (sortedData[k] == sortedData[2]) {
+                        dateatras2 = new Date(sortedData[k - 1].SDATA);
+                        console.log(dateatras2)
+                        if (UserHoras.getHours() > dateatras2.getHours() && UserHoras.getHours() <= date.getHours()) {
+                            mareUser.push(sortedData[k].ALT)
+                        }
+                    } else if (sortedData[k] == sortedData[3]) {
+                        dateatras2 = new Date(sortedData[k - 1].SDATA);
 
+                        if (UserHoras.getHours() > dateatras2.getHours() && UserHoras.getHours() <= date.getHours()) {
+                            mareUser.push(sortedData[k].ALT)
+                        } else if (UserHoras.getHours() >= date.getHours()) {
+                            mareUser.push(sortedData[k].ALT)
                         }
                     }
                 }
 
 
-                var arRetirMare = [];
-                let count = 0, mare_max, mare_min, variacaomare, variaca;
-                let soma = 0, somamare2 = 0;
+                console.log(mareUser[0])
                 for (let p = 0; p < arrayMares.length; p++) {
 
                     mare_max = Math.max(...arrayMares);
@@ -340,12 +373,18 @@
 
                     if (arRetirMare.length == 0) {
                         arRetirMare.push(mareUser[0]);
-                        count++;
                     } else {
+                        console.log(mareUser[0]);
+                        console.log(arrayMares[p]);
                         if (mareUser[0] == arrayMares[p]) {
                             for (let a = 0; a < 15; a++) {
-
                                 soma = arRetirMare[a] + 1 / (12 * variacaomare);
+                                let doisdsoma = soma;
+                                arRetirMare.push(doisdsoma);
+                            }
+                        } else if (mareUser[0] == arrayMares[p - 1] || mareUser[0] == arrayMares[2]) {
+                            for (let a = 0; a < 15; a++) {
+                                soma = arRetirMare[a] - 1 / (12 * variacaomare);
                                 let doisdsoma = soma;
                                 arRetirMare.push(doisdsoma);
                             }
@@ -355,13 +394,12 @@
             }
             console.log(arRetirMare)
 
-            //calado = var_cal;
             var margemcaladoSup, margemcaladoInf;
             var velocidademedia = 5;
             var diferençaTempo, ZNOvaRota, verificarRota;
             var linesFeatureLayer, linesFeatureLayer2, linesFeatureLayer3;
-            margemcaladoSup = 0.2;
-            margemcaladoInf = 0.1;
+            margemcaladoSup = cal_sup;
+            margemcaladoInf = cal_inf;
 
 
             var coordenadas = [
@@ -383,44 +421,7 @@
                 [-8.652763366699219, 40.727291289709356],
             ];
 
-            // var baixamar = 0.3;
-            // var preiamar = 3;
-            // var variacaomare = preiamar - baixamar;
-            // var intervalosTempo = "00:15";
-            //var splitTime1 = tempo.split(':');
-            // var splitTime2 = intervalosTempo.split(':');
-            // // var hoursMinutes = tempo.split(/[.:]/);
-            // var tempototal = parseInt(splitTime1[1]) + parseInt(splitTime2[1]);
 
-            // minute = tempototal % 60;
-            // var horastotal = splitTime1[0] + ':' + minute;
-
-            // var quarterHours = ["00", "15", "30", "45"];
-            // var times = [];
-            // var mares = [];
-            // var horas_mares = [];
-            // var mares_entre_pontos_altos = [];
-            // var cont = 1;
-            // var cont2 = 1;
-            // var mares_restantes = [];
-            // for (var i = 0; i < 24; i++) {
-            //     for (var j = 0; j < 4; j++) {
-            //         if ((i >= 13 && i < 19 && quarterHours[j] == 30) || (i >= 1 && i < 7 && quarterHours[j] == 30)
-            //             || (i >= 0 && i < 7 && quarterHours[j] == 30) || (i >= 23 && quarterHours[j] == 30)) {
-            //             mares.push(((preiamar - cont) / 12) * variacaomare)
-            //             horas_mares.push(i + ":" + quarterHours[j]);
-            //             cont++;
-
-            //         } else if ((i >= 19 && i < 23 && quarterHours[j] == 30) || (i >= 7 && i < 13 && quarterHours[j] == 30)) {
-            //             mares.push(((baixamar + cont) / 12) * variacaomare)
-            //             horas_mares.push(i + ":" + quarterHours[j]);
-            //             cont2++;
-            //         }
-            //     }
-            // }
-
-            // console.log(mares)
-            // console.log(horas_mares)
 
             var nivel_mare = [
                 [3],
@@ -479,7 +480,9 @@
             //     [2.16],
             // ];
 
-            document.getElementById('calado_span').value = calado;
+            document.getElementById('calado_span').value = valor_cal;
+            document.getElementById('calado_sup_span').value = cal_sup;
+            document.getElementById('calado_inf_span').value = cal_inf;
             for (var i = 0; i < coordenadas.length; i++) {
                 console.log(arRetirMare[i]);
                 //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
