@@ -133,6 +133,8 @@
     <div id="issMap"></div>
 
     <script>
+        var calado = 1;
+        var velocidademedia;
         // Making a map and tiles
         const mymap = L.map('issMap').setView([40.71, -8.68177413], 12);
         const attribution =
@@ -211,7 +213,7 @@
 
 
     <script type="text/javascript">
-        var calado = 1;
+
         tday = new Array("Domingo", "Segunda-Feira",
             "Terça-Feira", "Quarta-Feira",
             "Quinta-Feira", "Sexta-Feira", "Sábado");
@@ -342,7 +344,7 @@
             var mareUser = [];
             if (arrayhidrografico.length > 0) {
 
-
+                //Ordenar as informação por ordem
                 for (let i = 0; i < arrayhidrografico.length; i++) {
                     let UserHorasMin = UserHoras.getHours() + ":" + UserHoras.getMinutes();
                     let datefrente;
@@ -396,37 +398,63 @@
                         }
                     }
                 }
+                let variacaomare, conta;
 
                 for (let p = 0; p < arrayMares.length; p++) {
 
-                    mare_max = Math.max(...arrayMares);
-                    mare_min = Math.min(...arrayMares);
-
-                    variaca = mare_max - mare_min;
-                    variacaomare = variaca.toFixed(2)
-
-                    if (arRetirMare.length == 0) {
-                        arRetirMare.push(mareUser[0]);
-                    } else {
-                        if (mareUser[0] == arrayMares[p]) {
-                            for (let a = 0; a < 15; a++) {
-                                soma = arRetirMare[a] + 1 / (12 * variacaomare);
-                                let doisdsoma = soma;
-                                arRetirMare.push(doisdsoma);
-                            }
-                        } else if (mareUser[0] == arrayMares[p - 1] || mareUser[0] == arrayMares[2]) {
-                            for (let a = 0; a < 15; a++) {
-                                soma = arRetirMare[a] - 1 / (12 * variacaomare);
-                                let doisdsoma = soma;
-                                arRetirMare.push(doisdsoma);
-                            }
+                    if (arrayMares[p] == mareUser[0]) {
+                        if (arrayMares[p + 1] != null) {
+                            variacaomare = arrayMares[p + 1] - arrayMares[p];
+                            variMare(variacaomare, arrayMares[p]);
+                            arRetirMare.push(arrayMares[p]);
+                        } else {
+                            variacaomare = arrayMares[0] - arrayMares[p];
+                            variMare(variacaomare, arrayMares[p]);
+                            arRetirMare.push(arrayMares[p]);
                         }
                     }
+
+                    console.log(arRetirMare);
+                    // if (arRetirMare.length == 0) {
+                    //     arRetirMare.push(mareUser[0]);
+                    // } else {
+                    // if (mareUser[0] == arrayMares[p]) {
+                    //     for (let a = 0; a < 15; a++) {
+                    //         soma = arRetirMare[a] + 1 / (12 * variacaomare);
+                    //         let doisdsoma = soma;
+                    //         arRetirMare.push(doisdsoma);
+                    //     }
+                    // } else if (mareUser[0] == arrayMares[p - 1] || mareUser[0] == arrayMares[2]) {
+                    //     for (let a = 0; a < 15; a++) {
+                    //         soma = arRetirMare[a] - 1 / (12 * variacaomare);
+                    //         let doisdsoma = soma;
+                    //         arRetirMare.push(doisdsoma);
+                    //     }
+                    // }
+                    //}
                 }
             }
 
+            function variMare(mare, mare_baixa_preia) {
+
+                for (let a = 0; a < 1; a++) {
+                    if (arRetirMare.length == 0) {
+                        conta = arRetirMare[a] + mare / 25;
+                        arRetirMare.push(conta);
+                    } else {
+
+                        conta = arRetirMare[a - 1] + mare / 25;
+                        arRetirMare.push(conta);
+                        console.log(conta)
+                    }
+                }
+
+            }
+
+            console.log(arRetirMare)
             var margemcaladoSup, margemcaladoInf;
-            var velocidademedia = 5;
+
+
             var diferençaTempo, ZNOvaRota, verificarRota;
             var linesFeatureLayer, linesFeatureLayer2, linesFeatureLayer3;
             margemcaladoSup = cal_sup;
@@ -513,7 +541,7 @@
 
             let distancia;
             let arDistan = [];
-            let countdangerous=0;
+            let countdangerous = 0;
             let warning = 0;
             for (var i = 0; i < coordenadas.length; i++) {
                 //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
@@ -602,28 +630,27 @@
                             style: myStyle3
                         });
                         linesFeatureLayer3.addTo(mymap);
-                        if(countdangerous<warning){
+                        if (countdangerous < warning) {
                             popup = L.popup()
-                            .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                            .setContent('<p>Pode encanlhar em alguns pontos</p>')
-                            .openOn(mymap);
-                        }else if(warning>0){
+                                .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                                .setContent('<p>Pode encanlhar em alguns pontos</p>')
+                                .openOn(mymap);
+                        } else if (warning > 0) {
                             popup = L.popup()
-                            .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                            .setContent('<p>Possibilidade de encanlhar</p>')
-                            .openOn(mymap);
-                        }else if(countdangerous>0){
+                                .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                                .setContent('<p>Possibilidade de encanlhar</p>')
+                                .openOn(mymap);
+                        } else if (countdangerous > 0) {
                             popup = L.popup()
-                            .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                            .setContent('<p>Pode encanlhar em alguns pontos</p>')
-                            .openOn(mymap);
-                        }else{
+                                .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                                .setContent('<p>Pode encanlhar em alguns pontos</p>')
+                                .openOn(mymap);
+                        } else {
                             popup = L.popup()
-                            .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                            .setContent('<p>Pode viajar com segurança</p>')
-                            .openOn(mymap);
+                                .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                                .setContent('<p>Pode viajar com segurança</p>')
+                                .openOn(mymap);
                         }
-                        
                     } else {
 
                     }
@@ -637,9 +664,19 @@
                 sum += parseFloat(arDistan[u]);
 
             }
-            let newsum = sum/ 1000;
-            document.getElementById('km').innerHTML = "<p>"+newsum.toFixed(2)+ " KM </p>";
-
+            let totavelkm2kn, tempovm;
+            let minutesfinal, minutes2deci, dc2tempovm;
+            let newsum = sum / 1000;
+            document.getElementById('km').innerHTML = "<p>" + newsum.toFixed(2) + " KM </p>";
+            velocidademedia = 5;
+            totavelkm2kn = newsum / 1.852;
+            tempovm = totavelkm2kn / velocidademedia;
+            dc2tempovm = tempovm.toFixed(2);
+            dc2tempovm = dc2tempovm.split('.');
+            let knowminutes = 0 + '.' + dc2tempovm[1];
+            console.log(knowminutes)
+            minutesfinal = parseInt(knowminutes) * 60;
+            console.log(minutesfinal)
         }
 
 
