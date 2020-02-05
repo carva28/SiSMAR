@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
         integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
+    <script src="js/jquery.js"> </script>
+    <script lang="javascript" src="js/xlsx.full.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
@@ -90,6 +92,7 @@
                     latitude: <span id="lat"></span><br />
                     longitude: <span id="lng"></span>
                 </p> -->
+                <input type="file" id="fileUploader" name="fileUploader" accept=".xls, .xlsx" />
 
             </div>
             <div class="col order-12">
@@ -210,7 +213,37 @@
             }
         }
     </script>
+    <script>
+        var arrayUser = [];
+        $(document).ready(function () {
+            $("#fileUploader").change(function (evt) {
+                var selectedFile = evt.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var data = event.target.result;
+                    var workbook = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                    workbook.SheetNames.forEach(function (sheetName) {
 
+                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                        var json_object = JSON.stringify(XL_row_object);
+
+                        let jsonparse = JSON.parse(json_object);
+                        arrayUser.push(jsonparse);
+
+                    })
+                };
+
+                reader.onerror = function (event) {
+                    console.error("File could not be read! Code " + event.target.error.code);
+                };
+
+                reader.readAsBinaryString(selectedFile);
+            });
+        });
+
+    </script>
 
     <script type="text/javascript">
 
@@ -240,9 +273,12 @@
         }
 
         window.onload = function () {
+            getInfo();
             GetClock();
             setInterval(GetClock, 1000);
         }
+
+
 
         var arrayhidrografico = [];
 
@@ -264,7 +300,7 @@
                 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
         }
 
-        getInfo();
+
 
         function changeValue(e) {
             var valorInput = document.getElementById('calado_span').value;
@@ -326,7 +362,6 @@
                 UserHoras = new Date(nyear, nmonth, nday, nhour, nmin);
                 var now = new Date(Date.now());
                 var f = leadZero(now.getHours()) + ":" + leadZero(now.getMinutes());
-                console.log(f)
                 document.getElementById('time').value = f;
             }
 
@@ -334,6 +369,87 @@
                 if (parseInt(_something) < 10) return "0" + _something;
                 return _something;//else    
             }
+
+            let ar_CoordExcel = [];
+
+            for (let m = 0; m < arrayUser.length; m++) {
+                for (let n = 0; n < arrayUser[m].length; n++) {
+                    //console.log(arrayUser[m][n])
+                    if (arrayUser[m][n].X != "Coordenadas"
+                        || arrayUser[m][n].X != "</trkseg"
+                        || arrayUser[m][n].X != "</trk"
+                        || arrayUser[m][n].X != "</gpx") {
+
+                        if (arrayUser[m][n].T != null) {
+                            let tempoveri = arrayUser[m][n].T;
+                            var newStr = tempoveri.replace(/T/g, " ");
+                            let date = new Date(newStr);
+                            let horatempoAPI = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                            if (date.getSeconds() == 00 || date.getSeconds() == 11) {
+                                ar_CoordExcel.push(arrayUser[m][n])
+                            }
+                        }
+
+                    }
+                }
+            }
+            console.log(ar_CoordExcel)
+
+            var nivel_ZRotaAdquirida = [
+                [3.5],
+                [3.30],
+                [3.4],
+                [3.4],
+                [3.70],
+                [4],
+                [4.5],
+                [3],
+                [3.4],
+                [4],
+                [3.9],
+                [3.20],
+                [3.0],
+                [3.4],
+                [3.5],
+                [3],
+            ];
+            var coordenadas = [
+                // [-8.762712478637695, 40.64196329226261],
+                // [-8.752756118774414, 40.644828856258954],
+                // [-8.742284774780273, 40.64593597303585],
+                // [-8.73464584350586, 40.65016889724004],
+                // [-8.727693557739258, 40.655703854536746],
+                // [-8.725204467773438, 40.66117324360654],
+                // [-8.72288703918457, 40.66826975856376],
+                // [-8.716878890991211, 40.675495708799446],
+                // [-8.715934753417969, 40.68363210267408],
+                // [-8.717050552368164, 40.692548449646836],
+                // [-8.714303970336914, 40.702569780377935],
+                // [-8.707437515258789, 40.71102817184792],
+                // [-8.696279525756834, 40.71642796756138],
+                // [-8.681774139404297, 40.72104672237615],
+                // [-8.667354583740234, 40.72481955186487],
+                // [-8.652763366699219, 40.727291289709356],
+            ];
+            let latit, longitu, zadquirido=[];
+            console.log(ar_CoordExcel)
+            for (let coord = 0; coord < ar_CoordExcel.length; coord++) {
+
+                var newlat = ar_CoordExcel[coord].X.replace(/""/g, "");
+                var newlat2 = newlat.replace(/lat=/g, "");
+                var newlat3 = newlat2.replace(/\"/g, "");
+                let newlat4 = parseFloat(newlat3);
+
+                var newlong5 = ar_CoordExcel[coord].Y.replace(/""/g, "");
+                var newlong6 = newlong5.replace(/lon=/g, "");
+                var newlong7 = newlong6.replace(/\"/g, "");
+                let newlong8 = parseFloat(newlong7);
+                coordenadas.push([newlong8,newlat4])
+                nivel_ZRotaAdquirida.push([ar_CoordExcel[coord].Z_offset]);
+
+            }
+            console.log(coordenadas);
+            console.log(nivel_ZRotaAdquirida);
 
             var guardarHoras = [];
             let sortedData;
@@ -358,7 +474,7 @@
                     sortedData = guardarHoras.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
                 }
 
-
+                //Percorrer o array que tem a informação ordenada
                 for (let k = 0; k < sortedData.length; k++) {
 
                     let date = new Date(sortedData[k].SDATA);
@@ -367,13 +483,14 @@
                     if (sortedData[k + 1] != undefined) {
                         datefrente = new Date(sortedData[k + 1].SDATA);
                     } else {
-
+                        console.log('')
                     }
 
 
                     arrayMares.push(sortedData[k].ALT)
                     let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
 
+                    //Verificação com base nas horas do utilizador qual a maré 
                     if (sortedData[k] == sortedData[0]) {
                         if (UserHoras.getHours() <= date.getHours()) {
                             mareUser.push(sortedData[k].ALT)
@@ -403,55 +520,49 @@
                 for (let p = 0; p < arrayMares.length; p++) {
 
                     if (arrayMares[p] == mareUser[0]) {
+                        console.log('quem entrou?' + p);
+
                         if (arrayMares[p + 1] != null) {
                             variacaomare = arrayMares[p + 1] - arrayMares[p];
-                            variMare(variacaomare, arrayMares[p]);
+
                             arRetirMare.push(arrayMares[p]);
+
+                            let dc2mare = variacaomare.toFixed(2);
+
+                            for (let a = 1; a < 25; a++) {
+                                if (arRetirMare[a - 1] == null) {
+                                    console.log('quantos' + a);
+                                } else {
+                                    conta = arRetirMare[a - 1] + dc2mare / 25;
+                                    arRetirMare.push(conta);
+                                }
+                            }
                         } else {
-                            variacaomare = arrayMares[0] - arrayMares[p];
-                            variMare(variacaomare, arrayMares[p]);
+                            variacaomare = arrayMares[p - 1] - arrayMares[p];
+
                             arRetirMare.push(arrayMares[p]);
+
+                            let dc2mare = variacaomare.toFixed(2);
+
+                            for (let a = 1; a < 25; a++) {
+                                if (arRetirMare[a - 1] == null) {
+                                    console.log('quantos' + a);
+                                } else {
+                                    conta = arRetirMare[a - 1] + dc2mare / 25;
+                                    arRetirMare.push(conta);
+                                }
+                            }
+
                         }
+                        console.log(arRetirMare)
                     }
-
-                    console.log(arRetirMare);
-                    // if (arRetirMare.length == 0) {
-                    //     arRetirMare.push(mareUser[0]);
-                    // } else {
-                    // if (mareUser[0] == arrayMares[p]) {
-                    //     for (let a = 0; a < 15; a++) {
-                    //         soma = arRetirMare[a] + 1 / (12 * variacaomare);
-                    //         let doisdsoma = soma;
-                    //         arRetirMare.push(doisdsoma);
-                    //     }
-                    // } else if (mareUser[0] == arrayMares[p - 1] || mareUser[0] == arrayMares[2]) {
-                    //     for (let a = 0; a < 15; a++) {
-                    //         soma = arRetirMare[a] - 1 / (12 * variacaomare);
-                    //         let doisdsoma = soma;
-                    //         arRetirMare.push(doisdsoma);
-                    //     }
-                    // }
-                    //}
                 }
             }
 
-            function variMare(mare, mare_baixa_preia) {
+            // for(let o = 0; o<arrayUser[0].length; o++){
+            //     console.log(arrayUser[0][o]);
+            // }
 
-                for (let a = 0; a < 1; a++) {
-                    if (arRetirMare.length == 0) {
-                        conta = arRetirMare[a] + mare / 25;
-                        arRetirMare.push(conta);
-                    } else {
-
-                        conta = arRetirMare[a - 1] + mare / 25;
-                        arRetirMare.push(conta);
-                        console.log(conta)
-                    }
-                }
-
-            }
-
-            console.log(arRetirMare)
             var margemcaladoSup, margemcaladoInf;
 
 
@@ -460,25 +571,6 @@
             margemcaladoSup = cal_sup;
             margemcaladoInf = cal_inf;
 
-
-            var coordenadas = [
-                [-8.762712478637695, 40.64196329226261],
-                [-8.752756118774414, 40.644828856258954],
-                [-8.742284774780273, 40.64593597303585],
-                [-8.73464584350586, 40.65016889724004],
-                [-8.727693557739258, 40.655703854536746],
-                [-8.725204467773438, 40.66117324360654],
-                [-8.72288703918457, 40.66826975856376],
-                [-8.716878890991211, 40.675495708799446],
-                [-8.715934753417969, 40.68363210267408],
-                [-8.717050552368164, 40.692548449646836],
-                [-8.714303970336914, 40.702569780377935],
-                [-8.707437515258789, 40.71102817184792],
-                [-8.696279525756834, 40.71642796756138],
-                [-8.681774139404297, 40.72104672237615],
-                [-8.667354583740234, 40.72481955186487],
-                [-8.652763366699219, 40.727291289709356],
-            ];
 
 
 
@@ -501,24 +593,7 @@
                 [1.14],
             ];
 
-            var nivel_ZRotaAdquirida = [
-                [3.5],
-                [3.30],
-                [3.4],
-                [3.4],
-                [3.70],
-                [4],
-                [4.5],
-                [3],
-                [3.4],
-                [4],
-                [3.9],
-                [3.20],
-                [3.0],
-                [3.4],
-                [3.5],
-                [3],
-            ];
+            
 
             // var nivel_mareNOVA = [
             //     [0.41],
