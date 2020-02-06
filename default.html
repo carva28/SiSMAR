@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
         integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
+        
     <script src="js/jquery.js"> </script>
     <script lang="javascript" src="js/xlsx.full.min.js"></script>
 
@@ -18,8 +19,7 @@
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
 
-    <script src='https://unpkg.com/leaflet-gpx@1.0.0/gpx.js'></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
     <style>
         h2 {
             text-align: center;
@@ -188,10 +188,77 @@
         mymap.on('locationfound', onLocationFound);
 
 
-        var gpx = 'file:///Users/diogo/Downloads/SisMar_teste_Map/mytracks_ida.gpx'; // URL to your GPX file or the GPX itself
-        new L.GPX(gpx, { async: true }).on('loaded', function (e) {
-            mymap.fitBounds(e.target.getBounds());
-        }).addTo(mymap);
+
+        //var gpx = './mytracks_ida.gpx'; // URL to your GPX file or the GPX itself
+
+        getDataGPX();
+
+        let text_gpx, arrayGPX = [];
+        var VEri_text_gpx;
+        async function getDataGPX() {
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: 'blue'
+                        }
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(0),
+                            eleLoss = gpx.get_elevation_loss().toFixed(0);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+                        console.log(info)
+                        console.log(distKm)
+                        console.log(gpx)
+                        // register popup on click
+                        gpx.getLayers()[0].bindPopup(info)
+                    });
+
+                    g.addTo(mymap);
+                });
+        }
+
+        console.log(VEri_text_gpx)
+        // let url = 'file:///Users/diogo/Downloads/SisMar_teste_Map/mytracks_ida.gpx';  
+
+        //objectURL = URL.createObjectURL(gpx);
+        // console.log(gpx)
+
+        // new L.GPX(arrayGPX, {
+        //     async: true,
+        //     opacity: 0.6,
+        //     weight: 3.5
+        // })
+        //     .on('loaded', function (e) {
+        //         e.target.addTo(leaflet_map);
+        //         leaflet_map.fitBounds(e.target.getBounds());
+        //     });
+
+        // new L.GPX(arrayGPX[0], {
+        //     async: true,
+        //     marker_options: {
+        //         startIconUrl: 'marker.png',
+        //         endIconUrl: 'marker.png',
+        //     }
+        // }).on('loaded', function (e) {
+        //     mymap.fitBounds(e.target.getBounds());
+        // }).addTo(mymap);
 
 
 
