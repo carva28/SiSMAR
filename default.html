@@ -12,9 +12,14 @@
         crossorigin="" />
     <script src="js/jquery.js"> </script>
     <script lang="javascript" src="js/xlsx.full.min.js"></script>
+
+
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
+
+    <script src='https://unpkg.com/leaflet-gpx@1.0.0/gpx.js'></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script> -->
     <style>
         h2 {
             text-align: center;
@@ -88,6 +93,7 @@
         <div class="row">
             <div class="col">
                 <div id="km"></div>
+                <div id="tempoestimado"></div>
                 <!-- <p>
                     latitude: <span id="lat"></span><br />
                     longitude: <span id="lng"></span>
@@ -181,6 +187,14 @@
 
         mymap.on('locationfound', onLocationFound);
 
+
+        var gpx = 'file:///Users/diogo/Downloads/SisMar_teste_Map/mytracks_ida.gpx'; // URL to your GPX file or the GPX itself
+        new L.GPX(gpx, { async: true }).on('loaded', function (e) {
+            mymap.fitBounds(e.target.getBounds());
+        }).addTo(mymap);
+
+
+
         //No clique do marker
 
         var linesFeatureLayer
@@ -214,6 +228,7 @@
         }
     </script>
     <script>
+        var arrayhidrografico = [];
         var arrayUser = [];
         $(document).ready(function () {
             $("#fileUploader").change(function (evt) {
@@ -231,6 +246,17 @@
 
                         let jsonparse = JSON.parse(json_object);
                         arrayUser.push(jsonparse);
+                        let tempoveri = arrayUser[0][1].T;
+                        var newStr = tempoveri.replace(/T/g, " ");
+                        let date = new Date(newStr);
+                        let horatempoAPI = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+
+                        document.getElementById('time').value = horatempoAPI;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     })
                 };
@@ -246,7 +272,6 @@
     </script>
 
     <script type="text/javascript">
-
         tday = new Array("Domingo", "Segunda-Feira",
             "Terça-Feira", "Quarta-Feira",
             "Quinta-Feira", "Sexta-Feira", "Sábado");
@@ -273,6 +298,7 @@
         }
 
         window.onload = function () {
+
             getInfo();
             GetClock();
             setInterval(GetClock, 1000);
@@ -280,9 +306,14 @@
 
 
 
-        var arrayhidrografico = [];
+
 
         async function getInfo() {
+            arrayhidrografico = [];
+            //arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            arRetirMare = [];
             var d = new Date();
             var nday = d.getDay(),
                 nmonth = d.getMonth(),
@@ -291,7 +322,6 @@
             if (nyear < 1000) nyear += 1900;
             console.log(nyear, nmonth + 1, ndate);
             let mescerto = nmonth + 1;
-
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
             fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
@@ -300,7 +330,21 @@
                 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
         }
 
+        async function getInfo2(ano, mes, dia) {
+            arrayhidrografico = [];
+            //arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            arRetirMare = [];
+            arrayhidrografico = [];
 
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + ano + '-' + mes + '-' + dia + '&nd=0'; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
+                .then(response => response.json())
+                .then(contents => arrayhidrografico.push(contents))
+                .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+        }
 
         function changeValue(e) {
             var valorInput = document.getElementById('calado_span').value;
@@ -316,9 +360,14 @@
             }
         }
 
+        function leadZero(_something) {
+            if (parseInt(_something) < 10) return "0" + _something;
+            return _something;//else    
+        }
 
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
+
             //remover a rota realizada e atualizar
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
@@ -365,13 +414,11 @@
                 document.getElementById('time').value = f;
             }
 
-            function leadZero(_something) {
-                if (parseInt(_something) < 10) return "0" + _something;
-                return _something;//else    
-            }
+
 
             let ar_CoordExcel = [];
-
+            var dataViajaUser = [];
+            console.log(arrayUser)
             for (let m = 0; m < arrayUser.length; m++) {
                 for (let n = 0; n < arrayUser[m].length; n++) {
                     //console.log(arrayUser[m][n])
@@ -380,76 +427,82 @@
                         || arrayUser[m][n].X != "</trk"
                         || arrayUser[m][n].X != "</gpx") {
 
-                        if (arrayUser[m][n].T != null) {
+                        if (arrayUser[m][n].T != null || arrayUser[m][n].T != undefined) {
                             let tempoveri = arrayUser[m][n].T;
                             var newStr = tempoveri.replace(/T/g, " ");
                             let date = new Date(newStr);
-                            let horatempoAPI = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-                            if (date.getSeconds() == 00 || date.getSeconds() == 11) {
+                            let horatempoAPI = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+                            if (date.getSeconds() == 00 || date.getSeconds() == 20 || date.getSeconds() == 40
+                                || date.getSeconds() == 11 || date.getSeconds() == 30) {
                                 ar_CoordExcel.push(arrayUser[m][n])
                             }
                         }
-
                     }
                 }
             }
-            console.log(ar_CoordExcel)
 
-            var nivel_ZRotaAdquirida = [
-                [3.5],
-                [3.30],
-                [3.4],
-                [3.4],
-                [3.70],
-                [4],
-                [4.5],
-                [3],
-                [3.4],
-                [4],
-                [3.9],
-                [3.20],
-                [3.0],
-                [3.4],
-                [3.5],
-                [3],
-            ];
-            var coordenadas = [
-                // [-8.762712478637695, 40.64196329226261],
-                // [-8.752756118774414, 40.644828856258954],
-                // [-8.742284774780273, 40.64593597303585],
-                // [-8.73464584350586, 40.65016889724004],
-                // [-8.727693557739258, 40.655703854536746],
-                // [-8.725204467773438, 40.66117324360654],
-                // [-8.72288703918457, 40.66826975856376],
-                // [-8.716878890991211, 40.675495708799446],
-                // [-8.715934753417969, 40.68363210267408],
-                // [-8.717050552368164, 40.692548449646836],
-                // [-8.714303970336914, 40.702569780377935],
-                // [-8.707437515258789, 40.71102817184792],
-                // [-8.696279525756834, 40.71642796756138],
-                // [-8.681774139404297, 40.72104672237615],
-                // [-8.667354583740234, 40.72481955186487],
-                // [-8.652763366699219, 40.727291289709356],
-            ];
-            let latit, longitu, zadquirido=[];
-            console.log(ar_CoordExcel)
-            for (let coord = 0; coord < ar_CoordExcel.length; coord++) {
+            var nivel_ZRotaAdquirida = [];
+            var coordenadas = [];
+            let latit, longitu, zadquirido = [];
+            if (ar_CoordExcel.length > 0) {
 
-                var newlat = ar_CoordExcel[coord].X.replace(/""/g, "");
-                var newlat2 = newlat.replace(/lat=/g, "");
-                var newlat3 = newlat2.replace(/\"/g, "");
-                let newlat4 = parseFloat(newlat3);
+                for (let coord = 0; coord < ar_CoordExcel.length; coord++) {
 
-                var newlong5 = ar_CoordExcel[coord].Y.replace(/""/g, "");
-                var newlong6 = newlong5.replace(/lon=/g, "");
-                var newlong7 = newlong6.replace(/\"/g, "");
-                let newlong8 = parseFloat(newlong7);
-                coordenadas.push([newlong8,newlat4])
-                nivel_ZRotaAdquirida.push([ar_CoordExcel[coord].Z_offset]);
+                    var newlat = ar_CoordExcel[coord].X.replace(/""/g, "");
+                    var newlat2 = newlat.replace(/lat=/g, "");
+                    var newlat3 = newlat2.replace(/\"/g, "");
+                    let newlat4 = parseFloat(newlat3);
 
+                    var newlong5 = ar_CoordExcel[coord].Y.replace(/""/g, "");
+                    var newlong6 = newlong5.replace(/lon=/g, "");
+                    var newlong7 = newlong6.replace(/\"/g, "");
+                    let newlong8 = parseFloat(newlong7);
+                    coordenadas.push([newlong8, newlat4])
+                    nivel_ZRotaAdquirida.push([ar_CoordExcel[coord].Z_offset]);
+
+                }
+
+            } else {
+                if (coordenadas.length == 0) {
+                    coordenadas = [
+                        [-8.762712478637695, 40.64196329226261],
+                        [-8.752756118774414, 40.644828856258954],
+                        [-8.742284774780273, 40.64593597303585],
+                        [-8.73464584350586, 40.65016889724004],
+                        [-8.727693557739258, 40.655703854536746],
+                        [-8.725204467773438, 40.66117324360654],
+                        [-8.72288703918457, 40.66826975856376],
+                        [-8.716878890991211, 40.675495708799446],
+                        [-8.715934753417969, 40.68363210267408],
+                        [-8.717050552368164, 40.692548449646836],
+                        [-8.714303970336914, 40.702569780377935],
+                        [-8.707437515258789, 40.71102817184792],
+                        [-8.696279525756834, 40.71642796756138],
+                        [-8.681774139404297, 40.72104672237615],
+                        [-8.667354583740234, 40.72481955186487],
+                        [-8.652763366699219, 40.727291289709356],
+                    ];
+
+                    nivel_ZRotaAdquirida = [
+                        [3.5],
+                        [3.30],
+                        [3.4],
+                        [3.4],
+                        [3.70],
+                        [4],
+                        [4.5],
+                        [3],
+                        [3.4],
+                        [4],
+                        [3.9],
+                        [3.20],
+                        [3.0],
+                        [3.4],
+                        [3.5],
+                        [3],
+                    ];
+                }
             }
-            console.log(coordenadas);
-            console.log(nivel_ZRotaAdquirida);
 
             var guardarHoras = [];
             let sortedData;
@@ -458,11 +511,13 @@
             let soma = 0, somamare2 = 0;
             var arrayMares = [];
             var mareUser = [];
-            if (arrayhidrografico.length > 0) {
 
+            if (arrayhidrografico.length > 0) {
                 //Ordenar as informação por ordem
                 for (let i = 0; i < arrayhidrografico.length; i++) {
+
                     let UserHorasMin = UserHoras.getHours() + ":" + UserHoras.getMinutes();
+
                     let datefrente;
                     for (let j = 0; j < arrayhidrografico[i].length; j++) {
 
@@ -473,6 +528,7 @@
                     }
                     sortedData = guardarHoras.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
                 }
+                console.log(sortedData)
 
                 //Percorrer o array que tem a informação ordenada
                 for (let k = 0; k < sortedData.length; k++) {
@@ -520,7 +576,6 @@
                 for (let p = 0; p < arrayMares.length; p++) {
 
                     if (arrayMares[p] == mareUser[0]) {
-                        console.log('quem entrou?' + p);
 
                         if (arrayMares[p + 1] != null) {
                             variacaomare = arrayMares[p + 1] - arrayMares[p];
@@ -531,7 +586,6 @@
 
                             for (let a = 1; a < 25; a++) {
                                 if (arRetirMare[a - 1] == null) {
-                                    console.log('quantos' + a);
                                 } else {
                                     conta = arRetirMare[a - 1] + dc2mare / 25;
                                     arRetirMare.push(conta);
@@ -546,7 +600,6 @@
 
                             for (let a = 1; a < 25; a++) {
                                 if (arRetirMare[a - 1] == null) {
-                                    console.log('quantos' + a);
                                 } else {
                                     conta = arRetirMare[a - 1] + dc2mare / 25;
                                     arRetirMare.push(conta);
@@ -554,7 +607,6 @@
                             }
 
                         }
-                        console.log(arRetirMare)
                     }
                 }
             }
@@ -593,7 +645,7 @@
                 [1.14],
             ];
 
-            
+
 
             // var nivel_mareNOVA = [
             //     [0.41],
@@ -618,126 +670,134 @@
             let arDistan = [];
             let countdangerous = 0;
             let warning = 0;
-            for (var i = 0; i < coordenadas.length; i++) {
-                //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
-                diferençaAlturaMare = nivel_mare[i][0] - arRetirMare[i];
-                ZNOvaRota = nivel_ZRotaAdquirida[i][0] - diferençaAlturaMare;
-                verificarRota = ZNOvaRota - calado;
-                //console.log(verificarRota)
-                if (verificarRota < margemcaladoInf) {
-                    if (coordenadas[i + 1] != undefined) {
-                        //console.log('vermelho' + verificarRota)
-                        var myLines1 = [{
-                            "type": "LineString",
-                            'coordinates': [
-                                [coordenadas[i][0], coordenadas[i][1]],
-                                [coordenadas[i + 1][0], coordenadas[i + 1][1]],
-                            ]
-                        }];
-                        distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
-                        arDistan.push(distancia.toFixed(2));
-                        var myStyle1 = {
-                            radius: 8,
-                            color: "red",
-                            weight: 5,
-                            opacity: 1,
-                        };
+            console.log(arrayhidrografico)
+            if (arRetirMare.length > 0) {
 
-                        linesFeatureLayer = L.geoJson(myLines1, {
-                            style: myStyle1
-                        });
-                        linesFeatureLayer.addTo(mymap);
-                        countdangerous++;
-                    } else {
-                        //console.log('')
-                    }
-                } else if (verificarRota >= margemcaladoInf && verificarRota <= margemcaladoSup) {
+                for (var i = 0; i < arRetirMare.length; i++) {
+                    console.log(coordenadas[i])
+                    //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
-                    if (coordenadas[i + 1] != undefined) {
-                        //console.log('amarelo' + verificarRota)
-                        var myLines2 = [{
-                            "type": "LineString",
-                            'coordinates': [
-                                [coordenadas[i][0], coordenadas[i][1]],
-                                [coordenadas[i + 1][0], coordenadas[i + 1][1]],
-                            ]
-                        }];
-                        distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
-                        arDistan.push(distancia.toFixed(2));
-                        var myStyle2 = {
-                            radius: 8,
-                            color: "yellow",
-                            weight: 5,
-                            opacity: 1,
-                        };
+                    diferençaAlturaMare = nivel_mare[i][0] - arRetirMare[i];
+                    console.log({ arRetirMare, i, length: arRetirMare.length })
 
-                        linesFeatureLayer2 = L.geoJson(myLines2, {
-                            style: myStyle2
-                        });
-                        linesFeatureLayer2.addTo(mymap);
-                        warning++;
+                    ZNOvaRota = nivel_ZRotaAdquirida[i][0] - diferençaAlturaMare;
+                    verificarRota = ZNOvaRota - calado;
+                    //console.log(verificarRota)
+                    if (verificarRota < margemcaladoInf) {
+                        if (coordenadas[i + 1] != undefined) {
+                            //console.log('vermelho' + verificarRota)
+                            var myLines1 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
+                            var myStyle1 = {
+                                radius: 8,
+                                color: "red",
+                                weight: 5,
+                                opacity: 1,
+                            };
 
-                    } else {
-                        console.log('')
-                    }
-                } else if (verificarRota >= margemcaladoSup) {
-
-                    if (coordenadas[i + 1] != undefined) {
-                        //console.log('verde' + verificarRota)
-                        var myLines3 = [{
-                            "type": "LineString",
-                            'coordinates': [
-                                [coordenadas[i][0], coordenadas[i][1]],
-                                [coordenadas[i + 1][0], coordenadas[i + 1][1]],
-                            ]
-                        }];
-                        distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
-                        arDistan.push(distancia.toFixed(2));
-
-                        var myStyle3 = {
-                            radius: 8,
-                            color: "green",
-                            weight: 5,
-                            opacity: 1,
-                        };
-
-                        linesFeatureLayer3 = L.geoJson(myLines3, {
-                            style: myStyle3
-                        });
-                        linesFeatureLayer3.addTo(mymap);
-                        if (countdangerous < warning) {
-                            popup = L.popup()
-                                .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                                .setContent('<p>Pode encanlhar em alguns pontos</p>')
-                                .openOn(mymap);
-                        } else if (warning > 0) {
-                            popup = L.popup()
-                                .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                                .setContent('<p>Possibilidade de encanlhar</p>')
-                                .openOn(mymap);
-                        } else if (countdangerous > 0) {
-                            popup = L.popup()
-                                .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                                .setContent('<p>Pode encanlhar em alguns pontos</p>')
-                                .openOn(mymap);
+                            linesFeatureLayer = L.geoJson(myLines1, {
+                                style: myStyle1
+                            });
+                            linesFeatureLayer.addTo(mymap);
+                            countdangerous++;
                         } else {
-                            popup = L.popup()
-                                .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                                .setContent('<p>Pode viajar com segurança</p>')
-                                .openOn(mymap);
+                            //console.log('')
                         }
-                    } else {
+                    } else if (verificarRota >= margemcaladoInf && verificarRota <= margemcaladoSup) {
 
+                        if (coordenadas[i + 1] != undefined) {
+                            //console.log('amarelo' + verificarRota)
+                            var myLines2 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
+                            var myStyle2 = {
+                                radius: 8,
+                                color: "yellow",
+                                weight: 5,
+                                opacity: 1,
+                            };
+
+                            linesFeatureLayer2 = L.geoJson(myLines2, {
+                                style: myStyle2
+                            });
+                            linesFeatureLayer2.addTo(mymap);
+                            warning++;
+
+                        } else {
+                            console.log('')
+                        }
+                    } else if (verificarRota >= margemcaladoSup) {
+
+                        if (coordenadas[i + 1] != undefined) {
+                            //console.log('verde' + verificarRota)
+                            var myLines3 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
+
+                            var myStyle3 = {
+                                radius: 8,
+                                color: "green",
+                                weight: 5,
+                                opacity: 1,
+                            };
+
+                            linesFeatureLayer3 = L.geoJson(myLines3, {
+                                style: myStyle3
+                            });
+                            linesFeatureLayer3.addTo(mymap);
+                            if (countdangerous < warning) {
+                                popup = L.popup()
+                                    .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                                    .setContent('<p>Pode encanlhar em alguns pontos</p>')
+                                    .openOn(mymap);
+                            } else if (warning > 0) {
+                                popup = L.popup()
+                                    .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                                    .setContent('<p>Possibilidade de encanlhar</p>')
+                                    .openOn(mymap);
+                            } else if (countdangerous > 0) {
+                                popup = L.popup()
+                                    .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                                    .setContent('<p>Pode encanlhar em alguns pontos</p>')
+                                    .openOn(mymap);
+                            } else {
+                                popup = L.popup()
+                                    .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                                    .setContent('<p>Pode viajar com segurança</p>')
+                                    .openOn(mymap);
+                            }
+                        }
                     }
-                }
 
+                }
+            } else {
+                calculo(valor_cal, cal_sup, cal_inf)
             }
 
 
             let sum = 0;
             for (let u = 0; u < arDistan.length; u++) {
                 sum += parseFloat(arDistan[u]);
-
+                console.log(sum)
             }
             let totavelkm2kn, tempovm;
             let minutesfinal, minutes2deci, dc2tempovm;
@@ -749,9 +809,11 @@
             dc2tempovm = tempovm.toFixed(2);
             dc2tempovm = dc2tempovm.split('.');
             let knowminutes = 0 + '.' + dc2tempovm[1];
-            console.log(knowminutes)
-            minutesfinal = parseInt(knowminutes) * 60;
-            console.log(minutesfinal)
+
+            minutesfinal = parseFloat(knowminutes) * 60;
+            let min = minutesfinal.toFixed(1);
+            let spantempo = dc2tempovm[0] + 'h' + parseInt(min) + 'm';
+            document.getElementById('tempoestimado').innerHTML = "<p>" + spantempo + "</p>";
         }
 
 
@@ -771,6 +833,13 @@
             document.getElementById('calado_sup_span').value = "";
             document.getElementById('calado_inf_span').value = "";
             document.getElementById('time').value = 0;
+            arrayhidrografico = [];
+            arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            arRetirMare = [];
+            document.getElementById('fileUploader').value = "";
+            getInfo();
         }
     </script>
 
