@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
         integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
-        
+
     <script src="js/jquery.js"> </script>
     <script lang="javascript" src="js/xlsx.full.min.js"></script>
 
@@ -133,9 +133,14 @@
             <button type="button" class="btn btn-warning" onclick="changeValue()">Simular</button>
         </div>
         <div class="col">
+            <button type="button" class="btn btn-dark" onclick="getDataGPX()">Rota Torreira</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-dark" onclick="getData2GPX()">Costa Nova</button>
+        </div>
+        <div class="col">
             <button type="button" class="btn btn-danger" onclick="clearmap()">Apagar</button>
         </div>
-
     </div>
     </div>
     </div>
@@ -145,7 +150,7 @@
         var calado = 1;
         var velocidademedia;
         // Making a map and tiles
-        const mymap = L.map('issMap').setView([40.71, -8.68177413], 12);
+        const mymap = L.map('issMap').setView([40.70, -8.69], 11);
         const attribution =
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
@@ -175,15 +180,74 @@
         L.control.scale().addTo(mymap);
 
         //Localização do Utilizador
-        mymap.locate({ setView: true, maxZoom: 16 });
+        mymap.locate({ setView: true, maxZoom: 14 });
         function onLocationFound(e) {
             var radius = e.accuracy;
+            let localiz_distan = [];
+            let funcname = [];
 
             L.marker(e.latlng).addTo(mymap)
                 .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
+            console.log(e.latlng.lat);
+            console.log(e.latlng.lng);
             L.circle(e.latlng, radius).addTo(mymap);
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+                    parser = new DOMParser();
+                    xmlDoc = parser.parseFromString(json, "text/xml");
+                    funcname.push('getDataGPX')
+                    var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+                    distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
+
+                    localiz_distan.push(distancia);
+                });
+
+            let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
+            fetch(url2)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+                    parser = new DOMParser();
+                    xmlDoc = parser.parseFromString(json, "text/xml");
+                    funcname.push('getDataGPX2')
+                    var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+                    distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
+
+                    localiz_distan.push(distancia);
+
+                    console.log(localiz_distan.length)
+                });
+                for(let q = 0;q<localiz_distan.length;q++){
+                    console.log(localiz_distan[q])
+                    // if(localiz_distan[q] == "undefined"){
+                    //     if(localiz_distan[q] > localiz_distan[q-1]){
+                    //         console.log(localiz_distan[q])
+                    //     }else{
+                    //         console.log(funcname[q])
+                    //     }
+                    // }else{
+                    //     if(localiz_distan[q] > localiz_distan[q-1]){
+                    //         console.log(localiz_distan[q])
+                    //     }else{
+                    //         console.log(funcname[q])
+                    //     }
+                    // }
+                }
+                
         }
+
+        
 
         mymap.on('locationfound', onLocationFound);
 
@@ -191,12 +255,19 @@
 
         //var gpx = './mytracks_ida.gpx'; // URL to your GPX file or the GPX itself
 
-        getDataGPX();
+        //getDataGPX();
 
         let text_gpx, arrayGPX = [];
         var VEri_text_gpx;
         async function getDataGPX() {
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida.gpx';
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -208,69 +279,139 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: 'blue'
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
                         }
+
                     });
 
                     g.on('loaded', function (e) {
                         var gpx = e.target,
-                            name = gpx.get_name(),
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
                             distM = gpx.get_distance(),
                             distKm = distM / 1000,
                             distKmRnd = distKm.toFixed(1),
-                            eleGain = gpx.get_elevation_gain().toFixed(0),
-                            eleLoss = gpx.get_elevation_loss().toFixed(0);
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
                         var info = "Name: " + name + "</br>" +
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>"
-                        console.log(info)
-                        console.log(distKm)
-                        console.log(gpx)
-                        // register popup on click
+
+                        document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+
+        }
+
+        async function getData2GPX() {
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
                     });
 
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
                     g.addTo(mymap);
                 });
         }
-
-        console.log(VEri_text_gpx)
-        // let url = 'file:///Users/diogo/Downloads/SisMar_teste_Map/mytracks_ida.gpx';  
-
-        //objectURL = URL.createObjectURL(gpx);
-        // console.log(gpx)
-
-        // new L.GPX(arrayGPX, {
-        //     async: true,
-        //     opacity: 0.6,
-        //     weight: 3.5
-        // })
-        //     .on('loaded', function (e) {
-        //         e.target.addTo(leaflet_map);
-        //         leaflet_map.fitBounds(e.target.getBounds());
-        //     });
-
-        // new L.GPX(arrayGPX[0], {
-        //     async: true,
-        //     marker_options: {
-        //         startIconUrl: 'marker.png',
-        //         endIconUrl: 'marker.png',
-        //     }
-        // }).on('loaded', function (e) {
-        //     mymap.fitBounds(e.target.getBounds());
-        // }).addTo(mymap);
-
 
 
         //No clique do marker
 
         var linesFeatureLayer
         function onClick(e) {
-            // console.log(e.latlng);
-            // console.log(e.latlng.lat);
-            // console.log(e.latlng.lng);
-            // document.getElementById('lat').innerHTML = "<p>" + e.latlng.lat + "</p>";
-            // document.getElementById('lng').innerHTML = "<p>" + e.latlng.lng + "</p>";
             if (e.latlng.lat == 40.727291289709356 && e.latlng.lng == -8.652763366699219) {
                 mymap.eachLayer(function (layer) {
                     //console.log(layer)
@@ -371,10 +512,6 @@
             setInterval(GetClock, 1000);
         }
 
-
-
-
-
         async function getInfo() {
             arrayhidrografico = [];
             //arrayUser = [];
@@ -399,6 +536,7 @@
 
         async function getInfo2(ano, mes, dia) {
             arrayhidrografico = [];
+
             //arrayUser = [];
             sortedData = 0;
             mareUser = [];
@@ -425,6 +563,7 @@
                 margemcaladoInf = 0.1;
                 calculo(1, 0.2, 0.1);
             }
+
         }
 
         function leadZero(_something) {
@@ -434,7 +573,6 @@
 
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
-
             //remover a rota realizada e atualizar
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
@@ -482,34 +620,140 @@
             }
 
 
-
+            var nivel_ZRotaAdquirida = [];
+            var coordenadas = [];
             let ar_CoordExcel = [];
             var dataViajaUser = [];
-            console.log(arrayUser)
-            for (let m = 0; m < arrayUser.length; m++) {
-                for (let n = 0; n < arrayUser[m].length; n++) {
-                    //console.log(arrayUser[m][n])
-                    if (arrayUser[m][n].X != "Coordenadas"
-                        || arrayUser[m][n].X != "</trkseg"
-                        || arrayUser[m][n].X != "</trk"
-                        || arrayUser[m][n].X != "</gpx") {
 
-                        if (arrayUser[m][n].T != null || arrayUser[m][n].T != undefined) {
-                            let tempoveri = arrayUser[m][n].T;
+            parser = new DOMParser();
+            xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
+
+            if (arrayGPX.length != 0 || arrayUser.length != 0) {
+                if (arrayGPX[0].length > 0) {
+                    for (let i = 0; i < xmlDoc.getElementsByTagName("trkpt").length; i++) {
+                        if (xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != null ||
+                            xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != undefined) {
+                            let tempoveri = xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML;
                             var newStr = tempoveri.replace(/T/g, " ");
                             let date = new Date(newStr);
                             let horatempoAPI = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
-                            if (date.getSeconds() == 00 || date.getSeconds() == 20 || date.getSeconds() == 40
-                                || date.getSeconds() == 11 || date.getSeconds() == 30) {
-                                ar_CoordExcel.push(arrayUser[m][n])
+                            if ((date.getMinutes() == 00 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 08 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 10 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 13 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 13 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 13 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 13 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 13 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 15 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 20 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 25 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 30 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 35 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 40 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 45 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 50 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 53 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 55 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 56 && date.getSeconds() == 00) ||
+                                (date.getMinutes() == 00 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 10 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 15 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 20 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 25 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 30 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 35 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 40 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 45 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 50 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 55 && date.getSeconds() == 10) ||
+                                (date.getMinutes() == 00 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 00 & date.getSeconds() == 20) ||
+                                (date.getMinutes() == 05 & date.getSeconds() == 20) ||
+                                (date.getMinutes() == 10 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 15 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 20 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 25 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 30 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 35 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 40 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 45 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 50 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 55 && date.getSeconds() == 20) ||
+                                (date.getMinutes() == 00 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 05 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 10 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 15 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 20 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 25 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 30 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 35 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 40 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 45 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 50 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 55 && date.getSeconds() == 30) ||
+                                (date.getMinutes() == 00 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 05 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 10 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 15 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 20 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 25 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 30 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 35 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 40 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 45 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 50 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 55 && date.getSeconds() == 40) ||
+                                (date.getMinutes() == 00 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 05 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 10 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 15 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 20 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 25 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 30 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 35 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 40 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 45 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 50 && date.getSeconds() == 50) ||
+                                (date.getMinutes() == 55 && date.getSeconds() == 50)) {
+                                var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
+                                var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
+                                var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
+                                nivel_ZRotaAdquirida.push(z_adquir)
+                                coordenadas.push([lon_gpx, lat_gpx])
+                            }
+                        }
+
+
+                    }
+                } else {
+                    for (let m = 0; m < arrayUser.length; m++) {
+                        for (let n = 0; n < arrayUser[m].length; n++) {
+                            //console.log(arrayUser[m][n])
+                            if (arrayUser[m][n].X != "Coordenadas"
+                                || arrayUser[m][n].X != "</trkseg"
+                                || arrayUser[m][n].X != "</trk"
+                                || arrayUser[m][n].X != "</gpx") {
+
+                                if (arrayUser[m][n].T != null || arrayUser[m][n].T != undefined) {
+                                    let tempoveri = arrayUser[m][n].T;
+                                    var newStr = tempoveri.replace(/T/g, " ");
+                                    let date = new Date(newStr);
+                                    let horatempoAPI = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+                                    if (date.getSeconds() == 00 || date.getSeconds() == 20 || date.getSeconds() == 40
+                                        || date.getSeconds() == 11 || date.getSeconds() == 30) {
+                                        ar_CoordExcel.push(arrayUser[m][n])
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
 
-            var nivel_ZRotaAdquirida = [];
-            var coordenadas = [];
+            console.log(arrayhidrografico);
+
+
             let latit, longitu, zadquirido = [];
             if (ar_CoordExcel.length > 0) {
 
@@ -651,7 +895,7 @@
 
                             let dc2mare = variacaomare.toFixed(2);
 
-                            for (let a = 1; a < 25; a++) {
+                            for (let a = 1; a < 150; a++) {
                                 if (arRetirMare[a - 1] == null) {
                                 } else {
                                     conta = arRetirMare[a - 1] + dc2mare / 25;
@@ -665,7 +909,7 @@
 
                             let dc2mare = variacaomare.toFixed(2);
 
-                            for (let a = 1; a < 25; a++) {
+                            for (let a = 1; a < 150; a++) {
                                 if (arRetirMare[a - 1] == null) {
                                 } else {
                                     conta = arRetirMare[a - 1] + dc2mare / 25;
@@ -710,6 +954,194 @@
                 [1.48125],
                 [1.31],
                 [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [3],
+                [2.94375],
+                [2.8875],
+                [2.83125],
+                [2.775],
+                [2.6625],
+                [2.55],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [3],
+                [2.94375],
+                [2.8875],
+                [2.83125],
+                [2.775],
+                [2.6625],
+                [2.55],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [3],
+                [2.94375],
+                [2.8875],
+                [2.83125],
+                [2.775],
+                [2.6625],
+                [2.55],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [3],
+                [2.94375],
+                [2.8875],
+                [2.83125],
+                [2.775],
+                [2.6625],
+                [2.55],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [3],
+                [2.94375],
+                [2.8875],
+                [2.83125],
+                [2.775],
+                [2.6625],
+                [2.55],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
+                [2.4375],
+                [2.325],
+                [2.15625],
+                [1.9875],
+                [1.81875],
+                [1.65],
+                [1.48125],
+                [1.31],
+                [1.14],
             ];
 
 
@@ -737,15 +1169,13 @@
             let arDistan = [];
             let countdangerous = 0;
             let warning = 0;
-            console.log(arrayhidrografico)
+
             if (arRetirMare.length > 0) {
 
-                for (var i = 0; i < arRetirMare.length; i++) {
-                    console.log(coordenadas[i])
+                for (var i = 0; i < coordenadas.length; i++) {
                     //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
                     diferençaAlturaMare = nivel_mare[i][0] - arRetirMare[i];
-                    console.log({ arRetirMare, i, length: arRetirMare.length })
 
                     ZNOvaRota = nivel_ZRotaAdquirida[i][0] - diferençaAlturaMare;
                     verificarRota = ZNOvaRota - calado;
@@ -864,7 +1294,6 @@
             let sum = 0;
             for (let u = 0; u < arDistan.length; u++) {
                 sum += parseFloat(arDistan[u]);
-                console.log(sum)
             }
             let totavelkm2kn, tempovm;
             let minutesfinal, minutes2deci, dc2tempovm;
