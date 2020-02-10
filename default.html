@@ -4,52 +4,48 @@
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-        crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
 
-    <script src="js/jquery.js"> </script>
+    <script src="js/jquery.js">
+    </script>
     <script lang="javascript" src="js/xlsx.full.min.js"></script>
 
 
-    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-        integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-        crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
     <style>
         h2 {
             text-align: center;
         }
-
+        
         #issMap {
             height: 560px;
         }
-
+        
         .leaflet-interactive {
             /* stroke: #00ff6a; */
             opacity: 0.6;
         }
-
+        
         .leaflet-marker-icon {
             opacity: 1;
         }
-
+        
         .btn {
             text-align: center;
             margin: auto;
             display: block;
             margin-bottom: 20px;
         }
-
+        
         h4 {
             text-align: center;
             margin-bottom: 20px;
         }
-
+        
         #calado_span,
         #calado_sup_span,
         #calado_inf_span {
@@ -63,7 +59,7 @@
             border-radius: 20px;
             width: 150px;
         }
-
+        
         #time {
             margin: auto;
             display: block;
@@ -75,7 +71,7 @@
             border-radius: 20px;
             width: 150px;
         }
-
+        
         .row,
         .col p {
             text-align: center;
@@ -155,7 +151,9 @@
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
         const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-        const tiles = L.tileLayer(tileUrl, { attribution });
+        const tiles = L.tileLayer(tileUrl, {
+            attribution
+        });
         tiles.addTo(mymap);
 
         // Making a marker with a custom icon
@@ -164,8 +162,10 @@
             iconSize: [22, 32, 5],
             iconAnchor: [10, 30],
         });
-        let marker = L.marker([40.727291289709356, -8.652763366699219], { icon: issIcon }).addTo(mymap).on('click', onClick);
-        mymap.on('zoomend', function () {
+        let marker = L.marker([40.645744, -8.665668], {
+            icon: issIcon
+        }).addTo(mymap).on('click', onClick);
+        mymap.on('zoomend', function() {
             const zoom = mymap.getZoom() + 1;
             // const w = 11 * zoom;
             // const h = 16 * zoom;
@@ -173,14 +173,20 @@
             // issIcon.options.iconAnchor = [w / 2, h / 2];
             mymap.removeLayer(marker);
             let latlng = marker.getLatLng();
-            marker = L.marker([40.727291289709356, -8.652763366699219], { icon: issIcon }).addTo(mymap).on('click', onClick);;
+            marker = L.marker([40.727291289709356, -8.652763366699219], {
+                icon: issIcon
+            }).addTo(mymap).on('click', onClick);;
             marker.setLatLng(latlng);
         });
 
         L.control.scale().addTo(mymap);
 
         //Localização do Utilizador
-        mymap.locate({ setView: true, maxZoom: 14 });
+        mymap.locate({
+            setView: true,
+            maxZoom: 14
+        });
+
         function onLocationFound(e) {
             var radius = e.accuracy;
             let localiz_distan = [];
@@ -193,10 +199,10 @@
             L.circle(e.latlng, radius).addTo(mymap);
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
             fetch(url)
-                .then(function (response) {
+                .then(function(response) {
                     return response.text();
                 })
-                .then(function (json) {
+                .then(function(json) {
                     VEri_text_gpx = json;
                     parser = new DOMParser();
                     xmlDoc = parser.parseFromString(json, "text/xml");
@@ -211,10 +217,10 @@
 
             let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
             fetch(url2)
-                .then(function (response) {
+                .then(function(response) {
                     return response.text();
                 })
-                .then(function (json) {
+                .then(function(json) {
                     VEri_text_gpx = json;
                     parser = new DOMParser();
                     xmlDoc = parser.parseFromString(json, "text/xml");
@@ -228,26 +234,14 @@
 
                     console.log(localiz_distan.length)
                 });
-                for(let q = 0;q<localiz_distan.length;q++){
-                    console.log(localiz_distan[q])
-                    // if(localiz_distan[q] == "undefined"){
-                    //     if(localiz_distan[q] > localiz_distan[q-1]){
-                    //         console.log(localiz_distan[q])
-                    //     }else{
-                    //         console.log(funcname[q])
-                    //     }
-                    // }else{
-                    //     if(localiz_distan[q] > localiz_distan[q-1]){
-                    //         console.log(localiz_distan[q])
-                    //     }else{
-                    //         console.log(funcname[q])
-                    //     }
-                    // }
-                }
-                
+            for (let q = 0; q < localiz_distan.length; q++) {
+                console.log(localiz_distan[q])
+
+            }
+
         }
 
-        
+
 
         mymap.on('locationfound', onLocationFound);
 
@@ -261,7 +255,7 @@
         var VEri_text_gpx;
         async function getDataGPX() {
 
-            mymap.eachLayer(function (layer) {
+            mymap.eachLayer(function(layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
@@ -269,10 +263,10 @@
             });
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
             fetch(url)
-                .then(function (response) {
+                .then(function(response) {
                     return response.text();
                 })
-                .then(function (json) {
+                .then(function(json) {
                     VEri_text_gpx = json;
 
                     var g = new L.GPX(json, {
@@ -296,7 +290,7 @@
 
                     });
 
-                    g.on('loaded', function (e) {
+                    g.on('loaded', function(e) {
                         var gpx = e.target,
                             elevation_data = gpx.get_elevation_data();
                         data_hora = gpx.get_start_time();
@@ -324,7 +318,7 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
-                    g.on('addpoint', function (e) {
+                    g.on('addpoint', function(e) {
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
@@ -335,7 +329,7 @@
         }
 
         async function getData2GPX() {
-            mymap.eachLayer(function (layer) {
+            mymap.eachLayer(function(layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
@@ -343,10 +337,10 @@
             });
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
             fetch(url)
-                .then(function (response) {
+                .then(function(response) {
                     return response.text();
                 })
-                .then(function (json) {
+                .then(function(json) {
                     VEri_text_gpx = json;
 
                     var g = new L.GPX(json, {
@@ -370,7 +364,7 @@
 
                     });
 
-                    g.on('loaded', function (e) {
+                    g.on('loaded', function(e) {
                         var gpx = e.target,
                             elevation_data = gpx.get_elevation_data();
                         data_hora = gpx.get_start_time();
@@ -398,7 +392,7 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
-                    g.on('addpoint', function (e) {
+                    g.on('addpoint', function(e) {
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
@@ -407,13 +401,78 @@
                 });
         }
 
+        let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+        fetch(url3)
+            .then(function(response) {
+                return response.text();
+            })
+            .then(function(json) {
+                VEri_text_gpx = json;
+
+                var g = new L.GPX(json, {
+                    async: true,
+                    parseElements: ['track'],
+                    polyline_options: {
+                        color: '#020202'
+                    },
+                    marker_options: {
+                        'startIcon': new L.icon({
+                            iconUrl: 'marker.png',
+                            iconSize: [22, 32, 5],
+                            iconAnchor: [10, 30],
+                        }),
+                        'endIcon': new L.icon({
+                            iconUrl: 'marker_chegada.png',
+                            iconSize: [22, 32, 5],
+                            iconAnchor: [10, 30],
+                        })
+                    }
+
+                });
+
+                g.on('loaded', function(e) {
+                    var gpx = e.target,
+                        elevation_data = gpx.get_elevation_data();
+                    data_hora = gpx.get_start_time();
+                    name = gpx.get_name(),
+                        distM = gpx.get_distance(),
+                        distKm = distM / 1000,
+                        distKmRnd = distKm.toFixed(1),
+                        eleGain = gpx.get_elevation_gain().toFixed(2),
+                        eleLoss = gpx.get_elevation_loss().toFixed(2);
+                    var info = "Name: " + name + "</br>" +
+                        "Distance: " + distKmRnd + " km </br>" +
+                        "Elevation Gain: " + eleGain + " m </br>"
+
+                    document.getElementById('km').innerHTML = info;
+                    gpx.getLayers()[0].bindPopup(info)
+
+                    let date = new Date(data_hora);
+                    let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                    document.getElementById('time').value = hora_min_gpx;
+                    let nyear = date.getYear();
+                    if (nyear < 1000) nyear += 1900;
+                    dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                    var arrayhidrografico = [];
+                    getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                });
+                g.on('addpoint', function(e) {
+                    var gpx = e.target;
+                    arrayGPX = [];
+                    arrayGPX.push(gpx._gpx)
+                })
+                g.addTo(mymap);
+            });
 
         //No clique do marker
 
         var linesFeatureLayer
+
         function onClick(e) {
             if (e.latlng.lat == 40.727291289709356 && e.latlng.lng == -8.652763366699219) {
-                mymap.eachLayer(function (layer) {
+                mymap.eachLayer(function(layer) {
                     //console.log(layer)
                     //console.log(layer.options.pane)
                     if (layer.options.pane == "overlayPane") {
@@ -437,17 +496,19 @@
     </script>
     <script>
         var arrayhidrografico = [];
+        var array_hidrografico_simulacao_API = [];
+
         var arrayUser = [];
-        $(document).ready(function () {
-            $("#fileUploader").change(function (evt) {
+        $(document).ready(function() {
+            $("#fileUploader").change(function(evt) {
                 var selectedFile = evt.target.files[0];
                 var reader = new FileReader();
-                reader.onload = function (event) {
+                reader.onload = function(event) {
                     var data = event.target.result;
                     var workbook = XLSX.read(data, {
                         type: 'binary'
                     });
-                    workbook.SheetNames.forEach(function (sheetName) {
+                    workbook.SheetNames.forEach(function(sheetName) {
 
                         var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
                         var json_object = JSON.stringify(XL_row_object);
@@ -469,14 +530,13 @@
                     })
                 };
 
-                reader.onerror = function (event) {
+                reader.onerror = function(event) {
                     console.error("File could not be read! Code " + event.target.error.code);
                 };
 
                 reader.readAsBinaryString(selectedFile);
             });
         });
-
     </script>
 
     <script type="text/javascript">
@@ -489,14 +549,26 @@
 
         function GetClock() {
             var d = new Date();
-            var nday = d.getDay(), nmonth = d.getMonth(),
-                ndate = d.getDate(), nyear = d.getYear(),
-                nhour = d.getHours(), nmin = d.getMinutes(), nsec = d.getSeconds(), ap;
+            var nday = d.getDay(),
+                nmonth = d.getMonth(),
+                ndate = d.getDate(),
+                nyear = d.getYear(),
+                nhour = d.getHours(),
+                nmin = d.getMinutes(),
+                nsec = d.getSeconds(),
+                ap;
 
-            if (nhour == 0) { ap = " AM"; nhour = 12; }
-            else if (nhour < 12) { ap = " AM"; }
-            else if (nhour == 12) { ap = " PM"; }
-            else if (nhour > 12) { ap = " PM"; nhour -= 12; }
+            if (nhour == 0) {
+                ap = " AM";
+                nhour = 12;
+            } else if (nhour < 12) {
+                ap = " AM";
+            } else if (nhour == 12) {
+                ap = " PM";
+            } else if (nhour > 12) {
+                ap = " PM";
+                nhour -= 12;
+            }
 
             if (nyear < 1000) nyear += 1900;
             if (nmin <= 9) nmin = "0" + nmin;
@@ -505,7 +577,7 @@
             document.getElementById('clockbox').innerHTML = "" + tday[nday] + ", " + tmonth[nmonth] + " " + ndate + ", " + nyear + " " + nhour + ":" + nmin + ":" + nsec + ap + "";
         }
 
-        window.onload = function () {
+        window.onload = function() {
 
             getInfo();
             GetClock();
@@ -517,7 +589,7 @@
             //arrayUser = [];
             sortedData = 0;
             mareUser = [];
-            arRetirMare = [];
+            mare_por_minuto = [];
             var d = new Date();
             var nday = d.getDay(),
                 nmonth = d.getMonth(),
@@ -540,7 +612,7 @@
             //arrayUser = [];
             sortedData = 0;
             mareUser = [];
-            arRetirMare = [];
+            mare_por_minuto = [];
             arrayhidrografico = [];
 
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
@@ -568,13 +640,13 @@
 
         function leadZero(_something) {
             if (parseInt(_something) < 10) return "0" + _something;
-            return _something;//else    
+            return _something; //else    
         }
 
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
             //remover a rota realizada e atualizar
-            mymap.eachLayer(function (layer) {
+            mymap.eachLayer(function(layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
@@ -603,6 +675,7 @@
                 if (nyear < 1000) nyear += 1900;
                 var splitTime1 = tempo.split(':');
                 UserHoras = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
             } else {
                 var d = new Date();
                 var nday = d.getDay(),
@@ -617,144 +690,70 @@
                 var now = new Date(Date.now());
                 var f = leadZero(now.getHours()) + ":" + leadZero(now.getMinutes());
                 document.getElementById('time').value = f;
+
             }
 
 
-            var nivel_ZRotaAdquirida = [];
+
+            var z1_rota_adquirida = [];
             var coordenadas = [];
-            let ar_CoordExcel = [];
+            let ar_CoordExcel = [],
+                horasdarota_medida = [];
             var dataViajaUser = [];
 
             parser = new DOMParser();
             xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
-
+            console.log(arrayUser)
             if (arrayGPX.length != 0 || arrayUser.length != 0) {
-                if (arrayGPX[0].length > 0) {
+                if (arrayUser.length > 0) {
+                    for (let m = 0; m < arrayUser.length; m++) {
+                        for (let n = 0; n < arrayUser[m].length; n++) {
+                            //console.log(arrayUser[m][n])
+                            if (arrayUser[m][n].X != "Coordenadas" ||
+                                arrayUser[m][n].X != "</trkseg" ||
+                                arrayUser[m][n].X != "</trk" ||
+                                arrayUser[m][n].X != "</gpx") {
+
+                                if (arrayUser[m][n].T != null || arrayUser[m][n].T != undefined) {
+                                    let tempoveri = arrayUser[m][n].T;
+                                    var newStr = tempoveri.replace(/T/g, " ");
+                                    let date = new Date(newStr);
+                                    let horatempo_excel = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+                                    if (date.getSeconds() == 00 || date.getSeconds() == 11) {
+                                        //Guardar Coordenadas do Excel e Z
+                                        ar_CoordExcel.push(arrayUser[m][n])
+                                        horasdarota_medida.push(horatempo_excel)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (arrayGPX[0].length > 0) {
                     for (let i = 0; i < xmlDoc.getElementsByTagName("trkpt").length; i++) {
                         if (xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != null ||
                             xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != undefined) {
                             let tempoveri = xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML;
                             var newStr = tempoveri.replace(/T/g, " ");
                             let date = new Date(newStr);
-                            let horatempoAPI = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
-                            if ((date.getMinutes() == 00 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 08 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 10 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 13 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 13 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 13 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 13 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 13 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 15 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 20 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 25 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 30 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 35 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 40 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 45 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 50 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 53 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 55 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 56 && date.getSeconds() == 00) ||
-                                (date.getMinutes() == 00 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 10 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 15 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 20 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 25 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 30 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 35 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 40 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 45 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 50 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 55 && date.getSeconds() == 10) ||
-                                (date.getMinutes() == 00 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 00 & date.getSeconds() == 20) ||
-                                (date.getMinutes() == 05 & date.getSeconds() == 20) ||
-                                (date.getMinutes() == 10 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 15 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 20 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 25 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 30 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 35 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 40 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 45 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 50 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 55 && date.getSeconds() == 20) ||
-                                (date.getMinutes() == 00 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 05 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 10 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 15 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 20 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 25 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 30 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 35 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 40 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 45 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 50 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 55 && date.getSeconds() == 30) ||
-                                (date.getMinutes() == 00 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 05 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 10 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 15 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 20 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 25 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 30 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 35 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 40 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 45 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 50 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 55 && date.getSeconds() == 40) ||
-                                (date.getMinutes() == 00 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 05 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 10 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 15 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 20 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 25 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 30 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 35 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 40 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 45 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 50 && date.getSeconds() == 50) ||
-                                (date.getMinutes() == 55 && date.getSeconds() == 50)) {
+                            let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+                            if (date.getSeconds() == 00) {
+                                //Guardar Coordenadas do GPX e Z
+
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
                                 var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
-                                nivel_ZRotaAdquirida.push(z_adquir)
+                                z1_rota_adquirida.push(z_adquir + 0.4)
                                 coordenadas.push([lon_gpx, lat_gpx])
-                            }
-                        }
-
-
-                    }
-                } else {
-                    for (let m = 0; m < arrayUser.length; m++) {
-                        for (let n = 0; n < arrayUser[m].length; n++) {
-                            //console.log(arrayUser[m][n])
-                            if (arrayUser[m][n].X != "Coordenadas"
-                                || arrayUser[m][n].X != "</trkseg"
-                                || arrayUser[m][n].X != "</trk"
-                                || arrayUser[m][n].X != "</gpx") {
-
-                                if (arrayUser[m][n].T != null || arrayUser[m][n].T != undefined) {
-                                    let tempoveri = arrayUser[m][n].T;
-                                    var newStr = tempoveri.replace(/T/g, " ");
-                                    let date = new Date(newStr);
-                                    let horatempoAPI = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
-                                    if (date.getSeconds() == 00 || date.getSeconds() == 20 || date.getSeconds() == 40
-                                        || date.getSeconds() == 11 || date.getSeconds() == 30) {
-                                        ar_CoordExcel.push(arrayUser[m][n])
-                                    }
-                                }
+                                horasdarota_medida.push(horatempo_GPX)
                             }
                         }
                     }
                 }
             }
 
-            console.log(arrayhidrografico);
-
 
             let latit, longitu, zadquirido = [];
+
             if (ar_CoordExcel.length > 0) {
 
                 for (let coord = 0; coord < ar_CoordExcel.length; coord++) {
@@ -769,7 +768,7 @@
                     var newlong7 = newlong6.replace(/\"/g, "");
                     let newlong8 = parseFloat(newlong7);
                     coordenadas.push([newlong8, newlat4])
-                    nivel_ZRotaAdquirida.push([ar_CoordExcel[coord].Z_offset]);
+                    z1_rota_adquirida.push([ar_CoordExcel[coord].Z_offset]);
 
                 }
 
@@ -794,7 +793,7 @@
                         [-8.652763366699219, 40.727291289709356],
                     ];
 
-                    nivel_ZRotaAdquirida = [
+                    z1_rota_adquirida = [
                         [3.5],
                         [3.30],
                         [3.4],
@@ -817,9 +816,11 @@
 
             var guardarHoras = [];
             let sortedData;
-            var arRetirMare = [];
-            let count = 0, mare_max, mare_min, variacaomare, variaca;
-            let soma = 0, somamare2 = 0;
+            var mare_por_minuto = [];
+            let count = 0,
+                mare_max, mare_min, variacaomare, variaca;
+            let soma = 0,
+                somamare2 = 0;
             var arrayMares = [];
             var mareUser = [];
 
@@ -839,9 +840,8 @@
                     }
                     sortedData = guardarHoras.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
                 }
-                console.log(sortedData)
 
-                //Percorrer o array que tem a informação ordenada
+                //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
                 for (let k = 0; k < sortedData.length; k++) {
 
                     let date = new Date(sortedData[k].SDATA);
@@ -853,7 +853,7 @@
                         console.log('')
                     }
 
-
+                    //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
                     arrayMares.push(sortedData[k].ALT)
                     let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
 
@@ -883,58 +883,196 @@
                     }
                 }
                 let variacaomare, conta;
-
+                // arrayMares => a altitude da maré da API ordenada
                 for (let p = 0; p < arrayMares.length; p++) {
 
+                    //mareUser é a maré com base na hora do utilizador t1
+                    //comparar a altitude da maré que o utilizador fez com a altitude de todas as marés do dia
                     if (arrayMares[p] == mareUser[0]) {
 
+                        // Pretende-se saber qual a altitude da maré da rota do user 
+                        // e de seguida guardar esse valor (preia-mar ou baixa-mar)
+                        // se não tiver valores para a frente
+                        console.log(arrayMares[p + 1] != null)
+                        console.log(arrayMares[p + 1])
                         if (arrayMares[p + 1] != null) {
+
                             variacaomare = arrayMares[p + 1] - arrayMares[p];
-
-                            arRetirMare.push(arrayMares[p]);
-
+                            mare_por_minuto.push(arrayMares[p]);
                             let dc2mare = variacaomare.toFixed(2);
 
-                            for (let a = 1; a < 150; a++) {
-                                if (arRetirMare[a - 1] == null) {
-                                } else {
-                                    conta = arRetirMare[a - 1] + dc2mare / 25;
-                                    arRetirMare.push(conta);
+                            for (let a = 1; a < horasdarota_medida.length; a++) {
+                                if (mare_por_minuto[a - 1] == null) {} else {
+                                    conta = mare_por_minuto[a - 1] + dc2mare / 100;
+                                    mare_por_minuto.push(conta);
                                 }
                             }
                         } else {
                             variacaomare = arrayMares[p - 1] - arrayMares[p];
 
-                            arRetirMare.push(arrayMares[p]);
+                            mare_por_minuto.push(arrayMares[p]);
 
                             let dc2mare = variacaomare.toFixed(2);
 
-                            for (let a = 1; a < 150; a++) {
-                                if (arRetirMare[a - 1] == null) {
-                                } else {
-                                    conta = arRetirMare[a - 1] + dc2mare / 25;
-                                    arRetirMare.push(conta);
+                            for (let a = 1; a < horasdarota_medida.length; a++) {
+                                if (mare_por_minuto[a - 1] == null) {} else {
+                                    conta = mare_por_minuto[a - 1] + dc2mare / 100;
+                                    mare_por_minuto.push(conta);
                                 }
                             }
-
                         }
                     }
                 }
             }
 
-            // for(let o = 0; o<arrayUser[0].length; o++){
-            //     console.log(arrayUser[0][o]);
-            // }
-
             var margemcaladoSup, margemcaladoInf;
-
-
             var diferençaTempo, ZNOvaRota, verificarRota;
             var linesFeatureLayer, linesFeatureLayer2, linesFeatureLayer3;
             margemcaladoSup = cal_sup;
             margemcaladoInf = cal_inf;
+            let sortedData2, mare_por_minuto2 = [];
+            fetchDataRota2();
+
+            function fetchDataRota2() {
 
 
+                var hoje = new Date();
+                var ndia = hoje.getDay(),
+                    nmes = hoje.getMonth() + 1,
+                    ndata = hoje.getDate(),
+                    nano = hoje.getYear(),
+                    nhoras = hoje.getHours(),
+                    nminutos = hoje.getMinutes(),
+                    nsegundos = hoje.getSeconds();
+                if (nano < 1000) nano += 1900;
+                Rota2 = new Date(nano, nmes, ndia, nhoras, nminutos, nsegundos);
+                console.log(Rota2)
+                console.log(nano)
+                console.log(nmes)
+                console.log(ndata)
+                const proxyurl = "https://cors-anywhere.herokuapp.com/";
+                const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nano + '-' + nmes + '-' + ndata + '&nd=0'; // site that doesn’t send Access-Control-*
+                fetch(proxyurl + url)
+                    .then(response => response.json())
+                    .then(contents => array_hidrografico_simulacao_API.push(contents))
+                    .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?")), 2000
+                console.log(array_hidrografico_simulacao_API)
+
+
+                if (array_hidrografico_simulacao_API.length > 0) {
+                    document.getElementById('time').value = tempo;
+
+                    //Ordenar as informação por ordem
+                    for (let i = 0; i < array_hidrografico_simulacao_API.length; i++) {
+
+                        let UserHorasMin = UserHoras.getHours() + ":" + UserHoras.getMinutes();
+
+                        let datefrente;
+                        for (let j = 0; j < array_hidrografico_simulacao_API[i].length; j++) {
+
+                            let date = new Date(array_hidrografico_simulacao_API[i][j].SDATA);
+                            let horatempoAPI = date.getHours() + ":" + date.getMinutes();
+                            guardarHoras.push(array_hidrografico_simulacao_API[i][j])
+
+                        }
+                        sortedData2 = guardarHoras.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
+                    }
+
+                    //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
+                    for (let k = 0; k < sortedData2.length; k++) {
+
+                        let date = new Date(sortedData2[k].SDATA);
+                        let dataSDATA = date.getHours() + ":" + date.getMinutes();
+
+                        if (sortedData2[k + 1] != undefined) {
+                            datefrente = new Date(sortedData2[k + 1].SDATA);
+                        } else {
+                            console.log('')
+                        }
+
+                        //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
+                        arrayMares.push(sortedData2[k].ALT)
+                        let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
+
+                        //Verificação com base nas horas do utilizador qual a maré 
+                        if (sortedData2[k] == sortedData2[0]) {
+                            if (UserHoras.getHours() <= date.getHours()) {
+                                mareUser.push(sortedData[k].ALT)
+                            }
+                        } else if (sortedData2[k] == sortedData2[1]) {
+                            dateatras = new Date(sortedData2[k - 1].SDATA);
+                            if (UserHoras.getHours() > dateatras.getHours() && UserHoras.getHours() <= date.getHours()) {
+                                mareUser.push(sortedData2[k].ALT)
+                            }
+                        } else if (sortedData2[k] == sortedData2[2]) {
+                            dateatras2 = new Date(sortedData2[k - 1].SDATA);
+                            if (UserHoras.getHours() > dateatras2.getHours() && UserHoras.getHours() <= date.getHours()) {
+                                mareUser.push(sortedData2[k].ALT)
+                            }
+                        } else if (sortedData2[k] == sortedData2[3]) {
+                            dateatras2 = new Date(sortedData2[k - 1].SDATA);
+
+                            if (UserHoras.getHours() > dateatras2.getHours() && UserHoras.getHours() <= date.getHours()) {
+                                mareUser.push(sortedData2[k].ALT)
+                            } else if (UserHoras.getHours() >= date.getHours()) {
+                                mareUser.push(sortedData2[k].ALT)
+                            }
+                        }
+                    }
+                    let variacaomare2, conta2;
+                    // arrayMares => a altitude da maré da API ordenada
+                    for (let p = 0; p < arrayMares.length; p++) {
+
+                        //mareUser é a maré com base na hora do utilizador t1
+                        //comparar a altitude da maré que o utilizador fez com a altitude de todas as marés do dia
+                        if (arrayMares[p] == mareUser[0]) {
+
+                            // Pretende-se saber qual a altitude da maré da rota do user 
+                            // e de seguida guardar esse valor (preia-mar ou baixa-mar)
+                            // se não tiver valores para a frente
+                            console.log(arrayMares[p + 1] != null)
+                            console.log(arrayMares[p + 1])
+                            if (arrayMares[p + 1] != null) {
+
+                                variacaomare2 = arrayMares[p + 1] - arrayMares[p];
+                                mare_por_minuto2.push(arrayMares[p]);
+                                let dc2mare = variacaomare2.toFixed(2);
+
+                                for (let a = 1; a < horasdarota_medida.length; a++) {
+                                    if (mare_por_minuto2[a - 1] == null) {} else {
+                                        conta2 = mare_por_minuto2[a - 1] + dc2mare / 100;
+                                        mare_por_minuto2.push(conta2);
+                                    }
+                                }
+                            } else {
+                                variacaomare2 = arrayMares[p - 1] - arrayMares[p];
+
+                                mare_por_minuto2.push(arrayMares[p]);
+
+                                let dc2mare = variacaomare2.toFixed(2);
+
+                                for (let a = 1; a < horasdarota_medida.length; a++) {
+                                    if (mare_por_minuto2[a - 1] == null) {} else {
+                                        conta2 = mare_por_minuto2[a - 1] + dc2mare / 100;
+                                        mare_por_minuto2.push(conta2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            // let z2_cal_rota_nova = [];
+            // for(let k = 0; k<horasdarota_medida.length;k++){
+            //     console.log({array_mares:mare_por_minuto[k],
+            //     horas:horasdarota_medida[k],
+            //     z_rota:parseFloat(z1_rota_adquirida[k])})
+            //     let z2_calcular = mare_por_minuto2[k] - mare_por_minuto[k];
+            //     let z2_total = mare_por_minuto[k]+z2_calcular;
+            //     z2_cal_rota_nova.push(z2_total)
+            // }
 
 
             var nivel_mare = [
@@ -1145,6 +1283,25 @@
             ];
 
 
+            nivel_Z_NOVAROTA_2 = [
+                [3.5],
+                [3.30],
+                [3.4],
+                [3.4],
+                [3.70],
+                [4],
+                [4.5],
+                [3],
+                [3.4],
+                [4],
+                [3.9],
+                [3.20],
+                [3.0],
+                [3.4],
+                [3.5],
+                [3],
+            ];
+
 
             // var nivel_mareNOVA = [
             //     [0.41],
@@ -1170,14 +1327,21 @@
             let countdangerous = 0;
             let warning = 0;
 
-            if (arRetirMare.length > 0) {
+            if (mare_por_minuto.length > 0) {
 
                 for (var i = 0; i < coordenadas.length; i++) {
                     //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
-                    diferençaAlturaMare = nivel_mare[i][0] - arRetirMare[i];
+                    //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
+                    let diferençaAlturaMare = 0;
+                    if (mare_por_minuto2.length > 0) {
+                        diferençaAlturaMare = mare_por_minuto2[i] - mare_por_minuto[i];
+                        document.getElementById('time').value = tempo;
 
-                    ZNOvaRota = nivel_ZRotaAdquirida[i][0] - diferençaAlturaMare;
+                    } else {
+                        setTimeout(fetchDataRota2, 3000);
+                    }
+                    ZNOvaRota = z1_rota_adquirida[i][0] - diferençaAlturaMare;
                     verificarRota = ZNOvaRota - calado;
                     //console.log(verificarRota)
                     if (verificarRota < margemcaladoInf) {
@@ -1315,10 +1479,8 @@
 
 
 
-
         function clearmap() {
-
-            mymap.eachLayer(function (layer) {
+            mymap.eachLayer(function(layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
@@ -1333,7 +1495,7 @@
             arrayUser = [];
             sortedData = 0;
             mareUser = [];
-            arRetirMare = [];
+            mare_por_minuto = [];
             document.getElementById('fileUploader').value = "";
             getInfo();
         }
