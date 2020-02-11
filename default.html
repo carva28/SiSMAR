@@ -310,7 +310,7 @@
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-                        document.getElementById('time').value = hora_min_gpx;
+                        //document.getElementById('time').value = hora_min_gpx;
                         let nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
@@ -384,7 +384,7 @@
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-                        document.getElementById('time').value = hora_min_gpx;
+                        //document.getElementById('time').value = hora_min_gpx;
                         let nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
@@ -450,9 +450,15 @@
                     let date = new Date(data_hora);
                     let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-                    document.getElementById('time').value = hora_min_gpx;
-                    let nyear = date.getYear();
+
+                    var nday = date.getDay(),
+                        nmonth = date.getMonth() + 1,
+                        ndate = date.getDate(),
+                        nyear = date.getYear();
                     if (nyear < 1000) nyear += 1900;
+                    UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                    //document.getElementById('time').value = hora_min_gpx;
+
                     dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
                     var arrayhidrografico = [];
                     getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
@@ -497,7 +503,6 @@
     <script>
         var arrayhidrografico = [];
         var array_hidrografico_simulacao_API = [];
-
         var arrayUser = [];
         $(document).ready(function() {
             $("#fileUploader").change(function(evt) {
@@ -578,14 +583,16 @@
         }
 
         window.onload = function() {
-
             getInfo();
             GetClock();
             setInterval(GetClock, 1000);
         }
 
+
         async function getInfo() {
             arrayhidrografico = [];
+            array_hidrografico_simulacao_API = [];
+
             //arrayUser = [];
             sortedData = 0;
             mareUser = [];
@@ -602,6 +609,7 @@
             const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
             fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
                 .then(response => response.json())
+                .then(contents => array_hidrografico_simulacao_API.push(contents))
                 .then(contents => arrayhidrografico.push(contents))
                 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
         }
@@ -645,6 +653,9 @@
 
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
+
+
+
             //remover a rota realizada e atualizar
             mymap.eachLayer(function(layer) {
                 //console.log(layer.options.pane)
@@ -665,7 +676,7 @@
             }
             //selecionar um tempo HH:MM
             var tempo = document.getElementById('time').value;
-            let UserHoras;
+            let UserHoras2;
             if (tempo != "") {
                 var d = new Date();
                 var nday = d.getDay(),
@@ -674,7 +685,7 @@
                     nyear = d.getYear();
                 if (nyear < 1000) nyear += 1900;
                 var splitTime1 = tempo.split(':');
-                UserHoras = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+                UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
 
             } else {
                 var d = new Date();
@@ -686,11 +697,10 @@
                 nhour = d.getHours(), nmin = d.getMinutes();
                 // let hora = "20";
                 // let min = "00";
-                UserHoras = new Date(nyear, nmonth, nday, nhour, nmin);
+                UserHoras2 = new Date(nyear, nmonth, nday, nhour, nmin);
                 var now = new Date(Date.now());
                 var f = leadZero(now.getHours()) + ":" + leadZero(now.getMinutes());
                 document.getElementById('time').value = f;
-
             }
 
 
@@ -703,7 +713,6 @@
 
             parser = new DOMParser();
             xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
-            console.log(arrayUser)
             if (arrayGPX.length != 0 || arrayUser.length != 0) {
                 if (arrayUser.length > 0) {
                     for (let m = 0; m < arrayUser.length; m++) {
@@ -742,7 +751,8 @@
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
                                 var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
-                                z1_rota_adquirida.push(z_adquir + 0.4)
+                                z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                z1_rota_adquirida.push(z_adquirido_rota)
                                 coordenadas.push([lon_gpx, lat_gpx])
                                 horasdarota_medida.push(horatempo_GPX)
                             }
@@ -858,34 +868,22 @@
                     let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
 
                     //Verificação com base nas horas do utilizador qual a maré 
-                    if (sortedData[k] == sortedData[0]) {
-                        if (UserHoras.getHours() <= date.getHours()) {
-                            mareUser.push(sortedData[k].ALT)
-                        }
-                    } else if (sortedData[k] == sortedData[1]) {
-                        dateatras = new Date(sortedData[k - 1].SDATA);
-                        if (UserHoras.getHours() > dateatras.getHours() && UserHoras.getHours() <= date.getHours()) {
-                            mareUser.push(sortedData[k].ALT)
-                        }
-                    } else if (sortedData[k] == sortedData[2]) {
-                        dateatras2 = new Date(sortedData[k - 1].SDATA);
-                        if (UserHoras.getHours() > dateatras2.getHours() && UserHoras.getHours() <= date.getHours()) {
-                            mareUser.push(sortedData[k].ALT)
-                        }
-                    } else if (sortedData[k] == sortedData[3]) {
-                        dateatras2 = new Date(sortedData[k - 1].SDATA);
 
-                        if (UserHoras.getHours() > dateatras2.getHours() && UserHoras.getHours() <= date.getHours()) {
-                            mareUser.push(sortedData[k].ALT)
-                        } else if (UserHoras.getHours() >= date.getHours()) {
-                            mareUser.push(sortedData[k].ALT)
-                        }
+                    if (UserHoras.getHours() >= date.getHours() && UserHoras.getHours() < datefrente.getHours()) {
+                        console.log(UserHoras.getHours())
+                        console.log(date.getHours())
+                        console.log(datefrente.getHours())
+                        mareUser.push(sortedData[k].ALT)
+                    } else {
+                        console.log('')
                     }
                 }
                 let variacaomare, conta;
                 // arrayMares => a altitude da maré da API ordenada
                 for (let p = 0; p < arrayMares.length; p++) {
-
+                    console.log({
+                        mareUser: mareUser[p]
+                    });
                     //mareUser é a maré com base na hora do utilizador t1
                     //comparar a altitude da maré que o utilizador fez com a altitude de todas as marés do dia
                     if (arrayMares[p] == mareUser[0]) {
@@ -893,8 +891,7 @@
                         // Pretende-se saber qual a altitude da maré da rota do user 
                         // e de seguida guardar esse valor (preia-mar ou baixa-mar)
                         // se não tiver valores para a frente
-                        console.log(arrayMares[p + 1] != null)
-                        console.log(arrayMares[p + 1])
+
                         if (arrayMares[p + 1] != null) {
 
                             variacaomare = arrayMares[p + 1] - arrayMares[p];
@@ -926,143 +923,103 @@
             }
 
             var margemcaladoSup, margemcaladoInf;
-            var diferençaTempo, ZNOvaRota, verificarRota;
+            var diferençaTempo, Z2_NOvaRota, z2_menos_calado;
             var linesFeatureLayer, linesFeatureLayer2, linesFeatureLayer3;
             margemcaladoSup = cal_sup;
             margemcaladoInf = cal_inf;
             let sortedData2, mare_por_minuto2 = [];
-            fetchDataRota2();
 
-            function fetchDataRota2() {
+            //setTimeout(fetchDataRota2, 1000);
 
-
-                var hoje = new Date();
-                var ndia = hoje.getDay(),
-                    nmes = hoje.getMonth() + 1,
-                    ndata = hoje.getDate(),
-                    nano = hoje.getYear(),
-                    nhoras = hoje.getHours(),
-                    nminutos = hoje.getMinutes(),
-                    nsegundos = hoje.getSeconds();
-                if (nano < 1000) nano += 1900;
-                Rota2 = new Date(nano, nmes, ndia, nhoras, nminutos, nsegundos);
-                console.log(Rota2)
-                console.log(nano)
-                console.log(nmes)
-                console.log(ndata)
-                const proxyurl = "https://cors-anywhere.herokuapp.com/";
-                const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nano + '-' + nmes + '-' + ndata + '&nd=0'; // site that doesn’t send Access-Control-*
-                fetch(proxyurl + url)
-                    .then(response => response.json())
-                    .then(contents => array_hidrografico_simulacao_API.push(contents))
-                    .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?")), 2000
-                console.log(array_hidrografico_simulacao_API)
+            //percorrerRota_Simular();
+            var arrayMares2 = [];
+            var guardarHoras2 = [];
 
 
-                if (array_hidrografico_simulacao_API.length > 0) {
-                    document.getElementById('time').value = tempo;
+            if (array_hidrografico_simulacao_API.length > 0) {
 
-                    //Ordenar as informação por ordem
-                    for (let i = 0; i < array_hidrografico_simulacao_API.length; i++) {
+                //Ordenar as informação por ordem
+                for (let i = 0; i < array_hidrografico_simulacao_API.length; i++) {
 
-                        let UserHorasMin = UserHoras.getHours() + ":" + UserHoras.getMinutes();
+                    let datefrente;
+                    for (let j = 0; j < array_hidrografico_simulacao_API[i].length; j++) {
 
-                        let datefrente;
-                        for (let j = 0; j < array_hidrografico_simulacao_API[i].length; j++) {
+                        //Informação da maré do site hidrografico
+                        let date = new Date(array_hidrografico_simulacao_API[i][j].SDATA);
+                        let horatempoAPI = date.getHours() + ":" + date.getMinutes();
+                        guardarHoras2.push(array_hidrografico_simulacao_API[i][j])
+                    }
+                    sortedData2 = guardarHoras2.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
 
-                            let date = new Date(array_hidrografico_simulacao_API[i][j].SDATA);
-                            let horatempoAPI = date.getHours() + ":" + date.getMinutes();
-                            guardarHoras.push(array_hidrografico_simulacao_API[i][j])
+                }
+                console.log(sortedData2)
+                let mare_combase_tempo_2 = [];
+                //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
+                for (let k = 0; k < sortedData2.length; k++) {
 
-                        }
-                        sortedData2 = guardarHoras.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
+                    let date = new Date(sortedData2[k].SDATA);
+                    let dataSDATA = date.getHours() + ":" + date.getMinutes();
+
+                    if (sortedData2[k + 1] != undefined) {
+                        datefrente = new Date(sortedData2[k + 1].SDATA);
+                    } else {
+                        console.log('')
                     }
 
-                    //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
-                    for (let k = 0; k < sortedData2.length; k++) {
+                    //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
+                    arrayMares2.push(sortedData2[k].ALT)
 
-                        let date = new Date(sortedData2[k].SDATA);
-                        let dataSDATA = date.getHours() + ":" + date.getMinutes();
+                    let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
+                    //Verificação com base nas horas do utilizador qual a maré 
 
-                        if (sortedData2[k + 1] != undefined) {
-                            datefrente = new Date(sortedData2[k + 1].SDATA);
-                        } else {
-                            console.log('')
-                        }
-
-                        //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
-                        arrayMares.push(sortedData2[k].ALT)
-                        let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
-
-                        //Verificação com base nas horas do utilizador qual a maré 
-                        if (sortedData2[k] == sortedData2[0]) {
-                            if (UserHoras.getHours() <= date.getHours()) {
-                                mareUser.push(sortedData[k].ALT)
-                            }
-                        } else if (sortedData2[k] == sortedData2[1]) {
-                            dateatras = new Date(sortedData2[k - 1].SDATA);
-                            if (UserHoras.getHours() > dateatras.getHours() && UserHoras.getHours() <= date.getHours()) {
-                                mareUser.push(sortedData2[k].ALT)
-                            }
-                        } else if (sortedData2[k] == sortedData2[2]) {
-                            dateatras2 = new Date(sortedData2[k - 1].SDATA);
-                            if (UserHoras.getHours() > dateatras2.getHours() && UserHoras.getHours() <= date.getHours()) {
-                                mareUser.push(sortedData2[k].ALT)
-                            }
-                        } else if (sortedData2[k] == sortedData2[3]) {
-                            dateatras2 = new Date(sortedData2[k - 1].SDATA);
-
-                            if (UserHoras.getHours() > dateatras2.getHours() && UserHoras.getHours() <= date.getHours()) {
-                                mareUser.push(sortedData2[k].ALT)
-                            } else if (UserHoras.getHours() >= date.getHours()) {
-                                mareUser.push(sortedData2[k].ALT)
-                            }
-                        }
+                    if (UserHoras2.getHours() >= date.getHours() && UserHoras2.getHours() < datefrente.getHours()) {
+                        mare_combase_tempo_2.push(sortedData2[k].ALT)
+                    } else {
+                        console.log('')
                     }
-                    let variacaomare2, conta2;
-                    // arrayMares => a altitude da maré da API ordenada
-                    for (let p = 0; p < arrayMares.length; p++) {
 
-                        //mareUser é a maré com base na hora do utilizador t1
-                        //comparar a altitude da maré que o utilizador fez com a altitude de todas as marés do dia
-                        if (arrayMares[p] == mareUser[0]) {
-
+                }
+                let variacaomare2, conta2;
+                // arrayMares => a altitude da maré da API ordenada
+                for (let p = 0; p < arrayMares2.length; p++) {
+                    //mareUser é a maré com base na hora do utilizador t1
+                    //comparar a altitude da maré que o utilizador fez com a altitude de todas as marés do dia
+                    if (arrayMares2[p] == mare_combase_tempo_2[0]) {
+                        console.log({
+                                mareuser_atual: mare_combase_tempo_2
+                            })
                             // Pretende-se saber qual a altitude da maré da rota do user 
                             // e de seguida guardar esse valor (preia-mar ou baixa-mar)
                             // se não tiver valores para a frente
-                            console.log(arrayMares[p + 1] != null)
-                            console.log(arrayMares[p + 1])
-                            if (arrayMares[p + 1] != null) {
+                        if (arrayMares2[p + 1] != null) {
 
-                                variacaomare2 = arrayMares[p + 1] - arrayMares[p];
-                                mare_por_minuto2.push(arrayMares[p]);
-                                let dc2mare = variacaomare2.toFixed(2);
+                            variacaomare2 = arrayMares2[p + 1] - arrayMares2[p];
+                            mare_por_minuto2.push(arrayMares[p]);
+                            let dc2mare = variacaomare2.toFixed(2);
 
-                                for (let a = 1; a < horasdarota_medida.length; a++) {
-                                    if (mare_por_minuto2[a - 1] == null) {} else {
-                                        conta2 = mare_por_minuto2[a - 1] + dc2mare / 100;
-                                        mare_por_minuto2.push(conta2);
-                                    }
+                            for (let a = 1; a < horasdarota_medida.length; a++) {
+                                if (mare_por_minuto2[a - 1] == null) {} else {
+                                    conta2 = mare_por_minuto2[a - 1] + dc2mare / 100;
+                                    mare_por_minuto2.push(conta2);
                                 }
-                            } else {
-                                variacaomare2 = arrayMares[p - 1] - arrayMares[p];
+                            }
+                        } else {
+                            variacaomare2 = arrayMares[p - 1] - arrayMares2[p];
 
-                                mare_por_minuto2.push(arrayMares[p]);
+                            mare_por_minuto2.push(arrayMares[p]);
 
-                                let dc2mare = variacaomare2.toFixed(2);
+                            let dc2mare = variacaomare2.toFixed(2);
 
-                                for (let a = 1; a < horasdarota_medida.length; a++) {
-                                    if (mare_por_minuto2[a - 1] == null) {} else {
-                                        conta2 = mare_por_minuto2[a - 1] + dc2mare / 100;
-                                        mare_por_minuto2.push(conta2);
-                                    }
+                            for (let a = 1; a < horasdarota_medida.length; a++) {
+                                if (mare_por_minuto2[a - 1] == null) {} else {
+                                    conta2 = mare_por_minuto2[a - 1] + dc2mare / 100;
+                                    mare_por_minuto2.push(conta2);
                                 }
                             }
                         }
                     }
                 }
             }
-
 
             // let z2_cal_rota_nova = [];
             // for(let k = 0; k<horasdarota_medida.length;k++){
@@ -1075,276 +1032,43 @@
             // }
 
 
-            var nivel_mare = [
-                [3],
-                [2.94375],
-                [2.8875],
-                [2.83125],
-                [2.775],
-                [2.6625],
-                [2.55],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [3],
-                [2.94375],
-                [2.8875],
-                [2.83125],
-                [2.775],
-                [2.6625],
-                [2.55],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [3],
-                [2.94375],
-                [2.8875],
-                [2.83125],
-                [2.775],
-                [2.6625],
-                [2.55],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [3],
-                [2.94375],
-                [2.8875],
-                [2.83125],
-                [2.775],
-                [2.6625],
-                [2.55],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [3],
-                [2.94375],
-                [2.8875],
-                [2.83125],
-                [2.775],
-                [2.6625],
-                [2.55],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [3],
-                [2.94375],
-                [2.8875],
-                [2.83125],
-                [2.775],
-                [2.6625],
-                [2.55],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-                [2.4375],
-                [2.325],
-                [2.15625],
-                [1.9875],
-                [1.81875],
-                [1.65],
-                [1.48125],
-                [1.31],
-                [1.14],
-            ];
-
-
-            nivel_Z_NOVAROTA_2 = [
-                [3.5],
-                [3.30],
-                [3.4],
-                [3.4],
-                [3.70],
-                [4],
-                [4.5],
-                [3],
-                [3.4],
-                [4],
-                [3.9],
-                [3.20],
-                [3.0],
-                [3.4],
-                [3.5],
-                [3],
-            ];
-
-
-            // var nivel_mareNOVA = [
-            //     [0.41],
-            //     [0.3],
-            //     [0.36],
-            //     [0.41],
-            //     [0.53],
-            //     [0.6375],
-            //     [0.75],
-            //     [0.8625],
-            //     [0.975],
-            //     [1.14375],
-            //     [1.3125],
-            //     [1.48125],
-            //     [1.65],
-            //     [1.82],
-            //     [1.99],
-            //     [2.16],
-            // ];
-
             let distancia;
             let arDistan = [];
             let countdangerous = 0;
             let warning = 0;
-
+            let diferençaAlturaMare = 0;
             if (mare_por_minuto.length > 0) {
 
                 for (var i = 0; i < coordenadas.length; i++) {
                     //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
                     //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
-                    let diferençaAlturaMare = 0;
+
                     if (mare_por_minuto2.length > 0) {
-                        diferençaAlturaMare = mare_por_minuto2[i] - mare_por_minuto[i];
-                        document.getElementById('time').value = tempo;
+                        diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i]);
+                        //diferençaAlturaMare = mare_por_minuto[i];
+                    }
+
+                    if (z1_rota_adquirida[i][0] > 0) {
+                        Z2_NOvaRota = z1_rota_adquirida[i][0] + diferençaAlturaMare;
 
                     } else {
-                        setTimeout(fetchDataRota2, 3000);
+                        Z2_NOvaRota = z1_rota_adquirida[i] + diferençaAlturaMare;
                     }
-                    ZNOvaRota = z1_rota_adquirida[i][0] - diferençaAlturaMare;
-                    verificarRota = ZNOvaRota - calado;
+                    z2_menos_calado = Z2_NOvaRota - parseFloat(calado);
+                    // console.log({
+                    //     mare1_min: mare_por_minuto[i],
+                    //     mare2_min: mare_por_minuto2[i],
+                    //     calado: calado,
+                    //     alturaMare: diferençaAlturaMare,
+                    //     z1: z1_rota_adquirida[i][0],
+                    //     z1gpx:z1_rota_adquirida[i]
+                    //     z2: Z2_NOvaRota,
+                    //     z2_menos_calado: z2_menos_calado
+                    // })
+
                     //console.log(verificarRota)
-                    if (verificarRota < margemcaladoInf) {
+                    if (z2_menos_calado < margemcaladoInf) {
                         if (coordenadas[i + 1] != undefined) {
                             //console.log('vermelho' + verificarRota)
                             var myLines1 = [{
@@ -1371,7 +1095,7 @@
                         } else {
                             //console.log('')
                         }
-                    } else if (verificarRota >= margemcaladoInf && verificarRota <= margemcaladoSup) {
+                    } else if (z2_menos_calado >= margemcaladoInf && z2_menos_calado <= margemcaladoSup) {
 
                         if (coordenadas[i + 1] != undefined) {
                             //console.log('amarelo' + verificarRota)
@@ -1400,7 +1124,7 @@
                         } else {
                             console.log('')
                         }
-                    } else if (verificarRota >= margemcaladoSup) {
+                    } else if (z2_menos_calado >= margemcaladoSup) {
 
                         if (coordenadas[i + 1] != undefined) {
                             //console.log('verde' + verificarRota)
