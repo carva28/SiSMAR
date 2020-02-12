@@ -11,8 +11,10 @@
     <script src="js/jquery.js">
     </script>
     <script lang="javascript" src="js/xlsx.full.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/v4-shims.css">
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
@@ -69,7 +71,7 @@
             font-size: 30px;
             border: 2px solid #ffc10a;
             border-radius: 20px;
-            width: 120px;
+            width: 140px;
         }
         
         .row,
@@ -122,6 +124,12 @@
                 <input type="file" id="fileUploader" class="custom-file-input" name="fileUploader" accept=".xls, .xlsx" />
                 <label class="custom-file-label" for="inputGroupFile02">Ficheiro</label>
 
+            </div>
+            <div class="col-sm">
+                <button type="button" class="btn btn-info" onclick="onLocationFound()">
+                    <i class="fas fa-location-arrow"></i>
+                    <!-- <i class="fa fa-ship"></i> -->
+                </button>
             </div>
             <div class="col-sm">
                 <button type="button" class="btn btn-dark" onclick="getData3GPX()">Cais do Bico</button>
@@ -191,6 +199,37 @@
         });
         tiles.addTo(mymap);
 
+
+        var OpenSeaMap = L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+            attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
+        });
+
+        var OpenStreetMap_HOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+        });
+
+        var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        });
+
+        var Thunderforest_TransportDark = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
+            attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            apikey: 'a83d355c78244eb8b0c7530eb3a8e481',
+            maxZoom: 22
+        });
+
+        baseMaps = {
+            "OpenSeaMap": OpenSeaMap,
+            "OpenStreetMap_HOT": OpenStreetMap_HOT,
+            "OpenTopoMap": OpenTopoMap,
+            "Thunderforest_TransportDark": Thunderforest_TransportDark
+        };
+
+        ControlLayer = L.control.layers(baseMaps).addTo(mymap);
+
+
         // Making a marker with a custom icon
         const issIcon = L.icon({
             iconUrl: 'marker.png',
@@ -215,6 +254,7 @@
         });
 
         L.control.scale().addTo(mymap);
+
 
         //Localização do Utilizador
         mymap.locate({
@@ -316,8 +356,6 @@
         mymap.on('locationfound', onLocationFound);
 
 
-
-        //var gpx = './mytracks_ida.gpx'; // URL to your GPX file or the GPX itself
 
         //getDataGPX();
 
@@ -555,6 +593,7 @@
             fetch(url)
                 .then(function(response) {
                     return response.text();
+                    console.log(response.text())
                 })
                 .then(function(json) {
                     VEri_text_gpx = json;
@@ -897,7 +936,8 @@
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
                                 var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
-                                z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                //z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                z_adquirido_rota = parseFloat(z_adquir) + 0;
                                 z1_rota_adquirida.push(z_adquirido_rota)
                                 coordenadas.push([lon_gpx, lat_gpx])
                                 horasdarota_medida.push(horatempo_GPX)
@@ -1202,6 +1242,43 @@
                         Z2_NOvaRota = z1_rota_adquirida[i] + diferençaAlturaMare;
                     }
                     z2_menos_calado = Z2_NOvaRota - parseFloat(calado);
+                    console.log({
+                        z1: z1_rota_adquirida[i],
+                        novaZ: Z2_NOvaRota,
+                        z2_menos_calado: z2_menos_calado
+                    })
+
+                    // popup2 = L.popup()
+                    //     .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                    //     .setContent('<div>' + '<p> Z1:' + z1_rota_adquirida[i] + '</p>' + '<p> Z2' + Z2_NOvaRota + '</p>' +
+                    //         '</div>')
+                    // popup2.addTo(mymap)
+
+                    popup = new L.popup();
+                    popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                    popup.setContent('<div>' + '<p> <b>Z1:</b>' + z1_rota_adquirida[i] + '</p>' + '<p> <b>Z2:</b>' + Z2_NOvaRota + '</p>' + '<p> <b>Coordenadas:</b>' + [coordenadas[i][1], coordenadas[i][0]] + '</p>' + '</div>')
+                        //popup.addTo(mymap);
+
+
+                    marker = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
+                            color: "black",
+                            fillColor: "#000000",
+                            fillOpacity: 0.5,
+                            radius: 15.0
+                        })
+                        .bindPopup(popup)
+                        .addTo(mymap);
+
+                    marker.on('mouseover', function(e) {
+                        var popup = e.target.getPopup();
+                        popup.setLatLng(e.latlng).openOn(mymap);
+                    });
+
+                    marker.on('mouseout', function(e) {
+                        e.target.closePopup();
+                    });
+
+
                     // console.log({
                     //     mare1_min: mare_por_minuto[i],
                     //     mare2_min: mare_por_minuto2[i],
@@ -1214,6 +1291,8 @@
                     // })
 
                     //console.log(verificarRota)
+
+
                     if (z2_menos_calado < margemcaladoInf) {
                         if (coordenadas[i + 1] != undefined) {
                             //console.log('vermelho' + verificarRota)
@@ -1236,8 +1315,12 @@
                             linesFeatureLayer = L.geoJson(myLines1, {
                                 style: myStyle1
                             });
+
+
+
                             linesFeatureLayer.addTo(mymap);
                             countdangerous++;
+
                         } else {
                             //console.log('')
                         }
@@ -1245,6 +1328,7 @@
 
                         if (coordenadas[i + 1] != undefined) {
                             //console.log('amarelo' + verificarRota)
+
                             var myLines2 = [{
                                 "type": "LineString",
                                 'coordinates': [
@@ -1291,6 +1375,9 @@
                                 opacity: 1,
                             };
 
+
+
+
                             linesFeatureLayer3 = L.geoJson(myLines3, {
                                 style: myStyle3
                             });
@@ -1332,7 +1419,7 @@
             let totavelkm2kn, tempovm;
             let minutesfinal, minutes2deci, dc2tempovm;
             let newsum = sum / 1000;
-            document.getElementById('km').innerHTML = "<p>" + newsum.toFixed(2) + " KM </p>";
+            //document.getElementById('km').innerHTML = "<p>" + newsum.toFixed(2) + " KM </p>";
             velocidademedia = 5;
             totavelkm2kn = newsum / 1.852;
             tempovm = totavelkm2kn / velocidademedia;
@@ -1343,7 +1430,7 @@
             minutesfinal = parseFloat(knowminutes) * 60;
             let min = minutesfinal.toFixed(1);
             let spantempo = dc2tempovm[0] + 'h' + parseInt(min) + 'm';
-            document.getElementById('tempoestimado').innerHTML = "<p>" + spantempo + "</p>";
+            //document.getElementById('tempoestimado').innerHTML = "<p>" + spantempo + "</p>";
         }
 
 
