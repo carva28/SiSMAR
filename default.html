@@ -170,8 +170,6 @@
                 <p>TTD</p>
                 <input type="time" id="time" />
             </div>
-
-
         </div>
     </div>
 
@@ -224,9 +222,12 @@
             maxZoom: 14
         });
 
-        function onLocationFound(e) {
+        var localiz_distan = [];
+        var local_Nome_rota = [];
+
+        async function onLocationFound(e) {
             var radius = e.accuracy;
-            let localiz_distan = [];
+
             let funcname = [];
 
             L.marker(e.latlng).addTo(mymap)
@@ -234,50 +235,81 @@
             console.log(e.latlng.lat);
             console.log(e.latlng.lng);
             L.circle(e.latlng, radius).addTo(mymap);
+
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
-            fetch(url)
-                .then(function(response) {
-                    return response.text();
-                })
-                .then(function(json) {
-                    VEri_text_gpx = json;
-                    parser = new DOMParser();
-                    xmlDoc = parser.parseFromString(json, "text/xml");
-                    funcname.push('getDataGPX')
-                    var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
-                    var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
+            const response = await fetch(url);
+            const json = await response.text();
 
-                    distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
+            VEri_text_gpx = json;
+            parser = new DOMParser();
+            xmlDoc = parser.parseFromString(json, "text/xml");
+            funcname.push('getDataGPX')
+            var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
-                    localiz_distan.push(distancia);
-                });
+            distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
+
+            localiz_distan.push(distancia);
+            local_Nome_rota.push('rota1')
 
             let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
-            fetch(url2)
-                .then(function(response) {
-                    return response.text();
-                })
-                .then(function(json) {
-                    VEri_text_gpx = json;
-                    parser = new DOMParser();
-                    xmlDoc = parser.parseFromString(json, "text/xml");
-                    funcname.push('getDataGPX2')
-                    var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
-                    var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
+            const response2 = await fetch(url2);
+            const json2 = await response2.text();
 
-                    distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
+            VEri_text_gpx2 = json2;
+            parser2 = new DOMParser();
+            xmlDoc2 = parser2.parseFromString(json2, "text/xml");
+            funcname.push('getDataGPX')
+            var lat_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
-                    localiz_distan.push(distancia);
+            distancia2 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx2, lon_gpx2]);
+            localiz_distan.push(distancia2);
+            local_Nome_rota.push('rota2')
 
-                    console.log(localiz_distan.length)
-                });
-            for (let q = 0; q < localiz_distan.length; q++) {
-                console.log(localiz_distan[q])
+            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
+            const response3 = await fetch(url3);
+            const json3 = await response3.text();
 
+            VEri_text_gpx3 = json3;
+            parser3 = new DOMParser();
+            xmlDoc3 = parser3.parseFromString(json3, "text/xml");
+            funcname.push('getDataGPX')
+            var lat_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia3 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx3, lon_gpx3]);
+            localiz_distan.push(distancia3);
+            local_Nome_rota.push('rota3')
+
+            let menor_dist;
+            let menor_rota;
+            if (localiz_distan != null) {
+                for (let k = 0; k < localiz_distan.length; k++) {
+                    if (menor_dist == null) {
+                        menor_dist = localiz_distan[k];
+                    } else {
+                        if (menor_dist > localiz_distan[k]) {
+                            menor_dist = localiz_distan[k];
+                            menor_rota = local_Nome_rota[k];
+                        }
+                    }
+
+                }
             }
 
+            switch (menor_rota) {
+                case 'rota1':
+                    getDataGPX();
+                    break;
+                case 'rota2':
+                    getData2GPX();
+                    break;
+                case 'rota3':
+                    getData4GPX();
+                    break;
+            }
         }
-
 
 
 
@@ -342,7 +374,7 @@
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>"
 
-                        document.getElementById('km').innerHTML = info;
+                        //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
                         let date = new Date(data_hora);
@@ -416,7 +448,7 @@
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>"
 
-                        document.getElementById('km').innerHTML = info;
+                        //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
                         let date = new Date(data_hora);
@@ -482,7 +514,7 @@
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>"
 
-                        document.getElementById('km').innerHTML = info;
+                        //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
                         let date = new Date(data_hora);
@@ -509,6 +541,81 @@
                     })
                     g.addTo(mymap);
                 });
+        }
+
+        async function getData4GPX() {
+
+            mymap.eachLayer(function(layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
+            fetch(url)
+                .then(function(response) {
+                    return response.text();
+                })
+                .then(function(json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function(e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function(e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+
         }
         //No clique do marker
 
