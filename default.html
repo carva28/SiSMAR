@@ -219,11 +219,32 @@
             apikey: 'a83d355c78244eb8b0c7530eb3a8e481',
             maxZoom: 22
         });
+        var Stamen_TerrainBackground = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            subdomains: 'abcd',
+            minZoom: 0,
+            maxZoom: 18,
+            ext: 'png'
+        });
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+        var CartoDB_DarkMatterNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        });
+
 
         baseMaps = {
-            "OpenSeaMap": OpenSeaMap,
+            "Normal": tiles,
+            "Satélite": Esri_WorldImagery,
+            //"OpenSeaMap": OpenSeaMap,
+            "Stamen_TerrainBackground": Stamen_TerrainBackground,
             "OpenStreetMap_HOT": OpenStreetMap_HOT,
             "OpenTopoMap": OpenTopoMap,
+            "Dark": CartoDB_DarkMatterNoLabels,
             "Thunderforest_TransportDark": Thunderforest_TransportDark
         };
 
