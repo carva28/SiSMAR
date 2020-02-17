@@ -126,7 +126,7 @@
 
             </div>
             <div class="col-sm">
-                <button type="button" class="btn btn-info" onclick="onLocationFound()">
+                <button type="button" class="btn btn-info" onclick="localBtn()">
                     <i class="fas fa-location-arrow"></i>
                     <!-- <i class="fa fa-ship"></i> -->
                 </button>
@@ -293,8 +293,7 @@
 
             L.marker(e.latlng).addTo(mymap)
                 .bindPopup("You are within " + radius + " meters from this point").openPopup();
-            console.log(e.latlng.lat);
-            console.log(e.latlng.lng);
+
             L.circle(e.latlng, radius).addTo(mymap);
 
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
@@ -376,6 +375,13 @@
 
         mymap.on('locationfound', onLocationFound);
 
+        function localBtn() {
+            // create control and add to map
+            var lc = L.control.locate().addTo(mymap);
+
+            // request location update and set location
+            lc.start();
+        }
 
 
         //getDataGPX();
@@ -614,7 +620,7 @@
             fetch(url)
                 .then(function(response) {
                     return response.text();
-                    console.log(response.text())
+                    //console.log(response.text())
                 })
                 .then(function(json) {
                     VEri_text_gpx = json;
@@ -809,7 +815,6 @@
                 ndate = d.getDate(),
                 nyear = d.getYear();
             if (nyear < 1000) nyear += 1900;
-            console.log(nyear, nmonth + 1, ndate);
             let mescerto = nmonth + 1;
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
@@ -1077,9 +1082,6 @@
                     //Verificação com base nas horas do utilizador qual a maré 
 
                     if (UserHoras.getHours() >= date.getHours() && UserHoras.getHours() < datefrente.getHours()) {
-                        console.log(UserHoras.getHours())
-                        console.log(date.getHours())
-                        console.log(datefrente.getHours())
                         mareUser.push(sortedData[k].ALT)
                     } else {
                         console.log('')
@@ -1088,9 +1090,7 @@
                 let variacaomare, conta;
                 // arrayMares => a altitude da maré da API ordenada
                 for (let p = 0; p < arrayMares.length; p++) {
-                    console.log({
-                        mareUser: mareUser[p]
-                    });
+
                     //mareUser é a maré com base na hora do utilizador t1
                     //comparar a altitude da maré que o utilizador fez com a altitude de todas as marés do dia
                     if (arrayMares[p] == mareUser[0]) {
@@ -1104,7 +1104,7 @@
                             variacaomare = arrayMares[p + 1] - arrayMares[p];
                             mare_por_minuto.push(arrayMares[p]);
                             let dc2mare = variacaomare.toFixed(2);
-
+                            console.log(mare_por_minuto)
                             for (let a = 1; a < horasdarota_medida.length; a++) {
                                 if (mare_por_minuto[a - 1] == null) {} else {
                                     conta = mare_por_minuto[a - 1] + dc2mare / 100;
@@ -1159,7 +1159,6 @@
                     sortedData2 = guardarHoras2.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
 
                 }
-                console.log(sortedData2)
                 let mare_combase_tempo_2 = [];
                 //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
                 for (let k = 0; k < sortedData2.length; k++) {
@@ -1192,12 +1191,10 @@
                     //mareUser é a maré com base na hora do utilizador t1
                     //comparar a altitude da maré que o utilizador fez com a altitude de todas as marés do dia
                     if (arrayMares2[p] == mare_combase_tempo_2[0]) {
-                        console.log({
-                                mareuser_atual: mare_combase_tempo_2
-                            })
-                            // Pretende-se saber qual a altitude da maré da rota do user 
-                            // e de seguida guardar esse valor (preia-mar ou baixa-mar)
-                            // se não tiver valores para a frente
+
+                        // Pretende-se saber qual a altitude da maré da rota do user 
+                        // e de seguida guardar esse valor (preia-mar ou baixa-mar)
+                        // se não tiver valores para a frente
                         if (arrayMares2[p + 1] != null) {
 
                             variacaomare2 = arrayMares2[p + 1] - arrayMares2[p];
@@ -1228,16 +1225,6 @@
                 }
             }
 
-            // let z2_cal_rota_nova = [];
-            // for(let k = 0; k<horasdarota_medida.length;k++){
-            //     console.log({array_mares:mare_por_minuto[k],
-            //     horas:horasdarota_medida[k],
-            //     z_rota:parseFloat(z1_rota_adquirida[k])})
-            //     let z2_calcular = mare_por_minuto2[k] - mare_por_minuto[k];
-            //     let z2_total = mare_por_minuto[k]+z2_calcular;
-            //     z2_cal_rota_nova.push(z2_total)
-            // }
-
 
             let distancia;
             let arDistan = [];
@@ -1263,11 +1250,7 @@
                         Z2_NOvaRota = z1_rota_adquirida[i] + diferençaAlturaMare;
                     }
                     z2_menos_calado = Z2_NOvaRota - parseFloat(calado);
-                    console.log({
-                        z1: z1_rota_adquirida[i],
-                        novaZ: Z2_NOvaRota,
-                        z2_menos_calado: z2_menos_calado
-                    })
+
 
                     // popup2 = L.popup()
                     //     .setLatLng([coordenadas[i][1], coordenadas[i][0]])
@@ -1277,7 +1260,10 @@
 
                     popup = new L.popup();
                     popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                    popup.setContent('<div>' + '<p> <b>Z1:</b>' + z1_rota_adquirida[i] + '</p>' + '<p> <b>Z2:</b>' + Z2_NOvaRota + '</p>' + '<p> <b>Coordenadas:</b>' + [coordenadas[i][1], coordenadas[i][0]] + '</p>' + '</div>')
+                    popup.setContent('<div>' + '<p> <b>Z1:</b>' + z1_rota_adquirida[i] + '</p>' + '<p> <b>Z2:</b>' + Z2_NOvaRota + '</p>' +
+                            '<p> <b>Coordenadas:</b>' + [coordenadas[i][1], coordenadas[i][0]] + '</p>' +
+                            '<p> <b>ALT dia 16 MAre Minuto:</b>' + [mare_por_minuto[i]] + '</p>' +
+                            '<p> <b>ALT hoje Mare Minuto:</b>' + [mare_por_minuto2[i]] + '</p>' + '</div>')
                         //popup.addTo(mymap);
 
 
@@ -1300,23 +1286,10 @@
                     });
 
 
-                    // console.log({
-                    //     mare1_min: mare_por_minuto[i],
-                    //     mare2_min: mare_por_minuto2[i],
-                    //     calado: calado,
-                    //     alturaMare: diferençaAlturaMare,
-                    //     z1: z1_rota_adquirida[i][0],
-                    //     z1gpx:z1_rota_adquirida[i]
-                    //     z2: Z2_NOvaRota,
-                    //     z2_menos_calado: z2_menos_calado
-                    // })
-
-                    //console.log(verificarRota)
 
 
                     if (z2_menos_calado < margemcaladoInf) {
                         if (coordenadas[i + 1] != undefined) {
-                            //console.log('vermelho' + verificarRota)
                             var myLines1 = [{
                                 "type": "LineString",
                                 'coordinates': [
@@ -1348,7 +1321,6 @@
                     } else if (z2_menos_calado >= margemcaladoInf && z2_menos_calado <= margemcaladoSup) {
 
                         if (coordenadas[i + 1] != undefined) {
-                            //console.log('amarelo' + verificarRota)
 
                             var myLines2 = [{
                                 "type": "LineString",
