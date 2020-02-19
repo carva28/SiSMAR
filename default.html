@@ -164,7 +164,7 @@
             #calado_sup_span,
             #calado_inf_span {
                 width: 90%;
-                height: 60px;
+                height: 100px;
                 font-size:3.2rem;
             }
             .img_logo{
@@ -180,13 +180,14 @@
             #time {
                 font-size:3.2rem;
                 width: 90%;
-                height: 70px;
+                height: 100px;
             }
 
             .btn_color_sim {
                 width: 100%;
                 height: 90px;
                 font-size: 2.7rem;
+                border-radius: 45px;
             }
 
             .btn_rota {
@@ -195,12 +196,14 @@
                 font-size: 2.7rem;
                 background-color: #1F3436;
                 color: white;
+                border-radius: 45px;
             }
 
             .btn_color_del {
                 width: 100%;
                 height: 90px;
                 font-size: 2.7rem;
+                border-radius: 45px;
             }
 
             .order-12 {
@@ -257,7 +260,7 @@
 
             .container2{
                 border: 2px transparent;
-                border-radius: 20px;
+                border-radius: 50px;
                 background-color: white;
             }
         }
@@ -1708,6 +1711,8 @@
                         .bindPopup(popup)
                         .addTo(mymap);
 
+                    
+
                     marker.on('mouseover', function (e) {
                         var popup = e.target.getPopup();
                         popup.setLatLng(e.latlng).openOn(mymap);
@@ -1715,6 +1720,11 @@
 
                     marker.on('mouseout', function (e) {
                         e.target.closePopup();
+                    });
+
+                    marker.on('click', function (e) {
+                        var popup = e.target.getPopup();
+                        popup.setLatLng(e.latlng).openOn(mymap);
                     });
 
 
