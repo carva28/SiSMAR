@@ -25,7 +25,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
     <style>
         h2 {
-            text-align: center;
+            text-align: left;
+            font-size:25px;
         }
 
         #issMap {
@@ -50,7 +51,7 @@
 
         h4 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         #calado_span,
@@ -74,7 +75,7 @@
             padding: 5px;
             text-align: center;
             font-size: 30px;
-            border: 2px solid #ffc10a;
+            border: 2px solid #F0BC33;
             border-radius: 20px;
             width: 140px;
         }
@@ -87,7 +88,7 @@
         .container2 {
             position: fixed;
             overflow: hidden;
-            background-color: rgb(214, 214, 214);
+            background-color: #F0BC33;
             bottom: 0;
             width: 100%;
             z-index: 10000;
@@ -112,6 +113,24 @@
             text-align: center;
         }
 
+
+        .btn_rota {
+            border: none;
+            background-color: rgba(252, 252, 252, 0.808)
+        }
+
+        .btn_rota:hover {
+            border: none;
+            background-color: rgb(218, 218, 218);
+        }
+
+        .img_logo{
+            border: none;
+            text-align: right;
+            width: 120px;
+            height: auto;
+        }
+
         input[type=number] {
             height: 40px;
         }
@@ -129,9 +148,9 @@
 <body>
 
     <div class="col order-12">
-        <div class="row">
+        <div class="row ">
             <div class="col-sm">
-                <h2>Mapa</h2>
+                <img src="SiSMAR.png" class="img_logo img-thumbnail float-left" />
 
             </div>
             <div class="col-sm">
@@ -147,23 +166,23 @@
                 <label class="custom-file-label" for="inputGroupFile02">Ficheiro</label>
 
             </div>
-            <div class="col-sm">
+            <!-- <div class="col-sm">
                 <button type="button" class="btn btn-info" onclick="localBtn()">
                     <i class="fas fa-location-arrow"></i>
-                    <!-- <i class="fa fa-ship"></i> -->
+                     <i class="fa fa-ship"></i>
                 </button>
+            </div> -->
+            <div class="col-sm">
+                <button type="button" class="btn btn_rota" onclick="getData3GPX()">Cais do Bico</button>
             </div>
             <div class="col-sm">
-                <button type="button" class="btn btn-dark" onclick="getData3GPX()">Cais do Bico</button>
+                <button type="button" class="btn btn_rota" onclick="getDataGPX()">Rota Torreira</button>
             </div>
             <div class="col-sm">
-                <button type="button" class="btn btn-dark" onclick="getDataGPX()">Rota Torreira</button>
+                <button type="button" class="btn btn_rota" onclick="getData2GPX()">Costa Nova</button>
             </div>
             <div class="col-sm">
-                <button type="button" class="btn btn-dark" onclick="getData2GPX()">Costa Nova</button>
-            </div>
-            <div class="col-sm">
-                <button type="button" class="btn btn-warning" onclick="changeValue()">Simular</button>
+                <button type="button" class="btn btn-dark" onclick="changeValue()">Simular</button>
             </div>
             <div class="col-sm">
                 <button type="button" class="btn btn-danger" onclick="clearmap()">Apagar</button>
@@ -1096,10 +1115,10 @@
 
 
             /*********************************************************************************/
-/********************************************************************************/
-/************************** ROTA Adquirida ******************************************/
-/********************************************************************************/
-/********************************************************************************/
+            /********************************************************************************/
+            /************************** ROTA Adquirida ******************************************/
+            /********************************************************************************/
+            /********************************************************************************/
 
             var guardarHoras = [], guardarHoras_anterior = [];
             let sortedData;
@@ -1294,59 +1313,12 @@
                     }
                 }
 
-                let variacaomare, conta;
-
-
-
-
-
-                // arrayMares => a altitude da maré da API ordenada
-                // for (let p = 0; p < arrayMares.length; p++) {
-
-                //     //mareUser é a maré com base na hora do utilizador t1
-                //     //comparar a altitude da maré que o utilizador fez com a altitude de todas as marés do dia
-                //     if (arrayMares[p] == mareUser[0]) {
-
-                //         // Pretende-se saber qual a altitude da maré da rota do user 
-                //         // e de seguida guardar esse valor (preia-mar ou baixa-mar)
-                //         // se não tiver valores para a frente
-
-                //         if (arrayMares[p + 1] != null) {
-
-                //             variacaomare = arrayMares[p + 1] - arrayMares[p];
-                //             mare_por_minuto.push(arrayMares[p]);
-                //             let dc2mare = variacaomare.toFixed(2);
-                //             console.log(mareUser[0])
-                //             for (let a = 1; a < horasdarota_medida.length; a++) {
-                //                 if (mare_por_minuto[a - 1] == null) {
-
-                //                 } else {
-                //                     conta = mare_por_minuto[a - 1] + dc2mare / 100;
-                //                     mare_por_minuto.push(conta);
-                //                 }
-                //             }
-                //         } else {
-                //             variacaomare = arrayMares[p - 1] - arrayMares[p];
-
-                //             mare_por_minuto.push(arrayMares[p]);
-
-                //             let dc2mare = variacaomare.toFixed(2);
-
-                //             for (let a = 1; a < horasdarota_medida.length; a++) {
-                //                 if (mare_por_minuto[a - 1] == null) { } else {
-                //                     conta = mare_por_minuto[a - 1] + dc2mare / 100;
-                //                     mare_por_minuto.push(conta);
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
             }
-/*********************************************************************************/
-/********************************************************************************/
-/************************** ROTA SIMULADA ******************************************/
-/********************************************************************************/
-/********************************************************************************/
+            /*********************************************************************************/
+            /********************************************************************************/
+            /************************** ROTA SIMULADA ******************************************/
+            /********************************************************************************/
+            /********************************************************************************/
 
             var margemcaladoSup, margemcaladoInf;
             var diferençaTempo, Z2_NOvaRota, z2_menos_calado;
@@ -1425,9 +1397,8 @@
                     }
 
                     //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
-                    arrayMares2.push(sortedData2[k].ALT)
-                    let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
-                    //Verificação com base nas horas do utilizador qual a maré 
+                    //arrayMares2.push(sortedData2[k].ALT)
+                    //let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
 
                     if (UserHoras2.getHours() <= 5) {
 
@@ -1441,7 +1412,7 @@
                             let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
                             let total = delta_mare * (count / 375) + sortedData2_anterior[3].ALT;
 
-                            mareUser.push(total)
+                            mareUser2.push(total)
                         } else {
                             let horas_min_anterior = new Date(sortedData2_anterior[2].SDATA);
                             let delta_mare = sortedData2_anterior[2].ALT - sortedData2[0].ALT;
@@ -1453,14 +1424,14 @@
                             let count = (UserHoras2.getMinutes() + usershr_min) + dia_ant;
 
                             let total = delta_mare * (count / 375) + sortedData2_anterior[2].ALT;
-                            mareUser.push(total)
+                            mareUser2.push(total)
                         }
 
 
 
                         for (let p = 0; p < horasdarota_medida.length; p++) {
                             if (mare_por_minuto == null) {
-                                mare_por_minuto.push(mareUser[0])
+                                mare_por_minuto.push(mareUser2[0])
                             } else {
                                 //let user_adqui_horas_min = new Date(horasdarota_medida[p]);
 
@@ -1496,6 +1467,8 @@
 
                                     let total = delta_mare * (count / 375) + sortedData2_anterior[2].ALT;
                                     mare_por_minuto2.push(total)
+
+                                    console.log(total)
                                 }
 
                             }
@@ -1503,81 +1476,63 @@
                         }
 
 
-                    } else if (UserHoras2.getHours() >= 22) {
-                        if (sortedData2_seguinte[0] != null) {
-
-                            let horas_min_seguinte = new Date(sortedData2_seguinte[3].SDATA);
-                            let delta_mare;
-                            if (sortedData2[3] != null) {
-                                delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
-                            } else {
-                                delta_mare = sortedData2_seguinte[0].ALT - sortedData2[2].ALT;
-                            }
-
-                            let usershr_min = UserHoras2.getHours() * 60;
-                            let dateshr_min = horas_min_seguinte.getHours() * 60;
-
-                            let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
-                            let total = delta_mare * (count / 375) + sortedData2_seguinte[0].ALT;
-
-                            mareUser.push(total)
-
-                            for (let p = 0; p < horasdarota_medida.length; p++) {
-                                if (mare_por_minuto2 == null) {
-                                    mare_por_minuto2.push(mareUser2[0])
-                                } else {
-                                    let delta_mare;
-                                    if (sortedData2[3] != null) {
-                                        delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
-                                    } else {
-                                        delta_mare = sortedData2_seguinte[0].ALT - sortedData2[2].ALT;
-                                    }
-                                    let usershr_min = UserHoras2.getHours() * 60;
-                                    let dateshr_min = date.getHours() * 60;
-
-                                    let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
-
-                                    let total = delta_mare * (count / 375) + sortedData2[k].ALT;
-                                    mare_por_minuto2.push(total)
-                                }
-                            }
-                            //console.log(mare_por_minuto2)
-                        }
                     } else if (UserHoras2.getHours() >= date.getHours() && UserHoras2.getHours() < datefrente.getHours()) {
 
                         let delta_mare = sortedData2[k + 1].ALT - sortedData2[k].ALT;
-                        console.log(delta_mare)
                         let usershr_min = UserHoras2.getHours() * 60;
                         let dateshr_min = date.getHours() * 60;
 
                         let count = (UserHoras2.getMinutes() + usershr_min) - (date.getMinutes() + dateshr_min);
-                        console.log(count)
                         let total = delta_mare * (count / 375) + sortedData2[k].ALT;
-                        console.log(total)
-                        //mareUser.push(sortedData[k].ALT)
                         mareUser2.push(total)
                         for (let p = 0; p < horasdarota_medida.length; p++) {
                             if (mare_por_minuto2 == null) {
                                 mare_por_minuto2.push(mareUser2[0])
                             } else {
-                                console.log(UserHoras2.getHours()) //horas da rota
-                                console.log(UserHoras2.getMinutes() + p) //Minutos da rota
-
                                 let delta_mare = sortedData2[k + 1].ALT - sortedData2[k].ALT;
 
                                 let usershr_min = UserHoras2.getHours() * 60;
                                 let dateshr_min = date.getHours() * 60;
 
                                 let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (date.getMinutes() + dateshr_min);
-                                console.log(count)
                                 let total = delta_mare * (count / 375) + sortedData2[k].ALT;
                                 mare_por_minuto2.push(total)
                                 console.log(total)
                             }
-                            //mare_por_minuto.push();
                         }
 
-                    } else {
+                    } else if (UserHoras2.getHours() >= datefrente.getHours()) {
+
+                        let horas_min_seguinte = new Date(sortedData2_seguinte[3].SDATA);
+                        let delta_mare;
+
+                        delta_mare = sortedData2_seguinte[0].ALT - sortedData2[k].ALT;
+
+
+                        let usershr_min = UserHoras2.getHours() * 60;
+                        let dateshr_min = horas_min_seguinte.getHours() * 60;
+
+                        let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
+                        let total = delta_mare * (count / 375) + sortedData2[k].ALT;
+
+                        mareUser2.push(total)
+                        for (let p = 0; p < horasdarota_medida.length; p++) {
+                            if (mare_por_minuto2 == null) {
+                                mare_por_minuto2.push(mareUser2[0])
+                            } else {
+                                delta_mare = sortedData2_seguinte[0].ALT - sortedData2[k].ALT;
+
+                                let usershr_min = UserHoras2.getHours() * 60;
+                                let dateshr_min = date.getHours() * 60;
+
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (date.getMinutes() + dateshr_min);
+                                let total = delta_mare * (count / 375) + sortedData2[k].ALT;
+                                mare_por_minuto2.push(total)
+                                console.log(total)
+                            }
+                        }
+                    }
+                    else {
                         console.log('')
                     }
 
@@ -1761,7 +1716,7 @@
 
                 }
             } else {
-                calculo(valor_cal, cal_sup, cal_inf)
+                //calculo(valor_cal, cal_sup, cal_inf)
             }
 
 
