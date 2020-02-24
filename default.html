@@ -154,7 +154,8 @@
             margin-top: 40px;
             width: 100px;
         }
-        .img_logo2{
+
+        .img_logo2 {
             display: none;
         }
 
@@ -165,20 +166,22 @@
             #calado_inf_span {
                 width: 90%;
                 height: 100px;
-                font-size:3.2rem;
+                font-size: 3.2rem;
             }
-            .img_logo{
+
+            .img_logo {
                 display: none;
             }
+
             .img_logo2 {
-                border:none;
+                border: none;
                 margin: auto;
                 display: block;
                 width: 50%;
             }
 
             #time {
-                font-size:3.2rem;
+                font-size: 3.2rem;
                 width: 90%;
                 height: 100px;
             }
@@ -227,7 +230,7 @@
             .row,
             p {
                 margin-top: 20px;
-                font-size:2.9rem;
+                font-size: 2.9rem;
             }
 
             .col-sm {
@@ -245,20 +248,20 @@
                 height: 100px;
                 line-height: 100px;
                 font-size: 50px;
-                background-color:#F0BC33;
+                background-color: #F0BC33;
             }
 
             .leaflet-touch .leaflet-control-layers-toggle {
                 width: 104px;
                 height: 104px;
-                background-color:#F0BC33;
+                background-color: #F0BC33;
             }
 
             #issMap {
                 height: 1500px;
             }
 
-            .container2{
+            .container2 {
                 border: 2px transparent;
                 border-radius: 50px;
                 background-color: white;
@@ -418,9 +421,32 @@
             iconSize: [22, 32, 5],
             iconAnchor: [10, 30],
         });
-        let marker = L.marker([40.645744, -8.665668], {
+
+        //Aveiro centro
+
+        let marker = L.marker([40.64138528006924, -8.654335141181946], {
             icon: issIcon
-        }).addTo(mymap).on('click', onClick);
+        }).addTo(mymap).on('click', getData4GPX);
+
+        //torreira
+
+        let marker2 = L.marker([40.754585,-8.696377], {
+            icon: issIcon
+        }).addTo(mymap).on('click', getDataGPX);
+
+        //gafanha
+
+        let marker3 = L.marker([40.612488, -8.738059], {
+            icon: issIcon
+        }).addTo(mymap).on('click', getData2GPX);
+
+        //Bico
+
+        let marker4 = L.marker([40.727508, -8.648118], {
+            icon: issIcon
+        }).addTo(mymap).on('click', getData3GPX);
+
+
         mymap.on('zoomend', function () {
             const zoom = mymap.getZoom() + 1;
             // const w = 11 * zoom;
@@ -1711,7 +1737,7 @@
                         .bindPopup(popup)
                         .addTo(mymap);
 
-                    
+
 
                     marker.on('mouseover', function (e) {
                         var popup = e.target.getPopup();
