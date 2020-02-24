@@ -430,7 +430,7 @@
 
         //torreira
 
-        let marker2 = L.marker([40.754585,-8.696377], {
+        let marker2 = L.marker([40.754585, -8.696377], {
             icon: issIcon
         }).addTo(mymap).on('click', getDataGPX);
 
@@ -1307,133 +1307,80 @@
                 }
 
                 //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
-                for (let k = 0; k < sortedData.length; k++) {
+                // for (let k = 0; k < sortedData.length; k++) {
 
-                    let date = new Date(sortedData[k].SDATA);
-                    let dataSDATA = date.getHours() + ":" + date.getMinutes();
+                //     let date = new Date(sortedData[k].SDATA);
+                //     let dataSDATA = date.getHours() + ":" + date.getMinutes();
 
-                    if (sortedData[k + 1] != undefined) {
-                        datefrente = new Date(sortedData[k + 1].SDATA);
+                //     if (sortedData[k + 1] != undefined) {
+                //         datefrente = new Date(sortedData[k + 1].SDATA);
+                //     } else {
+                //         console.log('')
+                //     }
+
+
+                let data1 = new Date(sortedData[0].SDATA);
+                let data2 = new Date(sortedData[1].SDATA);
+                let data3 = new Date(sortedData[2].SDATA);
+                let data4 = new Date(sortedData[3].SDATA);
+
+
+
+                //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
+
+                // arrayMares.push(sortedData[k].ALT)
+                // let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
+
+                //Verificação com base nas horas do utilizador qual a maré 
+
+                // if (UserHoras.getHours() >= date.getHours() && UserHoras.getHours() < datefrente.getHours()) {
+
+                //     mareUser.push(sortedData[k].ALT)
+                //     console.log(sortedData[k].ALT)
+                // } else {
+                //     console.log('')
+                // }
+                //arrayhidrografico_posdia
+
+                if (UserHoras.getHours() <= 5) {
+                    if (sortedData_anterior[3].SDATA != null) {
+                        let horas_min_anterior = new Date(sortedData_anterior[3].SDATA);
+                        let delta_mare = sortedData_anterior[3].ALT - sortedData[0].ALT;
+
+                        let usershr_min = UserHoras.getHours() * 60;
+                        let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                        let count = (UserHoras.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                        let total = delta_mare * (count / 375) + sortedData_anterior[3].ALT;
+
+                        mareUser.push(total)
                     } else {
-                        console.log('')
+                        let horas_min_anterior = new Date(sortedData_anterior[2].SDATA);
+                        let delta_mare = sortedData_anterior[2].ALT - sortedData[k].ALT;
+
+                        let usershr_min = UserHoras.getHours() * 60;
+                        let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                        let count = (UserHoras.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                        let total = delta_mare * (count / 375) + sortedData_anterior[2].ALT;
+
+                        mareUser.push(total)
                     }
 
 
 
 
 
-                    //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
-
-                    arrayMares.push(sortedData[k].ALT)
-                    let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
-
-                    //Verificação com base nas horas do utilizador qual a maré 
-
-                    // if (UserHoras.getHours() >= date.getHours() && UserHoras.getHours() < datefrente.getHours()) {
-
-                    //     mareUser.push(sortedData[k].ALT)
-                    //     console.log(sortedData[k].ALT)
-                    // } else {
-                    //     console.log('')
-                    // }
-                    arrayhidrografico_posdia
-                    if (UserHoras.getHours() <= 5) {
-                        if (sortedData_anterior[3].SDATA != null) {
-                            let horas_min_anterior = new Date(sortedData_anterior[3].SDATA);
-                            let delta_mare = sortedData_anterior[3].ALT - sortedData[k].ALT;
-
-                            let usershr_min = UserHoras.getHours() * 60;
-                            let dateshr_min = horas_min_anterior.getHours() * 60;
-
-                            let count = (UserHoras.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
-                            let total = delta_mare * (count / 375) + sortedData_anterior[3].ALT;
-
-                            mareUser.push(total)
+                    for (let p = 1; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto == null) {
+                            mare_por_minuto.push(mareUser[0])
                         } else {
-                            let horas_min_anterior = new Date(sortedData_anterior[2].SDATA);
-                            let delta_mare = sortedData_anterior[2].ALT - sortedData[k].ALT;
+                            console.log(horasdarota_medida[p]) //horas da rota
+                            //let user_adqui_horas_min = new Date(horasdarota_medida[p]);
+                            if (sortedData_anterior[3].SDATA != null) {
+                                let horas_min_anterior = new Date(sortedData_anterior[3].SDATA);
+                                let delta_mare = sortedData_anterior[3].ALT - sortedData[k].ALT;
 
-                            let usershr_min = UserHoras.getHours() * 60;
-                            let dateshr_min = horas_min_anterior.getHours() * 60;
-
-                            let count = (UserHoras.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
-                            let total = delta_mare * (count / 375) + sortedData_anterior[2].ALT;
-
-                            mareUser.push(total)
-                        }
-
-
-
-
-
-                        for (let p = 1; p < horasdarota_medida.length; p++) {
-                            if (mare_por_minuto == null) {
-                                mare_por_minuto.push(mareUser[0])
-                            } else {
-                                console.log(horasdarota_medida[p]) //horas da rota
-                                //let user_adqui_horas_min = new Date(horasdarota_medida[p]);
-                                if (sortedData_anterior[3].SDATA != null) {
-                                    let horas_min_anterior = new Date(sortedData_anterior[3].SDATA);
-                                    let delta_mare = sortedData_anterior[3].ALT - sortedData[k].ALT;
-
-                                    var d = new Date();
-                                    var nday = d.getDay(),
-                                        nmonth = d.getMonth() + 1,
-                                        ndate = d.getDate(),
-                                        nyear = d.getYear();
-                                    if (nyear < 1000) nyear += 1900;
-                                    var splitTime1 = horasdarota_medida[p].split(':');
-
-                                    UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
-
-                                    let usershr_min = UserHor_Min.getHours() * 60;
-                                    let dateshr_min = horas_min_anterior.getHours() * 60;
-
-                                    let count = (UserHor_Min.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
-                                    let total = delta_mare * (count / 375) + sortedData_anterior[3].ALT;
-                                    mare_por_minuto.push(total)
-                                } else {
-                                    let horas_min_anterior = new Date(sortedData_anterior[2].SDATA);
-                                    let delta_mare = sortedData_anterior[2].ALT - sortedData[k].ALT;
-
-                                    var d = new Date();
-                                    var nday = d.getDay(),
-                                        nmonth = d.getMonth() + 1,
-                                        ndate = d.getDate(),
-                                        nyear = d.getYear();
-                                    if (nyear < 1000) nyear += 1900;
-                                    var splitTime1 = horasdarota_medida[p].split(':');
-
-                                    UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
-
-                                    let usershr_min = UserHor_Min.getHours() * 60;
-                                    let dateshr_min = horas_min_anterior.getHours() * 60;
-
-                                    let count = (UserHor_Min.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
-                                    let total = delta_mare * (count / 375) + sortedData_anterior[2].ALT;
-                                    mare_por_minuto.push(total)
-
-                                }
-
-                            }
-                            //mare_por_minuto.push();
-                        }
-
-
-                    } else if (UserHoras.getHours() >= date.getHours() && UserHoras.getHours() < datefrente.getHours()) {
-
-                        let delta_mare = sortedData[k + 1].ALT - sortedData[k].ALT;
-                        let usershr_min = UserHoras.getHours() * 60;
-                        let dateshr_min = date.getHours() * 60;
-
-                        let count = (UserHoras.getMinutes() + usershr_min) - (date.getMinutes() + dateshr_min);
-                        let total = delta_mare * (count / 375) + sortedData[k].ALT;
-
-                        mareUser.push(total)
-                        for (let p = 1; p < horasdarota_medida.length; p++) {
-                            if (mare_por_minuto == null) {
-                                mare_por_minuto.push(mareUser[0])
-                            } else {
                                 var d = new Date();
                                 var nday = d.getDay(),
                                     nmonth = d.getMonth() + 1,
@@ -1441,22 +1388,79 @@
                                     nyear = d.getYear();
                                 if (nyear < 1000) nyear += 1900;
                                 var splitTime1 = horasdarota_medida[p].split(':');
+
                                 UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
 
-                                let delta_mare = sortedData[k + 1].ALT - sortedData[k].ALT;
+                                let usershr_min = UserHor_Min.getHours() * 60;
+                                let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                                let count = (UserHor_Min.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                                let total = delta_mare * (count / 375) + sortedData_anterior[3].ALT;
+                                mare_por_minuto.push(total)
+                            } else {
+                                let horas_min_anterior = new Date(sortedData_anterior[2].SDATA);
+                                let delta_mare = sortedData_anterior[2].ALT - sortedData[k].ALT;
+
+                                var d = new Date();
+                                var nday = d.getDay(),
+                                    nmonth = d.getMonth() + 1,
+                                    ndate = d.getDate(),
+                                    nyear = d.getYear();
+                                if (nyear < 1000) nyear += 1900;
+                                var splitTime1 = horasdarota_medida[p].split(':');
+
+                                UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
 
                                 let usershr_min = UserHor_Min.getHours() * 60;
-                                let dateshr_min = date.getHours() * 60;
+                                let dateshr_min = horas_min_anterior.getHours() * 60;
 
-                                let count = (UserHor_Min.getMinutes() + usershr_min) - (date.getMinutes() + dateshr_min);
-                                let total = delta_mare * (count / 375) + sortedData[k].ALT;
+                                let count = (UserHor_Min.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                                let total = delta_mare * (count / 375) + sortedData_anterior[2].ALT;
                                 mare_por_minuto.push(total)
+
                             }
-                            //mare_por_minuto.push();
+
                         }
-                    } else {
-                        console.log('')
+                        //mare_por_minuto.push();
                     }
+
+
+                } else if (UserHoras.getHours() >= date.getHours() && UserHoras.getHours() < datefrente.getHours()) {
+
+                    let delta_mare = sortedData[k + 1].ALT - sortedData[k].ALT;
+                    let usershr_min = UserHoras.getHours() * 60;
+                    let dateshr_min = date.getHours() * 60;
+
+                    let count = (UserHoras.getMinutes() + usershr_min) - (date.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData[k].ALT;
+
+                    mareUser.push(total)
+                    for (let p = 1; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto == null) {
+                            mare_por_minuto.push(mareUser[0])
+                        } else {
+                            var d = new Date();
+                            var nday = d.getDay(),
+                                nmonth = d.getMonth() + 1,
+                                ndate = d.getDate(),
+                                nyear = d.getYear();
+                            if (nyear < 1000) nyear += 1900;
+                            var splitTime1 = horasdarota_medida[p].split(':');
+                            UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                            let delta_mare = sortedData[k + 1].ALT - sortedData[k].ALT;
+
+                            let usershr_min = UserHor_Min.getHours() * 60;
+                            let dateshr_min = date.getHours() * 60;
+
+                            let count = (UserHor_Min.getMinutes() + usershr_min) - (date.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData[k].ALT;
+                            mare_por_minuto.push(total)
+                        }
+                        //mare_por_minuto.push();
+                    }
+                } else {
+                    console.log('')
                 }
 
             }
@@ -1531,158 +1535,221 @@
 
                 let mare_combase_tempo_2 = [];
                 //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
-                for (let k = 0; k < sortedData2.length; k++) {
+                // for (let k = 0; k < sortedData2.length; k++) {
 
-                    let date = new Date(sortedData2[k].SDATA);
-                    let dataSDATA = date.getHours() + ":" + date.getMinutes();
+                //     let date = new Date(sortedData2[k].SDATA);
+                //     let dataSDATA = date.getHours() + ":" + date.getMinutes();
 
-                    if (sortedData2[k + 1] != undefined) {
-                        datefrente = new Date(sortedData2[k + 1].SDATA);
+                //     if (sortedData2[k + 1] != undefined) {
+                //         datefrente = new Date(sortedData2[k + 1].SDATA);
+                //     } else {
+                //         console.log('')
+                //     }
+
+                let data1 = new Date(sortedData2[0].SDATA);
+                let data2 = new Date(sortedData2[1].SDATA);
+                let data3 = new Date(sortedData2[2].SDATA);
+                let data4 = new Date(sortedData2[3].SDATA);
+
+                //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
+                //arrayMares2.push(sortedData2[k].ALT)
+                //let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
+                if (UserHoras2.getHours() <= data1.getHours()) {
+                    console.log("if 01")
+                    if (sortedData2_anterior[3] != null) {
+                        let horas_min_anterior = new Date(sortedData2_anterior[3].SDATA);
+                        let delta_mare = sortedData2_anterior[3].ALT - sortedData2[0].ALT;
+
+                        let usershr_min = UserHoras2.getHours() * 60;
+                        let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                        let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                        let total = delta_mare * (count / 375) + sortedData2_anterior[3].ALT;
+
+                        mareUser2.push(total)
                     } else {
-                        console.log('')
+                        let horas_min_anterior = new Date(sortedData2_anterior[2].SDATA);
+                        let delta_mare = sortedData2_anterior[2].ALT - sortedData2[0].ALT;
+
+                        let usershr_min = UserHoras2.getHours() * 60;
+                        let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                        let dia_ant = (24 * 60) - (horas_min_anterior.getMinutes() + dateshr_min);
+                        let count = (UserHoras2.getMinutes() + usershr_min) + dia_ant;
+
+                        let total = delta_mare * (count / 375) + sortedData2_anterior[2].ALT;
+                        mareUser2.push(total)
                     }
 
-                    //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
-                    //arrayMares2.push(sortedData2[k].ALT)
-                    //let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
 
-                    if (UserHoras2.getHours() <= 5) {
 
-                        if (sortedData2_anterior[3] != null) {
-                            let horas_min_anterior = new Date(sortedData2_anterior[3].SDATA);
-                            let delta_mare = sortedData2_anterior[3].ALT - sortedData2[0].ALT;
-
-                            let usershr_min = UserHoras2.getHours() * 60;
-                            let dateshr_min = horas_min_anterior.getHours() * 60;
-
-                            let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
-                            let total = delta_mare * (count / 375) + sortedData2_anterior[3].ALT;
-
-                            mareUser2.push(total)
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto == null) {
+                            mare_por_minuto.push(mareUser2[0])
                         } else {
-                            let horas_min_anterior = new Date(sortedData2_anterior[2].SDATA);
-                            let delta_mare = sortedData2_anterior[2].ALT - sortedData2[0].ALT;
+                            //let user_adqui_horas_min = new Date(horasdarota_medida[p]);
+
+                            var d = new Date();
+                            var nday = d.getDay(),
+                                nmonth = d.getMonth() + 1,
+                                ndate = d.getDate(),
+                                nyear = d.getYear();
+                            if (nyear < 1000) nyear += 1900;
+                            var splitTime1 = horasdarota_medida[p].split(':');
+
+                            UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                            if (sortedData2_anterior[3] != null) {
+                                let horas_min_anterior = new Date(sortedData2_anterior[3].SDATA);
+                                let delta_mare = sortedData2_anterior[3].ALT - sortedData[k].ALT;
+
+                                let usershr_min = UserHor_Min.getHours() * 60;
+                                let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                                let total = delta_mare * (count / 375) + sortedData2_anterior[3].ALT;
+                                mare_por_minuto2.push(total)
+
+                            } else {
+                                let horas_min_anterior = new Date(sortedData2_anterior[2].SDATA);
+                                let delta_mare = sortedData2_anterior[2].ALT - sortedData[k].ALT;
+
+                                let usershr_min = UserHor_Min.getHours() * 60;
+                                let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+
+                                let total = delta_mare * (count / 375) + sortedData2_anterior[2].ALT;
+                                mare_por_minuto2.push(total)
+
+                            }
+
+                        }
+                        //console.log(mare_por_minuto);
+                    }
+
+
+                }
+                //else if (UserHoras2.getHours() >= date.getHours() && UserHoras2.getHours() < datefrente.getHours()) {
+                else if (UserHoras2.getHours() >= data1.getHours() && UserHoras2.getHours() < data2.getHours()) {
+                    console.log("if 02")
+                    let delta_mare = sortedData2[1].ALT - sortedData2[0].ALT;
+                    let usershr_min = UserHoras2.getHours() * 60;
+                    let dateshr_min = data1.getHours() * 60;
+
+                    let count = (UserHoras2.getMinutes() + usershr_min) - (data1.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData2[0].ALT;
+
+                    mareUser2.push(total)
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto2 == null) {
+                            mare_por_minuto2.push(mareUser2[0])
+                        } else {
+                            let delta_mare = sortedData2[1].ALT - sortedData2[0].ALT;
 
                             let usershr_min = UserHoras2.getHours() * 60;
-                            let dateshr_min = horas_min_anterior.getHours() * 60;
+                            let dateshr_min = data1.getHours() * 60;
 
-                            let dia_ant = (24 * 60) - (horas_min_anterior.getMinutes() + dateshr_min);
-                            let count = (UserHoras2.getMinutes() + usershr_min) + dia_ant;
-
-                            let total = delta_mare * (count / 375) + sortedData2_anterior[2].ALT;
-                            mareUser2.push(total)
+                            let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data1.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData2[0].ALT;
+                            mare_por_minuto2.push(total)
                         }
-
-
-
-                        for (let p = 0; p < horasdarota_medida.length; p++) {
-                            if (mare_por_minuto == null) {
-                                mare_por_minuto.push(mareUser2[0])
-                            } else {
-                                //let user_adqui_horas_min = new Date(horasdarota_medida[p]);
-
-                                var d = new Date();
-                                var nday = d.getDay(),
-                                    nmonth = d.getMonth() + 1,
-                                    ndate = d.getDate(),
-                                    nyear = d.getYear();
-                                if (nyear < 1000) nyear += 1900;
-                                var splitTime1 = horasdarota_medida[p].split(':');
-
-                                UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
-
-                                if (sortedData2_anterior[3] != null) {
-                                    let horas_min_anterior = new Date(sortedData2_anterior[3].SDATA);
-                                    let delta_mare = sortedData2_anterior[3].ALT - sortedData[k].ALT;
-
-                                    let usershr_min = UserHor_Min.getHours() * 60;
-                                    let dateshr_min = horas_min_anterior.getHours() * 60;
-
-                                    let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
-                                    let total = delta_mare * (count / 375) + sortedData2_anterior[3].ALT;
-                                    mare_por_minuto2.push(total)
-
-                                } else {
-                                    let horas_min_anterior = new Date(sortedData2_anterior[2].SDATA);
-                                    let delta_mare = sortedData2_anterior[2].ALT - sortedData[k].ALT;
-
-                                    let usershr_min = UserHor_Min.getHours() * 60;
-                                    let dateshr_min = horas_min_anterior.getHours() * 60;
-
-                                    let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
-
-                                    let total = delta_mare * (count / 375) + sortedData2_anterior[2].ALT;
-                                    mare_por_minuto2.push(total)
-
-                                    console.log(total)
-                                }
-
-                            }
-                            //console.log(mare_por_minuto);
-                        }
-
-
-                    } else if (UserHoras2.getHours() >= date.getHours() && UserHoras2.getHours() < datefrente.getHours()) {
-
-                        let delta_mare = sortedData2[k + 1].ALT - sortedData2[k].ALT;
-                        let usershr_min = UserHoras2.getHours() * 60;
-                        let dateshr_min = date.getHours() * 60;
-
-                        let count = (UserHoras2.getMinutes() + usershr_min) - (date.getMinutes() + dateshr_min);
-                        let total = delta_mare * (count / 375) + sortedData2[k].ALT;
-                        mareUser2.push(total)
-                        for (let p = 0; p < horasdarota_medida.length; p++) {
-                            if (mare_por_minuto2 == null) {
-                                mare_por_minuto2.push(mareUser2[0])
-                            } else {
-                                let delta_mare = sortedData2[k + 1].ALT - sortedData2[k].ALT;
-
-                                let usershr_min = UserHoras2.getHours() * 60;
-                                let dateshr_min = date.getHours() * 60;
-
-                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (date.getMinutes() + dateshr_min);
-                                let total = delta_mare * (count / 375) + sortedData2[k].ALT;
-                                mare_por_minuto2.push(total)
-                                console.log(total)
-                            }
-                        }
-
-                    } else if (UserHoras2.getHours() >= datefrente.getHours()) {
-
-                        let horas_min_seguinte = new Date(sortedData2_seguinte[3].SDATA);
-                        let delta_mare;
-
-                        delta_mare = sortedData2_seguinte[0].ALT - sortedData2[k].ALT;
-
-
-                        let usershr_min = UserHoras2.getHours() * 60;
-                        let dateshr_min = horas_min_seguinte.getHours() * 60;
-
-                        let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
-                        let total = delta_mare * (count / 375) + sortedData2[k].ALT;
-
-                        mareUser2.push(total)
-                        for (let p = 0; p < horasdarota_medida.length; p++) {
-                            if (mare_por_minuto2 == null) {
-                                mare_por_minuto2.push(mareUser2[0])
-                            } else {
-                                delta_mare = sortedData2_seguinte[0].ALT - sortedData2[k].ALT;
-
-                                let usershr_min = UserHoras2.getHours() * 60;
-                                let dateshr_min = date.getHours() * 60;
-
-                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (date.getMinutes() + dateshr_min);
-                                let total = delta_mare * (count / 375) + sortedData2[k].ALT;
-                                mare_por_minuto2.push(total)
-                                console.log(total)
-                            }
-                        }
-                    }
-                    else {
-                        console.log('')
                     }
 
                 }
+                else if (UserHoras2.getHours() >= data2.getHours() && UserHoras2.getHours() < data3.getHours()) {
+                    console.log("if 03")
+                    let delta_mare = sortedData2[2].ALT - sortedData2[1].ALT;
+                    let usershr_min = UserHoras2.getHours() * 60;
+                    let dateshr_min = data2.getHours() * 60;
+
+                    let count = (UserHoras2.getMinutes() + usershr_min) - (data2.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData2[1].ALT;
+
+                    mareUser2.push(total)
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto2 == null) {
+                            mare_por_minuto2.push(mareUser2[0])
+                        } else {
+                            let delta_mare = sortedData2[2].ALT - sortedData2[1].ALT;
+
+                            let usershr_min = UserHoras2.getHours() * 60;
+                            let dateshr_min = data2.getHours() * 60;
+
+                            let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data2.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData2[1].ALT;
+                            mare_por_minuto2.push(total)
+                        }
+                    }
+
+                }
+                else if (UserHoras2.getHours() >= data3.getHours() && UserHoras2.getHours() < data4.getHours()) {
+                    console.log("if 04")
+
+                    let delta_mare = sortedData2[3].ALT - sortedData2[2].ALT;
+                    let usershr_min = UserHoras2.getHours() * 60;
+                    let dateshr_min = data3.getHours() * 60;
+
+                    let count = (UserHoras2.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData2[2].ALT;
+
+                    mareUser2.push(total)
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto2 == null) {
+                            mare_por_minuto2.push(mareUser2[0])
+                        } else {
+                            let delta_mare = sortedData2[3].ALT - sortedData2[2].ALT;
+
+                            let usershr_min = UserHoras2.getHours() * 60;
+                            let dateshr_min = data3.getHours() * 60;
+
+                            let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data3.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData2[2].ALT;
+                            mare_por_minuto2.push(total)
+                        }
+                    }
+
+                }
+
+                else if (UserHoras2.getHours() >= data4.getHours()) {
+
+                    console.log("if 05")
+
+
+                    let horas_min_seguinte = new Date(sortedData2_seguinte[0].SDATA);
+                    let delta_mare;
+
+                    delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
+                    console.log(sortedData2[3].ALT)
+                    console.log(sortedData2_seguinte[0].ALT)
+
+                    let usershr_min = UserHoras2.getHours() * 60;
+                    let dateshr_min = horas_min_seguinte.getHours() * 60;
+
+                    let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
+                    let total = delta_mare * (count / 375) + sortedData2[3].ALT;
+
+                    mareUser2.push(total)
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto2 == null) {
+                            mare_por_minuto2.push(mareUser2[0])
+                        } else {
+                            delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
+
+                            let usershr_min = UserHoras2.getHours() * 60;
+                            let dateshr_min = data4.getHours() * 60;
+
+                            let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data4.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData2[3].ALT;
+                            mare_por_minuto2.push(total)
+                        }
+                    }
+                }
+                else {
+                    console.log('')
+                }
+
+                //}
 
             }
 
