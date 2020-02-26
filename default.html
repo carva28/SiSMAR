@@ -267,6 +267,29 @@
                 background-color: white;
             }
         }
+
+        #load_fetch {
+            display: none;
+            z-index: 999999999;
+            position: absolute;
+            font-size: 50px;
+            top: 250px;
+            /* text-align: center; */
+            right: 0;
+            left: 0;
+            /* margin: auto; */
+            /* position: relative; */
+            /* display: flex; */
+            justify-content: center;
+            /* display: block; */
+            background-color: rgb(255, 238, 217);
+            /* padding: 10%;*/
+        }
+
+        #load_fetch h2{
+            text-align: center;
+            padding: 5%;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
 
@@ -284,8 +307,8 @@
 
             <div class="col-sm">
                 <p>Calado metro(s)</p>
-                <input type="range" id="calado_span" name="calado_span" 
-                min="0" max="5" step="0.1" oninput="amount.value=calado_span.value">
+                <input type="range" id="calado_span" name="calado_span" min="0" max="5" step="0.1"
+                    oninput="amount.value=calado_span.value">
                 <output name="amount" id="amount" for="calado_span">2.5</output>
 
                 <!-- <input type="number" id="calado_span" min="1" max="5" /> -->
@@ -352,7 +375,9 @@
     </div>
     </div>
     <div id="issMap"></div>
-
+    <div id="load_fetch">
+        <h2>Carregando...</h2>
+    </div>
     <script>
         var calado = 1;
         var velocidademedia;
@@ -1103,10 +1128,9 @@
         }
 
         function changeValue(e) {
-            
+
 
             var valorInput = document.getElementById('calado_span').value;
-            console.log(valorInput)
             document.getElementById('amount').value = valorInput;
 
             var valorInput2 = document.getElementById('calado_sup_span').value;
@@ -1114,6 +1138,8 @@
             if (valorInput != "" && valorInput2 != "" && valorInput3 != "") {
                 if (array_hidrografico_simulacao_API.length > 0) {
                     calculo(valorInput, valorInput2, valorInput3);
+                }else{
+                    document.getElementById('load_fetch').style.display="block";
                 }
             } else {
                 if (array_hidrografico_simulacao_API.length > 0) {
@@ -1122,6 +1148,8 @@
                     margemcaladoInf = 0.1;
                     calculo(1, 0.2, 0.1);
                     document.getElementById('amount').value = calado;
+                }else{
+                    document.getElementById('load_fetch').style.display="block";
                 }
             }
 
@@ -1961,6 +1989,8 @@
                 }
 
 
+            }else{
+                console.log('second if arrayhidro nao tem data')
             }
 
 
@@ -2003,7 +2033,7 @@
                         var splitTime1 = horas_pontos_user[i].split(':');
 
                         User_Tempo_cada_coor = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
-                       
+
                     }
 
                     // popup2 = L.popup()
@@ -2164,6 +2194,7 @@
                 }
             } else {
                 console.log('Else_sem_rota')
+                //getInfo();
                 //calculo(valor_cal, cal_sup, cal_inf)
             }
 
