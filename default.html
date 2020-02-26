@@ -159,6 +159,25 @@
             display: none;
         }
 
+        input[type="range"] {
+            -webkit-appearance: none;
+            background-color: #1f3436;
+            height: 15px;
+            width: 180px;
+            border-radius: 10px;
+            box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            /*background: #4e5353;*/
+            background: url('iss200.png');
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
+        }
+
         @media only screen and (max-device-width: 500px) {
 
             #calado_span,
@@ -266,6 +285,10 @@
                 border-radius: 50px;
                 background-color: white;
             }
+
+            input[type="range"] {
+                width: 50%;
+            }
         }
 
         #load_fetch {
@@ -286,7 +309,7 @@
             /* padding: 10%;*/
         }
 
-        #load_fetch h2{
+        #load_fetch h2 {
             text-align: center;
             padding: 5%;
         }
@@ -1138,8 +1161,8 @@
             if (valorInput != "" && valorInput2 != "" && valorInput3 != "") {
                 if (array_hidrografico_simulacao_API.length > 0) {
                     calculo(valorInput, valorInput2, valorInput3);
-                }else{
-                    document.getElementById('load_fetch').style.display="block";
+                } else {
+                    document.getElementById('load_fetch').style.display = "block";
                 }
             } else {
                 if (array_hidrografico_simulacao_API.length > 0) {
@@ -1148,8 +1171,8 @@
                     margemcaladoInf = 0.1;
                     calculo(1, 0.2, 0.1);
                     document.getElementById('amount').value = calado;
-                }else{
-                    document.getElementById('load_fetch').style.display="block";
+                } else {
+                    document.getElementById('load_fetch').style.display = "block";
                 }
             }
 
@@ -1989,7 +2012,7 @@
                 }
 
 
-            }else{
+            } else {
                 console.log('second if arrayhidro nao tem data')
             }
 
