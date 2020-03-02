@@ -1319,6 +1319,34 @@
             console.log(arrayhidrografico)
 
             if (arrayhidrografico.length > 0) {
+                if(arrayhidrografico[0][0] != null){
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + arrayhidrografico[0][0].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + arrayhidrografico[0][1].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + arrayhidrografico[0][2].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + arrayhidrografico[0][3].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+                }
                 if(arrayhidrografico[2] != null){
                     document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
                     "<th scope='col'>Data</th>" +
