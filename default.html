@@ -1319,7 +1319,35 @@
             console.log(arrayhidrografico)
 
             if (arrayhidrografico.length > 0) {
-                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                if(arrayhidrografico[2] != null){
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + arrayhidrografico[2][0].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[2][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + arrayhidrografico[2][1].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[2][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + arrayhidrografico[2][2].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[2][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + arrayhidrografico[2][3].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[2][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+                }else{
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
                     "<th scope='col'>Data</th>" +
                     "<th scope='col'>Altura Maré</th>" +
                     "</tr></thead>" +
@@ -1345,6 +1373,8 @@
                     "<td>" + arrayhidrografico[1][3].ALT + "</td>" +
                     "</tr>" +
                     "</tbody></table>";
+                }
+              
             }
         }
 
