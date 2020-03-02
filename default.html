@@ -59,7 +59,7 @@
 
         #calado_span,
         #calado_sup_span,
-        #calado_inf_span {
+        #calado_inf_span,#date {
             margin: auto;
             display: block;
             margin-bottom: 20px;
@@ -351,8 +351,6 @@
             <div class="col-sm">
                 <p>Limite Superior</p>
                 <input type="number" id="calado_sup_span" value="0.2" min="0.1" max="0.9" step="0.1" />
-
-
             </div>
             <div class="col-sm">
                 <p>Limite Inferior</p>
@@ -361,6 +359,7 @@
             <div class="col-sm">
                 <p>TIR</p>
                 <input type="time" id="time" />
+                <input id="date" type="date"  onchange="getInfo_outraData()">
             </div>
             <div class="col-sm">
                 <p>ETA</p>
@@ -415,9 +414,12 @@
                             <!-- Modal body -->
                             <div class="modal-body">
                                 <div class="row ">
-                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia15()">Dia 15/08/2019</button>
-                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia16()">Dia 16/08/2019</button>
-                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia17()">Dia 17/08/2019</button>
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia15()">Dia
+                                        15/08/2019</button>
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia16()">Dia
+                                        16/08/2019</button>
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia17()">Dia
+                                        17/08/2019</button>
                                 </div>
                                 <div class="row ">
                                     <button class="btn btn-dark" onclick="onclick_modal_data_ontem()">Ontem</button>
@@ -572,7 +574,6 @@
         });
 
         L.control.scale().addTo(mymap);
-
 
         //Localização do Utilizador
         mymap.locate({
@@ -1152,6 +1153,7 @@
             array_hidrografico_simulacao_API_anterior.push(json3)
         }
 
+
         function onclick_modal_data_amanha() {
             if (array_hidrografico_simulacao_API_diapos.length > 0) {
                 document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
@@ -1249,7 +1251,7 @@
 
         async function getInfo2(ano, mes, dia) {
 
-            console.log(ano+ "---" + mes + "---" +dia);
+            console.log(ano + "---" + mes + "---" + dia);
 
             arrayhidrografico = [];
 
@@ -1319,96 +1321,96 @@
             console.log(arrayhidrografico)
 
             if (arrayhidrografico.length > 0) {
-                if(arrayhidrografico[0][0] != null){
+                if (arrayhidrografico[0][0] != null) {
                     document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                    "<th scope='col'>Data</th>" +
-                    "<th scope='col'>Altura Maré</th>" +
-                    "</tr></thead>" +
-                    "<tbody>" +
-                    "<tr>" +
-                    "<th scope='row'>1</th>" +
-                    "<td>" + arrayhidrografico[0][0].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[0][0].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>2</th>" +
-                    "<td>" + arrayhidrografico[0][1].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[0][1].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>3</th>" +
-                    "<td>" + arrayhidrografico[0][2].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[0][2].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>4</th>" +
-                    "<td>" + arrayhidrografico[0][3].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[0][3].ALT + "</td>" +
-                    "</tr>" +
-                    "</tbody></table>";
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + arrayhidrografico[0][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + arrayhidrografico[0][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + arrayhidrografico[0][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + arrayhidrografico[0][3].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[0][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
                 }
-                if(arrayhidrografico[2] != null){
+                if (arrayhidrografico[2] != null) {
                     document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                    "<th scope='col'>Data</th>" +
-                    "<th scope='col'>Altura Maré</th>" +
-                    "</tr></thead>" +
-                    "<tbody>" +
-                    "<tr>" +
-                    "<th scope='row'>1</th>" +
-                    "<td>" + arrayhidrografico[2][0].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[2][0].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>2</th>" +
-                    "<td>" + arrayhidrografico[2][1].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[2][1].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>3</th>" +
-                    "<td>" + arrayhidrografico[2][2].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[2][2].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>4</th>" +
-                    "<td>" + arrayhidrografico[2][3].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[2][3].ALT + "</td>" +
-                    "</tr>" +
-                    "</tbody></table>";
-                }else{
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + arrayhidrografico[2][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[2][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + arrayhidrografico[2][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[2][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + arrayhidrografico[2][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[2][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + arrayhidrografico[2][3].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[2][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                } else {
                     document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                    "<th scope='col'>Data</th>" +
-                    "<th scope='col'>Altura Maré</th>" +
-                    "</tr></thead>" +
-                    "<tbody>" +
-                    "<tr>" +
-                    "<th scope='row'>1</th>" +
-                    "<td>" + arrayhidrografico[1][0].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[1][0].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>2</th>" +
-                    "<td>" + arrayhidrografico[1][1].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[1][1].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>3</th>" +
-                    "<td>" + arrayhidrografico[1][2].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[1][2].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>4</th>" +
-                    "<td>" + arrayhidrografico[1][3].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico[1][3].ALT + "</td>" +
-                    "</tr>" +
-                    "</tbody></table>";
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + arrayhidrografico[1][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[1][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + arrayhidrografico[1][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[1][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + arrayhidrografico[1][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[1][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + arrayhidrografico[1][3].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[1][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
                 }
-              
+
             }
         }
 
         function onclick_modal_data_ondia17() {
-            if(arrayhidrografico_posdia.length > 0){
-            document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+            if (arrayhidrografico_posdia.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
                     "<th scope='col'>Data</th>" +
                     "<th scope='col'>Altura Maré</th>" +
                     "</tr></thead>" +
@@ -1435,7 +1437,57 @@
                     "</tr>" +
                     "</tbody></table>";
             }
-        }       
+        }
+
+
+        async function getInfo_outraData() {
+            array_hidrografico_simulacao_API = [];
+            array_hidrografico_simulacao_API_diapos = [];
+            array_hidrografico_simulacao_API_anterior = [];
+
+            console.log(array_hidrografico_simulacao_API)
+            console.log(array_hidrografico_simulacao_API_diapos)
+            console.log(array_hidrografico_simulacao_API_anterior)
+            //arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            mare_por_minuto = [];
+            horas_escolh = new Date(document.getElementById('date').value);
+            var nday = horas_escolh.getDay(),
+                nmonth = horas_escolh.getMonth(),
+                ndate = horas_escolh.getDate(),
+                nyear = horas_escolh.getYear();
+            if (nyear < 1000) nyear += 1900;
+            mes = nmonth + 1;
+
+            let dia_pos = ndate + 1;
+            let dia_ant = ndate - 1;
+
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
+            const url_tes = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url_tes) // https://cors-anywhere.herokuapp.com/https://example.com
+                .then(response => response.json())
+                .then(contents => array_hidrografico_simulacao_API.push(contents))
+                .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
+
+
+            const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
+            const response2 = await fetch(proxyurl + url_posterior);
+            const json2 = await response2.json();
+            array_hidrografico_simulacao_API_diapos.push(json2)
+
+            const url_anterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_ant + '&nd=0'; // site that doesn’t send Access-Control-*
+            const response3 = await fetch(proxyurl + url_anterior);
+            const json3 = await response3.json();
+            array_hidrografico_simulacao_API_anterior.push(json3)
+
+            console.log(array_hidrografico_simulacao_API_anterior)
+        }
+
+
+
+
 
         function changeValue(e) {
 
@@ -1979,7 +2031,7 @@
 
                     let datefrente;
                     for (let j = 0; j < array_hidrografico_simulacao_API[i].length; j++) {
-
+                        console.log(array_hidrografico_simulacao_API[i][j])
                         //Informação da maré do site hidrografico
                         let date = new Date(array_hidrografico_simulacao_API[i][j].SDATA);
                         let horatempoAPI = date.getHours() + ":" + date.getMinutes();
@@ -2397,8 +2449,33 @@
 
 
 
+                    if (Z2_NOvaRota <= 0) {
+                        if (coordenadas[i + 1] != undefined) {
+                            //console.log('verde' + verificarRota)
+                            var myLines4 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
 
-                    if (z2_menos_calado < margemcaladoInf) {
+                            var myStyle4 = {
+                                radius: 8,
+                                color: "black",
+                                weight: 5,
+                                opacity: 1,
+                            };
+
+                            linesFeatureLayer4 = L.geoJson(myLines4, {
+                                style: myStyle4
+                            });
+                            linesFeatureLayer4.addTo(mymap);
+                        }
+                    }
+                    else if (z2_menos_calado < margemcaladoInf) {
                         if (coordenadas[i + 1] != undefined) {
                             var myLines1 = [{
                                 "type": "LineString",
@@ -2457,32 +2534,9 @@
                         } else {
                             console.log('')
                         }
-                    } else if (z2_menos_calado <= 0) {
-                        if (coordenadas[i + 1] != undefined) {
-                            //console.log('verde' + verificarRota)
-                            var myLines4 = [{
-                                "type": "LineString",
-                                'coordinates': [
-                                    [coordenadas[i][0], coordenadas[i][1]],
-                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
-                                ]
-                            }];
-                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
-                            arDistan.push(distancia.toFixed(2));
+                    }
 
-                            var myStyle4 = {
-                                radius: 8,
-                                color: "black",
-                                weight: 5,
-                                opacity: 1,
-                            };
-
-                            linesFeatureLayer4 = L.geoJson(myLines4, {
-                                style: myStyle4
-                            });
-                            linesFeatureLayer4.addTo(mymap);
-                        }
-                    } else if (z2_menos_calado >= margemcaladoSup) {
+                    else if (z2_menos_calado >= margemcaladoSup) {
 
                         if (coordenadas[i + 1] != undefined) {
                             //console.log('verde' + verificarRota)
