@@ -21,7 +21,10 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
     <style>
         h2 {
@@ -347,13 +350,13 @@
             </div>
             <div class="col-sm">
                 <p>Limite Superior</p>
-                <input type="number" id="calado_sup_span" min="0.1" max="0.9" step="0.1" />
+                <input type="number" id="calado_sup_span" value="0.2" min="0.1" max="0.9" step="0.1" />
 
 
             </div>
             <div class="col-sm">
                 <p>Limite Inferior</p>
-                <input type="number" id="calado_inf_span" min="0.1" max="0.9" step="0.1" />
+                <input type="number" id="calado_inf_span" value="0.1" min="0.1" max="0.9" step="0.1" />
             </div>
             <div class="col-sm">
                 <p>TIR</p>
@@ -361,7 +364,7 @@
             </div>
             <div class="col-sm">
                 <p>ETA</p>
-                <output name="eta" id="eta" ></output>
+                <output name="eta" id="eta"></output>
             </div>
             <div class="col-sm">
                 <button type="button" class="btn btn-dark btn_color_sim" onclick="changeValue()">Simular</button>
@@ -392,6 +395,50 @@
                      <i class="fa fa-ship"></i>
                 </button>
             </div> -->
+            <div class="col-sm">
+                <!-- Button to Open the Modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    Informação Hidrográfico
+                </button>
+
+                <!-- The Modal -->
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Data Instituto Hidrográfico</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="row ">
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia15()">Dia 15/08/2019</button>
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia16()">Dia 16/08/2019</button>
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia17()">Dia 17/08/2019</button>
+                                </div>
+                                <div class="row ">
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_ontem()">Ontem</button>
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_hoje()">Hoje</button>
+                                    <button class="btn btn-dark" onclick="onclick_modal_data_amanha()">Amanhã</button>
+                                </div>
+                                <!-- <div id="escrever_data_ant"></div>
+                                <div id="escrever_data_hoje"></div>
+                                <div id="escrever_data_amanha"></div> -->
+                                <div id="escrever_data"></div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-sm">
                 <button type="button" class="btn btn_rota" onclick="getData3GPX()">Cais do Bico</button>
             </div>
@@ -965,6 +1012,7 @@
             }
         }
     </script>
+
     <script>
         var arrayhidrografico = [];
         var array_hidrografico_simulacao_API = [],
@@ -1102,30 +1150,101 @@
             const response3 = await fetch(proxyurl + url_anterior);
             const json3 = await response3.json();
             array_hidrografico_simulacao_API_anterior.push(json3)
-
-            console.log(array_hidrografico_simulacao_API)
-            console.log(array_hidrografico_simulacao_API_diapos)
-            console.log(array_hidrografico_simulacao_API_anterior)
-
-            //const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
-            // fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
-            //     .then(response => response.json())
-            //     .then(contents => array_hidrografico_simulacao_API.push(contents))
-            //     .then(contents => arrayhidrografico.push(contents))
-            //     .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
-
-            // const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
-            // fetch(proxyurl + url_posterior) // https://cors-anywhere.herokuapp.com/https://example.com
-            //     .then(response => response.json())
-            //     .then(contents => array_hidrografico_simulacao_API_diapos.push(contents))
-            //     .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
-
-            // const url_anterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + dia_ant + '&nd=0'; // site that doesn’t send Access-Control-*
-            // fetch(proxyurl + url_anterior) // https://cors-anywhere.herokuapp.com/https://example.com
-            //     .then(response => response.json())
-            //     .then(contents => array_hidrografico_simulacao_API_anterior.push(contents))
-            //     .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
         }
+
+        function onclick_modal_data_amanha() {
+            if (array_hidrografico_simulacao_API_diapos.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][0].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][1].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][2].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][3].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+
+        function onclick_modal_data_ontem() {
+            if (array_hidrografico_simulacao_API_anterior.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][0].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][1].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][2].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][3].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+        function onclick_modal_data_hoje() {
+            if (array_hidrografico_simulacao_API.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][0].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][1].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][2].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][3].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+
+
         var arrayhidrografico_posdia = [], arrayhidrografico_anteriordia = [];
 
         async function getInfo2(ano, mes, dia) {
@@ -1161,8 +1280,102 @@
                 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
         }
 
-        function changeValue(e) {
 
+        function onclick_modal_data_ondia15() {
+            if (arrayhidrografico_anteriordia.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][0].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][1].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][2].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][3].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+
+        function onclick_modal_data_ondia16() {
+        
+            if (arrayhidrografico.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + arrayhidrografico[1][0].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[1][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + arrayhidrografico[1][1].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[1][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + arrayhidrografico[1][2].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[1][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + arrayhidrografico[1][3].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico[1][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+
+        function onclick_modal_data_ondia17() {
+            if(arrayhidrografico_posdia.length > 0){
+            document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + arrayhidrografico_posdia[0][0].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_posdia[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + arrayhidrografico_posdia[0][1].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_posdia[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + arrayhidrografico_posdia[0][2].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_posdia[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + arrayhidrografico_posdia[0][3].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_posdia[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }       
+
+        function changeValue(e) {
 
             var valorInput = document.getElementById('calado_span').value;
             document.getElementById('amount').value = valorInput;
@@ -1182,6 +1395,8 @@
                     margemcaladoInf = 0.1;
                     calculo(1, 0.2, 0.1);
                     document.getElementById('amount').value = calado;
+
+
                 } else {
                     document.getElementById('load_fetch').style.display = "block";
                 }
@@ -1193,6 +1408,8 @@
             if (parseInt(_something) < 10) return "0" + _something;
             return _something; //else    
         }
+
+
 
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
@@ -1294,8 +1511,8 @@
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
                                 var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
-                                //z_adquirido_rota = parseFloat(z_adquir) + 0.4;
-                                z_adquirido_rota = parseFloat(z_adquir) + 0;
+                                z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                //z_adquirido_rota = parseFloat(z_adquir) + 0;
                                 z1_rota_adquirida.push(z_adquirido_rota)
                                 coordenadas.push([lon_gpx, lat_gpx])
                                 horasdarota_medida.push(horatempo_GPX)
@@ -1367,6 +1584,8 @@
                     ];
                 }
             }
+
+
 
 
             /*********************************************************************************/
@@ -1640,8 +1859,8 @@
                     let delta_mare;
 
                     delta_mare = sortedData_seguinte[0].ALT - sortedData[3].ALT;
-                    console.log(sortedData[3].ALT)
-                    console.log(sortedData_seguinte[0].ALT)
+                    //console.log(sortedData[3].ALT)
+                    //console.log(sortedData_seguinte[0].ALT)
 
                     let usershr_min = UserHoras.getHours() * 60;
                     let dateshr_min = horas_min_seguinte.getHours() * 60;
@@ -1703,7 +1922,7 @@
                         let date = new Date(array_hidrografico_simulacao_API[i][j].SDATA);
                         let horatempoAPI = date.getHours() + ":" + date.getMinutes();
                         guardarHoras2.push(array_hidrografico_simulacao_API[i][j])
-                        console.log(array_hidrografico_simulacao_API[i][j])
+                        //console.log(array_hidrografico_simulacao_API[i][j])
                     }
                     sortedData2 = guardarHoras2.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
 
@@ -1718,7 +1937,7 @@
                         //Informação da maré do site hidrografico
                         let date = new Date(array_hidrografico_simulacao_API_anterior[i][j].SDATA);
                         guardarHoras2_anterior.push(array_hidrografico_simulacao_API_anterior[i][j])
-                        console.log(array_hidrografico_simulacao_API_anterior[i][j])
+                        //console.log(array_hidrografico_simulacao_API_anterior[i][j])
                     }
                     sortedData2_anterior = guardarHoras2_anterior.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
 
@@ -1733,7 +1952,7 @@
                         //Informação da maré do site hidrografico
                         let date = new Date(array_hidrografico_simulacao_API_diapos[i][j].SDATA);
                         guardarHoras2_seguinte.push(array_hidrografico_simulacao_API_diapos[i][j])
-                        console.log(array_hidrografico_simulacao_API_diapos[i][j])
+                        //console.log(array_hidrografico_simulacao_API_diapos[i][j])
                     }
                     sortedData2_seguinte = guardarHoras2_seguinte.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
 
@@ -2028,7 +2247,7 @@
             }
 
 
-        
+
 
 
             let distancia;
@@ -2048,7 +2267,7 @@
                     if (mare_por_minuto2.length > 0) {
                         diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i]);
                         //diferençaAlturaMare = mare_por_minuto[i];
-                        console.log({ array: mare_por_minuto2[i] })
+                        //console.log({ array: mare_por_minuto2[i] })
                     }
 
                     if (z1_rota_adquirida[i][0] > 0) {
@@ -2059,7 +2278,7 @@
                     }
                     z2_menos_calado = Z2_NOvaRota - parseFloat(calado);
 
-                    console.log(horas_pontos_user);
+                    //console.log(horas_pontos_user);
                     if (horas_pontos_user.length > 0) {
                         var d = new Date();
                         var nday = d.getDay(),
@@ -2088,7 +2307,7 @@
                         '<p> <b>Horas do utilizador:</b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + '</div>')
                     //popup.addTo(mymap);
 
-                    document.getElementById('eta').value=User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
+                    document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
                     marker = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
                         color: "black",
                         fillColor: "#000000",
@@ -2175,6 +2394,31 @@
 
                         } else {
                             console.log('')
+                        }
+                    } else if (z2_menos_calado <= 0) {
+                        if (coordenadas[i + 1] != undefined) {
+                            //console.log('verde' + verificarRota)
+                            var myLines4 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
+
+                            var myStyle4 = {
+                                radius: 8,
+                                color: "black",
+                                weight: 5,
+                                opacity: 1,
+                            };
+
+                            linesFeatureLayer4 = L.geoJson(myLines4, {
+                                style: myStyle4
+                            });
+                            linesFeatureLayer4.addTo(mymap);
                         }
                     } else if (z2_menos_calado >= margemcaladoSup) {
 
