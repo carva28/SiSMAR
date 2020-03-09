@@ -2472,12 +2472,12 @@
 
                     popup = new L.popup();
                     popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                    popup.setContent('<div>' + '<p> <b>ZRA: </b>' + z1_rota_adquirida[i] + '</p>' +
-                        '<p> <b>Amplitude RA: </b>' + [mare_por_minuto[i]] + '</p>' +
-                        '<p> <b>Amplitude RS: </b>' + [mare_por_minuto2[i]] + '</p>' +
-                        '<p> <b>ZRS: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
-                        '<p> <b>Difernça de Maré: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
-                        '<p> <b>Folga: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
+                    popup.setContent('<div>' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
+                        '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
+                        '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
+                        '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
+                        '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                        '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                         '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + '</div>')
                     //popup.addTo(mymap);
 
