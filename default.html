@@ -186,7 +186,8 @@
 
         @media only screen and (max-device-width: 500px) {
 
-            #calado_span,#calado_span_2,
+            #calado_span,
+            #calado_span_2,
             #calado_sup_span,
             #calado_inf_span {
                 width: 90%;
@@ -315,12 +316,16 @@
             /* text-align: center; */
             right: 0;
             left: 0;
-            /* margin: auto; */
+            width:50%;
+            margin: auto;
+            border-radius: 20px;
             /* position: relative; */
             /* display: flex; */
             justify-content: center;
             /* display: block; */
-            background-color: rgb(255, 238, 217);
+            /*background-color: rgb(255, 238, 217);*/
+            background-color: #1F3436;
+            color: white;
             /* padding: 10%;*/
         }
 
@@ -345,7 +350,7 @@
 
             <div class="col-sm">
                 <p>Calado metro(s)</p>
-                <input type="number" id="calado_span" min="1" max="5" value="1" min="0" max="5" step="0.01"/>
+                <input type="number" id="calado_span" min="1" max="5" value="1" min="0" max="5" step="0.01" />
 
                 <!-- <input type="range" id="calado_span" name="calado_span" min="0" max="5" step="0.01"
                     oninput="amount.value=calado_span.value">
@@ -471,6 +476,8 @@
         <h2>Carregando...</h2>
     </div>
     <script>
+
+
         var calado = 1;
         var velocidademedia;
         // Making a map and tiles
@@ -767,6 +774,7 @@
                     })
                     g.addTo(mymap);
                 });
+                mymap.setView([ 40.678, -8.7166], 11);
 
         }
 
@@ -841,6 +849,7 @@
                     })
                     g.addTo(mymap);
                 });
+                mymap.setView([ 40.61,-8.745], 12.6);
         }
         async function getData3GPX() {
             let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
@@ -882,11 +891,13 @@
                             distKmRnd = distKm.toFixed(1),
                             eleGain = gpx.get_elevation_gain().toFixed(2),
                             eleLoss = gpx.get_elevation_loss().toFixed(2);
-                            total_speed = gpx.get_moving_pace().toFixed(2);
+                        moving_speed = gpx.get_moving_speed().toFixed(2);
+                        moving_pace = gpx.get_moving_pace().toFixed(2);
                         var info = "Name: " + name + "</br>" +
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>" +
-                            "total_speed: " + total_speed + "</br>"
+                            "moving_speed: " + moving_speed + "</br>" +
+                            "moving_pace: " + moving_pace + "</br>"
                         console.log(info)
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
@@ -915,6 +926,7 @@
                     })
                     g.addTo(mymap);
                 });
+                mymap.setView([40.712,-8.68,], 14);
         }
 
         async function getData4GPX() {
@@ -1014,7 +1026,7 @@
                     }
                 } else {
                     if (array_hidrografico_simulacao_API.length > 0) {
-                       
+
                         calado = 1;
                         margemcaladoSup = 0.2;
                         margemcaladoInf = 0.1;
@@ -1167,6 +1179,51 @@
         }
 
 
+        async function getInfo_outraData() {
+            array_hidrografico_simulacao_API = [];
+            array_hidrografico_simulacao_API_diapos = [];
+            array_hidrografico_simulacao_API_anterior = [];
+
+            console.log(array_hidrografico_simulacao_API)
+            console.log(array_hidrografico_simulacao_API_diapos)
+            console.log(array_hidrografico_simulacao_API_anterior)
+            //arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            mare_por_minuto = [];
+            horas_escolh = new Date(document.getElementById('date').value);
+            var nday = horas_escolh.getDay(),
+                nmonth = horas_escolh.getMonth(),
+                ndate = horas_escolh.getDate(),
+                nyear = horas_escolh.getYear();
+            if (nyear < 1000) nyear += 1900;
+            mes = nmonth + 1;
+
+            let dia_pos = ndate + 1;
+            let dia_ant = ndate - 1;
+
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
+            const url_tes = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url_tes) // https://cors-anywhere.herokuapp.com/https://example.com
+                .then(response => response.json())
+                .then(contents => array_hidrografico_simulacao_API.push(contents))
+                .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
+
+
+            const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
+            const response2 = await fetch(proxyurl + url_posterior);
+            const json2 = await response2.json();
+            array_hidrografico_simulacao_API_diapos.push(json2)
+
+            const url_anterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_ant + '&nd=0'; // site that doesn’t send Access-Control-*
+            const response3 = await fetch(proxyurl + url_anterior);
+            const json3 = await response3.json();
+            array_hidrografico_simulacao_API_anterior.push(json3)
+
+            console.log(array_hidrografico_simulacao_API_anterior)
+        }
+
         function onclick_modal_data_amanha() {
             if (array_hidrografico_simulacao_API_diapos.length > 0) {
                 document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
@@ -1297,6 +1354,7 @@
                 .then(contents => arrayhidrografico_anteriordia.push(contents))
                 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
         }
+
 
 
         function onclick_modal_data_ondia15() {
@@ -1453,67 +1511,38 @@
         }
 
 
-        async function getInfo_outraData() {
-            array_hidrografico_simulacao_API = [];
-            array_hidrografico_simulacao_API_diapos = [];
-            array_hidrografico_simulacao_API_anterior = [];
-
-            console.log(array_hidrografico_simulacao_API)
-            console.log(array_hidrografico_simulacao_API_diapos)
-            console.log(array_hidrografico_simulacao_API_anterior)
-            //arrayUser = [];
-            sortedData = 0;
-            mareUser = [];
-            mare_por_minuto = [];
-            horas_escolh = new Date(document.getElementById('date').value);
-            var nday = horas_escolh.getDay(),
-                nmonth = horas_escolh.getMonth(),
-                ndate = horas_escolh.getDate(),
-                nyear = horas_escolh.getYear();
-            if (nyear < 1000) nyear += 1900;
-            mes = nmonth + 1;
-
-            let dia_pos = ndate + 1;
-            let dia_ant = ndate - 1;
-
-            const proxyurl = "https://cors-anywhere.herokuapp.com/";
-
-            const url_tes = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
-            fetch(proxyurl + url_tes) // https://cors-anywhere.herokuapp.com/https://example.com
-                .then(response => response.json())
-                .then(contents => array_hidrografico_simulacao_API.push(contents))
-                .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
-
-
-            const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
-            const response2 = await fetch(proxyurl + url_posterior);
-            const json2 = await response2.json();
-            array_hidrografico_simulacao_API_diapos.push(json2)
-
-            const url_anterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_ant + '&nd=0'; // site that doesn’t send Access-Control-*
-            const response3 = await fetch(proxyurl + url_anterior);
-            const json3 = await response3.json();
-            array_hidrografico_simulacao_API_anterior.push(json3)
-
-            console.log(array_hidrografico_simulacao_API_anterior)
-        }
-
-
-
-
 
         function changeValue(e) {
 
             var valorInput = document.getElementById('calado_span').value;
             //document.getElementById('amount').value = valorInput;
-
             var valorInput2 = document.getElementById('calado_sup_span').value;
             var valorInput3 = document.getElementById('calado_inf_span').value;
+
+            //inserir data
+            var data_insert = document.getElementById('date').value;
+
+            if (data_insert == "") {
+                document.getElementById('load_fetch').innerHTML="<h4 style='text-align:center'>Dever inserir uma data</h4>";
+                var d = new Date();
+                var nday = d.getDay(),
+                    nmonth = d.getMonth() + 1,
+                    ndate = d.getDate(),
+                    nyear = d.getYear();
+                if (nyear < 1000) nyear += 1900;
+                document.getElementById('date').value = nday + "-" + nmonth + "-" + nyear;
+                console.log(document.getElementById('date').value)
+            }
+
             if (valorInput != "" && valorInput2 != "" && valorInput3 != "") {
                 if (array_hidrografico_simulacao_API.length > 0) {
+                    document.getElementById('load_fetch').style.display = "none";
                     calculo(valorInput, valorInput2, valorInput3);
+
                 } else {
                     document.getElementById('load_fetch').style.display = "block";
+                    document.getElementById('load_fetch').innerHTML="<h4 style='text-align:center'>Carregando</h4>"+
+                    "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
                 }
             } else {
                 if (array_hidrografico_simulacao_API.length > 0) {
@@ -1523,9 +1552,10 @@
                     calculo(1, 0.2, 0.1);
                     document.getElementById('amount').value = calado;
 
-
-                } else {
+                }  else {
                     document.getElementById('load_fetch').style.display = "block";
+                    document.getElementById('load_fetch').innerHTML="<h4 style='text-align:center'>Carregando</h4>"+
+                    "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
                 }
             }
 
@@ -1541,6 +1571,8 @@
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
 
+
+            
 
 
             //remover a rota realizada e atualizar
@@ -1563,6 +1595,7 @@
             }
             //selecionar um tempo HH:MM
             var tempo = document.getElementById('time').value;
+
             let UserHoras2;
             if (tempo != "") {
                 var d = new Date();
@@ -1573,7 +1606,6 @@
                 if (nyear < 1000) nyear += 1900;
                 var splitTime1 = tempo.split(':');
                 UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
-
             } else {
                 var d = new Date();
                 var nday = d.getDay(),
@@ -1589,6 +1621,7 @@
                 var f = leadZero(now.getHours()) + ":" + leadZero(now.getMinutes());
                 document.getElementById('time').value = f;
             }
+
 
 
 
@@ -2442,7 +2475,7 @@
                     popup.setContent('<div>' + '<p> <b>ZRA: </b>' + z1_rota_adquirida[i] + '</p>' +
                         '<p> <b>Amplitude RA: </b>' + [mare_por_minuto[i]] + '</p>' +
                         '<p> <b>Amplitude RS: </b>' + [mare_por_minuto2[i]] + '</p>' +
-                         '<p> <b>ZRS: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                        '<p> <b>ZRS: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                         '<p> <b>Difernça de Maré: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
                         '<p> <b>Folga: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                         '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + '</div>')
