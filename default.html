@@ -538,6 +538,12 @@
             <div class="col-sm">
                 <button type="button" class="btn btn_rota" onclick="getData2GPX()">Costa Nova</button>
             </div>
+            <div class="col-sm">
+                <button type="button" id="btn_rota_Ida" class="btn btn_rota" onclick="getData_IDA10_3_20_GPX()">Rota 10/03/20 IDA</button>
+            </div>
+            <div class="col-sm">
+                <button type="button" id="btn_rota_Volta" class="btn btn_rota" onclick="getData_Volta10_3_20_GPX()">Rota 10/03/20 Volta</button>
+            </div>
 
         </div>
     </div>
@@ -1079,6 +1085,163 @@
                 });
 
         }
+
+
+        async function getData_Volta10_3_20_GPX() {
+            document.getElementById('btn_rota_Volta').style.backgroundColor =  "#00000087";
+            document.getElementById('btn_rota_Ida').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
+
+        async function getData_IDA10_3_20_GPX() {
+            document.getElementById('btn_rota_Volta').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
+            document.getElementById('btn_rota_Ida').style.backgroundColor = "#00000087";
+            
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
+
+
         //No clique do marker
 
         var linesFeatureLayer
