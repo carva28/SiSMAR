@@ -529,15 +529,51 @@
                 </div>
             </div>
 
+            <script>
+                function selecionarRota() {
+                    var value_escolhido = document.getElementById("sel1").value;
+
+
+                    switch (value_escolhido) {
+                        case 'rota1':
+                            getDataGPX();
+                            break;
+                        case 'rota2':
+                            getData2GPX();
+                            break;
+                        case 'rota3':
+                            getData3GPX();
+                            break;
+                        case 'rota4':
+                            getData_IDA10_3_20_GPX();
+                            break;
+                        case 'rota5':
+                            getData_Volta10_3_20_GPX();
+                            break;
+                        default: getData3GPX();
+                            break;
+                    }
+
+                }
+            </script>
+
             <div class="col-sm">
-                <button type="button" class="btn btn_rota" onclick="getData3GPX()">Cais do Bico</button>
+                <select class="form-control" id="sel1" onchange="selecionarRota()">
+                    <option value="rota1">Rota Torreira</option>
+                    <option value="rota2">Costa Nova</option>
+                    <option value="rota3" selected>Cais do Bico</option>
+                    <option value="rota4">Rota 10/03/20 IDA</option>
+                    <option value="rota5">Rota 10/03/20 IDA</option>
+
+                </select>
+                <!-- <button type="button" class="btn btn_rota" onclick="getData3GPX()">Cais do Bico</button> -->
             </div>
-            <div class="col-sm">
+            <!-- <div class="col-sm">
                 <button type="button" class="btn btn_rota" onclick="getDataGPX()">Rota Torreira</button>
             </div>
             <div class="col-sm">
                 <button type="button" class="btn btn_rota" onclick="getData2GPX()">Costa Nova</button>
-            </div>
+            </div> 
             <div class="col-sm">
                 <button type="button" id="btn_rota_Ida" class="btn btn_rota" onclick="getData_IDA10_3_20_GPX()">Rota
                     10/03/20 IDA</button>
@@ -546,7 +582,7 @@
                 <button type="button" id="btn_rota_Volta" class="btn btn_rota" onclick="getData_Volta10_3_20_GPX()">Rota
                     10/03/20 Volta</button>
             </div>
-
+            -->
         </div>
     </div>
 
@@ -572,9 +608,9 @@
         const tiles = L.tileLayer(tileUrl, {
             attribution
         });
-        
 
-        var NauticalMap = L.tileLayer('https://viewer.flytomap.com/noaatiles/{z}/{x}/{y}.png',{
+
+        var NauticalMap = L.tileLayer('https://viewer.flytomap.com/noaatiles/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
             subdomains: 'abcd',
             maxZoom: 19,
@@ -583,7 +619,7 @@
 
         NauticalMap.addTo(mymap);
 
-        var NauticalMap_2 = L.tileLayer('https://viewer.flytomap.com/ftm_tiles/{z}/{x}/{y}.png',{
+        var NauticalMap_2 = L.tileLayer('https://viewer.flytomap.com/ftm_tiles/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
             subdomains: 'abcd',
             maxZoom: 19,
@@ -629,12 +665,12 @@
         //     attribution: "NOAA/NWS"
         // });
 
-        
+
 
         baseMaps = {
             "NOAA": NauticalMap,
             "Normal": tiles,
-            "FlyToMap" :NauticalMap_2,
+            "FlyToMap": NauticalMap_2,
             "Satélite": Esri_WorldImagery,
             "Stamen_TerrainBackground": Stamen_TerrainBackground,
             "OpenStreetMap_HOT": OpenStreetMap_HOT,
@@ -1110,8 +1146,8 @@
 
 
         async function getData_Volta10_3_20_GPX() {
-            document.getElementById('btn_rota_Volta').style.backgroundColor = "#00000087";
-            document.getElementById('btn_rota_Ida').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
+            // document.getElementById('btn_rota_Volta').style.backgroundColor = "#00000087";
+            // document.getElementById('btn_rota_Ida').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
 
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
@@ -1187,8 +1223,8 @@
         }
 
         async function getData_IDA10_3_20_GPX() {
-            document.getElementById('btn_rota_Volta').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
-            document.getElementById('btn_rota_Ida').style.backgroundColor = "#00000087";
+            // document.getElementById('btn_rota_Volta').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
+            // document.getElementById('btn_rota_Ida').style.backgroundColor = "#00000087";
 
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
