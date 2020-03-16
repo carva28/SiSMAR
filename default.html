@@ -422,61 +422,61 @@
                 <div class="modal" id="myModal2">
                     <div class="modal-dialog">
                         <div class="modal-content">
-    
+
                             <!-- Modal Header -->
                             <div class="modal-header">
                                 <h4 class="modal-title">Legenda</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-    
+
                             <!-- Modal body -->
                             <div class="modal-body">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <p style="font-size:15px">Fs >= Limite Superior</p>
-                                            </div>
-                                            <div class="col-sm">
-                                                <hr style="border: 3px solid green;border-radius: 10px;">
-                                            </div>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <p style="font-size:15px">Fs >= Limite Superior</p>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <p style="font-size:15px"> Limite Inferior <= Fs <=Limite Superior</p>
-                                            </div>
-                                            <div class="col-sm">
-                                                <hr style="border: 3px solid yellow;border-radius: 10px;">
-                                            </div>
+                                        <div class="col-sm">
+                                            <hr style="border: 3px solid green;border-radius: 10px;">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <p style="font-size:15px">Fs <= Limite Inferior</p>
-                                            </div>
-                                            <div class="col-sm">
-                                                <hr style="border: 3px solid red;border-radius: 10px;">
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <p style="font-size:15px"> Limite Inferior <= Fs <=Limite Superior</p>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <p style="font-size:15px">Zs <= 0 metros</p>
-                                            </div>
-                                            <div class="col-sm">
-                                                <hr style="border: 3px solid black;border-radius: 10px;">
-                                            </div>
+                                        <div class="col-sm">
+                                            <hr style="border: 3px solid yellow;border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <p style="font-size:15px">Fs <= Limite Inferior</p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <hr style="border: 3px solid red;border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <p style="font-size:15px">Zs <= 0 metros</p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <hr style="border: 3px solid black;border-radius: 10px;">
                                         </div>
                                     </div>
                                 </div>
-    
+                            </div>
+
                             <!-- Modal footer -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
                             </div>
-    
+
                         </div>
                     </div>
                 </div>
             </div>
-                <div class="col-sm">
+            <div class="col-sm">
                 <!-- Button to Open the Modal -->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                     Informação Hidrográfico
@@ -528,7 +528,7 @@
                     </div>
                 </div>
             </div>
-           
+
             <div class="col-sm">
                 <button type="button" class="btn btn_rota" onclick="getData3GPX()">Cais do Bico</button>
             </div>
@@ -539,10 +539,12 @@
                 <button type="button" class="btn btn_rota" onclick="getData2GPX()">Costa Nova</button>
             </div>
             <div class="col-sm">
-                <button type="button" id="btn_rota_Ida" class="btn btn_rota" onclick="getData_IDA10_3_20_GPX()">Rota 10/03/20 IDA</button>
+                <button type="button" id="btn_rota_Ida" class="btn btn_rota" onclick="getData_IDA10_3_20_GPX()">Rota
+                    10/03/20 IDA</button>
             </div>
             <div class="col-sm">
-                <button type="button" id="btn_rota_Volta" class="btn btn_rota" onclick="getData_Volta10_3_20_GPX()">Rota 10/03/20 Volta</button>
+                <button type="button" id="btn_rota_Volta" class="btn btn_rota" onclick="getData_Volta10_3_20_GPX()">Rota
+                    10/03/20 Volta</button>
             </div>
 
         </div>
@@ -555,7 +557,7 @@
     <div id="load_fetch">
         <h2>Carregando...</h2>
     </div>
-    
+
     <script>
 
 
@@ -570,12 +572,23 @@
         const tiles = L.tileLayer(tileUrl, {
             attribution
         });
-        tiles.addTo(mymap);
+        
 
-
-        var OpenSeaMap = L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
-            attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
+        var NauticalMap = L.tileLayer('https://viewer.flytomap.com/noaatiles/{z}/{x}/{y}.png',{
+            attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
+            subdomains: 'abcd',
+            maxZoom: 19,
         });
+
+
+        NauticalMap.addTo(mymap);
+
+        var NauticalMap_2 = L.tileLayer('https://viewer.flytomap.com/ftm_tiles/{z}/{x}/{y}.png',{
+            attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
+            subdomains: 'abcd',
+            maxZoom: 19,
+        });
+
 
         var OpenStreetMap_HOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -609,16 +622,25 @@
             maxZoom: 19
         });
 
+        // var NauticalMap = L.tileLayer.wms("http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs", {
+        //     layers: 'RAS_RIDGE_NEXRAD',
+        //     transparent: true,
+        //     subdomains: 'abcd',
+        //     attribution: "NOAA/NWS"
+        // });
+
+        
 
         baseMaps = {
+            "NOAA": NauticalMap,
             "Normal": tiles,
+            "FlyToMap" :NauticalMap_2,
             "Satélite": Esri_WorldImagery,
-            //"OpenSeaMap": OpenSeaMap,
             "Stamen_TerrainBackground": Stamen_TerrainBackground,
             "OpenStreetMap_HOT": OpenStreetMap_HOT,
             "OpenTopoMap": OpenTopoMap,
             "Dark": CartoDB_DarkMatterNoLabels,
-            "Thunderforest_TransportDark": Thunderforest_TransportDark
+            "Thunderforest_TransportDark": Thunderforest_TransportDark,
         };
 
         ControlLayer = L.control.layers(baseMaps).addTo(mymap);
@@ -1088,7 +1110,7 @@
 
 
         async function getData_Volta10_3_20_GPX() {
-            document.getElementById('btn_rota_Volta').style.backgroundColor =  "#00000087";
+            document.getElementById('btn_rota_Volta').style.backgroundColor = "#00000087";
             document.getElementById('btn_rota_Ida').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
 
             mymap.eachLayer(function (layer) {
@@ -1167,7 +1189,7 @@
         async function getData_IDA10_3_20_GPX() {
             document.getElementById('btn_rota_Volta').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
             document.getElementById('btn_rota_Ida').style.backgroundColor = "#00000087";
-            
+
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
