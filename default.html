@@ -563,7 +563,7 @@
                     <option value="rota2">Costa Nova</option>
                     <option value="rota3" selected>Cais do Bico</option>
                     <option value="rota4">Rota 10/03/20 IDA</option>
-                    <option value="rota5">Rota 10/03/20 IDA</option>
+                    <option value="rota5">Rota 10/03/20 Regresso</option>
 
                 </select>
                 <!-- <button type="button" class="btn btn_rota" onclick="getData3GPX()">Cais do Bico</button> -->
@@ -641,13 +641,7 @@
             apikey: 'a83d355c78244eb8b0c7530eb3a8e481',
             maxZoom: 22
         });
-        var Stamen_TerrainBackground = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
-            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            subdomains: 'abcd',
-            minZoom: 0,
-            maxZoom: 18,
-            ext: 'png'
-        });
+
 
         var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
@@ -672,7 +666,6 @@
             "Normal": tiles,
             "FlyToMap": NauticalMap_2,
             "Satélite": Esri_WorldImagery,
-            "Stamen_TerrainBackground": Stamen_TerrainBackground,
             "OpenStreetMap_HOT": OpenStreetMap_HOT,
             "OpenTopoMap": OpenTopoMap,
             "Dark": CartoDB_DarkMatterNoLabels,
@@ -731,110 +724,110 @@
         L.control.scale().addTo(mymap);
 
         //Localização do Utilizador
-        mymap.locate({
-            setView: true,
-            maxZoom: 14
-        });
+        // mymap.locate({
+        //     setView: true,
+        //     maxZoom: 14
+        // });
 
-        var localiz_distan = [];
-        var local_Nome_rota = [];
+        // var localiz_distan = [];
+        // var local_Nome_rota = [];
 
-        async function onLocationFound(e) {
-            var radius = e.accuracy;
+        // async function onLocationFound(e) {
+        //     var radius = e.accuracy;
 
-            let funcname = [];
+        //     let funcname = [];
 
-            L.marker(e.latlng).addTo(mymap)
-                .bindPopup("You are within " + radius + " meters from this point").openPopup();
+        //     L.marker(e.latlng).addTo(mymap)
+        //         .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-            L.circle(e.latlng, radius).addTo(mymap);
+        //     L.circle(e.latlng, radius).addTo(mymap);
 
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
-            const response = await fetch(url);
-            const json = await response.text();
+        //     let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
+        //     const response = await fetch(url);
+        //     const json = await response.text();
 
-            VEri_text_gpx = json;
-            parser = new DOMParser();
-            xmlDoc = parser.parseFromString(json, "text/xml");
-            funcname.push('getDataGPX')
-            var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
-            var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
+        //     VEri_text_gpx = json;
+        //     parser = new DOMParser();
+        //     xmlDoc = parser.parseFromString(json, "text/xml");
+        //     funcname.push('getDataGPX')
+        //     var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
+        //     var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
-            distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
+        //     distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
 
-            localiz_distan.push(distancia);
-            local_Nome_rota.push('rota1')
+        //     localiz_distan.push(distancia);
+        //     local_Nome_rota.push('rota1')
 
-            let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
-            const response2 = await fetch(url2);
-            const json2 = await response2.text();
+        //     let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
+        //     const response2 = await fetch(url2);
+        //     const json2 = await response2.text();
 
-            VEri_text_gpx2 = json2;
-            parser2 = new DOMParser();
-            xmlDoc2 = parser2.parseFromString(json2, "text/xml");
-            funcname.push('getDataGPX')
-            var lat_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lat');
-            var lon_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lon');
+        //     VEri_text_gpx2 = json2;
+        //     parser2 = new DOMParser();
+        //     xmlDoc2 = parser2.parseFromString(json2, "text/xml");
+        //     funcname.push('getDataGPX')
+        //     var lat_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lat');
+        //     var lon_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
-            distancia2 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx2, lon_gpx2]);
-            localiz_distan.push(distancia2);
-            local_Nome_rota.push('rota2')
+        //     distancia2 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx2, lon_gpx2]);
+        //     localiz_distan.push(distancia2);
+        //     local_Nome_rota.push('rota2')
 
-            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
-            const response3 = await fetch(url3);
-            const json3 = await response3.text();
+        //     let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
+        //     const response3 = await fetch(url3);
+        //     const json3 = await response3.text();
 
-            VEri_text_gpx3 = json3;
-            parser3 = new DOMParser();
-            xmlDoc3 = parser3.parseFromString(json3, "text/xml");
-            funcname.push('getDataGPX')
-            var lat_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lat');
-            var lon_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lon');
+        //     VEri_text_gpx3 = json3;
+        //     parser3 = new DOMParser();
+        //     xmlDoc3 = parser3.parseFromString(json3, "text/xml");
+        //     funcname.push('getDataGPX')
+        //     var lat_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lat');
+        //     var lon_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
-            distancia3 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx3, lon_gpx3]);
-            localiz_distan.push(distancia3);
-            local_Nome_rota.push('rota3')
+        //     distancia3 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx3, lon_gpx3]);
+        //     localiz_distan.push(distancia3);
+        //     local_Nome_rota.push('rota3')
 
-            let menor_dist;
-            let menor_rota;
-            if (localiz_distan != null) {
-                for (let k = 0; k < localiz_distan.length; k++) {
-                    if (menor_dist == null) {
-                        menor_dist = localiz_distan[k];
-                    } else {
-                        if (menor_dist > localiz_distan[k]) {
-                            menor_dist = localiz_distan[k];
-                            menor_rota = local_Nome_rota[k];
-                        }
-                    }
+        //     let menor_dist;
+        //     let menor_rota;
+        //     if (localiz_distan != null) {
+        //         for (let k = 0; k < localiz_distan.length; k++) {
+        //             if (menor_dist == null) {
+        //                 menor_dist = localiz_distan[k];
+        //             } else {
+        //                 if (menor_dist > localiz_distan[k]) {
+        //                     menor_dist = localiz_distan[k];
+        //                     menor_rota = local_Nome_rota[k];
+        //                 }
+        //             }
 
-                }
-            }
+        //         }
+        //     }
 
-            switch (menor_rota) {
-                case 'rota1':
-                    getDataGPX();
-                    break;
-                case 'rota2':
-                    getData2GPX();
-                    break;
-                case 'rota3':
-                    getData4GPX();
-                    break;
-            }
-        }
+        //     switch (menor_rota) {
+        //         case 'rota1':
+        //             getDataGPX();
+        //             break;
+        //         case 'rota2':
+        //             getData2GPX();
+        //             break;
+        //         case 'rota3':
+        //             getData4GPX();
+        //             break;
+        //     }
+        // }
 
 
 
-        mymap.on('locationfound', onLocationFound);
+        // mymap.on('locationfound', onLocationFound);
 
-        function localBtn() {
-            // create control and add to map
-            var lc = L.control.locate().addTo(mymap);
+        // function localBtn() {
+        //     // create control and add to map
+        //     var lc = L.control.locate().addTo(mymap);
 
-            // request location update and set location
-            lc.start();
-        }
+        //     // request location update and set location
+        //     lc.start();
+        // }
 
 
         //getDataGPX();
