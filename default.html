@@ -341,7 +341,7 @@
 
         .leaflet-touch .leaflet-bar {
             top: 200px;
-            left:3px;
+            left: 3px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
             background-color: transparent;
             border: none;
@@ -447,15 +447,19 @@
         }
 
 
-        
-           
+
+
         a#fechaDefinicoes {
             background-color: tomato;
-            color: white;
-            border: inherit;
-            padding: 8px 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 60px;
+            position: absolute;
+            z-index: 100000;
+            font-size: 25px;
+            top: 190px;
+            left: calc(50% - 30px);
+            display: none;
         }
 
         a#fechaDefinicoes i {
@@ -496,7 +500,7 @@
             font-size: 25px;
             top: 380px;
             left: calc(50% - 30px);
-            display:none;
+            display: none;
         }
 
         .container2,
@@ -627,6 +631,10 @@
 
     <a id="abreCarousel" class="btn btn-primary" role="button"><i class="fas fa-map-marked-alt"></i></a>
 
+    <a class="btn btn-primary" data-toggle="collapse" href="#navbarToggleExternalContent" role="button"
+    aria-expanded="true" aria-controls="navbarToggleExternalContent" id="fechaDefinicoes">
+    <i class="fas fa-times-circle"></i>
+</a>
 
 
     <div class="collapse show" id="navbarToggleExternalContent" style="display: none;">
@@ -670,17 +678,21 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1">
+               
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1"></div>
             <div class="col-sm-1">
                 <button type="button" class="btn btn-dark btn_color_sim" onclick="changeValue()">Simular</button>
             </div>
             <div class="col-sm-1">
-            <button type="button" class="btn btn-danger btn_color_del" onclick="clearmap()">Limpar campos</button>
-        </div>
-            <a class="btn btn-primary" data-toggle="collapse" href="#navbarToggleExternalContent" role="button"
-                aria-expanded="true" aria-controls="navbarToggleExternalContent" id="fechaDefinicoes">
-                <i class="fas fa-times-circle"></i>
-            </a>
+                <button type="button" class="btn btn-danger btn_color_del" onclick="clearmap()">Limpar campos</button>
+            </div>
         </div>
     </div>
 
@@ -718,21 +730,24 @@
 
         document.getElementById('fechaDefinicoes').onclick = function () {
             document.getElementById('navbarToggleExternalContent').style.display = 'none';
+            document.getElementById('fechaDefinicoes').style.display = 'none';
+
         }
 
         document.getElementById('abreDefinicoes').onclick = function () {
+            document.getElementById('fechaDefinicoes').style.display = 'block';
             document.getElementById('navbarToggleExternalContent').style.display = 'block';
         }
 
         document.getElementById('abreCarousel').onclick = function () {
-            
-            document.getElementById('carousel').style.zIndex ='9999';
+
+            document.getElementById('carousel').style.zIndex = '9999';
             //document.getElementById('carousel').style.display = 'block';
             document.getElementById('fecharCarousel').style.display = 'block';
         }
 
         document.getElementById('fecharCarousel').onclick = function () {
-            document.getElementById('carousel').style.zIndex ='0';
+            document.getElementById('carousel').style.zIndex = '0';
             //document.getElementById('carousel').style.display = 'none';
             document.getElementById('fecharCarousel').style.display = 'none';
         }
@@ -873,9 +888,6 @@
             maxZoom: 19,
         });
 
-
-        NauticalMap.addTo(mymap);
-
         var NauticalMap_2 = L.tileLayer('https://viewer.flytomap.com/ftm_tiles/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
             subdomains: 'abcd',
@@ -909,13 +921,9 @@
             maxZoom: 19
         });
 
-        // var NauticalMap = L.tileLayer.wms("http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs", {
-        //     layers: 'RAS_RIDGE_NEXRAD',
-        //     transparent: true,
-        //     subdomains: 'abcd',
-        //     attribution: "NOAA/NWS"
-        // });
 
+        //Adicionar Layer inicial
+        NauticalMap.addTo(mymap);
 
 
         baseMaps = {
@@ -923,6 +931,7 @@
             "Normal": tiles,
             "FlyToMap": NauticalMap_2,
             "Satélite": Esri_WorldImagery,
+            "Hybrid": Esri_WorldImagery,
             "OpenStreetMap_HOT": OpenStreetMap_HOT,
             "OpenTopoMap": OpenTopoMap,
             "Dark": CartoDB_DarkMatterNoLabels,
@@ -979,115 +988,6 @@
         });
 
         L.control.scale().addTo(mymap);
-
-        //Localização do Utilizador
-        // mymap.locate({
-        //     setView: true,
-        //     maxZoom: 14
-        // });
-
-        // var localiz_distan = [];
-        // var local_Nome_rota = [];
-
-        // async function onLocationFound(e) {
-        //     var radius = e.accuracy;
-
-        //     let funcname = [];
-
-        //     L.marker(e.latlng).addTo(mymap)
-        //         .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-        //     L.circle(e.latlng, radius).addTo(mymap);
-
-        //     let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
-        //     const response = await fetch(url);
-        //     const json = await response.text();
-
-        //     VEri_text_gpx = json;
-        //     parser = new DOMParser();
-        //     xmlDoc = parser.parseFromString(json, "text/xml");
-        //     funcname.push('getDataGPX')
-        //     var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
-        //     var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
-
-        //     distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
-
-        //     localiz_distan.push(distancia);
-        //     local_Nome_rota.push('rota1')
-
-        //     let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
-        //     const response2 = await fetch(url2);
-        //     const json2 = await response2.text();
-
-        //     VEri_text_gpx2 = json2;
-        //     parser2 = new DOMParser();
-        //     xmlDoc2 = parser2.parseFromString(json2, "text/xml");
-        //     funcname.push('getDataGPX')
-        //     var lat_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lat');
-        //     var lon_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lon');
-
-        //     distancia2 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx2, lon_gpx2]);
-        //     localiz_distan.push(distancia2);
-        //     local_Nome_rota.push('rota2')
-
-        //     let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
-        //     const response3 = await fetch(url3);
-        //     const json3 = await response3.text();
-
-        //     VEri_text_gpx3 = json3;
-        //     parser3 = new DOMParser();
-        //     xmlDoc3 = parser3.parseFromString(json3, "text/xml");
-        //     funcname.push('getDataGPX')
-        //     var lat_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lat');
-        //     var lon_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lon');
-
-        //     distancia3 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx3, lon_gpx3]);
-        //     localiz_distan.push(distancia3);
-        //     local_Nome_rota.push('rota3')
-
-        //     let menor_dist;
-        //     let menor_rota;
-        //     if (localiz_distan != null) {
-        //         for (let k = 0; k < localiz_distan.length; k++) {
-        //             if (menor_dist == null) {
-        //                 menor_dist = localiz_distan[k];
-        //             } else {
-        //                 if (menor_dist > localiz_distan[k]) {
-        //                     menor_dist = localiz_distan[k];
-        //                     menor_rota = local_Nome_rota[k];
-        //                 }
-        //             }
-
-        //         }
-        //     }
-
-        //     switch (menor_rota) {
-        //         case 'rota1':
-        //             getDataGPX();
-        //             break;
-        //         case 'rota2':
-        //             getData2GPX();
-        //             break;
-        //         case 'rota3':
-        //             getData4GPX();
-        //             break;
-        //     }
-        // }
-
-
-
-        // mymap.on('locationfound', onLocationFound);
-
-        // function localBtn() {
-        //     // create control and add to map
-        //     var lc = L.control.locate().addTo(mymap);
-
-        //     // request location update and set location
-        //     lc.start();
-        // }
-
-
-        //getDataGPX();
 
         let text_gpx, arrayGPX = [];
         var VEri_text_gpx;
