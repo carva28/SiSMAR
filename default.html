@@ -224,14 +224,6 @@
             background-size: 30px 30px;
         }
 
-        @media (min-width: 576px) {
-
-            .col-sm-1 {
-                -ms-flex: 0 0 13.333333%;
-                flex: 0 0 13.333333%;
-                max-width: 13.333333%;
-            }
-        }
 
         .leaflet-touch .leaflet-bar {
             top: 200px;
@@ -503,22 +495,45 @@
             z-index: 999 !important;
         }
 
+        @media (min-width: 576px) {
+
+            .col-sm-1 {
+                -ms-flex: 0 0 13.333333%;
+                flex: 0 0 13.333333%;
+                max-width: 13.333333%;
+            }
+        }
+
         @media only screen and (max-device-width: 500px) {
+
+            .col-sm-1 {
+                -ms-flex: 0 0 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .col-sm-3 {
+                -ms-flex: 0 0 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
 
             #calado_span,
             #calado_span_2,
             #calado_sup_span,
-            #calado_inf_span {
+            #calado_inf_span,
+            #date,
+            #time {
                 width: 90%;
                 height: 100px;
                 font-size: 3.2rem;
 
             }
 
-            input[type="range"] {
+            /* input[type="range"] {
                 width: 90% !important;
                 height: 70px !important;
-            }
+            } */
 
             input[type="range"]::-webkit-slider-thumb {
                 width: 90px !important;
@@ -529,11 +544,21 @@
                 display: none;
             }
 
+            .col-sm-1:first-of-type {
+                max-width: 45.333333% !important;
+                flex: 0 0 45.333333%;
+                -ms-flex: 0 0 45.333333%;
+                margin: auto;
+            }
+
             .img_logo2 {
+                -ms-flex: 0 0 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
                 border: none;
                 margin: auto;
                 display: block;
-                width: 50%;
+                width: 100%;
             }
 
             #time {
@@ -666,6 +691,7 @@
             }
 
             #btn_legenda {
+                position: absolute;
                 width: 100px;
                 height: 100px;
                 font-size: 50px;
@@ -673,6 +699,7 @@
             }
 
             #btn_legenda2 {
+                position: absolute;
                 width: 100px;
                 height: 100px;
                 font-size: 50px;
@@ -680,6 +707,7 @@
             }
 
             #legenda {
+                position: absolute;
                 margin-top: 50px;
                 width: 100px;
                 height: 100px;
@@ -688,6 +716,20 @@
 
             .leaflet-touch .leaflet-bar {
                 top: 550px;
+            }
+
+            a#fechaDefinicoes {
+                display: none;
+                height: 70px;
+                top: 1470px;
+                width: 200px;
+                left: calc(50% - 100px);
+                border-radius: 30px;
+
+            }
+
+            a#fechaDefinicoes i {
+                font-size: 50px;
             }
 
             a#fecharCarousel {
@@ -1154,7 +1196,8 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#020202'
+                            color: '#020202',
+                            weight: 10,
                         },
                         marker_options: {
                             'startIcon': new L.icon({
@@ -1229,7 +1272,8 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#020202'
+                            color: '#020202',
+                            weight: 10,
                         },
                         marker_options: {
                             'startIcon': new L.icon({
@@ -1296,7 +1340,8 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#020202'
+                            color: '#020202',
+                            weight: 10,
                         },
                         marker_options: {
                             'startIcon': new L.icon({
@@ -1382,7 +1427,8 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#020202'
+                            color: '#020202',
+                            weight: 10,
                         },
                         marker_options: {
                             'startIcon': new L.icon({
@@ -1460,7 +1506,8 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#020202'
+                            color: '#020202',
+                            weight: 10,
                         },
                         marker_options: {
                             'startIcon': new L.icon({
@@ -1537,7 +1584,8 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#020202'
+                            color: '#020202',
+                            weight: 10,
                         },
                         marker_options: {
                             'startIcon': new L.icon({
@@ -3114,7 +3162,7 @@
                             var myStyle4 = {
                                 radius: 8,
                                 color: "black",
-                                weight: 5,
+                                weight: 10,
                                 opacity: 1,
                             };
 
@@ -3138,7 +3186,7 @@
                             var myStyle1 = {
                                 radius: 8,
                                 color: "red",
-                                weight: 5,
+                                weight: 10,
                                 opacity: 1,
                             };
 
@@ -3170,7 +3218,7 @@
                             var myStyle2 = {
                                 radius: 8,
                                 color: "yellow",
-                                weight: 5,
+                                weight: 10,
                                 opacity: 1,
                             };
 
@@ -3202,7 +3250,7 @@
                             var myStyle3 = {
                                 radius: 8,
                                 color: "green",
-                                weight: 5,
+                                weight: 10,
                                 opacity: 1,
                             };
 
