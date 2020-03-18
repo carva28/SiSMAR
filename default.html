@@ -34,6 +34,7 @@
 
         #issMap {
             height: 560px;
+            /*position: inherit!important;*/
         }
 
         .leaflet-interactive {
@@ -353,7 +354,12 @@
 
 <body>
 
-    <div class="col order-12">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" 
+        data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Definições Rota
+        </button>
+  
+    <div class="col order-12" id="collapseExample">
         <div class="row ">
             <div class="col-sm">
                 <img src="SiSMAR.png" class="img_logo img-thumbnail float-left" />
@@ -367,7 +373,6 @@
                 <!-- <input type="range" id="calado_span" name="calado_span" min="0" max="5" step="0.01"
                     oninput="amount.value=calado_span.value">
                 <output name="amount" id="amount" for="calado_span">2.5</output> -->
-
             </div>
             <div class="col-sm">
                 <p>Limite Superior</p>
@@ -589,7 +594,7 @@
 
     </div>
     </div>
-    <div id="issMap"></div>
+    <div id="issMap" ></div>
     <div id="load_fetch">
         <h2>Carregando...</h2>
     </div>
