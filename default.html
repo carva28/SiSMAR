@@ -201,6 +201,29 @@
             box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
         }
 
+        .leaflet-control-layers {
+            background-color: #214198;
+            position: fixed;
+            z-index: 20;
+            top: 330px;
+            right: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        .leaflet-control-layers-expanded {
+            background-color: #fff;
+            position: fixed;
+            height: 250px;
+            z-index: 20;
+            top: 200px;
+            right: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        .leaflet-retina .leaflet-control-layers-toggle {
+            background-size: 30px 30px;
+        }
+
         @media (min-width: 576px) {
 
             .col-sm-1 {
@@ -208,135 +231,6 @@
                 flex: 0 0 13.333333%;
                 max-width: 13.333333%;
             }
-        }
-
-        @media only screen and (max-device-width: 500px) {
-
-            #calado_span,
-            #calado_span_2,
-            #calado_sup_span,
-            #calado_inf_span {
-                width: 90%;
-                height: 100px;
-                font-size: 3.2rem;
-
-            }
-
-            input[type="range"] {
-                width: 90% !important;
-                height: 70px !important;
-            }
-
-            input[type="range"]::-webkit-slider-thumb {
-                width: 90px !important;
-                height: 90px !important;
-            }
-
-            .img_logo {
-                display: none;
-            }
-
-            .img_logo2 {
-                border: none;
-                margin: auto;
-                display: block;
-                width: 50%;
-            }
-
-            #time {
-                font-size: 3.2rem;
-                width: 90%;
-                height: 100px;
-            }
-
-            .btn_color_sim {
-                width: 100%;
-                height: 90px;
-                font-size: 2.7rem;
-                border-radius: 45px;
-            }
-
-            .btn_rota {
-                width: 80%;
-                height: 100px;
-                font-size: 2.7rem;
-                background-color: #1F3436;
-                color: white;
-                border-radius: 45px;
-            }
-
-            .btn_color_del {
-                width: 100%;
-                height: 90px;
-                font-size: 2.7rem;
-                border-radius: 45px;
-            }
-
-            .order-12 {
-                width: 100%;
-            }
-
-            .order-12,
-            .row {
-                width: 100%;
-                margin: auto;
-                display: block;
-            }
-
-            .order-12,
-            .row,
-            img {
-                width: 95%;
-            }
-
-            .order-12,
-            .row,
-            p {
-                margin-top: 20px;
-                font-size: 2.9rem;
-            }
-
-            .col-sm {
-                margin: auto;
-                display: block;
-                text-align: center;
-            }
-
-            .col_file {
-                display: none;
-            }
-
-            .col-sm-1:first-of-type {
-                max-width: 13.333333%;
-                flex: 0 0 13.333333%;
-                -ms-flex: 0 0 13.333333%;
-            }
-
-            .leaflet-touch .leaflet-bar a {
-                width: 100px;
-                height: 100px;
-                line-height: 100px;
-                font-size: 50px;
-                background-color: #214198;
-            }
-
-            .leaflet-touch .leaflet-control-layers-toggle {
-                width: 104px;
-                height: 104px;
-                background-color: #214198;
-            }
-
-            #issMap {
-                height: 1500px;
-            }
-
-            .container2 {
-                border: 2px transparent;
-                border-radius: 50px;
-                background-color: white;
-            }
-
-
         }
 
         .leaflet-touch .leaflet-bar {
@@ -608,6 +502,256 @@
             color: black;
             z-index: 999 !important;
         }
+
+        @media only screen and (max-device-width: 500px) {
+
+            #calado_span,
+            #calado_span_2,
+            #calado_sup_span,
+            #calado_inf_span {
+                width: 90%;
+                height: 100px;
+                font-size: 3.2rem;
+
+            }
+
+            input[type="range"] {
+                width: 90% !important;
+                height: 70px !important;
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                width: 90px !important;
+                height: 90px !important;
+            }
+
+            .img_logo {
+                display: none;
+            }
+
+            .img_logo2 {
+                border: none;
+                margin: auto;
+                display: block;
+                width: 50%;
+            }
+
+            #time {
+                font-size: 3.2rem;
+                width: 90%;
+                height: 100px;
+            }
+
+            .btn_color_sim {
+                width: 100%;
+                height: 90px;
+                font-size: 2.7rem;
+                border-radius: 45px;
+            }
+
+            .btn_rota {
+                width: 80%;
+                height: 100px;
+                font-size: 2.7rem;
+                background-color: #1F3436;
+                color: white;
+                border-radius: 45px;
+            }
+
+            .btn_color_del {
+                width: 100%;
+                height: 90px;
+                font-size: 2.7rem;
+                border-radius: 45px;
+            }
+
+            .order-12 {
+                width: 100%;
+            }
+
+            .order-12,
+            .row {
+                width: 100%;
+                margin: auto;
+                display: block;
+            }
+
+            .order-12,
+            .row,
+            img {
+                width: 95%;
+            }
+
+            .order-12,
+            .row,
+            p {
+                margin-top: 20px;
+                font-size: 2.9rem;
+            }
+
+            .col-sm {
+                margin: auto;
+                display: block;
+                text-align: center;
+            }
+
+            .col_file {
+                display: none;
+            }
+
+            .col-sm-1:first-of-type {
+                max-width: 13.333333%;
+                flex: 0 0 13.333333%;
+                -ms-flex: 0 0 13.333333%;
+            }
+
+            .leaflet-touch .leaflet-bar a {
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+                font-size: 50px;
+                background-color: #214198;
+            }
+
+            .leaflet-touch .leaflet-control-layers-toggle {
+                width: 100px;
+                height: 100px;
+                background-color: #214198;
+            }
+
+            .leaflet-control-layers-expanded {
+                background-color: #fff;
+                position: fixed;
+                width: 450px;
+                height: 1200px;
+                font-size: 2rem;
+                z-index: 9990;
+                top: 260px;
+                right: 10px;
+                text-align: center;
+            }
+
+            input[type=radio] {
+                width: 100%;
+                height: 3rem;
+            }
+
+            .leaflet-retina .leaflet-control-layers-toggle {
+                background-size: 60px 60px;
+            }
+
+            #issMap {
+                height: 1800px;
+            }
+
+            .container2 {
+                border: 2px transparent;
+                border-radius: 50px;
+                background-color: white;
+            }
+
+
+            a#abreDefinicoes {
+                width: 30rem;
+                font-size: 50px;
+                margin: auto;
+                left: calc(50% - 15rem);
+            }
+
+            a#abreCarousel {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+                top: 1100px;
+            }
+
+            #btn_legenda {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+                top: 800px;
+            }
+
+            #btn_legenda2 {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+                top: 950px;
+            }
+
+            #legenda {
+                margin-top: 50px;
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+            }
+
+            .leaflet-touch .leaflet-bar {
+                top: 550px;
+            }
+
+            a#fecharCarousel {
+                background-color: tomato;
+                border: #1f1f1f;
+                color: #ffffff;
+                width: 200px;
+                position: absolute;
+                z-index: 100000;
+                font-size: 71px;
+                top: 1165px;
+                left: calc(50% - 60px);
+                display: none;
+                border-radius: 30px;
+            }
+
+            .carousel {
+                background: #fff;
+                position: fixed;
+                top: 1270px;
+                overflow: hidden;
+                height: 400px;
+                width: 160%;
+                border-radius: 15px;
+                z-index: 1;
+                text-align: center;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+            .carousel-cell {
+                width: 25%;
+                height: 300px;
+                background: #ffc10a;
+                border: 0px solid black;
+                border-radius: 60px;
+                box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+                margin: 0 50px;
+                margin-top: 30px;
+
+            }
+
+            .carousel-cell h5 {
+                font-size: 3rem;
+            }
+
+            .carousel-cell:before {
+                display: block;
+                text-align: center;
+                /*content: counter(carousel-cell);*/
+                line-height: 200px;
+                color: white;
+            }
+
+            .image_card {
+                height: 145px;
+            }
+
+            .flickity-prev-next-button.previous,
+            .flickity-prev-next-button.next {
+                width: 90px;
+                height: 90px;
+            }
+        }
     </style>
 
 
@@ -632,9 +776,9 @@
     <a id="abreCarousel" class="btn btn-primary" role="button"><i class="fas fa-map-marked-alt"></i></a>
 
     <a class="btn btn-primary" data-toggle="collapse" href="#navbarToggleExternalContent" role="button"
-    aria-expanded="true" aria-controls="navbarToggleExternalContent" id="fechaDefinicoes">
-    <i class="fas fa-times-circle"></i>
-</a>
+        aria-expanded="true" aria-controls="navbarToggleExternalContent" id="fechaDefinicoes">
+        <i class="fas fa-times-circle"></i>
+    </a>
 
 
     <div class="collapse show" id="navbarToggleExternalContent" style="display: none;">
@@ -686,12 +830,12 @@
             <div class="col-sm-3">
                 <button type="button" class="btn btn-dark btn_color_sim" onclick="changeValue()">Simular</button>
             </div>
-            <div class="col-sm-3" >
+            <div class="col-sm-3">
                 <button type="button" class="btn btn-danger btn_color_del" onclick="clearmap()">Limpar campos</button>
             </div>
-            
+
             <div class="col-sm-1"></div>
-            
+
         </div>
     </div>
 
