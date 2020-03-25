@@ -2431,48 +2431,109 @@
                 console.log({ segunda: guardardistancia[1][1] })
 
                 let arrayFuncoesGpx = [
-                    'getTorreiraGPX',
-                    'getCostaNovaGPX',
-                    'getData4GPX',
-                    'getIdaBicoGPX',
-                    'getDataGPX_RegressoBico',
-                    'getData_IDA10_3_20_GPX',
+                    'getTorreiraGPX', //0
+                    'getCostaNovaGPX', //1
+                    'getData4GPX', //2 
+                    'getIdaBicoGPX', //3
+                    'getDataGPX_RegressoBico', //4
+                    'getData_IDA10_3_20_GPX', //5
 
                 ];
 
 
 
-                if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[1]) {
+                if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
                     getTorreiraGPX();
                     getCostaNovaGPX();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[1] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
                     getTorreiraGPX();
                     getCostaNovaGPX();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[2]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
                     getTorreiraGPX();
                     getData4GPX();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[2] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
                     getTorreiraGPX();
                     getData4GPX();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[3]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
                     getTorreiraGPX();
                     getIdaBicoGPX();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[3] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
                     getTorreiraGPX();
                     getIdaBicoGPX();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[4]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
                     getTorreiraGPX();
                     getDataGPX_RegressoBico();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[4] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
                     getTorreiraGPX();
                     getDataGPX_RegressoBico();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[5]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
                     getTorreiraGPX();
                     getDataGPX_RegressoBico();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[5] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
                     getTorreiraGPX();
                     getData_IDA10_3_20_GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                    getCostaNovaGPX();
+                    getData4GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+                    getCostaNovaGPX();
+                    getData4GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                    getCostaNovaGPX();
+                    getIdaBicoGPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+                    getCostaNovaGPX();
+                    getIdaBicoGPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                    getCostaNovaGPX();
+                    getDataGPX_RegressoBico();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+                    getCostaNovaGPX();
+                    getDataGPX_RegressoBico();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                    getCostaNovaGPX();
+                    getData_IDA10_3_20_GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+                    getCostaNovaGPX();
+                    getData_IDA10_3_20_GPX();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                    getData4GPX();
+                    getIdaBicoGPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                    getData4GPX();
+                    getIdaBicoGPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                    getData4GPX();
+                    getDataGPX_RegressoBico();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                    getData4GPX();
+                    getDataGPX_RegressoBico();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                    getData4GPX();
+                    getData_IDA10_3_20_GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                    getData4GPX();
+                    getData_IDA10_3_20_GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                    getIdaBicoGPX();
+                    getDataGPX_RegressoBico();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                    getDataGPX_RegressoBico();
+                    getIdaBicoGPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                    getIdaBicoGPX();
+                    getData_IDA10_3_20_GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                    getIdaBicoGPX();
+                    getData_IDA10_3_20_GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                    getDataGPX_RegressoBico();
+                    getData_IDA10_3_20_GPX();
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                    getDataGPX_RegressoBico();
+                    getData_IDA10_3_20_GPX();
                 }
+
 
             }
 
