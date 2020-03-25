@@ -2344,7 +2344,7 @@
             distancia = mymap.distance([lat_gpx, lon_gpx], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(parseInt(distancia));
-            local_Nome_rota.push('mytracks_regresso_torreira')
+            local_Nome_rota.push('getTorreiraGPX')
 
             let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
             const response2 = await fetch(url2);
@@ -2358,7 +2358,7 @@
             distancia2 = mymap.distance([lat_gpx2, lon_gpx2], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(parseInt(distancia2));
-            local_Nome_rota.push('mytracks_2_08_costaNova')
+            local_Nome_rota.push('getCostaNovaGPX')
 
 
             let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
@@ -2372,7 +2372,7 @@
             distancia3 = mymap.distance([lat_gpx3, lon_gpx3], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(parseInt(distancia3));
-            local_Nome_rota.push('aveiro_centro')
+            local_Nome_rota.push('getData4GPX')
 
             let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
             const response4 = await fetch(url4);
@@ -2385,9 +2385,9 @@
             distancia4 = mymap.distance([lat_gpx4, lon_gpx4], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(parseInt(distancia4));
-            local_Nome_rota.push('Ida Bico')
+            local_Nome_rota.push('getIdaBicoGPX')
 
-           
+
             let url5 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
             const response5 = await fetch(url5);
             const json5 = await response5.text();
@@ -2399,7 +2399,7 @@
             distancia5 = mymap.distance([lat_gpx5, lon_gpx5], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(parseInt(distancia5));
-            local_Nome_rota.push('Regresso do Bico');
+            local_Nome_rota.push('getDataGPX_RegressoBico');
 
             let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
             const response6 = await fetch(url6);
@@ -2412,9 +2412,9 @@
             distancia6 = mymap.distance([lat_gpx6, lon_gpx6], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(parseInt(distancia6));
-            local_Nome_rota.push('Ida Cais Vagueira');
-           
-           
+            local_Nome_rota.push('getData_IDA10_3_20_GPX');
+
+
             let dataOrdenada, guardardistancia = [];
             let primeira_pos;
             if (localiz_distan != null) {
@@ -2427,12 +2427,53 @@
                 });
                 console.log({ array: guardardistancia })
 
-                console.log({primeira: guardardistancia[0][1]})
-                console.log({segunda: guardardistancia[1][1]})
+                console.log({ primeira: guardardistancia[0][1] })
+                console.log({ segunda: guardardistancia[1][1] })
 
-                // let arrayFuncoesGpx = [
-                //     get
-                // ]
+                let arrayFuncoesGpx = [
+                    'getTorreiraGPX',
+                    'getCostaNovaGPX',
+                    'getData4GPX',
+                    'getIdaBicoGPX',
+                    'getDataGPX_RegressoBico',
+                    'getData_IDA10_3_20_GPX',
+
+                ];
+
+
+
+                if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[1]) {
+                    getTorreiraGPX();
+                    getCostaNovaGPX();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[1] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                    getTorreiraGPX();
+                    getCostaNovaGPX();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[2]) {
+                    getTorreiraGPX();
+                    getData4GPX();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[2] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                    getTorreiraGPX();
+                    getData4GPX();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[3]) {
+                    getTorreiraGPX();
+                    getIdaBicoGPX();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[3] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                    getTorreiraGPX();
+                    getIdaBicoGPX();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[4]) {
+                    getTorreiraGPX();
+                    getDataGPX_RegressoBico();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[4] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                    getTorreiraGPX();
+                    getDataGPX_RegressoBico();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[0] || guardardistancia[0][1] == arrayFuncoesGpx[5]) {
+                    getTorreiraGPX();
+                    getDataGPX_RegressoBico();
+                }else if (guardardistancia[0][1] == arrayFuncoesGpx[5] || guardardistancia[0][1] == arrayFuncoesGpx[0]) {
+                    getTorreiraGPX();
+                    getData_IDA10_3_20_GPX();
+                }
+
             }
 
 
