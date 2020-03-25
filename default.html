@@ -307,6 +307,19 @@
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
         }
 
+        #btn_legenda4 {
+            background-color: #214198;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 45px;
+            position: fixed;
+            z-index: 20;
+            top: 100px;
+            left: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
         #legenda {
             position: absolute;
             top: 360px;
@@ -806,6 +819,10 @@
     <a class="btn btn-primary" data-toggle="collapse" role="button" aria-expanded="false"
         aria-controls="navbarToggleExternalContent" id="abreDefinicoes">Definições</a>
 
+    <button onclick="verificaClickCoor()" type="button" id="btn_legenda4" class="btn btn-dark">
+        <i class="fas fa-route"></i>
+    </button>
+
     <button type="button" id="btn_legenda" class="btn btn-dark" data-toggle="modal" data-target="#myModal2">
         <i class="fas fa-info-circle"></i>
     </button>
@@ -888,15 +905,15 @@
 
     <div id="carousel" class="carousel" data-flickity='{ "freeScroll": true, "wrapAround": true }'>
 
-        <div onclick="getDataGPX()" class="carousel-cell">
+        <div onclick="getTorreiraGPX()" class="carousel-cell">
             <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
             <h5>Rota Torreira</h5>
         </div>
-        <div onclick="getData2GPX()" class="carousel-cell">
+        <div onclick="getCostaNovaGPX()" class="carousel-cell">
             <div class="imagem_card" style="background-image:url(./cards_images/CostaNova.jpg);"></div>
             <h5>Costa Nova</h5>
         </div>
-        <div onclick="getData3GPX()" class="carousel-cell">
+        <div onclick="getIdaBicoGPX()" class="carousel-cell">
             <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
             <h5>Cais do Bico</h5>
         </div>
@@ -905,7 +922,7 @@
             <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
             <h5>Cais do Bico Regresso</h5>
         </div>
-        
+
         <div onclick="getData_IDA10_3_20_GPX()" class="carousel-cell">
             <div class="imagem_card" style="background-image:url(./cards_images/Vagueira.jpg);"></div>
             <h5>Rota 10/03/20 IDA</h5>
@@ -1074,13 +1091,13 @@
 
 
         var NauticalMap = L.tileLayer('https://viewer.flytomap.com/noaatiles/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
+            attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy SiSMAR PROJECT;',
             subdomains: 'abcd',
             maxZoom: 19,
         });
 
         var NauticalMap_2 = L.tileLayer('https://viewer.flytomap.com/ftm_tiles/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
+            attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy SiSMAR PROJECT',
             subdomains: 'abcd',
             maxZoom: 19,
         });
@@ -1088,12 +1105,12 @@
 
         var OpenStreetMap_HOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+            attribution: '&copy SiSMAR PROJECT &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
         });
 
         var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
             maxZoom: 17,
-            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+            attribution: '&copy SiSMAR PROJECT Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
         });
 
         var Thunderforest_TransportDark = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
@@ -1104,7 +1121,7 @@
 
 
         var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            attribution: '&copy SiSMAR PROJECT Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         });
         var CartoDB_DarkMatterNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -1112,9 +1129,14 @@
             maxZoom: 19
         });
 
+        // var overlay = L.tileLayer('https://backend.navionics.io/tile/{z}/{x}/{y}?LAYERS=config_1_1_0&TRANSPARENT=FALSE&UGC=TRUE&navtoken=eyJrZXkiOiJOQVZJT05JQ1NfV0VCQVBJX1AwMSIsImtleURvbWFpbiI6IndlYmFwaXYyLm5hdmlvbmljcy5jb20iLCJyZWZlcmVyIjoid2ViYXBpdjIubmF2aW9uaWNzLmNvbSIsInJhbmRvbSI6MTU4NTA2MDMwODI1MX0', {
+        //     attribution: '&copy; <a href="http://navionics.com">Navionics</a>'
+        // });
 
         //Adicionar Layer inicial
         NauticalMap.addTo(mymap);
+
+
 
 
         baseMaps = {
@@ -1122,7 +1144,7 @@
             "Normal": tiles,
             "FlyToMap": NauticalMap_2,
             "Satélite": Esri_WorldImagery,
-            "Hybrid": Esri_WorldImagery,
+            //"NaviTest": overlay,
             "OpenStreetMap_HOT": OpenStreetMap_HOT,
             "OpenTopoMap": OpenTopoMap,
             "Dark": CartoDB_DarkMatterNoLabels,
@@ -1130,7 +1152,6 @@
         };
 
         ControlLayer = L.control.layers(baseMaps).addTo(mymap);
-
 
         // Making a marker with a custom icon
         const issIcon = L.icon({
@@ -1149,19 +1170,19 @@
 
         let marker2 = L.marker([40.754585, -8.696377], {
             icon: issIcon
-        }).addTo(mymap).on('click', getDataGPX);
+        }).addTo(mymap).on('click', getTorreiraGPX);
 
         //gafanha
 
         let marker3 = L.marker([40.612488, -8.738059], {
             icon: issIcon
-        }).addTo(mymap).on('click', getData2GPX);
+        }).addTo(mymap).on('click', getCostaNovaGPX);
 
         //Bico
 
         let marker4 = L.marker([40.727508, -8.648118], {
             icon: issIcon
-        }).addTo(mymap).on('click', getData3GPX);
+        }).addTo(mymap).on('click', getIdaBicoGPX);
 
 
         mymap.on('zoomend', function () {
@@ -1182,7 +1203,9 @@
 
         let text_gpx, arrayGPX = [];
         var VEri_text_gpx;
-        async function getDataGPX() {
+
+        var arrayClickGPX = [];
+        async function getTorreiraGPX() {
 
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
@@ -1197,7 +1220,7 @@
                 })
                 .then(function (json) {
                     VEri_text_gpx = json;
-
+                    arrayClickGPX.push(json);
                     var g = new L.GPX(json, {
                         async: true,
                         parseElements: ['track'],
@@ -1337,7 +1360,7 @@
 
         }
 
-        async function getData2GPX() {
+        async function getCostaNovaGPX() {
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
@@ -1411,7 +1434,7 @@
                 });
             mymap.setView([40.61, -8.745], 12.6);
         }
-        async function getData3GPX() {
+        async function getIdaBicoGPX() {
             let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
             fetch(url3)
                 .then(function (response) {
@@ -1844,7 +1867,7 @@
         }
 
         window.onload = function () {
-            getData3GPX();
+            getIdaBicoGPX();
             getInfo();
             GetClock();
             setInterval(GetClock, 1000);
@@ -2288,6 +2311,132 @@
         }
 
 
+        var lat, lng;
+
+        var arrayclicado = [];
+        // mymap.on("contextmenu", function (event) {
+        //     console.log("user right-clicked on map coordinates: " + event.latlng.toString());
+        //     L.marker(event.latlng).addTo(mymap);
+        //     arrayclicado.push(event.latlng);
+        //     verificaClickCoor(arrayclicado[0])
+
+        // });
+
+        mymap.on('click', function (e) {
+            var coord = e.latlng;
+            var lat = coord.lat;
+            var lng = coord.lng;
+            console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+            verificaClickCoor(coord);
+        });
+        async function verificaClickCoor(arrayClicked) {
+            var localiz_distan = [], local_Nome_rota = [];
+
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
+            const response = await fetch(url);
+            const json = await response.text();
+
+            parser = new DOMParser();
+            xmlDoc = parser.parseFromString(json, "text/xml");
+
+            var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
+            distancia = mymap.distance([lat_gpx, lon_gpx], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(parseInt(distancia));
+            local_Nome_rota.push('mytracks_regresso_torreira')
+
+            let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
+            const response2 = await fetch(url2);
+            const json2 = await response2.text();
+            parser2 = new DOMParser();
+            xmlDoc2 = parser2.parseFromString(json2, "text/xml");
+
+            var lat_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia2 = mymap.distance([lat_gpx2, lon_gpx2], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(parseInt(distancia2));
+            local_Nome_rota.push('mytracks_2_08_costaNova')
+
+
+            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
+            const response3 = await fetch(url3);
+            const json3 = await response3.text();
+            parser3 = new DOMParser();
+            xmlDoc3 = parser3.parseFromString(json3, "text/xml");
+            var lat_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia3 = mymap.distance([lat_gpx3, lon_gpx3], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(parseInt(distancia3));
+            local_Nome_rota.push('aveiro_centro')
+
+            let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            const response4 = await fetch(url4);
+            const json4 = await response4.text();
+            parser4 = new DOMParser();
+            xmlDoc4 = parser4.parseFromString(json4, "text/xml");
+            var lat_gpx4 = xmlDoc4.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx4 = xmlDoc4.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia4 = mymap.distance([lat_gpx4, lon_gpx4], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(parseInt(distancia4));
+            local_Nome_rota.push('Ida Bico')
+
+           
+            let url5 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+            const response5 = await fetch(url5);
+            const json5 = await response5.text();
+            parser5 = new DOMParser();
+            xmlDoc5 = parser5.parseFromString(json5, "text/xml");
+            var lat_gpx5 = xmlDoc5.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx5 = xmlDoc5.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia5 = mymap.distance([lat_gpx5, lon_gpx5], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(parseInt(distancia5));
+            local_Nome_rota.push('Regresso do Bico');
+
+            let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
+            const response6 = await fetch(url6);
+            const json6 = await response6.text();
+            parser6 = new DOMParser();
+            xmlDoc6 = parser6.parseFromString(json6, "text/xml");
+            var lat_gpx6 = xmlDoc6.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx6 = xmlDoc6.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia6 = mymap.distance([lat_gpx6, lon_gpx6], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(parseInt(distancia6));
+            local_Nome_rota.push('Ida Cais Vagueira');
+           
+           
+            let dataOrdenada, guardardistancia = [];
+            let primeira_pos;
+            if (localiz_distan != null) {
+
+                for (let j = 0; j < localiz_distan.length; j++) {
+                    guardardistancia.push([localiz_distan[j], local_Nome_rota[j]])
+                }
+                dataOrdenada = guardardistancia.sort(function (a, b) {
+                    return a[0] - b[0]
+                });
+                console.log({ array: guardardistancia })
+
+                console.log({primeira: guardardistancia[0][1]})
+                console.log({segunda: guardardistancia[1][1]})
+
+                // let arrayFuncoesGpx = [
+                //     get
+                // ]
+            }
+
+
+        }
 
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {

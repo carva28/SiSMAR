@@ -29,13 +29,13 @@
 
     </style>
 </head>
-<body data-root="//webapiv2.navionics.com/dist/webapi/images" >
+<body data-root="https://webapiv2.navionics.com/dist/webapi/images" >
 <div id="nautical-map-container" class="map" ></div>
 <script>
 var map = L.map('nautical-map-container');
 
 var overlay = new JNC.Leaflet.NavionicsOverlay({
-    navKey: 'Navionics_support_00001',
+    navKey: 'Navionics_webapi_03426',
     chartType: JNC.NAVIONICS_CHARTS.NAUTICAL,
     isTransparent: false,
     zIndex: 1
