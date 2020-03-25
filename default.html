@@ -354,7 +354,7 @@
             color: #ffffff;
             width: 60px;
             position: absolute;
-            z-index: 100000;
+            z-index: 999;
             font-size: 25px;
             top: 140px;
             left: calc(50% - 30px);
@@ -395,7 +395,7 @@
             color: #ffffff;
             width: 60px;
             position: absolute;
-            z-index: 100000;
+            z-index: 99999;
             font-size: 25px;
             top: 380px;
             left: calc(50% - 30px);
@@ -751,7 +751,7 @@
                 color: #ffffff;
                 width: 200px;
                 position: absolute;
-                z-index: 100000;
+                z-index: 999;
                 font-size: 71px;
                 top: 1165px;
                 left: calc(50% - 60px);
@@ -819,9 +819,9 @@
     <a class="btn btn-primary" data-toggle="collapse" role="button" aria-expanded="false"
         aria-controls="navbarToggleExternalContent" id="abreDefinicoes">Definições</a>
 
-    <button onclick="verificaClickCoor()" type="button" id="btn_legenda4" class="btn btn-dark">
+    <!-- <button onclick="verificaClickCoor()" type="button" id="btn_legenda4" class="btn btn-dark">
         <i class="fas fa-route"></i>
-    </button>
+    </button> -->
 
     <button type="button" id="btn_legenda" class="btn btn-dark" data-toggle="modal" data-target="#myModal2">
         <i class="fas fa-info-circle"></i>
@@ -1260,6 +1260,7 @@
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
+
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
@@ -1271,6 +1272,13 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    })
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -1349,6 +1357,12 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -1424,6 +1438,12 @@
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
+                    });
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -1503,6 +1523,12 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -1567,7 +1593,8 @@
                             "Elevation Gain: " + eleGain + " m </br>"
 
                         //document.getElementById('km').innerHTML = info;
-                        gpx.getLayers()[0].bindPopup(info)
+                        gpx.getLayers()[0].bindPopup("<h2>Rota Aveiro</h2>" + info);
+                        //gpx.getLayers()[0].bindPopup(changeValue())
 
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
@@ -1580,11 +1607,20 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
                     })
+
+                    
+                    
                     g.addTo(mymap);
                 });
 
@@ -1658,6 +1694,12 @@
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
+                    });
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -1736,6 +1778,12 @@
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
+                    });
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -2321,11 +2369,31 @@
         //     verificaClickCoor(arrayclicado[0])
 
         // });
-
+        var newMarker;
         mymap.on('click', function (e) {
+
             var coord = e.latlng;
             var lat = coord.lat;
             var lng = coord.lng;
+
+            if (newMarker) { // check
+                mymap.removeLayer(newMarker); // remove
+            }
+
+            newMarker = L.icon({
+                iconUrl: 'user_marker.png',
+                iconSize: [30, 40, 5],
+                iconAnchor: [10, 30],
+            });
+            newMarker = new L.marker([coord.lat, coord.lng], {
+                icon: newMarker
+            }).addTo(mymap);
+            // let asas2323 = L.marker([coord.lat, coord.lng], {
+            //     icon: newMarker
+            // }).addTo(mymap);
+
+
+
             console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
             verificaClickCoor(coord);
         });
@@ -2496,7 +2564,7 @@
                 } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
                     getCostaNovaGPX();
                     getData_IDA10_3_20_GPX();
-                }else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
                     getData4GPX();
                     getIdaBicoGPX();
                 } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
