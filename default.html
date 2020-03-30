@@ -512,6 +512,40 @@
             z-index: 999 !important;
         }
 
+        .leaflet-popup-content-wrapper {
+            width: 200px;
+        }
+
+        .leaflet-popup-content {
+            margin: 15px 5px;
+        }
+
+        .leaflet-popup-content .div_botoes_bind {
+            margin: auto;
+        }
+
+        .leaflet-popup-content .div_bind {
+            margin: auto;
+            padding: 10px;
+        }
+
+        .leaflet-popup-content p {
+            font-size: 1.05rem;
+        }
+
+        .leaflet-popup-content select {
+            width: 150px;
+            height: 40px;
+            background-color: #f0bc33;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .leaflet-popup-close-button {
+            color: red !important;
+        }
+
+
         @media (min-width: 576px) {
 
             .col-sm-1 {
@@ -520,6 +554,8 @@
                 max-width: 13.333333%;
             }
         }
+
+
 
         @media only screen and (max-device-width: 500px) {
 
@@ -948,6 +984,12 @@
                 <span>Pelo sequeiro</span>
             </h5>
         </div>
+        <div onclick="getBicoAngeGPX()" class="carousel-cell">
+            <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
+            <h5>Bico - Ange<br>
+                <span>Pelo canal</span>
+            </h5>
+        </div>
     </div>
 
 
@@ -1177,44 +1219,38 @@
             iconAnchor: [10, 30],
         });
 
-        //Aveiro centro
+        // //torreira
 
-        let marker = L.marker([40.64138528006924, -8.654335141181946], {
-            icon: issIcon
-        }).addTo(mymap).on('click', getData4GPX);
+        // let marker2 = L.marker([40.754585, -8.696377], {
+        //     icon: issIcon
+        // }).addTo(mymap).on('click', getTorreiraGPX);
 
-        //torreira
+        // //gafanha
 
-        let marker2 = L.marker([40.754585, -8.696377], {
-            icon: issIcon
-        }).addTo(mymap).on('click', getTorreiraGPX);
+        // let marker3 = L.marker([40.612488, -8.738059], {
+        //     icon: issIcon
+        // }).addTo(mymap).on('click', getCostaNovaGPX);
 
-        //gafanha
+        // //Bico
 
-        let marker3 = L.marker([40.612488, -8.738059], {
-            icon: issIcon
-        }).addTo(mymap).on('click', getCostaNovaGPX);
-
-        //Bico
-
-        let marker4 = L.marker([40.727508, -8.648118], {
-            icon: issIcon
-        }).addTo(mymap).on('click', getIdaBicoGPX);
+        // let marker4 = L.marker([40.727508, -8.648118], {
+        //     icon: issIcon
+        // }).addTo(mymap).on('click', getIdaBicoGPX);
 
 
-        mymap.on('zoomend', function () {
-            const zoom = mymap.getZoom() + 1;
-            // const w = 11 * zoom;
-            // const h = 16 * zoom;
-            // issIcon.options.iconSize = [44, 65];
-            // issIcon.options.iconAnchor = [w / 2, h / 2];
-            mymap.removeLayer(marker);
-            let latlng = marker.getLatLng();
-            marker = L.marker([40.727291289709356, -8.652763366699219], {
-                icon: issIcon
-            }).addTo(mymap).on('click', onClick);;
-            marker.setLatLng(latlng);
-        });
+        // mymap.on('zoomend', function () {
+        //     const zoom = mymap.getZoom() + 1;
+        //     // const w = 11 * zoom;
+        //     // const h = 16 * zoom;
+        //     // issIcon.options.iconSize = [44, 65];
+        //     // issIcon.options.iconAnchor = [w / 2, h / 2];
+        //     mymap.removeLayer(marker);
+        //     let latlng = marker.getLatLng();
+        //     marker = L.marker([40.727291289709356, -8.652763366699219], {
+        //         icon: issIcon
+        //     }).addTo(mymap).on('click', onClick);;
+        //     marker.setLatLng(latlng);
+        // });
 
         L.control.scale().addTo(mymap);
 
@@ -1222,6 +1258,9 @@
         var VEri_text_gpx;
 
         var arrayClickGPX = [];
+
+
+        //Funções responsáveis por ler a data do GPX e armazená-la num array
         async function getTorreiraGPX() {
 
             mymap.eachLayer(function (layer) {
@@ -1307,7 +1346,6 @@
 
         }
 
-
         async function getDataGPX_RegressoBico() {
 
             mymap.eachLayer(function (layer) {
@@ -1392,6 +1430,7 @@
         }
 
         async function getCostaNovaGPX() {
+
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
@@ -1471,8 +1510,94 @@
                 });
             mymap.setView([40.61, -8.745], 12.6);
         }
+
         async function getIdaBicoGPX() {
-            //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+
+            fetch(url3)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        moving_speed = gpx.get_moving_speed().toFixed(2);
+                        moving_pace = gpx.get_moving_pace().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>" +
+                            "moving_speed: " + moving_speed + "</br>" +
+                            "moving_pace: " + moving_pace + "</br>"
+                        console.log(info)
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.701, -8.68,], 13);
+        }
+
+        async function getBicoAngeGPX() {
             let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
 
             fetch(url3)
@@ -1644,7 +1769,6 @@
                 });
 
         }
-
 
         async function getData_Volta10_3_20_GPX() {
             // document.getElementById('btn_rota_Volta').style.backgroundColor = "#00000087";
@@ -1849,95 +1973,10 @@
         }
     </script>
 
-    <script>
-        var arrayhidrografico = [];
-        var array_hidrografico_simulacao_API = [],
-            array_hidrografico_simulacao_API_diapos = [],
-            array_hidrografico_simulacao_API_anterior = [];
-        var arrayUser = [];
-        $(document).ready(function () {
-            $("#fileUploader").change(function (evt) {
-                var selectedFile = evt.target.files[0];
-                var reader = new FileReader();
-                reader.onload = function (event) {
-                    var data = event.target.result;
-                    var workbook = XLSX.read(data, {
-                        type: 'binary'
-                    });
-                    workbook.SheetNames.forEach(function (sheetName) {
-
-                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-                        var json_object = JSON.stringify(XL_row_object);
-
-                        let jsonparse = JSON.parse(json_object);
-                        arrayUser.push(jsonparse);
-                        let tempoveri = arrayUser[0][1].T;
-                        var newStr = tempoveri.replace(/T/g, " ");
-                        let date = new Date(newStr);
-                        let horatempoAPI = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
-
-                        document.getElementById('time').value = horatempoAPI;
-                        let nyear = date.getYear();
-                        if (nyear < 1000) nyear += 1900;
-                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-                        var arrayhidrografico = [];
-                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
-
-                    })
-                };
-
-                reader.onerror = function (event) {
-                    console.error("File could not be read! Code " + event.target.error.code);
-                };
-
-                reader.readAsBinaryString(selectedFile);
-            });
-        });
-    </script>
-
     <script type="text/javascript">
-        tday = new Array("Domingo", "Segunda-Feira",
-            "Terça-Feira", "Quarta-Feira",
-            "Quinta-Feira", "Sexta-Feira", "Sábado");
-        tmonth = new Array("Janeiro", "Fevereiro", "Março",
-            "Abril", "Maio", "Junho", "Julho",
-            "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro");
-
-        function GetClock() {
-            var d = new Date();
-            var nday = d.getDay(),
-                nmonth = d.getMonth(),
-                ndate = d.getDate(),
-                nyear = d.getYear(),
-                nhour = d.getHours(),
-                nmin = d.getMinutes(),
-                nsec = d.getSeconds(),
-                ap;
-
-            if (nhour == 0) {
-                ap = " AM";
-                nhour = 12;
-            } else if (nhour < 12) {
-                ap = " AM";
-            } else if (nhour == 12) {
-                ap = " PM";
-            } else if (nhour > 12) {
-                ap = " PM";
-                nhour -= 12;
-            }
-
-            if (nyear < 1000) nyear += 1900;
-            if (nmin <= 9) nmin = "0" + nmin;
-            if (nsec <= 9) nsec = "0" + nsec;
-            //document.getElementById('clockbox').innerHTML = "" + tday[nday] + ", " + tmonth[nmonth] + " " + ndate + ", " + nyear + " " + nhour + ":" + nmin + ":" + nsec + ap + "";
-        }
-
         window.onload = function () {
             getIdaBicoGPX();
             getInfo();
-            GetClock();
-            setInterval(GetClock, 1000);
-
         }
 
 
@@ -1969,13 +2008,6 @@
                 .then(contents => array_hidrografico_simulacao_API.push(contents))
                 .then(contents => arrayhidrografico.push(contents))
                 .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
-
-            //const proxyurl = "https://cors-anywhere.herokuapp.com/";
-            // const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
-            // const response = await fetch(proxyurl + url);
-            // const json = await response.json();
-            // array_hidrografico_simulacao_API.push(json)
-
 
             const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
             const response2 = await fetch(proxyurl + url_posterior);
@@ -2034,6 +2066,7 @@
             console.log(array_hidrografico_simulacao_API_anterior)
         }
 
+        //Carregar Informação do Instituto Hidrográfico na Modal
         function onclick_modal_data_amanha() {
             if (array_hidrografico_simulacao_API_diapos.length > 0) {
                 document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
@@ -2064,7 +2097,6 @@
                     "</tbody></table>";
             }
         }
-
         function onclick_modal_data_ontem() {
             if (array_hidrografico_simulacao_API_anterior.length > 0) {
                 document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
@@ -2164,8 +2196,6 @@
                 .then(contents => arrayhidrografico_anteriordia.push(contents))
                 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
         }
-
-
 
         function onclick_modal_data_ondia15() {
             if (arrayhidrografico_anteriordia.length > 0) {
@@ -2331,7 +2361,7 @@
 
             //inserir data
             var data_insert = document.getElementById('date').value;
-            let testData ;
+            let testData;
             if (data_insert == "") {
                 document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Dever inserir uma data</h4>";
                 var d = new Date();
@@ -2340,20 +2370,20 @@
                 var ndate = d.getDate();
                 var nyear = d.getYear();
                 if (nyear < 1000) nyear += 1900;
-                
-                
-                if(nmonth <=9 ) {
-                    if(ndate <= 9){
-                    testData = nyear.toString() + "-0" + nmonth.toString() + "-0" + ndate.toString();
-                    }else{
+
+
+                if (nmonth <= 9) {
+                    if (ndate <= 9) {
+                        testData = nyear.toString() + "-0" + nmonth.toString() + "-0" + ndate.toString();
+                    } else {
                         testData = nyear.toString() + "-0" + nmonth.toString() + "-" + ndate.toString();
                     }
-                }else if(ndate <= 9){
+                } else if (ndate <= 9) {
                     testData = nyear.toString() + "-" + nmonth.toString() + "-0" + ndate.toString();
-                }else{
+                } else {
                     testData = nyear.toString() + "-" + nmonth.toString() + "-" + ndate.toString();
                 }
-                
+
                 document.getElementById('date').value = testData.toString();
                 console.log(testData);
                 console.log(document.getElementById('date').value);
@@ -2395,14 +2425,9 @@
         var lat, lng;
 
         var arrayclicado = [];
-        // mymap.on("contextmenu", function (event) {
-        //     console.log("user right-clicked on map coordinates: " + event.latlng.toString());
-        //     L.marker(event.latlng).addTo(mymap);
-        //     arrayclicado.push(event.latlng);
-        //     verificaClickCoor(arrayclicado[0])
 
-        // });
         var newMarker;
+        var marker_Teste1;
         mymap.on('click', function (e) {
 
             var coord = e.latlng;
@@ -2421,15 +2446,10 @@
             newMarker = new L.marker([coord.lat, coord.lng], {
                 icon: newMarker
             }).addTo(mymap);
-            // let asas2323 = L.marker([coord.lat, coord.lng], {
-            //     icon: newMarker
-            // }).addTo(mymap);
 
-
-
-            console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
             verificaClickCoor(coord);
         });
+
         async function verificaClickCoor(arrayClicked) {
             var localiz_distan = [], local_Nome_rota = [];
 
@@ -2516,6 +2536,20 @@
             local_Nome_rota.push('getData_IDA10_3_20_GPX');
 
 
+            let url7 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx';
+            const response7 = await fetch(url7);
+            const json7 = await response7.text();
+            parser7 = new DOMParser();
+            xmlDoc7 = parser7.parseFromString(json7, "text/xml");
+            var lat_gpx7 = xmlDoc7.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx7 = xmlDoc7.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia7 = mymap.distance([lat_gpx7, lon_gpx7], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(parseInt(distancia7));
+            local_Nome_rota.push('getData_Volta10_3_20_GPX');
+            
+
             let dataOrdenada, guardardistancia = [];
             let primeira_pos;
             if (localiz_distan != null) {
@@ -2538,108 +2572,242 @@
                     'getIdaBicoGPX', //3
                     'getDataGPX_RegressoBico', //4
                     'getData_IDA10_3_20_GPX', //5
-
+                    'getData_Volta10_3_20_GPX'
                 ];
 
+                if (guardardistancia[0][1] == 'getTorreiraGPX') {
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
 
+                    marker_Teste1 = L.marker([40.754585, -8.696377], {
+                        icon: issIcon
+                    }).addTo(mymap);
 
-                if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                    getTorreiraGPX();
-                    getCostaNovaGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                    getTorreiraGPX();
-                    getCostaNovaGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                    getTorreiraGPX();
-                    getData4GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                    getTorreiraGPX();
-                    getData4GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                    getTorreiraGPX();
-                    getIdaBicoGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                    getTorreiraGPX();
-                    getIdaBicoGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                    getTorreiraGPX();
-                    getDataGPX_RegressoBico();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                    getTorreiraGPX();
-                    getDataGPX_RegressoBico();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                    getTorreiraGPX();
-                    getDataGPX_RegressoBico();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                    getTorreiraGPX();
-                    getData_IDA10_3_20_GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                    getCostaNovaGPX();
-                    getData4GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                    getCostaNovaGPX();
-                    getData4GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                    getCostaNovaGPX();
-                    getIdaBicoGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                    getCostaNovaGPX();
-                    getIdaBicoGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                    getCostaNovaGPX();
-                    getDataGPX_RegressoBico();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                    getCostaNovaGPX();
-                    getDataGPX_RegressoBico();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                    getCostaNovaGPX();
-                    getData_IDA10_3_20_GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                    getCostaNovaGPX();
-                    getData_IDA10_3_20_GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                    getData4GPX();
-                    getIdaBicoGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                    getData4GPX();
-                    getIdaBicoGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                    getData4GPX();
-                    getDataGPX_RegressoBico();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                    getData4GPX();
-                    getDataGPX_RegressoBico();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                    getData4GPX();
-                    getData_IDA10_3_20_GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                    getData4GPX();
-                    getData_IDA10_3_20_GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                    getIdaBicoGPX();
-                    getDataGPX_RegressoBico();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                    getDataGPX_RegressoBico();
-                    getIdaBicoGPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                    getIdaBicoGPX();
-                    getData_IDA10_3_20_GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                    getIdaBicoGPX();
-                    getData_IDA10_3_20_GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                    getDataGPX_RegressoBico();
-                    getData_IDA10_3_20_GPX();
-                } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                    getDataGPX_RegressoBico();
-                    getData_IDA10_3_20_GPX();
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<h5>Torreira</h5>" +
+                        "<p>Deseja ir até:</p>" +
+                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                        "<option selected disabled>Selecione um local</option>" +
+                        "<option value='getTorreiraGPX'>ANGE</option>" +
+                        "</div>").openPopup();
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
+                } else if (guardardistancia[0][1] == 'getCostaNovaGPX' || 
+                guardardistancia[0][1] == 'getData_IDA10_3_20_GPX') {
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+                    marker_Teste1 = L.marker([40.612488, -8.738059], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<h5>ANGE</h5>" +
+                        "<p>Deseja ir até:</p>" +
+                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                        "<option selected disabled>Selecione um local</option>" +
+                        "<option value='getCostaNovaGPX'>Costa Nova</option>" +
+                        "<option value='getTorreiraGPX'>Torreira</option>" +
+                        "<option value='getData_IDA10_3_20_GPX'>Vagueira</option>" +
+                        "</div>").openPopup();
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
+                } else if (guardardistancia[0][1] == 'getData4GPX') {
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+                    marker_Teste1 = L.marker([40.64138528006924, -8.654335141181946], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<h5>Aveiro</h5>" +
+                        "<p>Deseja ir até:</p>" +
+                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                        "<option selected disabled>Selecione um local</option>" +
+                        "<option value='getData4GPX'>Aveiro</option>" +
+                        "</div>").openPopup();
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
+                } else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico') {
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+                    marker_Teste1 = L.marker([40.727508, -8.648118], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<h5>Bico</h5>" +
+                        "<p>Deseja ir até:</p>" +
+                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                        "<option selected disabled>Selecione um local</option>" +
+                        "<option value='getIdaBicoGPX'>Ange</option>" +
+                        "<option value='getDataGPX_RegressoBico'>Boca da Barra</option>" +
+                        "</div>").openPopup();
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
+                }else if (guardardistancia[0][1] == 'getData_Volta10_3_20_GPX') {
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+                    marker_Teste1 = L.marker([40.56078, -8.75765], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<h5>Vagueira</h5>" +
+                        "<p>Deseja ir até:</p>" +
+                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                        "<option selected disabled>Selecione um local</option>" +
+                        "<option value='getData_Volta10_3_20_GPX'>Ange</option>" +
+                        "</div>").openPopup();
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
                 }
+
+
+
+
+                // if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+
+                //     getTorreiraGPX();
+                //     getCostaNovaGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
+                //     getTorreiraGPX();
+                //     getCostaNovaGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                //     getTorreiraGPX();
+                //     getData4GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
+                //     getTorreiraGPX();
+                //     getData4GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                //     getTorreiraGPX();
+                //     getIdaBicoGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
+                //     getTorreiraGPX();
+                //     getIdaBicoGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                //     getTorreiraGPX();
+                //     getDataGPX_RegressoBico();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
+                //     getTorreiraGPX();
+                //     getDataGPX_RegressoBico();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                //     getTorreiraGPX();
+                //     getDataGPX_RegressoBico();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
+                //     getTorreiraGPX();
+                //     getData_IDA10_3_20_GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                //     getCostaNovaGPX();
+                //     getData4GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+                //     getCostaNovaGPX();
+                //     getData4GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                //     getCostaNovaGPX();
+                //     getIdaBicoGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+                //     getCostaNovaGPX();
+                //     getIdaBicoGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                //     getCostaNovaGPX();
+                //     getDataGPX_RegressoBico();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+                //     getCostaNovaGPX();
+                //     getDataGPX_RegressoBico();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                //     getCostaNovaGPX();
+                //     getData_IDA10_3_20_GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
+                //     getCostaNovaGPX();
+                //     getData_IDA10_3_20_GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                //     getData4GPX();
+                //     getIdaBicoGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                //     getData4GPX();
+                //     getIdaBicoGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                //     getData4GPX();
+                //     getDataGPX_RegressoBico();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                //     getData4GPX();
+                //     getDataGPX_RegressoBico();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                //     getData4GPX();
+                //     getData_IDA10_3_20_GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
+                //     getData4GPX();
+                //     getData_IDA10_3_20_GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                //     getIdaBicoGPX();
+                //     getDataGPX_RegressoBico();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                //     getDataGPX_RegressoBico();
+                //     getIdaBicoGPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                //     getIdaBicoGPX();
+                //     getData_IDA10_3_20_GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
+                //     getIdaBicoGPX();
+                //     getData_IDA10_3_20_GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
+                //     getDataGPX_RegressoBico();
+                //     getData_IDA10_3_20_GPX();
+                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
+                //     getDataGPX_RegressoBico();
+                //     getData_IDA10_3_20_GPX();
+                // }
 
 
             }
 
 
         }
+
+
+        function selecioneLocal() {
+            var value_escolhido = document.getElementById("sel1").value;
+
+
+            switch (value_escolhido) {
+                case 'getTorreiraGPX':
+                    getTorreiraGPX();
+                    break;
+                case 'getCostaNovaGPX':
+                    getCostaNovaGPX();
+                    break;
+                case 'getIdaBicoGPX':
+                    getIdaBicoGPX();
+                    break;
+                case 'getData4GPX':
+                    getData4GPX();
+                    break;
+                case 'getData_IDA10_3_20_GPX':
+                getData_IDA10_3_20_GPX();
+                    break;
+                    case 'getData_Volta10_3_20_GPX':
+                getData_IDA10_3_20_GPX();
+                    break;
+                    case 'getDataGPX_RegressoBico':
+                    getDataGPX_RegressoBico();
+                    break;
+                    
+
+            }
+
+        }
+
+
 
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
@@ -2707,30 +2875,7 @@
             parser = new DOMParser();
             xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
             if (arrayGPX.length != 0 || arrayUser.length != 0) {
-                if (arrayUser.length > 0) {
-                    for (let m = 0; m < arrayUser.length; m++) {
-                        for (let n = 0; n < arrayUser[m].length; n++) {
-                            //console.log(arrayUser[m][n])
-                            if (arrayUser[m][n].X != "Coordenadas" ||
-                                arrayUser[m][n].X != "</trkseg" ||
-                                arrayUser[m][n].X != "</trk" ||
-                                arrayUser[m][n].X != "</gpx") {
-
-                                if (arrayUser[m][n].T != null || arrayUser[m][n].T != undefined) {
-                                    let tempoveri = arrayUser[m][n].T;
-                                    var newStr = tempoveri.replace(/T/g, " ");
-                                    let date = new Date(newStr);
-                                    let horatempo_excel = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
-                                    if (date.getSeconds() == 00 || date.getSeconds() == 11) {
-                                        //Guardar Coordenadas do Excel e Z
-                                        ar_CoordExcel.push(arrayUser[m][n])
-                                        horasdarota_medida.push(horatempo_excel)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else if (arrayGPX[0].length > 0) {
+                 if (arrayGPX[0].length > 0) {
                     for (let i = 0; i < xmlDoc.getElementsByTagName("trkpt").length; i++) {
                         if (xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != null ||
                             xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != undefined) {
