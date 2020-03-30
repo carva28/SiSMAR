@@ -481,6 +481,10 @@
             /* counter-increment: carousel-cell; */
         }
 
+        .carousel-cell h5 {
+            font-size: 1.05rem;
+        }
+
         /* cell number */
         .carousel-cell:before {
             display: block;
@@ -906,30 +910,43 @@
     <div id="carousel" class="carousel" data-flickity='{ "freeScroll": true, "wrapAround": true }'>
 
         <div onclick="getTorreiraGPX()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
-            <h5>Rota Torreira</h5>
+            <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
+            <h5>ANGE - Cais do Bico<br>
+                <span>Pelo Moranzel</span>
+            </h5>
+        </div>
+        <div onclick="getDataGPX_RegressoBico()" class="carousel-cell">
+            <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
+            <h5>Cais do Bico - ANGE<br>
+                <span>Pela Testada</span>
+            </h5>
         </div>
         <div onclick="getCostaNovaGPX()" class="carousel-cell">
             <div class="imagem_card" style="background-image:url(./cards_images/CostaNova.jpg);"></div>
-            <h5>Costa Nova</h5>
+            <h5>ANGE - Costa Nova<br>
+                <span></span>
+            </h5>
         </div>
         <div onclick="getIdaBicoGPX()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
-            <h5>Cais do Bico</h5>
+            <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
+            <h5>Torreira - ANGE<br>
+                <span></span>
+            </h5>
         </div>
 
-        <div onclick="getDataGPX_RegressoBico()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
-            <h5>Cais do Bico Regresso</h5>
-        </div>
+
 
         <div onclick="getData_IDA10_3_20_GPX()" class="carousel-cell">
             <div class="imagem_card" style="background-image:url(./cards_images/Vagueira.jpg);"></div>
-            <h5>Rota 10/03/20 IDA</h5>
+            <h5>ANGE - Vagueira<br>
+                <span>Pelo canal</span>
+            </h5>
         </div>
         <div onclick="getData_Volta10_3_20_GPX()" class="carousel-cell">
             <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
-            <h5>Rota 10/03/20 Regresso</h5>
+            <h5>Vagueira - Ange <br>
+                <span>Pelo sequeiro</span>
+            </h5>
         </div>
     </div>
 
@@ -1455,7 +1472,9 @@
             mymap.setView([40.61, -8.745], 12.6);
         }
         async function getIdaBicoGPX() {
-            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
+
             fetch(url3)
                 .then(function (response) {
                     return response.text();
@@ -1619,8 +1638,8 @@
                         arrayGPX.push(gpx._gpx)
                     })
 
-                    
-                    
+
+
                     g.addTo(mymap);
                 });
 
@@ -1910,7 +1929,6 @@
             if (nyear < 1000) nyear += 1900;
             if (nmin <= 9) nmin = "0" + nmin;
             if (nsec <= 9) nsec = "0" + nsec;
-
             //document.getElementById('clockbox').innerHTML = "" + tday[nday] + ", " + tmonth[nmonth] + " " + ndate + ", " + nyear + " " + nhour + ":" + nmin + ":" + nsec + ap + "";
         }
 
@@ -2313,17 +2331,33 @@
 
             //inserir data
             var data_insert = document.getElementById('date').value;
-
+            let testData ;
             if (data_insert == "") {
                 document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Dever inserir uma data</h4>";
                 var d = new Date();
-                var nday = d.getDay(),
-                    nmonth = d.getMonth() + 1,
-                    ndate = d.getDate(),
-                    nyear = d.getYear();
+                var nday = d.getDay();
+                var nmonth = d.getMonth() + 1;
+                var ndate = d.getDate();
+                var nyear = d.getYear();
                 if (nyear < 1000) nyear += 1900;
-                document.getElementById('date').value = nday + "-" + nmonth + "-" + nyear;
-                console.log(document.getElementById('date').value)
+                
+                
+                if(nmonth <=9 ) {
+                    if(ndate <= 9){
+                    testData = nyear.toString() + "-0" + nmonth.toString() + "-0" + ndate.toString();
+                    }else{
+                        testData = nyear.toString() + "-0" + nmonth.toString() + "-" + ndate.toString();
+                    }
+                }else if(ndate <= 9){
+                    testData = nyear.toString() + "-" + nmonth.toString() + "-0" + ndate.toString();
+                }else{
+                    testData = nyear.toString() + "-" + nmonth.toString() + "-" + ndate.toString();
+                }
+                
+                document.getElementById('date').value = testData.toString();
+                console.log(testData);
+                console.log(document.getElementById('date').value);
+
             }
 
             if (valorInput != "" && valorInput2 != "" && valorInput3 != "") {
@@ -2343,7 +2377,6 @@
                     margemcaladoInf = 0.1;
                     calculo(1, 0.2, 0.1);
                     document.getElementById('amount').value = calado;
-
                 } else {
                     document.getElementById('load_fetch').style.display = "block";
                     document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Carregando</h4>" +
