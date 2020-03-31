@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
         integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
-
     <script src="js/jquery.js">
     </script>
     <script lang="javascript" src="js/xlsx.full.min.js"></script>
@@ -18,9 +17,18 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/v4-shims.css">
+
+    <!--Leaflet-->
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
+
+    <script type='text/javascript'
+        src="https://cdn.rawgit.com/makinacorpus/Leaflet.GeometryUtil/master/src/leaflet.geometryutil.js"></script>
+    <script type='text/javascript' src="js/leaflet.almostover.js"></script>
+    <script src="https://npmcdn.com/leaflet-geometryutil"></script>
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -1219,6 +1227,11 @@
             iconAnchor: [10, 30],
         });
 
+        const myboat = L.icon({
+            iconUrl: 'user_marker.png',
+            iconSize: [22, 32, 5],
+            iconAnchor: [10, 30],
+        });
         // //torreira
 
         // let marker2 = L.marker([40.754585, -8.696377], {
@@ -2548,7 +2561,7 @@
 
             localiz_distan.push(parseInt(distancia7));
             local_Nome_rota.push('getData_Volta10_3_20_GPX');
-            
+
 
             let dataOrdenada, guardardistancia = [];
             let primeira_pos;
@@ -2594,8 +2607,8 @@
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
-                } else if (guardardistancia[0][1] == 'getCostaNovaGPX' || 
-                guardardistancia[0][1] == 'getData_IDA10_3_20_GPX') {
+                } else if (guardardistancia[0][1] == 'getCostaNovaGPX' ||
+                    guardardistancia[0][1] == 'getData_IDA10_3_20_GPX') {
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
@@ -2652,7 +2665,7 @@
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
-                }else if (guardardistancia[0][1] == 'getData_Volta10_3_20_GPX') {
+                } else if (guardardistancia[0][1] == 'getData_Volta10_3_20_GPX') {
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
@@ -2793,15 +2806,15 @@
                     getData4GPX();
                     break;
                 case 'getData_IDA10_3_20_GPX':
-                getData_IDA10_3_20_GPX();
+                    getData_IDA10_3_20_GPX();
                     break;
-                    case 'getData_Volta10_3_20_GPX':
-                getData_IDA10_3_20_GPX();
+                case 'getData_Volta10_3_20_GPX':
+                    getData_IDA10_3_20_GPX();
                     break;
-                    case 'getDataGPX_RegressoBico':
+                case 'getDataGPX_RegressoBico':
                     getDataGPX_RegressoBico();
                     break;
-                    
+
 
             }
 
@@ -2875,7 +2888,7 @@
             parser = new DOMParser();
             xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
             if (arrayGPX.length != 0 || arrayUser.length != 0) {
-                 if (arrayGPX[0].length > 0) {
+                if (arrayGPX[0].length > 0) {
                     for (let i = 0; i < xmlDoc.getElementsByTagName("trkpt").length; i++) {
                         if (xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != null ||
                             xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != undefined) {
@@ -3807,6 +3820,7 @@
                                 style: myStyle2
                             });
                             linesFeatureLayer2.addTo(mymap);
+
                             warning++;
 
                         } else {
@@ -3828,6 +3842,7 @@
                             distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
                             arDistan.push(distancia.toFixed(2));
 
+
                             var myStyle3 = {
                                 radius: 8,
                                 color: "green",
@@ -3835,13 +3850,37 @@
                                 opacity: 1,
                             };
 
-
-
-
                             linesFeatureLayer3 = L.geoJson(myLines3, {
                                 style: myStyle3
                             });
                             linesFeatureLayer3.addTo(mymap);
+                            mymap.almostOver.addLayer(linesFeatureLayer3);
+                            //var circle = L.circleMarker([0, 0], { radius: 5, fillColor: 'white', fillOpacity: 1 });
+
+                            var circle = L.marker([0, 0], {
+                                icon: myboat
+                            });
+                            mymap.on('almost:over', function (e) {
+                                mymap.addLayer(circle);
+                                //mudar cor ao sair do hover
+                                //e.layer.setStyle({ color: 'black' });
+
+                            });
+
+                            mymap.on('almost:move', function (e) {
+                                circle.setLatLng(e.latlng);
+
+                            });
+
+                            // mymap.on('almost:out', function (e) {
+                            //     mymap.removeLayer(circle);
+                            //     e.layer.setStyle({ weight: 10, color: '#03f' });
+                            // });
+
+                            mymap.on('almost:click', function (e) {
+                                e.layer.setStyle({ weight: 10 });
+                            });
+
                             // if (countdangerous < warning) {
                             //     popup = L.popup()
                             //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
