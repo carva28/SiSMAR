@@ -320,14 +320,19 @@
             font-size: 20px;
             border: #1f1f1f;
             color: #ffffff;
-            width: 45px;
+            width: 230px;
             position: fixed;
             z-index: 20;
             top: 100px;
             left: 10px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
         }
-
+        #btn_legenda4 input{
+            text-align: center;
+            width:100px;
+            border: none;
+            border-radius:10px;
+        }
         #legenda {
             position: absolute;
             top: 360px;
@@ -874,9 +879,10 @@
     <a class="btn btn-primary" data-toggle="collapse" role="button" aria-expanded="false"
         aria-controls="navbarToggleExternalContent" id="abreDefinicoes">Definições</a>
 
-    <!-- <button onclick="verificaClickCoor()" type="button" id="btn_legenda4" class="btn btn-dark">
-        <i class="fas fa-route"></i>
-    </button> -->
+    <div type="button" id="btn_legenda4" class="btn btn-dark">
+        <!-- <i class="fas fa-route"></i> -->
+        <input type="number" id="velocidade" range="6" value="3"/> Knots
+    </div>
 
     <button type="button" id="btn_legenda" class="btn btn-dark" data-toggle="modal" data-target="#myModal2">
         <i class="fas fa-info-circle"></i>
@@ -2642,15 +2648,31 @@
                     setTimeout(function () {
 
                         console.log(distance_gpx_real[0]);
+                        let velocidadeUser = document.getElementById('velocidade').value;
+                        if (!velocidadeUser) {
+                            alert('insira uma velocidade')
+                        } else {
+                            let dc2_dist = distance_gpx_real[0].toFixed(2);
+                            let tempo = dc2_dist / velocidadeUser;
+                            var n = new Date(0, 0);
+                            n.setMinutes(+tempo * 60);
+                            console.log(n.toTimeString());
+                            var result = n.toTimeString().slice(0, 5);
+                            console.log(result);
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
+                                "<h5>Torreira</h5>" +
+                                "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<p>Deseja ir até:</p>" +
+                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                                "<option selected disabled>Selecione um local</option>" +
+                                "<option value='getTorreiraGPX'>ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                                "</div>").openPopup();
+                        }
 
-                        marker_Teste1.bindPopup("<div class='div_bind'>" +
-                            "<h5>Torreira</h5>" +
-                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2)  + " milhas" +
-                            "<p>Deseja ir até:</p>" +
-                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                            "<option selected disabled>Selecione um local</option>" +
-                            "<option value='getTorreiraGPX'>ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas </option>" +
-                            "</div>").openPopup();
+
+
+
+
                     }, 1000);
 
                     //convert_milesnaut[0].toFixed(2)
@@ -2661,7 +2683,7 @@
 
                 } else if (guardardistancia[0][1] == 'getCostaNovaGPX' ||
                     guardardistancia[0][1] == 'getData_IDA10_3_20_GPX') {
-                        distance_gpx_real = [];
+                    distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
@@ -2698,16 +2720,40 @@
                     });
                     setTimeout(function () {
 
-                        marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        let velocidadeUser = document.getElementById('velocidade').value;
+                        if (!velocidadeUser) {
+                            alert('insira uma velocidade')
+                        } else {
+                            let dc2_dist = distance_gpx_real[0].toFixed(2);
+                            let tempo = dc2_dist / velocidadeUser;
+                            var n = new Date(0, 0);
+                            n.setMinutes(+tempo * 60);
+                            var result = n.toTimeString().slice(0, 5);
+
+                            let dc2_dist_2 = distance_gpx_real[1].toFixed(2);
+                            let tempo2 = dc2_dist_2 / velocidadeUser;
+                            var n2 = new Date(0, 0);
+                            n2.setMinutes(+tempo2 * 60);
+                            var result2 = n2.toTimeString().slice(0, 5);
+
+                            let dc2_dist_3 = distance_gpx_real[2].toFixed(2);
+                            let tempo3 = dc2_dist_3 / velocidadeUser;
+                            var n3 = new Date(0, 0);
+                            n3.setMinutes(+tempo3 * 60);
+                            var result3 = n3.toTimeString().slice(0, 5);
+
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
                             "<h5>ANGE</h5>" +
-                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2)  + " milhas" +
+                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                             "<p>Deseja ir até:</p>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
-                            "<option value='getCostaNovaGPX'>Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
-                            "<option value='getTorreiraGPX'>Torreira - " + distance_gpx_real[1].toFixed(2) + " milhas</option>" +
-                            "<option value='getData_IDA10_3_20_GPX'>Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas</option>" +
+                            "<option value='getCostaNovaGPX'>Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                            "<option value='getTorreiraGPX'>Torreira - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
+                            "<option value='getData_IDA10_3_20_GPX'>Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
                             "</div>").openPopup();
+                        }
+                        
 
                     }, 1000);
 
@@ -2736,7 +2782,7 @@
                     setTimeout(function () {
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
                             "<h5>Aveiro</h5>" +
-                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2)  + " milhas" +
+                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                             "<p>Deseja ir até:</p>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
@@ -2749,7 +2795,7 @@
                     });
                 } else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico'
                     || guardardistancia[0][1] == 'NovaRotaCriada') {
-                        distance_gpx_real = [];
+                    distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
@@ -2935,6 +2981,11 @@
 
         }
 
+        function time_convert(num) {
+            var hours = Math.floor(num / 60);
+            var minutes = num % 60;
+            return hours + ":" + minutes;
+        }
 
         function selecioneLocal() {
             var value_escolhido = document.getElementById("sel1").value;
