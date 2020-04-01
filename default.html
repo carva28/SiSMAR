@@ -520,8 +520,15 @@
             z-index: 999 !important;
         }
 
+        /* .leaflet-popup-pane .leaflet-popup-content-wrapper, .point_info{
+            width: 300px;
+        }
+
+        .leaflet-popup-pane .leaflet-popup-content .point_info {
+            margin: 55px 15px;
+        } */
         .leaflet-popup-content-wrapper {
-            width: 200px;
+            padding: 10px 20px;
         }
 
         .leaflet-popup-content {
@@ -2563,6 +2570,20 @@
             local_Nome_rota.push('getData_Volta10_3_20_GPX');
 
 
+            let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
+            const response8 = await fetch(url8);
+            const json8 = await response8.text();
+            parser8 = new DOMParser();
+            xmlDoc8 = parser8.parseFromString(json8, "text/xml");
+            var lat_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(parseInt(distancia8));
+            local_Nome_rota.push('NovaRotaCriada');
+
+
             let dataOrdenada, guardardistancia = [];
             let primeira_pos;
             if (localiz_distan != null) {
@@ -2597,12 +2618,16 @@
                         icon: issIcon
                     }).addTo(mymap);
 
+                    let distance_Ange = mymap.distance([40.754585, -8.696377], [40.612488, -8.738059]);
+                    let convert_milesnaut = distance_Ange * 0.0005;
+
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<h5>Torreira</h5>" +
+                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
                         "<p>Deseja ir até:</p>" +
                         "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                         "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getTorreiraGPX'>ANGE</option>" +
+                        "<option value='getTorreiraGPX'>ANGE - " + convert_milesnaut.toFixed(2) + " milhas </option>" +
                         "</div>").openPopup();
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
@@ -2616,14 +2641,24 @@
                         icon: issIcon
                     }).addTo(mymap);
 
+                    let distance_CostaNova = mymap.distance([40.612488, -8.738059], [40.60926, -8.7481]);
+                    let convert_milesnaut_CN = distance_CostaNova * 0.0005;
+
+                    let distance_Torreira = mymap.distance([40.612488, -8.738059], [40.754585, -8.696377]);
+                    let convert_milesnaut_Tor = distance_Torreira * 0.0005;
+
+                    let distance_Vagueira = mymap.distance([40.612488, -8.738059], [40.56078, -8.75765]);
+                    let convert_milesnaut_Vag = distance_Vagueira * 0.0005;
+
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<h5>ANGE</h5>" +
+                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
                         "<p>Deseja ir até:</p>" +
                         "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                         "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getCostaNovaGPX'>Costa Nova</option>" +
-                        "<option value='getTorreiraGPX'>Torreira</option>" +
-                        "<option value='getData_IDA10_3_20_GPX'>Vagueira</option>" +
+                        "<option value='getCostaNovaGPX'>Costa Nova - " + convert_milesnaut_CN.toFixed(2) + " milhas</option>" +
+                        "<option value='getTorreiraGPX'>Torreira - " + convert_milesnaut_Tor.toFixed(2) + " milhas</option>" +
+                        "<option value='getData_IDA10_3_20_GPX'>Vagueira - " + convert_milesnaut_Vag.toFixed(2) + " milhas</option>" +
                         "</div>").openPopup();
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
@@ -2635,18 +2670,21 @@
                     marker_Teste1 = L.marker([40.64138528006924, -8.654335141181946], {
                         icon: issIcon
                     }).addTo(mymap);
-
+                    let distance_Aveiro = mymap.distance([40.64138528006924, -8.654335141181946], [40.64138, -8.65433]);
+                    let convert_milesnaut_Av = distance_Aveiro * 0.0005;
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<h5>Aveiro</h5>" +
+                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
                         "<p>Deseja ir até:</p>" +
                         "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                         "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getData4GPX'>Aveiro</option>" +
+                        "<option value='getData4GPX'>Aveiro - " + convert_milesnaut_Av.toFixed(2) + " milhas</option>" +
                         "</div>").openPopup();
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
-                } else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico') {
+                } else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico'
+                    || guardardistancia[0][1] == 'NovaRotaCriada') {
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
@@ -2654,13 +2692,22 @@
                         icon: issIcon
                     }).addTo(mymap);
 
+                    let distance_Ange = mymap.distance([40.727508, -8.648118], [40.612488, -8.738059]);
+                    let convert_milesnaut = distance_Ange * 0.0005;
+                    let distance_Boca = mymap.distance([40.727508, -8.648118], [40.642655, -8.761175]);
+                    let convert_milesnaut_Boca = distance_Boca * 0.0005;
+                    let distance_Ange2 = mymap.distance([40.727508, -8.648118], [40.612488, -8.738059]);
+                    let convert_milesnaut_Ang2 = distance_Ange2 * 0.0005;
+
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<h5>Bico</h5>" +
+                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
                         "<p>Deseja ir até:</p>" +
                         "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                         "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getIdaBicoGPX'>Ange</option>" +
-                        "<option value='getDataGPX_RegressoBico'>Boca da Barra</option>" +
+                        "<option value='getIdaBicoGPX'>Ange - " + convert_milesnaut.toFixed(2) + " milhas</option>" +
+                        "<option value='getDataGPX_RegressoBico'>Boca da Barra - " + convert_milesnaut_Boca.toFixed(2) + " milhas</option>" +
+                        "<option value='NovaRotaCriada'>Ange 2 - " + convert_milesnaut_Ang2.toFixed(2) + " milhas</option>" +
                         "</div>").openPopup();
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
@@ -2673,12 +2720,16 @@
                         icon: issIcon
                     }).addTo(mymap);
 
+                    let distance_Ange = mymap.distance([40.56078, -8.75765], [40.612488, -8.738059]);
+                    let convert_milesnaut = distance_Ange * 0.0005;
+
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<h5>Vagueira</h5>" +
+                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
                         "<p>Deseja ir até:</p>" +
                         "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                         "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getData_Volta10_3_20_GPX'>Ange</option>" +
+                        "<option value='getData_Volta10_3_20_GPX'>Ange - " + convert_milesnaut.toFixed(2) + " milhas</option>" +
                         "</div>").openPopup();
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
@@ -2815,7 +2866,9 @@
                     getDataGPX_RegressoBico();
                     break;
 
-
+                case 'NovaRotaCriada':
+                    getBicoAngeGPX();
+                    break;
             }
 
         }
@@ -3703,7 +3756,7 @@
 
                     popup = new L.popup();
                     popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                    popup.setContent('<div>' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
+                    popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
                         '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
                         '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
                         '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
@@ -3717,7 +3770,7 @@
                         color: "black",
                         fillColor: "#000000",
                         fillOpacity: 0.5,
-                        radius: 30.0
+                        radius: 40.0
                     })
                         .bindPopup(popup)
                         .addTo(mymap);
@@ -3854,6 +3907,8 @@
                                 style: myStyle3
                             });
                             linesFeatureLayer3.addTo(mymap);
+
+                            //Colocar objeto por cima do linestring para percorrer a rota
                             mymap.almostOver.addLayer(linesFeatureLayer3);
                             //var circle = L.circleMarker([0, 0], { radius: 5, fillColor: 'white', fillOpacity: 1 });
 
@@ -3864,7 +3919,6 @@
                                 mymap.addLayer(circle);
                                 //mudar cor ao sair do hover
                                 //e.layer.setStyle({ color: 'black' });
-
                             });
 
                             mymap.on('almost:move', function (e) {
@@ -3881,27 +3935,7 @@
                                 e.layer.setStyle({ weight: 10 });
                             });
 
-                            // if (countdangerous < warning) {
-                            //     popup = L.popup()
-                            //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                            //         .setContent('<p>Pode encanlhar em alguns pontos</p>')
-                            //         .openOn(mymap);
-                            // } else if (warning > 0) {
-                            //     popup = L.popup()
-                            //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                            //         .setContent('<p>Possibilidade de encanlhar</p>')
-                            //         .openOn(mymap);
-                            // } else if (countdangerous > 0) {
-                            //     popup = L.popup()
-                            //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                            //         .setContent('<p>Pode encanlhar em alguns pontos</p>')
-                            //         .openOn(mymap);
-                            // } else {
-                            //     popup = L.popup()
-                            //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                            //         .setContent('<p>Pode navegar com segurança</p>')
-                            //         .openOn(mymap);
-                            // }
+
                         }
                     }
 
