@@ -2470,6 +2470,10 @@
             verificaClickCoor(coord);
         });
 
+        var distNM;
+        var distTOTAL;
+        var distance_gpx_real = [];
+
         async function verificaClickCoor(arrayClicked) {
             var localiz_distan = [], local_Nome_rota = [];
 
@@ -2485,7 +2489,9 @@
             distancia = mymap.distance([lat_gpx, lon_gpx], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(parseInt(distancia));
-            local_Nome_rota.push('getTorreiraGPX')
+            local_Nome_rota.push('getTorreiraGPX');
+
+
 
             let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
             const response2 = await fetch(url2);
@@ -2580,7 +2586,7 @@
 
             distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
 
-            localiz_distan.push(parseInt(distancia8));
+            localiz_distan.push(distancia8);
             local_Nome_rota.push('NovaRotaCriada');
 
 
@@ -2609,31 +2615,53 @@
                     'getData_Volta10_3_20_GPX'
                 ];
 
+
+
                 if (guardardistancia[0][1] == 'getTorreiraGPX') {
+                    distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
+
 
                     marker_Teste1 = L.marker([40.754585, -8.696377], {
                         icon: issIcon
                     }).addTo(mymap);
 
-                    let distance_Ange = mymap.distance([40.754585, -8.696377], [40.612488, -8.738059]);
-                    let convert_milesnaut = distance_Ange * 0.0005;
+                    // let distance_Ange = mymap.distance([40.754585, -8.696377], [40.612488, -8.738059]);
+                    // let convert_milesnaut = distance_Ange * 0.0005;
 
-                    marker_Teste1.bindPopup("<div class='div_bind'>" +
-                        "<h5>Torreira</h5>" +
-                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
-                        "<p>Deseja ir até:</p>" +
-                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                        "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getTorreiraGPX'>ANGE - " + convert_milesnaut.toFixed(2) + " milhas </option>" +
-                        "</div>").openPopup();
+
+                    var gpxMAIN = new L.GPX(json, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
+                    setTimeout(function () {
+
+                        console.log(distance_gpx_real[0]);
+
+                        marker_Teste1.bindPopup("<div class='div_bind'>" +
+                            "<h5>Torreira</h5>" +
+                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2)  + " milhas" +
+                            "<p>Deseja ir até:</p>" +
+                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                            "<option selected disabled>Selecione um local</option>" +
+                            "<option value='getTorreiraGPX'>ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas </option>" +
+                            "</div>").openPopup();
+                    }, 1000);
+
+                    //convert_milesnaut[0].toFixed(2)
+
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
+
                 } else if (guardardistancia[0][1] == 'getCostaNovaGPX' ||
                     guardardistancia[0][1] == 'getData_IDA10_3_20_GPX') {
+                        distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
@@ -2641,50 +2669,87 @@
                         icon: issIcon
                     }).addTo(mymap);
 
-                    let distance_CostaNova = mymap.distance([40.612488, -8.738059], [40.60926, -8.7481]);
-                    let convert_milesnaut_CN = distance_CostaNova * 0.0005;
+                    // let distance_CostaNova = mymap.distance([40.612488, -8.738059], [40.60926, -8.7481]);
+                    // let convert_milesnaut_CN = distance_CostaNova * 0.0005;
 
-                    let distance_Torreira = mymap.distance([40.612488, -8.738059], [40.754585, -8.696377]);
-                    let convert_milesnaut_Tor = distance_Torreira * 0.0005;
+                    // let distance_Torreira = mymap.distance([40.612488, -8.738059], [40.754585, -8.696377]);
+                    // let convert_milesnaut_Tor = distance_Torreira * 0.0005;
 
-                    let distance_Vagueira = mymap.distance([40.612488, -8.738059], [40.56078, -8.75765]);
-                    let convert_milesnaut_Vag = distance_Vagueira * 0.0005;
+                    // let distance_Vagueira = mymap.distance([40.612488, -8.738059], [40.56078, -8.75765]);
+                    // let convert_milesnaut_Vag = distance_Vagueira * 0.0005;
+                    var gpxMAIN2 = new L.GPX(json2, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+                    var gpxMAIN = new L.GPX(json, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
 
-                    marker_Teste1.bindPopup("<div class='div_bind'>" +
-                        "<h5>ANGE</h5>" +
-                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
-                        "<p>Deseja ir até:</p>" +
-                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                        "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getCostaNovaGPX'>Costa Nova - " + convert_milesnaut_CN.toFixed(2) + " milhas</option>" +
-                        "<option value='getTorreiraGPX'>Torreira - " + convert_milesnaut_Tor.toFixed(2) + " milhas</option>" +
-                        "<option value='getData_IDA10_3_20_GPX'>Vagueira - " + convert_milesnaut_Vag.toFixed(2) + " milhas</option>" +
-                        "</div>").openPopup();
+                    var gpxMAIN2 = new L.GPX(json6, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+                    setTimeout(function () {
+
+                        marker_Teste1.bindPopup("<div class='div_bind'>" +
+                            "<h5>ANGE</h5>" +
+                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2)  + " milhas" +
+                            "<p>Deseja ir até:</p>" +
+                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                            "<option selected disabled>Selecione um local</option>" +
+                            "<option value='getCostaNovaGPX'>Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
+                            "<option value='getTorreiraGPX'>Torreira - " + distance_gpx_real[1].toFixed(2) + " milhas</option>" +
+                            "<option value='getData_IDA10_3_20_GPX'>Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas</option>" +
+                            "</div>").openPopup();
+
+                    }, 1000);
+
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
                 } else if (guardardistancia[0][1] == 'getData4GPX') {
+                    distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
                     marker_Teste1 = L.marker([40.64138528006924, -8.654335141181946], {
                         icon: issIcon
                     }).addTo(mymap);
-                    let distance_Aveiro = mymap.distance([40.64138528006924, -8.654335141181946], [40.64138, -8.65433]);
-                    let convert_milesnaut_Av = distance_Aveiro * 0.0005;
-                    marker_Teste1.bindPopup("<div class='div_bind'>" +
-                        "<h5>Aveiro</h5>" +
-                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
-                        "<p>Deseja ir até:</p>" +
-                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                        "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getData4GPX'>Aveiro - " + convert_milesnaut_Av.toFixed(2) + " milhas</option>" +
-                        "</div>").openPopup();
+
+
+                    // let distance_Aveiro = mymap.distance([40.64138528006924, -8.654335141181946], [40.64138, -8.65433]);
+                    // let convert_milesnaut_Av = distance_Aveiro * 0.0005;
+
+                    var gpxMAINAv = new L.GPX(json3, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+                    setTimeout(function () {
+                        marker_Teste1.bindPopup("<div class='div_bind'>" +
+                            "<h5>Aveiro</h5>" +
+                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2)  + " milhas" +
+                            "<p>Deseja ir até:</p>" +
+                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                            "<option selected disabled>Selecione um local</option>" +
+                            "<option value='getData4GPX'>Aveiro - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
+                            "</div>").openPopup();
+
+                    }, 1000);
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
                 } else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico'
                     || guardardistancia[0][1] == 'NovaRotaCriada') {
+                        distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
@@ -2692,27 +2757,52 @@
                         icon: issIcon
                     }).addTo(mymap);
 
-                    let distance_Ange = mymap.distance([40.727508, -8.648118], [40.612488, -8.738059]);
-                    let convert_milesnaut = distance_Ange * 0.0005;
-                    let distance_Boca = mymap.distance([40.727508, -8.648118], [40.642655, -8.761175]);
-                    let convert_milesnaut_Boca = distance_Boca * 0.0005;
-                    let distance_Ange2 = mymap.distance([40.727508, -8.648118], [40.612488, -8.738059]);
-                    let convert_milesnaut_Ang2 = distance_Ange2 * 0.0005;
+                    var gpxMAIN1 = new L.GPX(json4, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
 
-                    marker_Teste1.bindPopup("<div class='div_bind'>" +
-                        "<h5>Bico</h5>" +
-                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
-                        "<p>Deseja ir até:</p>" +
-                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                        "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getIdaBicoGPX'>Ange - " + convert_milesnaut.toFixed(2) + " milhas</option>" +
-                        "<option value='getDataGPX_RegressoBico'>Boca da Barra - " + convert_milesnaut_Boca.toFixed(2) + " milhas</option>" +
-                        "<option value='NovaRotaCriada'>Ange 2 - " + convert_milesnaut_Ang2.toFixed(2) + " milhas</option>" +
-                        "</div>").openPopup();
+                    var gpxMAINBoca = new L.GPX(json5, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
+                    var gpxMAIN2 = new L.GPX(json8, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
+                    // let distance_Ange = mymap.distance([40.727508, -8.648118], [40.612488, -8.738059]);
+                    // let convert_milesnaut = distance_Ange * 0.0005;
+                    // let distance_Boca = mymap.distance([40.727508, -8.648118], [40.642655, -8.761175]);
+                    // let convert_milesnaut_Boca = distance_Boca * 0.0005;
+                    // let distance_Ange2 = mymap.distance([40.727508, -8.648118], [40.716672, -8.698951], [40.612488, -8.738059]);
+                    // let convert_milesnaut_Ang2 = distance_Ange2 * 0.0005;
+
+                    setTimeout(function () {
+                        marker_Teste1.bindPopup("<div class='div_bind'>" +
+                            "<h5>Bico</h5>" +
+                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                            "<p>Deseja ir até:</p>" +
+                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                            "<option selected disabled>Selecione um local</option>" +
+                            "<option value='getIdaBicoGPX'>Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
+                            "<option value='getDataGPX_RegressoBico'>Boca da Barra - " + distance_gpx_real[1].toFixed(2) + " milhas</option>" +
+                            "<option value='NovaRotaCriada'>Ange 2 - " + distance_gpx_real[2].toFixed(2) + " milhas</option>" +
+                            "</div>").openPopup();
+
+                    }, 1000);
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
                 } else if (guardardistancia[0][1] == 'getData_Volta10_3_20_GPX') {
+                    distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
@@ -2720,17 +2810,24 @@
                         icon: issIcon
                     }).addTo(mymap);
 
-                    let distance_Ange = mymap.distance([40.56078, -8.75765], [40.612488, -8.738059]);
-                    let convert_milesnaut = distance_Ange * 0.0005;
-
-                    marker_Teste1.bindPopup("<div class='div_bind'>" +
-                        "<h5>Vagueira</h5>" +
-                        "Está a " + guardardistancia[0][0] * 0.0005 + " milhas" +
-                        "<p>Deseja ir até:</p>" +
-                        "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                        "<option selected disabled>Selecione um local</option>" +
-                        "<option value='getData_Volta10_3_20_GPX'>Ange - " + convert_milesnaut.toFixed(2) + " milhas</option>" +
-                        "</div>").openPopup();
+                    var gpxMAIN2 = new L.GPX(json7, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+                    // let distance_Ange = mymap.distance([40.56078, -8.75765], [40.612488, -8.738059]);
+                    // let convert_milesnaut = distance_Ange * 0.0005;
+                    setTimeout(function () {
+                        marker_Teste1.bindPopup("<div class='div_bind'>" +
+                            "<h5>Vagueira</h5>" +
+                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                            "<p>Deseja ir até:</p>" +
+                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                            "<option selected disabled>Selecione um local</option>" +
+                            "<option value='getData_Volta10_3_20_GPX'>Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
+                            "</div>").openPopup();
+                    }, 1000);
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
