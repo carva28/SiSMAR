@@ -318,7 +318,27 @@
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
         }
 
+        #btn_legenda4 {
+            background-color: #214198;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 230px;
+            position: fixed;
+            z-index: 20;
+            top: 100px;
+            left: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
 
+        #btn_legenda4 input {
+            text-align: center;
+            width: 70px;
+            height: 30px;
+            border: none;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
 
         input[type="range"] {
             background-color: white;
@@ -421,6 +441,31 @@
             height: 100vh;
             z-index: 1;
         }
+
+        /* #date {
+            margin: auto;
+            display: block;
+            margin-bottom: 20px;
+            padding: 5px;
+            text-align: left;
+            font-size: 1rem;
+            border: 2px solid #ffc10a;
+            border-radius: 20px;
+            float: left;
+            padding: 6px 20px;
+        } */
+
+        /* #time {
+            margin: auto;
+            display: block;
+            text-align: center;
+            font-size: 1rem;
+            border: 2px solid #F0BC33;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            float: left;
+            padding: 6px 20px;
+        } */
 
         .col-sm-3 {
             flex: 0 0 26%;
@@ -558,21 +603,6 @@
             text-align: center;
         }
 
-        .p_inputs_spec {
-            font-size: 1.2rem;
-            width: 300px;
-            text-align: center;
-            padding-top: 21px;
-            padding-right: 160px;
-        }
-
-        #icon_velo {
-            font-size: 1.8rem;
-            margin: auto;
-            margin-top: 20px;
-            float: left;
-        }
-
         #time {
             display: block;
             width: 300px;
@@ -617,17 +647,6 @@
         .carousel-cell h5 {
             margin-top: 25px;
             font-size: 1.05rem;
-        }
-
-
-        .input_vel {
-            display: block;
-            width: 300px;
-            text-align: center;
-            font-size: 20px;
-            border: 2px solid #ffc10a;
-            border-radius: 20px;
-
         }
 
         @media (min-width: 576px) {
@@ -931,6 +950,8 @@
                 height: 90px;
             }
         }
+
+      
     </style>
 
 
@@ -949,7 +970,7 @@
                 <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
                 <!-- <li><a href="" role="tab"><i class="fa fa-user"></i></a></li> -->
                 <li><a href="#profile" role="tab"><i class="fas fa-ship"></i></a></li>
-
+                
                 <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li> -->
                 <li><a href="#messages" role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
             </ul>
@@ -986,8 +1007,8 @@
 
             <div class="sidebar-pane" id="profile">
                 <h1 class="sidebar-header">Profile<span class="sidebar-close">
-                        <i class="fas fa-times-circle"></i>
-                    </span>
+                    <i class="fas fa-times-circle"></i>
+                </span>
                 </h1>
 
                 <div class="col ">
@@ -1091,18 +1112,13 @@
             </div>
 
             <div class="sidebar-pane" id="settings">
-                <h1 class="sidebar-header">Settings<span class="sidebar-close"> <i
-                            class="fas fa-times-circle"></i></span>
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"> <i class="fas fa-times-circle"></i></span>
                 </h1>
 
-
-                <div class="col-sm-1">
-                    <i id="icon_velo" class="fas fa-tachometer-alt" ></i>
-                    <p class="p_inputs_spec">Velocidade</p>
-                    <input type="number" id="velocidade" class="input_vel" min="1" max="6" value="3" />
-                    <p class="p_inputs" style="font-size: 1.0rem;">Knots</p>
+                <div id="btn_legenda4" class="btn btn-dark">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <input type="number" id="velocidade" min="1" max="6" value="3" /> Knots
                 </div>
-
             </div>
         </div>
     </div>
