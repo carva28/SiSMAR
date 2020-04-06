@@ -214,7 +214,7 @@
 
         .leaflet-control-layers {
             background-color: #214198;
-            position: fixed;
+            position: absolute;
             z-index: 20;
             top: 330px;
             right: 10px;
@@ -235,10 +235,8 @@
             background-size: 30px 30px;
         }
 
-
         .leaflet-touch .leaflet-bar {
             top: 200px;
-            left: 3px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
             background-color: transparent;
             border: none;
@@ -264,6 +262,21 @@
 
 
         }
+
+        .leaflet-control-zoom,
+        .leaflet-bar,
+        .leaflet-control {
+            position: absolute;
+            right: 20px;
+
+        }
+
+        .leaflet-top,
+        .leaflet-right {
+            position: absolute;
+            right: 20px;
+        }
+        
 
         #load_fetch {
             display: none;
@@ -427,42 +440,7 @@
             max-width: 37%;
         }
 
-        .carousel {
-            background: #fff;
-            position: fixed;
-            overflow: hidden;
 
-            height: 200px;
-            width: 100%;
-            border-radius: 15px;
-            bottom: 0;
-            /*z-index: 10000;*/
-            text-align: center;
-            text-decoration: none;
-            font-size: 17px;
-        }
-
-        .flickity-prev-next-button.previous,
-        .flickity-prev-next-button.next {
-            background-color: #214198;
-            color: white;
-        }
-
-        .carousel-cell {
-            width: 20%;
-            height: 165px;
-            background: #ffc10a;
-            border: 0px solid black;
-            border-radius: 20px;
-            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
-            margin: 0 15px;
-            margin-top: 30px;
-            /* counter-increment: carousel-cell; */
-        }
-
-        .carousel-cell h5 {
-            font-size: 1.05rem;
-        }
 
         /* cell number */
         .carousel-cell:before {
@@ -491,13 +469,6 @@
             z-index: 999 !important;
         }
 
-        /* .leaflet-popup-pane .leaflet-popup-content-wrapper, .point_info{
-            width: 300px;
-        }
-
-        .leaflet-popup-pane .leaflet-popup-content .point_info {
-            margin: 55px 15px;
-        } */
         .leaflet-popup-content-wrapper {
             padding: 10px 20px;
         }
@@ -952,9 +923,12 @@
 
                 <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li> -->
                 <li><a href="#messages" role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
+                <li><a href="#infoMar" role="tab"><i class="fas fa-water"></i></a></li>
             </ul>
 
+
             <ul role="tablist">
+                <li><a href="#informacao" role="tab"><i class="fas fa-info-circle"></i></a></li>
                 <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
             </ul>
         </div>
@@ -1046,13 +1020,19 @@
                 </h1>
 
                 <div onclick="getTorreiraGPX()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
+                    <h5>Torreira - ANGE <br>
+
+                    </h5>
+                </div>
+                <div onclick="getIdaBicoGPX()" class="carousel-cell">
                     <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
                     <h5>ANGE - Cais do Bico<br>
                         <span>Pelo Moranzel</span>
                     </h5>
                 </div>
                 <div onclick="getDataGPX_RegressoBico()" class="carousel-cell">
-                    <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
+                    <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
                     <h5>Cais do Bico - ANGE<br>
                         <span>Pela Testada</span>
                     </h5>
@@ -1063,12 +1043,7 @@
                         <span></span>
                     </h5>
                 </div>
-                <div onclick="getIdaBicoGPX()" class="carousel-cell">
-                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
-                    <h5>Torreira - ANGE<br>
-                        <span></span>
-                    </h5>
-                </div>
+
 
                 <div onclick="getData_IDA10_3_20_GPX()" class="carousel-cell">
                     <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
@@ -1090,14 +1065,87 @@
                 </div>
             </div>
 
+
+            <div class="sidebar-pane" id="infoMar">
+                <h1 class="sidebar-header">Informação Instituto Hidrográfico<span class="sidebar-close"> <i
+                            class="fas fa-times-circle"></i></span>
+                </h1>
+
+                <div class="row ">
+                    <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
+                        onclick="onclick_modal_data_ondia15()">Dia
+                        15/08/2019</button>
+                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia16()">Dia
+                        16/08/2019</button>
+                    <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
+                        onclick="onclick_modal_data_ondia17()">Dia
+                        17/08/2019</button>
+                </div>
+                <p><b>*</b>Informação relativa à Rota ANGE até ao Cais do Bico pelo Moranzel realizada no dia 16 de
+                    agosto de 2019</p>
+                <div class="row ">
+                    <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
+                        onclick="onclick_modal_data_ontem()">Dia
+                        Anterior</button>
+                    <button class="btn btn-dark" onclick="onclick_modal_data_hoje()">Dia
+                        Partida</button>
+                    <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
+                        onclick="onclick_modal_data_amanha()">Dia
+                        Seguinte</button>
+                </div>
+
+                <div id="escrever_data"></div>
+
+
+            </div>
+            <div class="sidebar-pane" id="informacao">
+                <h1 class="sidebar-header">Legenda<span class="sidebar-close"> <i
+                            class="fas fa-times-circle"></i></span>
+                </h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px">Fs >= Limite Superior</p>
+                        </div>
+                        <div class="col-sm">
+                            <hr style="border: 3px solid green;border-radius: 10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px"> Limite Inferior <= Fs <=Limite Superior</p>
+                        </div>
+                        <div class="col-sm">
+                            <hr style="border: 3px solid yellow;border-radius: 10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px">Fs <= Limite Inferior</p>
+                        </div>
+                        <div class="col-sm">
+                            <hr style="border: 3px solid red;border-radius: 10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px">Zs <= 0 metros</p>
+                        </div>
+                        <div class="col-sm">
+                            <hr style="border: 3px solid black;border-radius: 10px;">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             <div class="sidebar-pane" id="settings">
-                <h1 class="sidebar-header">Settings<span class="sidebar-close"> <i
+                <h1 class="sidebar-header">Definições<span class="sidebar-close"> <i
                             class="fas fa-times-circle"></i></span>
                 </h1>
 
 
                 <div class="col-sm-1">
-                    <i id="icon_velo" class="fas fa-tachometer-alt" ></i>
+                    <i id="icon_velo" class="fas fa-tachometer-alt"></i>
                     <p class="p_inputs_spec">Velocidade</p>
                     <input type="number" id="velocidade" class="input_vel" min="1" max="6" value="3" />
                     <p class="p_inputs" style="font-size: 1.0rem;">Knots</p>
@@ -1117,284 +1165,6 @@
 *****************************************************************************
 ******************************************************** -->
 
-    <!-- <a class="btn btn-primary" data-toggle="collapse" role="button" aria-expanded="false"
-        aria-controls="navbarToggleExternalContent" id="abreDefinicoes">Definições</a> -->
-
-    <div type="button" id="btn_legenda4" class="btn btn-dark">
-        <i class="fas fa-tachometer-alt"></i>
-        <input type="number" id="velocidade" min="1" max="6" value="3" /> Knots
-        <!-- <input type="range" id="velocidade" name="velocidade" min="1" max="6" step="1"
-                        oninput="amount.value=velocidade.value">
-                    <output name="amount" id="amount" for="velocidade">3</output> Knots -->
-    </div>
-
-    <button type="button" id="btn_legenda" class="btn btn-dark" data-toggle="modal" data-target="#myModal2">
-        <i class="fas fa-info-circle"></i>
-    </button>
-
-    <!-- Button to Open the Modal -->
-    <button type="button" id="btn_legenda2" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        <i class="fas fa-water"></i>
-    </button>
-
-    <a id="abreCarousel" class="btn btn-primary" role="button"><i class="fas fa-map-marked-alt"></i></a>
-
-    <a class="btn btn-primary" data-toggle="collapse" href="#navbarToggleExternalContent" role="button"
-        aria-expanded="true" aria-controls="navbarToggleExternalContent" id="fechaDefinicoes">
-        <i class="fas fa-times-circle"></i>
-    </a>
-
-
-    <div class="collapse show" id="navbarToggleExternalContent" style="display: none;">
-        <div class="col order-12" style="margin-bottom: -50px;">
-            <div class="row ">
-
-                <div class="col-sm-1">
-                    <img src="SiSMAR.png" class="img_logo img-thumbnail float-left">
-                    <img src="SiSMAR.png" class="img_logo2 img-thumbnail">
-
-                    <!-- <input type="range" id="calado_span" name="calado_span" min="0" max="5" step="0.01"
-                        oninput="amount.value=calado_span.value">
-                    <output name="amount" id="amount" for="calado_span">2.5</output> -->
-
-                </div>
-                <div class="col-sm-1">
-
-                    <p>Calado metro(s)</p>
-                    <input type="number" id="calado_span" min="1" max="5" value="1" step="0.01">
-
-                </div>
-                <div class="col-sm-1">
-                    <p>Limite Superior</p>
-                    <input type="number" id="calado_sup_span" value="0.2" min="0.1" max="0.9" step="0.1">
-
-                </div>
-                <div class="col-sm-1">
-                    <p>Limite Inferior</p>
-                    <input type="number" id="calado_inf_span" value="0.1" min="0.1" max="0.9" step="0.1">
-
-                </div>
-                <div class="col-sm-3">
-                    <p>TIR</p>
-                    <input type="time" id="time">
-                    <input id="date" type="date" style="margin-left: 5px;" onchange="getInfo_outraData()">
-
-                </div>
-                <div class="col-sm-1">
-                    <p>ETA</p>
-                    <output name="eta" id="eta"></output>
-                </div>
-
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-1"></div>
-
-            <div class="col-sm-1"></div>
-            <div class="col-sm-3">
-                <button type="button" class="btn btn-dark btn_color_sim" onclick="changeValue()">Simular</button>
-            </div>
-            <div class="col-sm-3">
-                <button type="button" class="btn btn-danger btn_color_del" onclick="clearmap()">Limpar campos</button>
-            </div>
-
-            <div class="col-sm-1"></div>
-
-        </div>
-    </div>
-
-    <a id="fecharCarousel" class="btn btn-primary" role="button"><i class="fas fa-times-circle"></i>
-    </a>
-
-
-
-    <div id="carousel" class="carousel" data-flickity='{ "freeScroll": true, "wrapAround": true }'>
-
-        <div onclick="getTorreiraGPX()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
-            <h5>ANGE - Cais do Bico<br>
-                <span>Pelo Moranzel</span>
-            </h5>
-        </div>
-        <div onclick="getDataGPX_RegressoBico()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
-            <h5>Cais do Bico - ANGE<br>
-                <span>Pela Testada</span>
-            </h5>
-        </div>
-        <div onclick="getCostaNovaGPX()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/CostaNova.jpg);"></div>
-            <h5>ANGE - Costa Nova<br>
-                <span></span>
-            </h5>
-        </div>
-        <div onclick="getIdaBicoGPX()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
-            <h5>Torreira - ANGE<br>
-                <span></span>
-            </h5>
-        </div>
-
-
-
-        <div onclick="getData_IDA10_3_20_GPX()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/Vagueira.jpg);"></div>
-            <h5>ANGE - Vagueira<br>
-                <span>Pelo canal</span>
-            </h5>
-        </div>
-        <div onclick="getData_Volta10_3_20_GPX()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
-            <h5>Vagueira - Ange <br>
-                <span>Pelo sequeiro</span>
-            </h5>
-        </div>
-        <div onclick="getBicoAngeGPX()" class="carousel-cell">
-            <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
-            <h5>Bico - Ange<br>
-                <span>Pelo canal</span>
-            </h5>
-        </div>
-    </div>
-
-
-    <script>
-
-        document.getElementById('fechaDefinicoes').onclick = function () {
-            document.getElementById('navbarToggleExternalContent').style.display = 'none';
-            document.getElementById('fechaDefinicoes').style.display = 'none';
-
-        }
-
-        document.getElementById('abreDefinicoes').onclick = function () {
-            document.getElementById('fechaDefinicoes').style.display = 'block';
-            document.getElementById('navbarToggleExternalContent').style.display = 'block';
-        }
-
-        document.getElementById('abreCarousel').onclick = function () {
-
-            document.getElementById('carousel').style.zIndex = '9999';
-            //document.getElementById('carousel').style.display = 'block';
-            document.getElementById('fecharCarousel').style.display = 'block';
-        }
-
-        document.getElementById('fecharCarousel').onclick = function () {
-            document.getElementById('carousel').style.zIndex = '0';
-            //document.getElementById('carousel').style.display = 'none';
-            document.getElementById('fecharCarousel').style.display = 'none';
-        }
-
-    </script>
-
-    <!-- ********************************************************************************************
-   ********************************************************************************************
-   ************************************* Modal ******************************************
-   ********************************************************************************************
-   ********************************************************************************************  -->
-    <div class="modal" id="myModal2">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Legenda</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm">
-                                <p style="font-size:15px">Fs >= Limite Superior</p>
-                            </div>
-                            <div class="col-sm">
-                                <hr style="border: 3px solid green;border-radius: 10px;">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm">
-                                <p style="font-size:15px"> Limite Inferior <= Fs <=Limite Superior</p>
-                            </div>
-                            <div class="col-sm">
-                                <hr style="border: 3px solid yellow;border-radius: 10px;">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm">
-                                <p style="font-size:15px">Fs <= Limite Inferior</p>
-                            </div>
-                            <div class="col-sm">
-                                <hr style="border: 3px solid red;border-radius: 10px;">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm">
-                                <p style="font-size:15px">Zs <= 0 metros</p>
-                            </div>
-                            <div class="col-sm">
-                                <hr style="border: 3px solid black;border-radius: 10px;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Data Instituto Hidrográfico</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="row ">
-                        <button class="btn btn-dark" style="opacity: 0.8;" onclick="onclick_modal_data_ondia15()">Dia
-                            15/08/2019</button>
-                        <button class="btn btn-dark" onclick="onclick_modal_data_ondia16()">Dia
-                            16/08/2019</button>
-                        <button class="btn btn-dark" style="opacity: 0.8;" onclick="onclick_modal_data_ondia17()">Dia
-                            17/08/2019</button>
-                    </div>
-                    <div class="row ">
-                        <button class="btn btn-dark" style="opacity: 0.8;" onclick="onclick_modal_data_ontem()">Dia
-                            Anterior</button>
-                        <button class="btn btn-dark" onclick="onclick_modal_data_hoje()">Dia
-                            Partida</button>
-                        <button class="btn btn-dark" style="opacity: 0.8;" onclick="onclick_modal_data_amanha()">Dia
-                            Seguinte</button>
-                    </div>
-                    <!-- <div id="escrever_data_ant"></div>
-                    <div id="escrever_data_hoje"></div>
-                    <div id="escrever_data_amanha"></div> -->
-                    <div id="escrever_data"></div>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    </div>
-    </div>
     <div id="issMap"></div>
     <div id="load_fetch">
         <h2>Carregando...</h2>
