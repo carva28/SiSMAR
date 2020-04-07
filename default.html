@@ -212,7 +212,7 @@
             box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
         }
 
-        
+
 
         .leaflet-control-layers {
             background-color: #214198;
@@ -264,14 +264,14 @@
             background-color: #214198;
             color: white;
         }
-        
-/* 
+
+        /* 
         .leaflet-top,
         .leaflet-right {
             position: absolute;
             right: 0px;
         }*/
-      
+
         #load_fetch {
             display: none;
             z-index: 999999999;
@@ -300,18 +300,6 @@
         }
 
 
-        #btn_legenda2 {
-            background-color: #214198;
-            font-size: 20px;
-            border: #1f1f1f;
-            color: #ffffff;
-            width: 45px;
-            position: fixed;
-            z-index: 20;
-            top: 350px;
-            left: 10px;
-            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
-        }
 
 
 
@@ -331,75 +319,6 @@
             font-size: 20px;
         }
 
-
-        a#abreDefinicoes {
-            background-color: #214198;
-            border: #1f1f1f;
-            color: #ffffff;
-            width: 200px;
-            position: absolute;
-            z-index: 20;
-            top: 15px;
-            left: calc(50% - 100px);
-            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
-        }
-
-
-
-
-        a#fechaDefinicoes {
-            background-color: tomato;
-            border: #1f1f1f;
-            color: #ffffff;
-            width: 60px;
-            position: absolute;
-            z-index: 999;
-            font-size: 25px;
-            top: 140px;
-            left: calc(50% - 30px);
-            display: none;
-        }
-
-        a#fechaDefinicoes i {
-            font-size: 30px;
-        }
-
-        div#navbarToggleExternalContent {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            z-index: 20;
-            background-color: white;
-            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
-        }
-
-        a#abreCarousel {
-            background-color: #214198;
-            font-size: 20px;
-            border: #1f1f1f;
-            color: #ffffff;
-            width: 45px;
-            position: absolute;
-            z-index: 20;
-            top: 400px;
-            left: 10px;
-            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
-        }
-
-        a#fecharCarousel {
-            background-color: tomato;
-            border: #1f1f1f;
-            color: #ffffff;
-            width: 60px;
-            position: absolute;
-            z-index: 99999;
-            font-size: 25px;
-            top: 380px;
-            left: calc(50% - 30px);
-            display: none;
-        }
 
         .container2,
         .row {
@@ -529,24 +448,43 @@
 
         #btn_legenda {
             background-color: #ffc10a;
-    font-size: 20px;
-    border: #1f1f1f;
-    color: #ffffff;
-    width: 70px;
-    height: 70px;
-    border-radius: 100px;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 70px;
+            height: 70px;
+            border-radius: 100px;
             position: fixed;
             z-index: 20;
-            top: 420px; /*400px*/
+            top: 480px;
+            /*400px*/
             right: 10px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
         }
-        #icon_crash{
+
+
+        #btn_legenda2 {
+            background-color: #214198;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 70px;
+            height: 70px;
+            border-radius: 100px;
+            position: fixed;
+            z-index: 20;
+            top: 400px;
+            /*400px*/
+            right: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        #icon_crash {
             margin: auto;
             width: 50px;
         }
 
-        
+
 
         #time {
             display: block;
@@ -604,10 +542,10 @@
             border-radius: 20px;
 
         }
- 
 
 
-       
+
+
 
 
 
@@ -963,11 +901,17 @@
 
 <body>
 
-    
-    <button type="button" id="btn_legenda" class="btn btn-dark" >
-        <!-- <i class="fas fa-info-circle"></i> -->
+
+    <button type="button" id="btn_legenda" class="btn btn-dark">
+        <!--onclick="addRock()"-->
         <img id="icon_crash" src="./crash1@300x.png" />
+
     </button>
+    <button type="button" id="btn_legenda2" class="btn btn-dark">
+        <!--onclick="addRoute()"-->
+        <i id="icon_crash" class="fas fa-route"></i>
+    </button>
+
     <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
@@ -1317,9 +1261,9 @@
 
         ControlLayer = L.control.layers(baseMaps).addTo(mymap);
         mymap.zoomControl.setPosition('topright');
-        
 
-        
+
+
         // Making a marker with a custom icon
         const issIcon = L.icon({
             iconUrl: 'marker.png',
@@ -1332,7 +1276,7 @@
             iconSize: [22, 32, 5],
             iconAnchor: [10, 30],
         });
-       
+
 
 
         L.control.scale().addTo(mymap);
@@ -2513,8 +2457,11 @@
 
         var newMarker;
         var marker_Teste1;
-        mymap.on('click', function (e) {
 
+        var arrayCoor = [];
+
+        mymap.on('click', function (e) {
+            arrayCoor = [];
             var coord = e.latlng;
             var lat = coord.lat;
             var lng = coord.lng;
@@ -2522,6 +2469,7 @@
             if (newMarker) { // check
                 mymap.removeLayer(newMarker); // remove
             }
+            arrayCoor.push(coord);
 
             newMarker = L.icon({
                 iconUrl: 'user_marker.png',
@@ -2532,14 +2480,120 @@
                 icon: newMarker
             }).addTo(mymap);
 
-            verificaClickCoor(coord);
+            console.log(coord.lat, coord.lng);
+
+            // newMarker.bindPopup("<h2>PopUp Map</h2>" +
+            //     "<button onclick='clickedPointer(true)'>Quero Rotas</button>" +
+            //     "<button onclick='clickedPointer(false)'>Quero marcar pedras</button>").openPopup();
+
+            //verificaClickCoor(coord);
+            document.getElementById('btn_legenda2').style.opacity = "1";
+            document.getElementById('btn_legenda').style.opacity = "1";
+
+            document.getElementById('btn_legenda2').onclick = function () {
+                clickedPointer(true);
+                document.getElementById('btn_legenda2').style.opacity = "0.6";
+                document.getElementById('btn_legenda').style.opacity = "1";
+            };
+            document.getElementById('btn_legenda').onclick = function () {
+                clickedPointer(false)
+                document.getElementById('btn_legenda2').style.opacity = "1";
+                document.getElementById('btn_legenda').style.opacity = "0.6";
+            };
         });
+
+
+        function clickedPointer(valor) {
+            if (valor) {
+                verificaClickCoor(arrayCoor[0]);
+            } else {
+                console.log(arrayCoor);
+                colocaPedra(arrayCoor[0])
+            }
+        }
+        var newMarker_Pedras;
+        function colocaPedra(valor) {
+
+            newMarker_Pedras = L.icon({
+                iconUrl: 'boat.png',
+                iconSize: [30, 40, 5],
+                iconAnchor: [10, 30],
+            });
+            newMarker_Pedras = new L.marker([valor.lat, valor.lng], {
+                icon: newMarker_Pedras
+            }).addTo(mymap);
+        }
+
+        // function addRoute() {
+        //     qualClicou("rotas");
+        // }
+
+        // var newMarker_Pedras;
+        // function addRock() {
+        //     qualClicou("rocks");
+        // }
+
+
+        // function qualClicou(valor) {
+        //     if (valor == "rotas") {
+        //         document.getElementById('btn_legenda2').style.opacity = "0.6";
+        //         document.getElementById('btn_legenda').style.opacity = "1";
+
+        //         mymap.on('click', function (e) {
+
+        //             var coord = e.latlng;
+        //             var lat = coord.lat;
+        //             var lng = coord.lng;
+
+        //             if (newMarker) { // check
+        //                 mymap.removeLayer(newMarker); // remove
+        //             }
+
+        //             if (newMarker_Pedras) { // check
+        //                 mymap.removeLayer(newMarker_Pedras); // remove
+        //             }
+        //             newMarker = L.icon({
+        //                 iconUrl: 'user_marker.png',
+        //                 iconSize: [30, 40, 5],
+        //                 iconAnchor: [10, 30],
+        //             });
+        //             newMarker = new L.marker([coord.lat, coord.lng], {
+        //                 icon: newMarker
+        //             }).addTo(mymap);
+
+        //             verificaClickCoor(coord);
+        //         });
+        //     } else if (valor == "rocks") {
+        //         document.getElementById('btn_legenda2').style.opacity = "1";
+        //         document.getElementById('btn_legenda').style.opacity = "0.6";
+        //         if (newMarker) { // check
+        //                 mymap.removeLayer(newMarker); // remove
+        //             }
+        //         mymap.on('click', function (e) {
+
+        //             var coord = e.latlng;
+        //             var lat = coord.lat;
+        //             var lng = coord.lng;
+
+        //             newMarker_Pedras = L.icon({
+        //                 iconUrl: 'boat.png',
+        //                 iconSize: [30, 40, 5],
+        //                 iconAnchor: [10, 30],
+        //             });
+        //             newMarker_Pedras = new L.marker([coord.lat, coord.lng], {
+        //                 icon: newMarker_Pedras
+        //             }).addTo(mymap);
+
+        //         });
+        //     }
+        // }
 
         var distNM;
         var distTOTAL;
         var distance_gpx_real = [];
 
         async function verificaClickCoor(arrayClicked) {
+            console.log(arrayClicked);
             var localiz_distan = [], local_Nome_rota = [];
 
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
