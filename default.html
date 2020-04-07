@@ -29,6 +29,7 @@
     <script src="https://npmcdn.com/leaflet-geometryutil"></script>
 
 
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -1081,7 +1082,7 @@
                 <h1 class="sidebar-header">Informação Instituto Hidrográfico<span class="sidebar-close"> <i
                             class="fas fa-times-circle"></i></span>
                 </h1>
-
+                <p><b>*</b>Informação de maré no dia em que a rota foi adquirida</p>
                 <div class="row ">
                     <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
                         onclick="onclick_modal_data_ondia15()">Dia
@@ -1092,8 +1093,7 @@
                         onclick="onclick_modal_data_ondia17()">Dia
                         17/08/2019</button>
                 </div>
-                <p><b>*</b>Informação relativa à Rota ANGE até ao Cais do Bico pelo Moranzel realizada no dia 16 de
-                    agosto de 2019</p>
+                <p><b>*</b>Informação de maré de rota simulada</p>
                 <div class="row ">
                     <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
                         onclick="onclick_modal_data_ontem()">Dia
@@ -2719,8 +2719,8 @@
                             var result = n.toTimeString().slice(0, 5);
                             console.log(result);
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
-                                "<h5>Torreira</h5>" +
-                                "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<h5>Cais mais próximo: Torreira</h5>" +
+                                "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                                 "<p>Deseja ir até:</p>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
@@ -2750,14 +2750,6 @@
                         icon: issIcon
                     }).addTo(mymap);
 
-                    // let distance_CostaNova = mymap.distance([40.612488, -8.738059], [40.60926, -8.7481]);
-                    // let convert_milesnaut_CN = distance_CostaNova * 0.0005;
-
-                    // let distance_Torreira = mymap.distance([40.612488, -8.738059], [40.754585, -8.696377]);
-                    // let convert_milesnaut_Tor = distance_Torreira * 0.0005;
-
-                    // let distance_Vagueira = mymap.distance([40.612488, -8.738059], [40.56078, -8.75765]);
-                    // let convert_milesnaut_Vag = distance_Vagueira * 0.0005;
                     var gpxMAIN2 = new L.GPX(json2, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
@@ -2802,8 +2794,8 @@
                             var result3 = n3.toTimeString().slice(0, 5);
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
-                                "<h5>ANGE</h5>" +
-                                "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<h5>Cais mais próximo: ANGE</h5>" +
+                                "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                                 "<p>Deseja ir até:</p>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
@@ -2828,10 +2820,6 @@
                         icon: issIcon
                     }).addTo(mymap);
 
-
-                    // let distance_Aveiro = mymap.distance([40.64138528006924, -8.654335141181946], [40.64138, -8.65433]);
-                    // let convert_milesnaut_Av = distance_Aveiro * 0.0005;
-
                     var gpxMAINAv = new L.GPX(json3, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
@@ -2840,8 +2828,8 @@
                     });
                     setTimeout(function () {
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
-                            "<h5>Aveiro</h5>" +
-                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                            "<h5>Cais mais próximo: Aveiro</h5>" +
+                            "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                             "<p>Deseja ir até:</p>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
@@ -2883,17 +2871,10 @@
                         distance_gpx_real.push(distNM);
                     });
 
-                    // let distance_Ange = mymap.distance([40.727508, -8.648118], [40.612488, -8.738059]);
-                    // let convert_milesnaut = distance_Ange * 0.0005;
-                    // let distance_Boca = mymap.distance([40.727508, -8.648118], [40.642655, -8.761175]);
-                    // let convert_milesnaut_Boca = distance_Boca * 0.0005;
-                    // let distance_Ange2 = mymap.distance([40.727508, -8.648118], [40.716672, -8.698951], [40.612488, -8.738059]);
-                    // let convert_milesnaut_Ang2 = distance_Ange2 * 0.0005;
-
                     setTimeout(function () {
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
-                            "<h5>Bico</h5>" +
-                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                            "<h5>Cais mais próximo: Bico</h5>" +
+                            "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                             "<p>Deseja ir até:</p>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
@@ -2925,8 +2906,8 @@
                     // let convert_milesnaut = distance_Ange * 0.0005;
                     setTimeout(function () {
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
-                            "<h5>Vagueira</h5>" +
-                            "Está a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                            "<h5>Cais mais próximo: Vagueira</h5>" +
+                            "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                             "<p>Deseja ir até:</p>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
@@ -2939,100 +2920,6 @@
                 }
 
 
-
-
-                // if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-
-                //     getTorreiraGPX();
-                //     getCostaNovaGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                //     getTorreiraGPX();
-                //     getCostaNovaGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                //     getTorreiraGPX();
-                //     getData4GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                //     getTorreiraGPX();
-                //     getData4GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                //     getTorreiraGPX();
-                //     getIdaBicoGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                //     getTorreiraGPX();
-                //     getIdaBicoGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                //     getTorreiraGPX();
-                //     getDataGPX_RegressoBico();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                //     getTorreiraGPX();
-                //     getDataGPX_RegressoBico();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[0] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                //     getTorreiraGPX();
-                //     getDataGPX_RegressoBico();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[0]) {
-                //     getTorreiraGPX();
-                //     getData_IDA10_3_20_GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                //     getCostaNovaGPX();
-                //     getData4GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                //     getCostaNovaGPX();
-                //     getData4GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                //     getCostaNovaGPX();
-                //     getIdaBicoGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                //     getCostaNovaGPX();
-                //     getIdaBicoGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                //     getCostaNovaGPX();
-                //     getDataGPX_RegressoBico();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                //     getCostaNovaGPX();
-                //     getDataGPX_RegressoBico();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[1] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                //     getCostaNovaGPX();
-                //     getData_IDA10_3_20_GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[1]) {
-                //     getCostaNovaGPX();
-                //     getData_IDA10_3_20_GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                //     getData4GPX();
-                //     getIdaBicoGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                //     getData4GPX();
-                //     getIdaBicoGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                //     getData4GPX();
-                //     getDataGPX_RegressoBico();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                //     getData4GPX();
-                //     getDataGPX_RegressoBico();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[2] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                //     getData4GPX();
-                //     getData_IDA10_3_20_GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[2]) {
-                //     getData4GPX();
-                //     getData_IDA10_3_20_GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                //     getIdaBicoGPX();
-                //     getDataGPX_RegressoBico();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                //     getDataGPX_RegressoBico();
-                //     getIdaBicoGPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[3] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                //     getIdaBicoGPX();
-                //     getData_IDA10_3_20_GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[3]) {
-                //     getIdaBicoGPX();
-                //     getData_IDA10_3_20_GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[4] && guardardistancia[1][1] == arrayFuncoesGpx[5]) {
-                //     getDataGPX_RegressoBico();
-                //     getData_IDA10_3_20_GPX();
-                // } else if (guardardistancia[0][1] == arrayFuncoesGpx[5] && guardardistancia[1][1] == arrayFuncoesGpx[4]) {
-                //     getDataGPX_RegressoBico();
-                //     getData_IDA10_3_20_GPX();
-                // }
 
 
             }
@@ -4149,8 +4036,7 @@
                 }
             } else {
                 console.log('Else_sem_rota')
-                //getInfo();
-                //calculo(valor_cal, cal_sup, cal_inf)
+  
             }
 
 
