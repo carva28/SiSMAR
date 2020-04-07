@@ -2525,7 +2525,7 @@
             }).addTo(mymap);
 
             newMarker_Pedras.bindPopup("<h5>Pedra</h5>" +
-                "<p>Colocad pelo utilizador Alberto</p>").openPopup();
+                "<p>Colocada pelo utilizador Alberto</p>").openPopup();
             newMarker_Pedras.on('click', function (e) {
                 this.openPopup();
             });
@@ -2652,6 +2652,8 @@
             localiz_distan.push(distancia8);
             local_Nome_rota.push('NovaRotaCriada');
 
+            document.getElementById('btn_legenda2').style.opacity = "1";
+            document.getElementById('btn_legenda').style.opacity = "1";
 
             let dataOrdenada, guardardistancia = [];
             let primeira_pos;
