@@ -2511,82 +2511,26 @@
                 colocaPedra(arrayCoor[0])
             }
         }
+
         var newMarker_Pedras;
         function colocaPedra(valor) {
 
             newMarker_Pedras = L.icon({
-                iconUrl: 'boat.png',
-                iconSize: [30, 40, 5],
+                iconUrl: 'rock.png',
+                iconSize: [40, 40, 5], //[30, 40, 5],
                 iconAnchor: [10, 30],
             });
             newMarker_Pedras = new L.marker([valor.lat, valor.lng], {
                 icon: newMarker_Pedras
             }).addTo(mymap);
+
+            newMarker_Pedras.bindPopup("<h5>Pedra</h5>" +
+                "<p>Colocad pelo utilizador Alberto</p>").openPopup();
+            newMarker_Pedras.on('click', function (e) {
+                this.openPopup();
+            });
         }
 
-        // function addRoute() {
-        //     qualClicou("rotas");
-        // }
-
-        // var newMarker_Pedras;
-        // function addRock() {
-        //     qualClicou("rocks");
-        // }
-
-
-        // function qualClicou(valor) {
-        //     if (valor == "rotas") {
-        //         document.getElementById('btn_legenda2').style.opacity = "0.6";
-        //         document.getElementById('btn_legenda').style.opacity = "1";
-
-        //         mymap.on('click', function (e) {
-
-        //             var coord = e.latlng;
-        //             var lat = coord.lat;
-        //             var lng = coord.lng;
-
-        //             if (newMarker) { // check
-        //                 mymap.removeLayer(newMarker); // remove
-        //             }
-
-        //             if (newMarker_Pedras) { // check
-        //                 mymap.removeLayer(newMarker_Pedras); // remove
-        //             }
-        //             newMarker = L.icon({
-        //                 iconUrl: 'user_marker.png',
-        //                 iconSize: [30, 40, 5],
-        //                 iconAnchor: [10, 30],
-        //             });
-        //             newMarker = new L.marker([coord.lat, coord.lng], {
-        //                 icon: newMarker
-        //             }).addTo(mymap);
-
-        //             verificaClickCoor(coord);
-        //         });
-        //     } else if (valor == "rocks") {
-        //         document.getElementById('btn_legenda2').style.opacity = "1";
-        //         document.getElementById('btn_legenda').style.opacity = "0.6";
-        //         if (newMarker) { // check
-        //                 mymap.removeLayer(newMarker); // remove
-        //             }
-        //         mymap.on('click', function (e) {
-
-        //             var coord = e.latlng;
-        //             var lat = coord.lat;
-        //             var lng = coord.lng;
-
-        //             newMarker_Pedras = L.icon({
-        //                 iconUrl: 'boat.png',
-        //                 iconSize: [30, 40, 5],
-        //                 iconAnchor: [10, 30],
-        //             });
-        //             newMarker_Pedras = new L.marker([coord.lat, coord.lng], {
-        //                 icon: newMarker_Pedras
-        //             }).addTo(mymap);
-
-        //         });
-        //     }
-        // }
 
         var distNM;
         var distTOTAL;
