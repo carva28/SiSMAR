@@ -33,7 +33,7 @@ L.Marker.MovingMarker = L.Marker.extend({
         //Apagar icone
         delete L.Icon.Default.prototype._getIconUrl
        
-        //delete  L.Marker.prototype.options.icon;
+        delete  L.Marker.prototype;
         //Adicionar icon a um marker normal
 
         if(DefaultIcon){
