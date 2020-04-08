@@ -576,7 +576,45 @@
 
 
 
+        .gps_ring {
+            margin: 0 35px;
+            border: #214198 10px solid;
+            -webkit-border-radius: 30px;
+            height: 30px;
+            width: 30px;
+            -webkit-animation: pulsate 1s ease-out;
+            -webkit-animation-iteration-count: infinite;
+            /*opacity: 0.0*/
+        }
 
+        .gps_ring2 {
+            position: absolute;
+            left: 25px;
+            top: -10px;
+            border: #5b70a8 4px solid;
+            -webkit-border-radius: 30px;
+            height: 50px;
+            width: 50px;
+            -webkit-animation: pulsate 1.5s ease-out;
+            -webkit-animation-iteration-count: infinite;
+            /*opacity: 0.0*/
+        }
+
+        @-webkit-keyframes pulsate {
+            0% {
+                -webkit-transform: scale(0.1, 0.1);
+                opacity: 0.0;
+            }
+
+            50% {
+                opacity: 1.0;
+            }
+
+            100% {
+                -webkit-transform: scale(1.2, 1.2);
+                opacity: 0.0;
+            }
+        }
 
 
 
@@ -1222,12 +1260,13 @@
 
     <script src="./js/leaflet-sidebar.js"></script>
     <script type="text/javascript" src="./js/MovingMarker.js"></script>
+    <script src='https://unpkg.com/leaflet.marker.slideto@0.2.0/Leaflet.Marker.SlideTo.js'></script>
 
     <script>
 
 
 
-    
+
 
 
         var calado = 1;
@@ -1310,6 +1349,7 @@
         };
 
         ControlLayer = L.control.layers(baseMaps).addTo(mymap);
+        /**Colocar os botões de zoom na posição top right*/
         mymap.zoomControl.setPosition('topright');
 
 
@@ -1321,13 +1361,45 @@
             iconAnchor: [10, 30],
         });
 
+
         const myboat = L.icon({
             iconUrl: 'user_marker.png',
             iconSize: [22, 32, 5],
             iconAnchor: [10, 30],
         });
 
+        /**** Colocar Icon explicativo inicial para a pessoa saber onde clicar**/
+        var start_boat = L.icon({
+            iconUrl: 'user_marker.png',
+            iconSize: [22, 32, 5],
+            iconAnchor: [30, 30],
+            shadowSize: [50, 64],
+        });
+        start_boat = new L.marker([40.70, -8.69], {
+            icon: start_boat
+        }).addTo(mymap);
 
+
+        var cssIcon = L.divIcon({
+            // Specify a class name we can refer to in CSS.
+            className: 'css-icon',
+            html: '<div  id="gps_ringit"><div class="gps_ring2"></div><div class="gps_ring"></div><p style="  ' +
+                'width: 100px; ' +
+                'font-size: 1.0rem;' +
+                'text-align: center; ' +
+                'font-weight: 500; ' +
+                '">Clique no Mapa</p></div>'
+            // Set marker width and height
+            , iconSize: [12, 30]
+            // ,iconAnchor: [11,11]
+        });
+
+        // Create three markers and set their icons to cssIcon
+        L.marker([40.70, -8.69], { icon: cssIcon }).addTo(mymap);
+
+
+
+        /*****/
 
         L.control.scale().addTo(mymap);
 
@@ -1336,8 +1408,45 @@
 
         var arrayClickGPX = [];
 
-
+        /*****Menu Lateral*****/
         var sidebar = L.control.sidebar('sidebar').addTo(mymap);
+
+
+
+        // //ANIMAÇÃO SIMPLES
+        // var marker = L.marker([40.70, -8.69]).addTo(mymap);
+        // marker.slideTo([40.714, -8.681],{
+        //     duration: 2000,
+        //     //keepAtCenter: true   -- camara seguir o percurso
+
+        // });
+
+
+
+        // /***ANIMAÇÃO BARCO ***/
+        // var londonParisRomeBerlinBucarest = [[40.70, -8.69], [40.714, -8.681],
+        // [40.723, -8.662], [40.726, -8.6520], [40.729, -8.646],];
+
+        // var marker2 = L.Marker.movingMarker(londonParisRomeBerlinBucarest,
+        //     [3000, 9000, 9000, 4000], { autostart: true, }).addTo(mymap); //{loop:true}
+        // console.log(marker2);
+        // console.log(marker2._durations);
+        // console.log(marker2._durations[0]);
+        // console.log(document.getElementsByClassName('leaflet-marker-icon'))
+        // console.log(document.getElementsByClassName('leaflet-marker-icon')[2].style.transform)
+        // if (marker2._durations[0] < 9000) {
+        //     //L.polyline(londonParisRomeBerlinBucarest, { color: 'red' }).addTo(mymap);
+
+        // } else {
+        //     //L.polyline(londonParisRomeBerlinBucarest, { color: 'green' }).addTo(mymap);
+
+        // }
+        // console.log(londonParisRomeBerlinBucarest);
+
+        // marker2.on('end', function () {
+        //     marker2.bindPopup('<b>Welcome to Cais do Bico !</b>', { closeOnClick: false })
+        //         .openPopup();
+        // });
 
         //Funções responsáveis por ler a data do GPX e armazená-la num array
         async function getTorreiraGPX() {
@@ -2515,6 +2624,9 @@
         };
 
         mymap.on('click', function (e) {
+
+            mymap.removeLayer(start_boat);
+            document.getElementById('gps_ringit').style.display = "none";
             arrayCoor = [];
             var coord = e.latlng;
             var lat = coord.lat;
@@ -2974,16 +3086,16 @@
                             n3.setMinutes(+tempo3 * 60);
                             var result3 = n3.toTimeString().slice(0, 5);
 
-                        marker_Teste1.bindPopup("<div class='div_bind'>" +
-                            "<h5>Cais mais próximo: Bico</h5>" +
-                            "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
-                            "<p>Deseja ir até:</p>" +
-                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                            "<option selected disabled>Selecione um local</option>" +
-                            "<option value='getIdaBicoGPX'>Desde de Ange - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>"  +
-                            "<option value='getDataGPX_RegressoBico'>Desde de Boca da Barra - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>"  +
-                            "<option value='NovaRotaCriada'>Desde de Ange 2 - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>"  +
-                            "</div>").openPopup();
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
+                                "<h5>Cais mais próximo: Bico</h5>" +
+                                "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<p>Deseja ir até:</p>" +
+                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                                "<option selected disabled>Selecione um local</option>" +
+                                "<option value='getIdaBicoGPX'>Desde de Ange - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                                "<option value='getDataGPX_RegressoBico'>Desde de Boca da Barra - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
+                                "<option value='NovaRotaCriada'>Desde de Ange 2 - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
+                                "</div>").openPopup();
                         }
 
                     }, 1000);
@@ -3909,11 +4021,14 @@
             let warning = 0;
             let diferençaAlturaMare = 0;
             let User_Tempo_cada_coor = [];
-
-
+            var AnimarBarco = [];
             if (mare_por_minuto.length > 0) {
 
                 for (var i = 0; i < coordenadas.length; i++) {
+
+
+
+
                     //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
                     //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
@@ -3946,11 +4061,11 @@
 
                     }
 
-                    // popup2 = L.popup()
-                    //     .setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                    //     .setContent('<div>' + '<p> Z1:' + z1_rota_adquirida[i] + '</p>' + '<p> Z2' + Z2_NOvaRota + '</p>' +
-                    //         '</div>')
-                    // popup2.addTo(mymap)
+                    //AnimarBarco.push([parseFloat(coordenadas[i][1]), parseFloat(coordenadas[i][0]), z2_menos_calado, Z2_NOvaRota]);
+                    AnimarBarco.push([
+                        parseFloat(coordenadas[i][1]), 
+                        parseFloat(coordenadas[i][0])
+                    ]);
 
                     popup = new L.popup();
                     popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
@@ -4094,8 +4209,6 @@
                             arDistan.push(distancia.toFixed(2));
 
 
-
-
                             var myStyle3 = {
                                 radius: 8,
                                 color: "green",
@@ -4136,6 +4249,8 @@
                             });
 
 
+
+
                         }
                     }
 
@@ -4144,27 +4259,59 @@
                 console.log('Else_sem_rota')
 
             }
+            console.log(AnimarBarco);
+        
+
+        var markerAnimado = L.Marker.movingMarker(AnimarBarco, 
+        [
+            600,700,700,700,700,700,
+            600,700,700,700,500,500,
+            600,700,700,500,500,500,
+            800,700,700,700,700,700,
+            500,500,500,500,500,500,
+            800,800,1000,3000,4000,5000,
+            3000,4000,5000,600,700,700,700,
+            500,500,500,500
+            ], { autostart: true,loop:true }).addTo(mymap);
+      
+      markerAnimado.start();
+            // var londonParisRomeBerlinBucarest = [[40.70, -8.69], [40.714, -8.681],
+            // [40.723, -8.662], [40.726, -8.6520], [40.729, -8.646],];
+            // var londonParisRomeBerlinBucarest = [[AnimarBarco[0][0], AnimarBarco[0][1]], [[AnimarBarco[1][0], AnimarBarco[1][1]]],
+            // [[AnimarBarco[2][0], AnimarBarco[2][1]]], [40.726, -8.6520], [40.729, -8.646],];
+
+            // var londonParisRomeBerlinBucarest = [
+            //     [AnimarBarco[0][0], AnimarBarco[0][1]], 
+            //     [AnimarBarco[1][0], AnimarBarco[1][1]],
+            
+            
+            // ];
+
+            // for (var w = 1;w<AnimarBarco.length;w++){
+            //     var londonParisRomeBerlinBucarest = [
+            //         [AnimarBarco[w-1][0], AnimarBarco[w-1][1]], 
+            //         [AnimarBarco[w][0], AnimarBarco[w][1]],
+            // ];
+            //     var marker2 = L.movingMarker(londonParisRomeBerlinBucarest,
+            //     [3000, 9000, 9000, 4000], { autostart: true, }).addTo(mymap); //{loop:true}
+            // }
+ 
+            // console.log(marker2);
+            // console.log(marker2._durations);
+
+            // if (marker2._durations[0] < 9000) {
+            //     //L.polyline(londonParisRomeBerlinBucarest, { color: 'red' }).addTo(mymap);
+
+            // } else {
+            //     //L.polyline(londonParisRomeBerlinBucarest, { color: 'green' }).addTo(mymap);
+
+            // }
+            // marker2.on('end', function () {
+            //     marker2.bindPopup('<b>Welcome to Cais do Bico !</b>', { closeOnClick: false })
+            //         .openPopup();
+            // });
 
 
-            let sum = 0;
-            for (let u = 0; u < arDistan.length; u++) {
-                sum += parseFloat(arDistan[u]);
-            }
-            let totavelkm2kn, tempovm;
-            let minutesfinal, minutes2deci, dc2tempovm;
-            let newsum = sum / 1000;
-            //document.getElementById('km').innerHTML = "<p>" + newsum.toFixed(2) + " KM </p>";
-            velocidademedia = 5;
-            totavelkm2kn = newsum / 1.852;
-            tempovm = totavelkm2kn / velocidademedia;
-            dc2tempovm = tempovm.toFixed(2);
-            dc2tempovm = dc2tempovm.split('.');
-            let knowminutes = 0 + '.' + dc2tempovm[1];
-
-            minutesfinal = parseFloat(knowminutes) * 60;
-            let min = minutesfinal.toFixed(1);
-            let spantempo = dc2tempovm[0] + 'h' + parseInt(min) + 'm';
-            //document.getElementById('tempoestimado').innerHTML = "<p>" + spantempo + "</p>";
         }
 
 
