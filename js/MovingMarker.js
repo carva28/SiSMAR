@@ -22,9 +22,37 @@ L.Marker.MovingMarker = L.Marker.extend({
     },
 
     initialize: function (latlngs, durations, options) {
+        // var myIcon = L.icon({
+        //     iconUrl: 'boat.png',
+        //     iconSize: [38, 95],
+        //     iconAnchor: [22, 94],
+        // });
+
         L.Marker.prototype.initialize.call(this, latlngs[0], options);
+        //delete L.Icon.Default.prototype._getIconUrl;
+        //Apagar icone
+        delete L.Icon.Default.prototype._getIconUrl
+       
+        //delete  L.Marker.prototype.options.icon;
+        //Adicionar icon a um marker normal
+
+        if(DefaultIcon){
+            mymap.removeLayer(DefaultIcon);
+        }
+        var DefaultIcon = L.icon({
+            iconUrl: './user_marker.png',
+            iconSize: [38, 60],
+            iconAnchor: [25, 55],
+        });
+       
+        L.Marker.prototype.options.icon = DefaultIcon;
+
+
+       
+
 
         this._latlngs = latlngs.map(function(e, index) {
+            //todas as coordenadas enviadas
             return L.latLng(e);
         });
 
@@ -64,6 +92,8 @@ L.Marker.MovingMarker = L.Marker.extend({
     },
 
     start: function() {
+
+        
         if (this.isRunning()) {
             return;
         }
@@ -139,6 +169,8 @@ L.Marker.MovingMarker = L.Marker.extend({
     onAdd: function (map) {
         L.Marker.prototype.onAdd.call(this, map);
 
+    
+        
         if (this.options.autostart && (! this.isStarted())) {
             this.start();
             return;
@@ -177,6 +209,7 @@ L.Marker.MovingMarker = L.Marker.extend({
         return durations;
     },
 
+    
     _startAnimation: function() {
         this._state = L.Marker.MovingMarker.runState;
         this._animId = L.Util.requestAnimFrame(function(timestamp) {
@@ -185,6 +218,8 @@ L.Marker.MovingMarker = L.Marker.extend({
             this._animate(timestamp);
         }, this, true);
         this._animRequested = true;
+
+    
     },
 
     _resumeAnimation: function() {
@@ -204,6 +239,7 @@ L.Marker.MovingMarker = L.Marker.extend({
     },
 
     _updatePosition: function() {
+        
         var elapsedTime = Date.now() - this._startTime;
         this._animate(this._startTimeStamp + elapsedTime, true);
     },
@@ -300,5 +336,6 @@ L.Marker.MovingMarker = L.Marker.extend({
 });
 
 L.Marker.movingMarker = function (latlngs, duration, options) {
+   
     return new L.Marker.MovingMarker(latlngs, duration, options);
 };

@@ -1260,6 +1260,7 @@
 
     <script src="./js/leaflet-sidebar.js"></script>
     <script type="text/javascript" src="./js/MovingMarker.js"></script>
+    <script type="text/javascript" src="./js/AnimatedMarker.js"></script>
     <script src='https://unpkg.com/leaflet.marker.slideto@0.2.0/Leaflet.Marker.SlideTo.js'></script>
 
     <script>
@@ -2701,7 +2702,7 @@
         var distNM;
         var distTOTAL;
         var distance_gpx_real = [];
-
+        var nomeDestino = [];
         async function verificaClickCoor(arrayClicked) {
             console.log(arrayClicked);
             var localiz_distan = [], local_Nome_rota = [];
@@ -2848,7 +2849,21 @@
 
 
 
+                nomeDestino = [];
+                nomeDestino.push("Aveiro");
+                nomeDestino = [];
+                nomeDestino.push("Vagueira");
+                nomeDestino = [];
+                nomeDestino.push("Ange");
+                nomeDestino = [];
+                nomeDestino.push("São Jacinto");
+                nomeDestino = [];
+                nomeDestino.push("Ange");
+
+
                 if (guardardistancia[0][1] == 'getTorreiraGPX') {
+                    nomeDestino = [];
+                    nomeDestino.push("Torreira");
                     distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
@@ -2908,6 +2923,7 @@
 
                 } else if (guardardistancia[0][1] == 'getCostaNovaGPX' ||
                     guardardistancia[0][1] == 'getData_IDA10_3_20_GPX') {
+
                     distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
@@ -3148,35 +3164,56 @@
             return hours + ":" + minutes;
         }
 
+
         function selecioneLocal() {
+
             var value_escolhido = document.getElementById("sel1").value;
 
 
             switch (value_escolhido) {
                 case 'getTorreiraGPX':
+                    nomeDestino = [];
+                    nomeDestino.push("Torreira");
                     getTorreiraGPX();
                     break;
                 case 'getCostaNovaGPX':
                     getCostaNovaGPX();
+                    nomeDestino = [];
+                    nomeDestino.push("Costa Nova");
+
+
                     break;
                 case 'getIdaBicoGPX':
+                    nomeDestino = [];
+                    nomeDestino.push("do Bico");
                     getIdaBicoGPX();
                     break;
                 case 'getData4GPX':
                     getData4GPX();
+                    nomeDestino = [];
+                    nomeDestino.push("Centro Aveiro");
+
                     break;
                 case 'getData_IDA10_3_20_GPX':
                     getData_IDA10_3_20_GPX();
+                    nomeDestino = [];
+                    nomeDestino.push("Vagueira");
                     break;
                 case 'getData_Volta10_3_20_GPX':
-                    getData_IDA10_3_20_GPX();
+                    getData_Volta10_3_20_GPX();
+                    nomeDestino = [];
+                    nomeDestino.push("Ange");
                     break;
                 case 'getDataGPX_RegressoBico':
                     getDataGPX_RegressoBico();
+                    nomeDestino = [];
+                    nomeDestino.push("São Jacinto");
                     break;
 
                 case 'NovaRotaCriada':
                     getBicoAngeGPX();
+                    nomeDestino = [];
+                    nomeDestino.push("Ange");
                     break;
             }
 
@@ -3715,17 +3752,7 @@
                 }
 
                 let mare_combase_tempo_2 = [];
-                //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
-                // for (let k = 0; k < sortedData2.length; k++) {
 
-                //     let date = new Date(sortedData2[k].SDATA);
-                //     let dataSDATA = date.getHours() + ":" + date.getMinutes();
-
-                //     if (sortedData2[k + 1] != undefined) {
-                //         datefrente = new Date(sortedData2[k + 1].SDATA);
-                //     } else {
-                //         console.log('')
-                //     }
 
                 let data1 = new Date(sortedData2[0].SDATA);
                 let data2 = new Date(sortedData2[1].SDATA);
@@ -4021,7 +4048,10 @@
             let warning = 0;
             let diferençaAlturaMare = 0;
             let User_Tempo_cada_coor = [];
+            //guardamos as coordenadas para animar o barquinho
             var AnimarBarco = [];
+            // guardar a velocidade com base nos pontos
+            var variavelVelocidadeAnimBarco = [];
             if (mare_por_minuto.length > 0) {
 
                 for (var i = 0; i < coordenadas.length; i++) {
@@ -4063,7 +4093,7 @@
 
                     //AnimarBarco.push([parseFloat(coordenadas[i][1]), parseFloat(coordenadas[i][0]), z2_menos_calado, Z2_NOvaRota]);
                     AnimarBarco.push([
-                        parseFloat(coordenadas[i][1]), 
+                        parseFloat(coordenadas[i][1]),
                         parseFloat(coordenadas[i][0])
                     ]);
 
@@ -4130,6 +4160,8 @@
                                 style: myStyle4
                             });
                             linesFeatureLayer4.addTo(mymap);
+
+                            variavelVelocidadeAnimBarco.push(8000);
                         }
                     }
                     else if (z2_menos_calado < margemcaladoInf) {
@@ -4154,6 +4186,7 @@
                                 style: myStyle1
                             });
 
+                            variavelVelocidadeAnimBarco.push(5000);
 
 
                             linesFeatureLayer.addTo(mymap);
@@ -4189,6 +4222,9 @@
 
                             warning++;
 
+                            variavelVelocidadeAnimBarco.push(1000);
+
+
                         } else {
                             console.log('')
                         }
@@ -4208,6 +4244,7 @@
                             distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
                             arDistan.push(distancia.toFixed(2));
 
+                            variavelVelocidadeAnimBarco.push(500);
 
                             var myStyle3 = {
                                 radius: 8,
@@ -4223,21 +4260,21 @@
 
                             //Colocar objeto por cima do linestring para percorrer a rota
                             mymap.almostOver.addLayer(linesFeatureLayer3);
-                            //var circle = L.circleMarker([0, 0], { radius: 5, fillColor: 'white', fillOpacity: 1 });
+                            // //var circle = L.circleMarker([0, 0], { radius: 5, fillColor: 'white', fillOpacity: 1 });
 
-                            var circle = L.marker([0, 0], {
-                                icon: myboat
-                            });
-                            mymap.on('almost:over', function (e) {
-                                mymap.addLayer(circle);
-                                //mudar cor ao sair do hover
-                                //e.layer.setStyle({ color: 'black' });
-                            });
+                            // var circle = L.marker([0, 0], {
+                            //     icon: myboat
+                            // });
+                            // mymap.on('almost:over', function (e) {
+                            //     mymap.addLayer(circle);
+                            //     //mudar cor ao sair do hover
+                            //     //e.layer.setStyle({ color: 'black' });
+                            // });
 
-                            mymap.on('almost:move', function (e) {
-                                circle.setLatLng(e.latlng);
+                            // mymap.on('almost:move', function (e) {
+                            //     circle.setLatLng(e.latlng);
 
-                            });
+                            // });
 
                             // mymap.on('almost:out', function (e) {
                             //     mymap.removeLayer(circle);
@@ -4259,58 +4296,50 @@
                 console.log('Else_sem_rota')
 
             }
-            console.log(AnimarBarco);
-        
+    
+            // var markerAnimado = L.Marker.movingMarker(AnimarBarco, 
+            // [
+            //     600,700,700,700,700,700,
+            //     600,700,700,700,500,500,
+            //     600,700,700,500,500,500,
+            //     800,700,700,700,700,700,
+            //     500,500,500,500,500,500,
+            //     800,800,1000,3000,4000,5000,
+            //     3000,4000,5000,600,700,700,700,
+            //     500,500,500,500
+            //     ], { autostart: true,loop:true }).addTo(mymap);
 
-        var markerAnimado = L.Marker.movingMarker(AnimarBarco, 
-        [
-            600,700,700,700,700,700,
-            600,700,700,700,500,500,
-            600,700,700,500,500,500,
-            800,700,700,700,700,700,
-            500,500,500,500,500,500,
-            800,800,1000,3000,4000,5000,
-            3000,4000,5000,600,700,700,700,
-            500,500,500,500
-            ], { autostart: true,loop:true }).addTo(mymap);
-      
-      markerAnimado.start();
-            // var londonParisRomeBerlinBucarest = [[40.70, -8.69], [40.714, -8.681],
-            // [40.723, -8.662], [40.726, -8.6520], [40.729, -8.646],];
-            // var londonParisRomeBerlinBucarest = [[AnimarBarco[0][0], AnimarBarco[0][1]], [[AnimarBarco[1][0], AnimarBarco[1][1]]],
-            // [[AnimarBarco[2][0], AnimarBarco[2][1]]], [40.726, -8.6520], [40.729, -8.646],];
+            var markerAnimado;
 
-            // var londonParisRomeBerlinBucarest = [
-            //     [AnimarBarco[0][0], AnimarBarco[0][1]], 
-            //     [AnimarBarco[1][0], AnimarBarco[1][1]],
+
+            if (markerAnimado) {
+                mymap.removeLayer(markerAnimado);
+                //document.getElementsByClassName('leaflet-marker-icon')[2].innerHTML="";
+            }
+          
+            markerAnimado = L.Marker.movingMarker(AnimarBarco,
+                variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
+//só funciona uma vez
+            //document.getElementsByClassName('leaflet-marker-icon')[2].src = "./user_marker.png";
             
-            
-            // ];
 
-            // for (var w = 1;w<AnimarBarco.length;w++){
-            //     var londonParisRomeBerlinBucarest = [
-            //         [AnimarBarco[w-1][0], AnimarBarco[w-1][1]], 
-            //         [AnimarBarco[w][0], AnimarBarco[w][1]],
-            // ];
-            //     var marker2 = L.movingMarker(londonParisRomeBerlinBucarest,
-            //     [3000, 9000, 9000, 4000], { autostart: true, }).addTo(mymap); //{loop:true}
-            // }
- 
-            // console.log(marker2);
-            // console.log(marker2._durations);
+            //markerAnimado.start();
+            markerAnimado.on('end', function () {
+                markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
+                    .openPopup();
+            });
 
-            // if (marker2._durations[0] < 9000) {
-            //     //L.polyline(londonParisRomeBerlinBucarest, { color: 'red' }).addTo(mymap);
-
-            // } else {
-            //     //L.polyline(londonParisRomeBerlinBucarest, { color: 'green' }).addTo(mymap);
-
-            // }
-            // marker2.on('end', function () {
-            //     marker2.bindPopup('<b>Welcome to Cais do Bico !</b>', { closeOnClick: false })
-            //         .openPopup();
+            // var myIcon = L.icon({
+            //     iconUrl: 'user_marker.png',
+            // iconSize: [22, 32, 5],
+            // iconAnchor: [10, 30],
             // });
+            // var line = L.polyline(AnimarBarco),
+            //     animatedMarker = L.animatedMarker(AnimarBarco, { 
+            //         icon: myIcon, distance: variavelVelocidadeAnimBarco, interval: 2000,// milliseconds
+            //      });
 
+            // mymap.addLayer(animatedMarker);
 
         }
 
