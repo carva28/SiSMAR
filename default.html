@@ -219,19 +219,22 @@
             background-color: #214198;
             position: absolute;
             z-index: 20;
-            top: 330px;
+            top: 10px;
             right: 10px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
         }
 
         .leaflet-control-layers-expanded {
             background-color: #fff;
+            padding: 10px 45px;
             position: fixed;
-            height: 250px;
+            /* height: 250px; */
             z-index: 20;
-            top: 200px;
-            right: 10px;
+            top: 10px;
+            right: 60px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+            font-size: 1rem;
+            border: #214198;
         }
 
         .leaflet-retina .leaflet-control-layers-toggle {
@@ -478,6 +481,32 @@
             /*400px*/
             right: 10px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        #btn_legenda3 {
+            background-color: #214198;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 70px;
+            height: 70px;
+            border-radius: 100px;
+            position: fixed;
+            z-index: 20;
+            top: 320px;
+            /*400px*/
+            right: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        .input_btn_vel {
+            position: fixed;
+            top: 350px;
+            right: 30px;
+            width: 100px;
+            text-align: center;
+            border: #214198 3px solid;
+            border-radius: 20px;
         }
 
         #icon_crash {
@@ -913,16 +942,22 @@
         <i id="icon_crash" class="fas fa-route"></i>
     </button>
 
+    <button type="button" id="btn_legenda3" class="btn btn-dark">
+        <i id="icon_crash" class="fas fa-tachometer-alt"></i>
+        <input type="number" id="velocidade" class="input_btn_vel" min="1" max="6" value="3" />
+        <p class="p_inputs" style="font-size: 1.0rem;">Knots</p>
+    </button>
+
+
     <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             <ul role="tablist">
                 <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
                 <!-- <li><a href="" role="tab"><i class="fa fa-user"></i></a></li> -->
-                <li><a href="#profile" role="tab"><i class="fas fa-ship"></i></a></li>
-
-                <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li> -->
                 <li><a href="#messages" role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fas fa-ship"></i></a></li>
+                <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li> -->
                 <li><a href="#infoMar" role="tab"><i class="fas fa-water"></i></a></li>
             </ul>
 
@@ -964,8 +999,9 @@
 
                         <!-- <i id="icon_velo" class="fas fa-tachometer-alt"></i> -->
                         <img id="icon_velo" src="boat.png" />
-                        <p class="p_inputs_spec" style="padding-right: 0px;margin:10px;"><b>Informações da
-                                embarcação</b></p>
+                        <p class="p_inputs_spec" style="padding-right: 0px;margin:10px;">
+                            <b>Informações da embarcação</b>
+                        </p>
 
                     </div>
 
@@ -984,6 +1020,15 @@
                         <p class="p_inputs">Limite Inferior</p>
                         <input type="number" id="calado_inf_span" value="0.1" min="0.1" max="0.9" step="0.1">
 
+                    </div>
+
+
+
+                    <div class="col-sm-1">
+                        <i id="icon_velo" class="fas fa-tachometer-alt"></i>
+                        <p class="p_inputs_spec">Velocidade</p>
+                        <input type="number" id="velocidade" class="input_vel" min="1" max="6" value="3" />
+                        <p class="p_inputs" style="font-size: 1.0rem;">Knots</p>
                     </div>
 
                     <div class="col-sm-1">
@@ -1155,12 +1200,6 @@
                 </h1>
 
 
-                <div class="col-sm-1">
-                    <i id="icon_velo" class="fas fa-tachometer-alt"></i>
-                    <p class="p_inputs_spec">Velocidade</p>
-                    <input type="number" id="velocidade" class="input_vel" min="1" max="6" value="3" />
-                    <p class="p_inputs" style="font-size: 1.0rem;">Knots</p>
-                </div>
 
             </div>
         </div>
@@ -1182,8 +1221,13 @@
     </div>
 
     <script src="./js/leaflet-sidebar.js"></script>
+    <script type="text/javascript" src="./js/MovingMarker.js"></script>
 
     <script>
+
+
+
+    
 
 
         var calado = 1;
@@ -1237,6 +1281,11 @@
             maxZoom: 19
         });
 
+        var Outdoors = L.tileLayer('https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=a83d355c78244eb8b0c7530eb3a8e481', {
+            attribution: 'SiSMAR Project&copy; <a href="http://www.thunderforest.com/">outdoors</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            apikey: 'a83d355c78244eb8b0c7530eb3a8e481',
+            maxZoom: 22
+        });
         // var overlay = L.tileLayer('https://backend.navionics.io/tile/{z}/{x}/{y}?LAYERS=config_1_1_0&TRANSPARENT=FALSE&UGC=TRUE&navtoken=eyJrZXkiOiJOQVZJT05JQ1NfV0VCQVBJX1AwMSIsImtleURvbWFpbiI6IndlYmFwaXYyLm5hdmlvbmljcy5jb20iLCJyZWZlcmVyIjoid2ViYXBpdjIubmF2aW9uaWNzLmNvbSIsInJhbmRvbSI6MTU4NTA2MDMwODI1MX0', {
         //     attribution: '&copy; <a href="http://navionics.com">Navionics</a>'
         // });
@@ -1256,6 +1305,7 @@
             "OpenStreetMap_HOT": OpenStreetMap_HOT,
             "OpenTopoMap": OpenTopoMap,
             "Dark": CartoDB_DarkMatterNoLabels,
+            "Outdoors": Outdoors,
             "Thunderforest_TransportDark": Thunderforest_TransportDark,
         };
 
@@ -2460,6 +2510,10 @@
 
         var arrayCoor = [];
 
+        document.getElementById('btn_legenda3').onclick = function () {
+            clickedPointer(true);
+        };
+
         mymap.on('click', function (e) {
             arrayCoor = [];
             var coord = e.latlng;
@@ -2724,7 +2778,7 @@
                                 "<p>Deseja ir até:</p>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
-                                "<option value='getTorreiraGPX'>ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                                "<option value='getTorreiraGPX'>Desde de ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "</div>").openPopup();
                         }
 
@@ -2769,6 +2823,14 @@
                         distNM = distM * 0.0005;
                         distance_gpx_real.push(distNM);
                     });
+
+                    var gpxMAIN3 = new L.GPX(json8, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
                     setTimeout(function () {
 
                         let velocidadeUser = document.getElementById('velocidade').value;
@@ -2793,15 +2855,23 @@
                             n3.setMinutes(+tempo3 * 60);
                             var result3 = n3.toTimeString().slice(0, 5);
 
+                            let dc2_dist_4 = distance_gpx_real[3].toFixed(2);
+                            let tempo4 = dc2_dist_4 / velocidadeUser;
+                            var n4 = new Date(0, 0);
+                            n4.setMinutes(+tempo3 * 60);
+                            var result4 = n4.toTimeString().slice(0, 5);
+
+
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Cais mais próximo: ANGE</h5>" +
                                 "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                                 "<p>Deseja ir até:</p>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
-                                "<option value='getCostaNovaGPX'>Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
-                                "<option value='getTorreiraGPX'>Torreira - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
-                                "<option value='getData_IDA10_3_20_GPX'>Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
+                                "<option value='getCostaNovaGPX'>Desde de Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                                "<option value='getTorreiraGPX'>Desde de Torreira - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
+                                "<option value='getData_IDA10_3_20_GPX'>Desde de Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
+                                "<option value='NovaRotaCriada'>Desde de Ange 2 - " + distance_gpx_real[3].toFixed(2) + " milhas com Duração " + result4 + "</option>" +
                                 "</div>").openPopup();
                         }
 
@@ -2827,14 +2897,24 @@
                         distance_gpx_real.push(distNM);
                     });
                     setTimeout(function () {
-                        marker_Teste1.bindPopup("<div class='div_bind'>" +
-                            "<h5>Cais mais próximo: Aveiro</h5>" +
-                            "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
-                            "<p>Deseja ir até:</p>" +
-                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                            "<option selected disabled>Selecione um local</option>" +
-                            "<option value='getData4GPX'>Aveiro - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
-                            "</div>").openPopup();
+                        let velocidadeUser = document.getElementById('velocidade').value;
+                        if (!velocidadeUser) {
+                            alert('insira uma velocidade')
+                        } else {
+                            let dc2_dist = distance_gpx_real[0].toFixed(2);
+                            let tempo = dc2_dist / velocidadeUser;
+                            var n = new Date(0, 0);
+                            n.setMinutes(+tempo * 60);
+                            var result = n.toTimeString().slice(0, 5);
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
+                                "<h5>Cais mais próximo: Aveiro</h5>" +
+                                "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<p>Deseja ir até:</p>" +
+                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                                "<option selected disabled>Selecione um local</option>" +
+                                "<option value='getData4GPX'>Desde de Aveiro - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                                "</div>").openPopup();
+                        }
 
                     }, 1000);
                     marker_Teste1.on('click', function (e) {
@@ -2872,16 +2952,39 @@
                     });
 
                     setTimeout(function () {
+                        let velocidadeUser = document.getElementById('velocidade').value;
+                        if (!velocidadeUser) {
+                            alert('insira uma velocidade')
+                        } else {
+                            let dc2_dist = distance_gpx_real[0].toFixed(2);
+                            let tempo = dc2_dist / velocidadeUser;
+                            var n = new Date(0, 0);
+                            n.setMinutes(+tempo * 60);
+                            var result = n.toTimeString().slice(0, 5);
+
+                            let dc2_dist_2 = distance_gpx_real[1].toFixed(2);
+                            let tempo2 = dc2_dist_2 / velocidadeUser;
+                            var n2 = new Date(0, 0);
+                            n2.setMinutes(+tempo2 * 60);
+                            var result2 = n2.toTimeString().slice(0, 5);
+
+                            let dc2_dist_3 = distance_gpx_real[2].toFixed(2);
+                            let tempo3 = dc2_dist_3 / velocidadeUser;
+                            var n3 = new Date(0, 0);
+                            n3.setMinutes(+tempo3 * 60);
+                            var result3 = n3.toTimeString().slice(0, 5);
+
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
                             "<h5>Cais mais próximo: Bico</h5>" +
                             "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
                             "<p>Deseja ir até:</p>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
-                            "<option value='getIdaBicoGPX'>Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
-                            "<option value='getDataGPX_RegressoBico'>Boca da Barra - " + distance_gpx_real[1].toFixed(2) + " milhas</option>" +
-                            "<option value='NovaRotaCriada'>Ange 2 - " + distance_gpx_real[2].toFixed(2) + " milhas</option>" +
+                            "<option value='getIdaBicoGPX'>Desde de Ange - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>"  +
+                            "<option value='getDataGPX_RegressoBico'>Desde de Boca da Barra - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>"  +
+                            "<option value='NovaRotaCriada'>Desde de Ange 2 - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>"  +
                             "</div>").openPopup();
+                        }
 
                     }, 1000);
                     marker_Teste1.on('click', function (e) {
@@ -2911,7 +3014,7 @@
                             "<p>Deseja ir até:</p>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
-                            "<option value='getData_Volta10_3_20_GPX'>Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
+                            "<option value='getData_Volta10_3_20_GPX'>Desde de Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
                             "</div>").openPopup();
                     }, 1000);
                     marker_Teste1.on('click', function (e) {
@@ -3807,6 +3910,7 @@
             let diferençaAlturaMare = 0;
             let User_Tempo_cada_coor = [];
 
+
             if (mare_por_minuto.length > 0) {
 
                 for (var i = 0; i < coordenadas.length; i++) {
@@ -3990,6 +4094,8 @@
                             arDistan.push(distancia.toFixed(2));
 
 
+
+
                             var myStyle3 = {
                                 radius: 8,
                                 color: "green",
@@ -4036,7 +4142,7 @@
                 }
             } else {
                 console.log('Else_sem_rota')
-  
+
             }
 
 
