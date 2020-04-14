@@ -1025,6 +1025,10 @@
             #messages{
             min-width: 1579px;
             }
+
+            .sidebar.collapsed > .sidebar-content{
+                overflow-y: auto;
+            }
         }
     </style>
 
@@ -2781,7 +2785,7 @@
         };
         document.getElementById('close_side4').onclick = function () {
             if(sideaberta){
-            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";    
             sideaberta = false;
            }else{
             sideaberta=true;
