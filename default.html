@@ -244,7 +244,7 @@
 
         /******Botão zoom***/
         .leaflet-touch .leaflet-bar {
-            top: 200px;
+            top: 120px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
             background-color: transparent;
             border: none;
@@ -499,6 +499,21 @@
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
         }
 
+        #btn_legenda4 {
+            background-color: #ffc10a;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 70px;
+            height: 70px;
+            border-radius: 100px;
+            position: fixed;
+            z-index: 20;
+            top: 240px;
+            right: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
         .input_btn_vel {
             position: fixed;
             top: 350px;
@@ -513,7 +528,14 @@
             margin: auto;
             width: 50px;
         }
+        #icon_crash2 {
+            color:#1F3436;
+            margin: auto;
+            width: 50px;
+            font-size:2.2rem;
+        }
 
+        
 
 
         #time {
@@ -984,8 +1006,12 @@
         <i id="icon_crash" class="fas fa-tachometer-alt"></i>
         <input type="number" id="velocidade" class="input_btn_vel" min="1" max="6" value="3" />
         <p class="p_inputs" style="font-size: 1.0rem;">Knots</p>
-    </button>
 
+    </button>
+    <button type="button" id="btn_legenda4" class="btn btn-dark" onclick="changeValue()">
+        <!--onclick="addRock()"-->
+        <i id="icon_crash2" class="fas fa-play-circle"></i>
+    </button>
 
     <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
