@@ -1062,12 +1062,12 @@
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             <ul role="tablist">
-                <li  ><a id="tab" href="#home"  role="tab"><i class="fa fa-bars"></i></a></li>
+                <li id="tab_side" ><a  href="#home"  role="tab"><i class="fa fa-bars"></i></a></li>
                 <!-- <li><a href="" role="tab"><i class="fa fa-user"></i></a></li> -->
-                <li  ><a id="tab" href="#messages"  role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
-                <li  ><a id="tab" href="#profile"  role="tab"><i class="fas fa-ship"></i></a></li>
+                <li id="tab_side2" ><a  href="#messages"  role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
+                <li id="tab_side3" ><a  href="#profile"  role="tab"><i class="fas fa-ship"></i></a></li>
                 <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li> -->
-                <li  ><a id="tab" href="#infoMar"  role="tab"><i class="fas fa-water"></i></a></li>
+                <li id="tab_side4" ><a  href="#infoMar"  role="tab"><i class="fas fa-water"></i></a></li>
             </ul>
 
 
@@ -1082,7 +1082,7 @@
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
                     Web App SISMAR
-                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                    <span id="close_side" class="sidebar-close"> <i  class="fas fa-times-circle"></i></span>
                 </h1>
                 <div class="">
                     <img src="SiSMAR.png" class="img_logo2">
@@ -1097,7 +1097,8 @@
             </div>
 
             <div class="sidebar-pane" id="profile">
-                <h1 class="sidebar-header">Profile<span class="sidebar-close">
+                <h1 class="sidebar-header">Profile
+                    <span id="close_side2" class="sidebar-close">
                         <i class="fas fa-times-circle"></i>
                     </span>
                 </h1>
@@ -1181,7 +1182,7 @@
 
             <div class="sidebar-pane" id="messages">
 
-                <h1 class="sidebar-header">Rotas<span class="sidebar-close">
+                <h1 class="sidebar-header">Rotas<span id="close_side3" class="sidebar-close">
                         <i class="fas fa-times-circle"></i>
                 </h1>
 
@@ -1264,7 +1265,7 @@
 
             </div>
             <div class="sidebar-pane" id="informacao">
-                <h1 class="sidebar-header">Legenda<span class="sidebar-close"> <i
+                <h1 class="sidebar-header">Legenda<span id="close_side4" class="sidebar-close"> <i
                             class="fas fa-times-circle"></i></span>
                 </h1>
                 <div class="container">
@@ -2693,13 +2694,101 @@
 
         document.getElementById('btn_legenda3').onclick = function () {
             clickedPointer(true);
-        };
-
-        document.getElementById('tab').onclick = function () {
-           
-           document.getElementsById('sidebar').style.width=500+"px";
-        };
+        };  
         
+
+        var sideaberta = true;
+        document.getElementById('tab_side').onclick = function () {
+           if(sideaberta){
+           document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+           sideaberta = false;
+           }else{
+            sideaberta=true;
+            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+           }
+           //document.getElementsById('sidebar').style.width=500+"px";
+           
+           //console.log(document.getElementsById('sidebar').value);
+        };
+        var sideaberta2 = true;
+        document.getElementById('tab_side2').onclick = function () {
+           if(sideaberta2){
+            sideaberta2 = false;
+           document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+
+           }else{
+            sideaberta2=true;
+            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+
+           }
+           
+        };
+        document.getElementById('tab_side3').onclick = function () {
+           if(sideaberta){
+           sideaberta = false;
+           document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+
+           }else{
+            sideaberta=true;
+            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+
+           }
+           
+        };
+        document.getElementById('tab_side4').onclick = function () {
+           if(sideaberta){
+           sideaberta = false;
+           document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+
+           }else{
+            sideaberta=true;
+            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+
+           }
+           
+        };
+        document.getElementById('close_side').onclick = function () {
+            if(sideaberta){
+            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+
+            sideaberta = false;
+           }else{
+            sideaberta=true;
+            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+
+           }
+        };
+        document.getElementById('close_side2').onclick = function () {
+            if(sideaberta2){
+            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            sideaberta2 = false;
+           }else{
+            sideaberta2=true;
+            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+
+           }
+        };
+        document.getElementById('close_side3').onclick = function () {
+            if(sideaberta){
+            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+
+            sideaberta = false;
+           }else{
+            sideaberta=true;
+            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+
+           }
+        };
+        document.getElementById('close_side4').onclick = function () {
+            if(sideaberta){
+            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            sideaberta = false;
+           }else{
+            sideaberta=true;
+            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+
+           }
+        };
 
         mymap.on('click', function (e) {
 
