@@ -684,7 +684,8 @@
 
             #sidebar {
                 /* height: 1300px; */
-                width: 15%; /*100%*/
+                width: 15%;
+                /*100%*/
             }
 
             /* .sidebar.collapsed {
@@ -710,12 +711,23 @@
             #calado_span_2,
             #calado_sup_span,
             #calado_inf_span,
-            #date,
             #time {
                 width: 90%;
                 height: 100px;
                 font-size: 3.2rem;
 
+            }
+            #date {
+                width: 90%;
+                height: 100px !important;
+                font-size: 3.2rem;
+                margin: auto;
+            }
+            .input_vel {
+                width: 90%;
+                height: 100px !important;
+                font-size: 3.2rem;
+                margin: auto;
             }
 
             /* input[type="range"] {
@@ -791,12 +803,6 @@
 
             .order-12,
             .row,
-            img {
-                width: 95%;
-            }
-
-            .order-12,
-            .row,
             p {
                 margin-top: 20px;
                 font-size: 2.9rem;
@@ -863,21 +869,6 @@
                 background-color: white;
             }
 
-
-            a#abreDefinicoes {
-                width: 30rem;
-                font-size: 50px;
-                margin: auto;
-                left: calc(50% - 15rem);
-            }
-
-            a#abreCarousel {
-                width: 100px;
-                height: 100px;
-                font-size: 50px;
-                top: 1100px;
-            }
-
             #btn_legenda {
                 position: absolute;
                 width: 100px;
@@ -894,6 +885,41 @@
                 top: 950px;
             }
 
+          
+
+            #icon_velo {
+                float: none;
+                clear: both;
+                font-size: 3.8rem;
+                margin: auto;
+                margin-top: 50px;
+                width:100px;
+            }
+            .p_inputs_spec {
+                font-size: 2.7rem;
+                width: 300px;
+                text-align: center;
+                padding-top: 21px;
+                padding-right:0px;
+                margin: auto;
+            }
+          
+
+            .p_inputs {
+                font-size: 2.7rem;
+                width: 500px;
+                margin: auto;
+                text-align: center;
+            }
+
+
+            .order-12,
+            .row,
+            img {
+                width: 20%;
+                display: block;
+            }
+
             #legenda {
                 position: absolute;
                 margin-top: 50px;
@@ -904,48 +930,6 @@
 
             .leaflet-touch .leaflet-bar {
                 top: 550px;
-            }
-
-            a#fechaDefinicoes {
-                display: none;
-                height: 70px;
-                top: 1470px;
-                width: 200px;
-                left: calc(50% - 100px);
-                border-radius: 30px;
-
-            }
-
-            a#fechaDefinicoes i {
-                font-size: 50px;
-            }
-
-            a#fecharCarousel {
-                background-color: tomato;
-                border: #1f1f1f;
-                color: #ffffff;
-                width: 200px;
-                position: absolute;
-                z-index: 999;
-                font-size: 71px;
-                top: 1165px;
-                left: calc(50% - 60px);
-                display: none;
-                border-radius: 30px;
-            }
-
-            .carousel {
-                background: #fff;
-                position: fixed;
-                top: 1270px;
-                overflow: hidden;
-                height: 400px;
-                width: 160%;
-                border-radius: 15px;
-                z-index: 1;
-                text-align: center;
-                text-decoration: none;
-                font-size: 17px;
             }
 
             .carousel-cell {
@@ -992,41 +976,43 @@
                 list-style-type: none;
             }
 
-            .sidebar-tabs > li, .sidebar-tabs > ul > li{
+            .sidebar-tabs>li,
+            .sidebar-tabs>ul>li {
                 width: 100%;
-    height: 140px;
-    color: #fff;
-    font-size: 50pt;
-    overflow: hidden;
-    transition: all 80ms;
-    padding: 30px;
+                height: 140px;
+                color: #fff;
+                font-size: 50pt;
+                overflow: hidden;
+                transition: all 80ms;
+                padding: 30px;
             }
 
-            .sidebar-left .sidebar-content{
+            .sidebar-left .sidebar-content {
                 left: 140px;
-    right: 50px;
+                right: 50px;
             }
 
-            .sidebar-header{
+            .sidebar-header {
                 height: 100px;
                 line-height: 100px;
-    font-size: 35.4pt;
+                font-size: 35.4pt;
             }
 
-            .sidebar-close{
+            .sidebar-close {
                 position: absolute;
-    top: 0;
-    width: 200px;
-    height: 200px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 80px;
-            }
-            #messages{
-            min-width: 1579px;
+                top: 0;
+                width: 200px;
+                height: 200px;
+                text-align: center;
+                cursor: pointer;
+                font-size: 80px;
             }
 
-            .sidebar.collapsed > .sidebar-content{
+            #messages {
+                min-width: 1579px;
+            }
+
+            .sidebar.collapsed>.sidebar-content {
                 overflow-y: auto;
             }
         }
@@ -1054,7 +1040,7 @@
     <button type="button" id="btn_legenda3" class="btn btn-dark">
         <i id="icon_crash" class="fas fa-tachometer-alt"></i>
         <input type="number" id="velocidade" class="input_btn_vel" min="1" max="6" value="3" />
-        <p class="p_inputs" style="font-size: 1.0rem;">Knots</p>
+        <p class="p_inputs" style="font-size: 3.0rem;">Knots</p>
 
     </button>
     <button type="button" id="btn_legenda4" class="btn btn-dark" onclick="changeValue()">
@@ -1066,12 +1052,12 @@
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             <ul role="tablist">
-                <li id="tab_side" ><a  href="#home"  role="tab"><i class="fa fa-bars"></i></a></li>
+                <li id="tab_side"><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
                 <!-- <li><a href="" role="tab"><i class="fa fa-user"></i></a></li> -->
-                <li id="tab_side2" ><a  href="#messages"  role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
-                <li id="tab_side3" ><a  href="#profile"  role="tab"><i class="fas fa-ship"></i></a></li>
+                <li id="tab_side2"><a href="#messages" role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
+                <li id="tab_side3"><a href="#profile" role="tab"><i class="fas fa-ship"></i></a></li>
                 <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li> -->
-                <li id="tab_side4" ><a  href="#infoMar"  role="tab"><i class="fas fa-water"></i></a></li>
+                <li id="tab_side4"><a href="#infoMar" role="tab"><i class="fas fa-water"></i></a></li>
             </ul>
 
 
@@ -1086,7 +1072,7 @@
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
                     Web App SISMAR
-                    <span id="close_side" class="sidebar-close"> <i  class="fas fa-times-circle"></i></span>
+                    <span id="close_side" class="sidebar-close"> <i class="fas fa-times-circle"></i></span>
                 </h1>
                 <div class="">
                     <img src="SiSMAR.png" class="img_logo2">
@@ -1137,12 +1123,14 @@
                     </div>
 
 
-
+                    <div class="col-sm-1">    
+                        <i id="icon_velo" class="fas fa-tachometer-alt"></i>
+                    </div>
                     <div class="col-sm-1">
                         <i id="icon_velo" class="fas fa-tachometer-alt"></i>
                         <p class="p_inputs_spec">Velocidade</p>
                         <input type="number" id="velocidade" class="input_vel" min="1" max="6" value="3" />
-                        <p class="p_inputs" style="font-size: 1.0rem;">Knots</p>
+                        <p class="p_inputs" style="font-size: 2.0rem;">Knots</p>
                     </div>
 
                     <div class="col-sm-1">
@@ -1238,8 +1226,9 @@
 
 
             <div class="sidebar-pane" id="infoMar">
-                <h1 class="sidebar-header">Informação Instituto Hidrográfico<span class="sidebar-close"> <i
-                            class="fas fa-times-circle"></i></span>
+                <h1 class="sidebar-header" style="font-size:30.4pt;">Informação Instituto Hidrográfico
+                    <span id="close_side4" class="sidebar-close">
+                        <i class="fas fa-times-circle"></i></span>
                 </h1>
                 <p><b>*</b>Informação de maré no dia em que a rota foi adquirida</p>
                 <div class="row ">
@@ -1269,7 +1258,7 @@
 
             </div>
             <div class="sidebar-pane" id="informacao">
-                <h1 class="sidebar-header">Legenda<span id="close_side4" class="sidebar-close"> <i
+                <h1 class="sidebar-header">Legenda<span class="sidebar-close"> <i
                             class="fas fa-times-circle"></i></span>
                 </h1>
                 <div class="container">
@@ -2698,100 +2687,109 @@
 
         document.getElementById('btn_legenda3').onclick = function () {
             clickedPointer(true);
-        };  
-        
-
-        var sideaberta = true;
-        document.getElementById('tab_side').onclick = function () {
-           if(sideaberta){
-           document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
-           sideaberta = false;
-           }else{
-            sideaberta=true;
-            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
-           }
-           //document.getElementsById('sidebar').style.width=500+"px";
-           
-           //console.log(document.getElementsById('sidebar').value);
         };
-        var sideaberta2 = true;
+
+
+        //var sideaberta = true;
+        document.getElementById('tab_side').onclick = function () {
+            //    if(sideaberta){
+            //    document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            //    //sideaberta = false;
+            //    }else{
+            //     //sideaberta=true;
+            //     document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+            //    }
+            //    //document.getElementsById('sidebar').style.width=500+"px";
+
+            document.getElementsByClassName('sidebar')[0].style.width = 100 + "%";
+        };
+        //var sideaberta2 = true;
         document.getElementById('tab_side2').onclick = function () {
-           if(sideaberta2){
-            sideaberta2 = false;
-           document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+            //    if(sideaberta2){
+            //     sideaberta2 = false;
+            //    document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
 
-           }else{
-            sideaberta2=true;
-            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            //    }else{
+            //     sideaberta2=true;
+            //     document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
 
-           }
-           
+            //    }
+            document.getElementsByClassName('sidebar')[0].style.width = 100 + "%";
         };
         document.getElementById('tab_side3').onclick = function () {
-           if(sideaberta){
-           sideaberta = false;
-           document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+            //    if(sideaberta){
+            //    sideaberta = false;
+            //    document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
 
-           }else{
-            sideaberta=true;
-            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            //    }else{
+            //     sideaberta=true;
+            //     document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
 
-           }
-           
+            //    }
+            document.getElementsByClassName('sidebar')[0].style.width = 100 + "%";
+
         };
         document.getElementById('tab_side4').onclick = function () {
-           if(sideaberta){
-           sideaberta = false;
-           document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+            //    if(sideaberta){
+            //    sideaberta = false;
+            //    document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
 
-           }else{
-            sideaberta=true;
-            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            //    }else{
+            //     sideaberta=true;
+            //     document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
 
-           }
-           
+            //    }
+            document.getElementsByClassName('sidebar')[0].style.width = 100 + "%";
         };
         document.getElementById('close_side').onclick = function () {
-            if(sideaberta){
-            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            //     if(sideaberta){
+            //     document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
 
-            sideaberta = false;
-           }else{
-            sideaberta=true;
-            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+            //     sideaberta = false;
+            //    }else{
+            //     sideaberta=true;
+            //     document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
 
-           }
+            //    }
+            document.getElementsByClassName('sidebar')[0].style.width = 15 + "%";
+
         };
         document.getElementById('close_side2').onclick = function () {
-            if(sideaberta2){
-            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
-            sideaberta2 = false;
-           }else{
-            sideaberta2=true;
-            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+            //     if(sideaberta2){
+            //     document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            //     sideaberta2 = false;
+            //    }else{
+            //     sideaberta2=true;
+            //     document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
 
-           }
+            //    }
+            document.getElementsByClassName('sidebar')[0].style.width = 15 + "%";
+
         };
         document.getElementById('close_side3').onclick = function () {
-            if(sideaberta){
-            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
+            //     if(sideaberta){
+            //     document.getElementsByClassName('sidebar')[0].style.width = 100+"%";
 
-            sideaberta = false;
-           }else{
-            sideaberta=true;
-            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+            //     sideaberta = false;
+            //    }else{
+            //     sideaberta=true;
+            //     document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
 
-           }
+            //    }
+            document.getElementsByClassName('sidebar')[0].style.width = 15 + "%";
+
         };
         document.getElementById('close_side4').onclick = function () {
-            if(sideaberta){
-            document.getElementsByClassName('sidebar')[0].style.width = 100+"%";    
-            sideaberta = false;
-           }else{
-            sideaberta=true;
-            document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
+            //     if(sideaberta){
+            //     document.getElementsByClassName('sidebar')[0].style.width = 100+"%";    
+            //     sideaberta = false;
+            //    }else{
+            //     sideaberta=true;
+            //     document.getElementsByClassName('sidebar')[0].style.width = 15+"%";
 
-           }
+            //    }
+            document.getElementsByClassName('sidebar')[0].style.width = 15 + "%";
+
         };
 
         mymap.on('click', function (e) {
