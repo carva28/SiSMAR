@@ -665,6 +665,14 @@
             background: #b18608;
         }
 
+        #desktop{
+                display:block;
+            }
+
+            #mobile {
+                display:none;
+            }
+
 
         /***** MEDIA QUERIES ***********/
 
@@ -694,6 +702,14 @@
         }
 
         @media only screen and (max-device-width: 500px) {
+
+            #desktop{
+                display:none;
+            }
+
+            #mobile {
+                display:block;
+            }
 
             .col-sm-1 {
                 -ms-flex: 0 0 100%;
@@ -1050,7 +1066,24 @@
 
     <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
-        <div class="sidebar-tabs">
+        <div id="desktop" class="sidebar-tabs">
+            <ul role="tablist">
+                <li ><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <!-- <li><a href="" role="tab"><i class="fa fa-user"></i></a></li> -->
+                <li ><a href="#messages" role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
+                <li ><a href="#profile" role="tab"><i class="fas fa-ship"></i></a></li>
+                <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li> -->
+                <li ><a href="#infoMar" role="tab"><i class="fas fa-water"></i></a></li>
+            </ul>
+
+
+            <ul role="tablist">
+                <li><a href="#informacao" role="tab"><i class="fas fa-info-circle"></i></a></li>
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <div id="mobile"  class="sidebar-tabs">
             <ul role="tablist">
                 <li id="tab_side"><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
                 <!-- <li><a href="" role="tab"><i class="fa fa-user"></i></a></li> -->
@@ -1068,7 +1101,246 @@
         </div>
 
         <!-- Tab panes -->
-        <div class="sidebar-content">
+        <div id="desktop" class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                <h1 class="sidebar-header">
+                    Web App SISMAR
+                    <span class="sidebar-close"> <i class="fas fa-times-circle"></i></span>
+                </h1>
+                <div class="">
+                    <img src="SiSMAR.png" class="img_logo2">
+
+                </div>
+                <p class="lorem">Clique no mapa da Ria de Aveiro para descobrir os diferentes cais e simule o seu
+                    destino com base nas
+                    condições
+                    METOC
+                </p>
+
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile
+                    <span  class="sidebar-close">
+                        <i class="fas fa-times-circle"></i>
+                    </span>
+                </h1>
+
+                <div class="col ">
+
+                    <div class="col-sm-1">
+
+                        <!-- <i id="icon_velo" class="fas fa-tachometer-alt"></i> -->
+                        <img id="icon_velo" src="boat.png" />
+                        <p class="p_inputs_spec" style="padding-right: 0px;margin:10px;">
+                            <b>Informações da embarcação</b>
+                        </p>
+
+                    </div>
+
+                    <div class="col-sm-1">
+
+                        <p class="p_inputs">Calado metro(s)</p>
+                        <input type="number" id="calado_span" min="1" max="5" value="1" step="0.01">
+
+                    </div>
+                    <div class="col-sm-1">
+                        <p class="p_inputs">Limite Superior</p>
+                        <input type="number" id="calado_sup_span" value="0.2" min="0.1" max="0.9" step="0.1">
+
+                    </div>
+                    <div class="col-sm-1">
+                        <p class="p_inputs">Limite Inferior</p>
+                        <input type="number" id="calado_inf_span" value="0.1" min="0.1" max="0.9" step="0.1">
+
+                    </div>
+
+
+                    <div class="col-sm-1">    
+                        <i id="icon_velo" class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="col-sm-1">
+                        <i id="icon_velo" class="fas fa-tachometer-alt"></i>
+                        <p class="p_inputs_spec">Velocidade</p>
+                        <input type="number" id="velocidade" class="input_vel" min="1" max="6" value="3" />
+                        <p class="p_inputs" style="font-size: 2.0rem;">Knots</p>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <!-- <img id="icon_velo" src="https://img.icons8.com/ios/50/000000/boat-leaving-port.png"/> -->
+                        <img id="icon_velo"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAACpElEQVRYhe2Xv0/bQBTHv875HFvZGCpBFARyp6hiICxUQjJRxrRD1w5skaIoZOd/YOJfICttlbW/hlaB/FiiqgymCIZIiBGc5IKN3SGNhREpB75UUclX8vCe7r338b3zPRmYcEkCcnjjrCGHCR7K8+5mlKTw7x8JnWHMeuwO3tfWUWsfvKWP7YE3qq0jCw3a/eB6E9/iiQfkEiGki8FZEvYQQjo8tbk+klgsdnl4eKjNzc35vmw2i7OzM55wzM7OolKp+Ha73UYymby8uLi4N5arxZTS86Ojo4BvYWGBCw4AFhcXA7ZpmpBl+Zwnlguw3+9/2t/fv77pW15e5gZMpVIBu1qtXvf7/c/CAC3Lere7uxs4M5lMhmtSSJKEdDod8JXLZavT6bwXBgjg+8nJSa9er/uO+fl5rK2t3RtoGAYSiYRvHxwc4PT0tAfgm0hAhzG2VSqVOjcv6EKhAErpyCBFUZDP533b8zxsbm5e9nq9LQAOT2HCCQjXdVuWZb1RFOXZ6upqBABmZmZAKUWtVrszplAowDAM397e3nb29vZ+MsaK4ByXEgCkUql1xthrx3FeEkKeA5Bd1/0ly/JHRVEqtm3/AADG2DpjrKzrutrtdgEA8Xgc0WgUpmkGEuu6Dtu20W63AQCapuH4+JipqvpWVdUvAEApfXF1dfXKcZxMJBLRATiu65qEkKqmaR8ajcZXCQCWlpa8PwGBIrZtw3GCnZBl+Z+sA4BWqyXJd4ENRSn96xkb57qhJn4WTwHD6mkB5nI5FItFkSnF/NUBA7hcLufbOzs7QvIK2cHbcBsbG8J2MjTgbbihREGGAhwFN5QIyOEsftg/5Ag1Gg0AwMrKioh0aDab0tO6ZsahKWBYTQHDStioA8RdLzc18Ts4Bfzv9RuC3QFdQTRicAAAAABJRU5ErkJggg==">
+
+                        <p class="p_inputs_spec"><b>TIR</b></p>
+                    </div>
+                    <div class="col-sm-3">
+                        <p class="p_inputs">Horas</p>
+                        <input type="time" id="time">
+                    </div>
+
+                    <div class="col-sm-3">
+                        <p class="p_inputs">Data</p>
+                        <input id="date" type="date" style="margin-left: 5px;" onchange="getInfo_outraData()">
+                    </div>
+                    <div class="col-sm-1">
+                        <!-- <img id="icon_velo" src="https://img.icons8.com/ios/50/000000/boat-returning-to-port.png"/> -->
+                        <!-- <img id="icon_velo" src="https://img.icons8.com/ultraviolet/50/000000/boat-returning-to-port.png"/> -->
+                        <img id="icon_velo"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAEr0lEQVRoge2Z22sUZxiHnznsbkIOM1nakAYWNlhyYTFu7EVB0IYgQSkUvGy90L/D6yC5qvgHlOq1oNCLKqV100qEQg6bmGIPgtkurLSYPc8m2Z353l6YbA3JphkzgyHkB3sxM+/p+Wbm+753Fo6ItKADmqb5OBqNRvayaTQaTdd1zwWZN3AQQK5evUoymdz14srKCnfu3Akrd6CSdDot7ZROpwWQoJPqQQd8VzowiGmaj3k9wn5HuuWzGeNgdRw0QDQajVy5coVr1661zqVSqbb2qVSKdDrdOr59+zZ3796NuK57oDoODAKQTCYZGxvbdq5arfL06VOWlpYAGBkZ4dSpU9i2vc12eno6iBKCASkWi9y7d4+lpSUymQwLCwvkcjkALMsCoFwuA5BIJBgdHSWVSjEyMkKxWAyiBN9TYA8wDHwEfGwYxqiInFVKGbFYDMuyiMVi2LaNZVlYloVpvh4rpRSO41AqlSiVSqyvr1MqlajX6+i6rnRd/8113XlgFvgVWABWQwHRNO1HERmPRqMN27Z1y7LMnp4ebNumu7sbTfO/NGwBVatVKpVKs1AouPV6vUPTtEcicmG/cfw+Wk4ymeT06dNRn35t1dHRwcDAAAMDAwARILK4uEg2m635ieNr+hWRFcdxDja97EPVatUVkRU/Pn7vyO/VatVr51coFPA8D4B4PI5hGNuue55HoVAAwDAM4vH4rklqtZoH/OGnML8gT9bX12OO49DV1bXtguM4zMzMoJQC4MyZMyQSiW02+Xye+fl5AHRdZ3x8fEecer3OxsZGDJjxU5jft1PXdf3lyZMn+0+cOOHTdX96/vw5z549+1spNQiofRfmM49SSn2dzWY3fPrtSyJCNptdV0p9gw8IeLu91le1Wk3y+fxbuO6tfD6P4zgacNOv79uAvBKRW8vLy42D7o/elOu6LC8vb4jITeAfv/7G/5vsqidKqS8dx7EGBwcDaQXm5ubccrn8l4h8ATT9+msAY2NjZm9v7yee502srq5+ppT6UNO0Ts/zXvb29j7p7u7+1jCMR/fv32+NVCKROAf8MDg4GNU0DRFB0zQikQi2baPru/MppSiVSjSbzZaPiEg+n3eBC7lc7uct28uXL/d7njdeq9U+r1QqZw3D+EBE1gzD+DMej39nGMb3lUrll+npaVcDuHjx4nSxWPxU13X6+vqIRP5rucvlMmtrawAiIq+UUgVd1+Oapr0HaJ2dna2NIUCz2aRYLKKU2rFlERGCztHX1/fTw4cPx0yAWCwmm1uEHdra/G3evfc3f20ViUTo7+/fyyToHALHre7h0zHIYdORAQmkZ2+nrq4uhoaGAHjx4gWO44SWK9Q7MjQ0xOTkJJOTky2gsHRkHq1jkMOmY5DDpmOQw6bAFkTTNLl06dK2PuPN1uD8+fMMDw+3jpvNJg8ePCCodjkwENd1yeVyXL9+nWh05xfViYmJbbZTU1OBQUDAj1Ymk+HGjRs0Go22NlsQs7OzQaYO/h3ZCyYsCAjpZd8NJkwICHHWehMmbAgIeRufyWSYmpoCaH28DkuhgkD4AFs6MgviMchhkwkgInOapoX+32AYEpHFd11DoPoXcHE8jkgGBYcAAAAASUVORK5CYII=">
+                        <p class="p_inputs_spec"><b>ETA</b></p>
+                    </div>
+                    <div class="col-sm-1">
+                        <p class="p_inputs">Duração</p>
+                        <output name="eta" id="eta"></output>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-dark btn_color_sim"
+                            onclick="changeValue()">Simular</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-danger btn_color_del" onclick="clearmap()">Limpar
+                            campos</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+
+                <h1 class="sidebar-header">Rotas<span class="sidebar-close">
+                        <i class="fas fa-times-circle"></i>
+                </h1>
+
+                <div onclick="getTorreiraGPX()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
+                    <h5>Torreira - ANGE <br>
+
+                    </h5>
+                </div>
+                <div onclick="getIdaBicoGPX()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/CaisBico.jpg);"></div>
+                    <h5>ANGE - Cais do Bico<br>
+                        <span>Pelo Moranzel</span>
+                    </h5>
+                </div>
+                <div onclick="getDataGPX_RegressoBico()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
+                    <h5>Cais do Bico - ANGE<br>
+                        <span>Pela Testada</span>
+                    </h5>
+                </div>
+                <div onclick="getCostaNovaGPX()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/CostaNova.jpg);"></div>
+                    <h5>ANGE - Costa Nova<br>
+                        <span></span>
+                    </h5>
+                </div>
+
+
+                <div onclick="getData_IDA10_3_20_GPX()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
+                    <h5>ANGE - Vagueira<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+                <div onclick="getData_Volta10_3_20_GPX()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/Vagueira.jpg);"></div>
+                    <h5>Vagueira - Ange <br>
+                        <span>Pelo sequeiro</span>
+                    </h5>
+                </div>
+                <div onclick="getBicoAngeGPX()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
+                    <h5>Bico - Ange<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+            </div>
+
+
+            <div class="sidebar-pane" id="infoMar">
+                <h1 class="sidebar-header" style="font-size:30.4pt;">Informação Instituto Hidrográfico
+                    <span class="sidebar-close">
+                        <i class="fas fa-times-circle"></i></span>
+                </h1>
+                <p><b>*</b>Informação de maré no dia em que a rota foi adquirida</p>
+                <div class="row ">
+                    <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
+                        onclick="onclick_modal_data_ondia15()">Dia
+                        15/08/2019</button>
+                    <button class="btn btn-dark" onclick="onclick_modal_data_ondia16()">Dia
+                        16/08/2019</button>
+                    <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
+                        onclick="onclick_modal_data_ondia17()">Dia
+                        17/08/2019</button>
+                </div>
+                <p><b>*</b>Informação de maré de rota simulada</p>
+                <div class="row ">
+                    <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
+                        onclick="onclick_modal_data_ontem()">Dia
+                        Anterior</button>
+                    <button class="btn btn-dark" onclick="onclick_modal_data_hoje()">Dia
+                        Partida</button>
+                    <button class="btn btn-dark" style="opacity: 0.8;font-size:0.9rem;"
+                        onclick="onclick_modal_data_amanha()">Dia
+                        Seguinte</button>
+                </div>
+
+                <div id="escrever_data"></div>
+
+
+            </div>
+            <div class="sidebar-pane" id="informacao">
+                <h1 class="sidebar-header">Legenda<span class="sidebar-close"> <i
+                            class="fas fa-times-circle"></i></span>
+                </h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px">Fs >= Limite Superior</p>
+                        </div>
+                        <div class="col-sm">
+                            <hr style="border: 3px solid green;border-radius: 10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px"> Limite Inferior <= Fs <=Limite Superior</p>
+                        </div>
+                        <div class="col-sm">
+                            <hr style="border: 3px solid yellow;border-radius: 10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px">Fs <= Limite Inferior</p>
+                        </div>
+                        <div class="col-sm">
+                            <hr style="border: 3px solid red;border-radius: 10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px">Zs <= 0 metros</p>
+                        </div>
+                        <div class="col-sm">
+                            <hr style="border: 3px solid black;border-radius: 10px;">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Definições<span class="sidebar-close"> <i
+                            class="fas fa-times-circle"></i></span>
+                </h1>
+
+
+
+            </div>
+        </div>
+
+        <div id="mobile" class="sidebar-content">
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
                     Web App SISMAR
