@@ -4186,7 +4186,15 @@
                                 style: myStyle1
                             });
 
-                            variavelVelocidadeAnimBarco.push(5000);
+
+                            if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
+                                variavelVelocidadeAnimBarco.push(6000);
+                            } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
+                                variavelVelocidadeAnimBarco.push(4000);
+                            } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
+                                variavelVelocidadeAnimBarco.push(2000);
+                            }
+
 
 
                             linesFeatureLayer.addTo(mymap);
@@ -4222,7 +4230,14 @@
 
                             warning++;
 
-                            variavelVelocidadeAnimBarco.push(1000);
+                            if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
+                                variavelVelocidadeAnimBarco.push(2000);
+                            } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
+                                variavelVelocidadeAnimBarco.push(1500);
+                            } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
+                                variavelVelocidadeAnimBarco.push(1000);
+                            }
+
 
 
                         } else {
@@ -4244,7 +4259,16 @@
                             distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
                             arDistan.push(distancia.toFixed(2));
 
-                            variavelVelocidadeAnimBarco.push(500);
+
+                            if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
+                                variavelVelocidadeAnimBarco.push(600);
+                            } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
+                                variavelVelocidadeAnimBarco.push(500);
+                            } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
+                                variavelVelocidadeAnimBarco.push(300);
+                            }
+
+                            //variavelVelocidadeAnimBarco.push(500);
 
                             var myStyle3 = {
                                 radius: 8,
@@ -4329,10 +4353,15 @@
             markerAnimado.on('end', function () {
                 markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
                     .openPopup();
-                if (markerAnimado) {
-                    mymap.removeLayer(markerAnimado);
-                }
-                
+
+
+                setTimeout(function () {
+
+                    if (markerAnimado) {
+                        mymap.removeLayer(markerAnimado);
+                    }
+                }, 1000);
+
             });
 
             // var myIcon = L.icon({
