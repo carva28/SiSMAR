@@ -4296,7 +4296,7 @@
                 console.log('Else_sem_rota')
 
             }
-    
+
             // var markerAnimado = L.Marker.movingMarker(AnimarBarco, 
             // [
             //     600,700,700,700,700,700,
@@ -4316,17 +4316,23 @@
                 mymap.removeLayer(markerAnimado);
                 //document.getElementsByClassName('leaflet-marker-icon')[2].innerHTML="";
             }
-          
+
+            //variavelVelocidadeAnimBarco -> é identico aos valores acima do 600,700,1000,3000
+
             markerAnimado = L.Marker.movingMarker(AnimarBarco,
                 variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
             //só funciona uma vez
             //document.getElementsByClassName('leaflet-marker-icon')[2].src = "./user_marker.png";
-            
+
 
             //markerAnimado.start();
             markerAnimado.on('end', function () {
                 markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
                     .openPopup();
+                if (markerAnimado) {
+                    mymap.removeLayer(markerAnimado);
+                }
+                
             });
 
             // var myIcon = L.icon({

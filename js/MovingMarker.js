@@ -41,8 +41,8 @@ L.Marker.MovingMarker = L.Marker.extend({
         }
         var DefaultIcon = L.icon({
             iconUrl: './user_marker.png',
-            iconSize: [38, 60],
-            iconAnchor: [25, 55],
+            iconSize: [28, 40],
+            iconAnchor: [16, 30],
         });
        
         L.Marker.prototype.options.icon = DefaultIcon;
