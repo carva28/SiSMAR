@@ -1176,7 +1176,7 @@
             </ul>
         </div>
 
-        <div id="mobile" "class="sidebar-content">
+        <div id="mobile" "class=" sidebar-content">
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
                     Web App SISMAR
@@ -1426,7 +1426,7 @@
             </ul>
         </div>
 
-        <div id="desktop"  class="sidebar-content">
+        <div id="desktop" class="sidebar-content">
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
                     Web App SISMAR
@@ -3700,7 +3700,7 @@
             var dataViajaUser = [];
 
             var Tempo_para_API = [];
-            console.log(arrayGPX);
+            
 
             parser = new DOMParser();
             xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
@@ -3710,7 +3710,6 @@
                         if (xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != null ||
                             xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != undefined) {
                             let tempoveri = xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML;
-                            console.log(xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML);
 
                             var newStr = tempoveri.replace(/T/g, " ");
                             let date = new Date(newStr);
@@ -3728,10 +3727,7 @@
                                 z1_rota_adquirida.push(z_adquirido_rota)
                                 coordenadas.push([lon_gpx, lat_gpx])
                                 horasdarota_medida.push(horatempo_GPX)
-                                console.log(lat_gpx);
-                                console.log(lon_gpx);
-                                console.log(horatempo_GPX);
-                                console.log(z_adquir);
+                                
                             }
                         }
                     }
@@ -3800,42 +3796,67 @@
             //console.log({arraytempo:Tempo_para_API,length_array:Tempo_para_API.length});
 
             for (let y = 0; y < Tempo_para_API.length; y++) {
-                console.log(Tempo_para_API[y]);
-                console.log(coordenadas[y][0]); //Long -8
-                console.log(coordenadas[y][1]); //LAT 40
+                // console.log(Tempo_para_API[y]);
+                // console.log(coordenadas[y][0]); //Long -8
+                // console.log(coordenadas[y][1]); //LAT 40
+
+                var input = [];
+
+             
+
+                //console.log(typeof (parseFloat(coordenadas[y][1])));
+                input.push(
+                    {
+                        // date: Tempo_para_API[y],//"2020-04-06T16:50:43.09999999Z",
+                        // latitude: coordenadas[y][1],   //LAT 40 
+                        // longitude: coordenadas[y][0] //Long -8
+                        date: Tempo_para_API[y],
+                        latitude: parseFloat(coordenadas[y][1]),
+                        longitude: parseFloat(coordenadas[y][0])
+                    }
+                );
 
 
 
-                // const url_tes = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
-                // fetch(proxyurl + url_tes) // https://cors-anywhere.herokuapp.com/https://example.com
-                //     .then(response => response.json())
-                //     .then(contents => array_hidrografico_simulacao_API.push(contents))
-                //     .then(contents => arrayhidrografico.push(contents))
-                //     .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
-
-                fetch('https://sismar.hidromod.com/WebSiteService/SeaRoutes', {
-                    method: 'POST',
+                fetch("https://sismar.hidromod.com/WebsiteService/SeaRoutes", {
+                    method: "POST",
                     headers: {
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({
-                        date: "2019-08-16T13:18:00Z",//Tempo_para_API[y],
-                        latitude: coordenadas[y][1],   //LAT 40 
-                        longitude: coordenadas[y][0] //Long -8
-                    })
+                    body: JSON.stringify(input)
                 }).then(res => res.json())
-                    .then(res => console.log(res));
+                    .then(res =>
+                        //mare_por_minuto.push(res[0])
+                        mare_por_minuto.push(res[0])
+                        //console.log(JSON.stringify(res))
+                    )
 
-                //mare_por_minuto.push(content);
 
             }
+
+
+
 
             /*********************************************************************************/
             /********************************************************************************/
             /************************** ROTA SIMULADA ******************************************/
             /********************************************************************************/
             /********************************************************************************/
+
+
+            for (let p = 0; p < Tempo_para_API.length; p++) {
+                var data = new Date(Tempo_para_API[p]);
+                var d = new Date();
+                var nday = d.getDay(),
+                    nmonth = d.getMonth() + 1,
+                    ndate = d.getDate(),
+                    nyear = d.getYear();
+                if (nyear < 1000) nyear += 1900;
+                        var splitTime1 = horasdarota_medida[p].split(':');
+                        console.log(horasdarota_medida[p]);
+                        console.log(splitTime1);
+                        console.log(data.toISOString());
+                    }
 
             var margemcaladoSup, margemcaladoInf;
             var diferençaTempo, Z2_NOvaRota, z2_menos_calado;
@@ -3950,6 +3971,9 @@
                         horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
 
                     }
+
+                    
+
                     mare_por_minuto2.push(mareUser2[0])
                     for (let p = 0; p < horasdarota_medida.length; p++) {
                         if (mare_por_minuto2 == null) {
@@ -4204,21 +4228,29 @@
             var AnimarBarco = [];
             // guardar a velocidade com base nos pontos
             var variavelVelocidadeAnimBarco = [];
+            console.log(mare_por_minuto);
+
+            setTimeout(function () {
+
+                console.log(mare_por_minuto.length);
+            
             if (mare_por_minuto.length > 0) {
 
                 for (var i = 0; i < coordenadas.length; i++) {
 
 
-
-
                     //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
                     //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
+                    let convert2DC = (mare_por_minuto[i].properties[0].value).toFixed(2);
+                    console.log(parseFloat(convert2DC));
 
                     if (mare_por_minuto2.length > 0) {
-                        diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i]);
+                        //diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i].properties[0].value);
+                        diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i].properties[0].value);
                         //diferençaAlturaMare = mare_por_minuto[i];
-                        //console.log({ array: mare_por_minuto2[i] })
+                        //console.log({ array: mare_por_minuto2[i] });
+                        console.log(diferençaAlturaMare)
                     }
 
                     if (z1_rota_adquirida[i][0] > 0) {
@@ -4472,7 +4504,7 @@
                 console.log('Else_sem_rota')
 
             }
-
+    }, 1000);
             // var markerAnimado = L.Marker.movingMarker(AnimarBarco, 
             // [
             //     600,700,700,700,700,700,
