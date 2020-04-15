@@ -673,6 +673,9 @@
             display: none;
         }
 
+        #date {
+            margin-left: 5px;
+        }
 
         /***** MEDIA QUERIES ***********/
 
@@ -740,6 +743,7 @@
                 font-size: 3.2rem;
                 margin: auto;
             }
+
 
             .input_vel {
                 width: 90%;
@@ -1073,37 +1077,51 @@
                 height: 140px;
                 top: 970px;
             }
-            #icon_crash{
+
+            #icon_crash {
                 font-size: 3.2rem;
                 width: 120px;
             }
 
-            .leaflet-control-layers{
+            .leaflet-control-layers {
                 top: 60px;
             }
-            .leaflet-popup-content-wrapper {
-    padding: 35px 50px;
-    font-size: 2.2rem;
-}
-            .leaflet-popup-content {
-    margin: 15px 5px;
-    font-size: 2rem;
-}
 
-.leaflet-popup-content select {
-    width: 295px;
-    height: 65px;
-    background-color: #f0bc33;
-    border: none;
-    border-radius: 20px;
-    font-size: 2.5rem;
-}
-.leaflet-popup-content .div_bind h5{
-    font-size: 2.5rem;
-}
-.leaflet-popup-content p {
-    font-size: 2.2rem;
-}
+            .leaflet-popup-content-wrapper {
+                padding: 35px 50px;
+                font-size: 2.2rem;
+            }
+
+            .leaflet-popup-content {
+                margin: 15px 5px;
+                font-size: 2rem;
+            }
+
+            .leaflet-popup-content select {
+                width: 295px;
+                height: 65px;
+                background-color: #f0bc33;
+                border: none;
+                border-radius: 20px;
+                font-size: 2.5rem;
+            }
+
+            .leaflet-popup-content .div_bind h5 {
+                font-size: 2.5rem;
+            }
+
+            .leaflet-popup-content p {
+                font-size: 2.2rem;
+            }
+
+            .row{
+                width: auto;
+            }
+
+            .row button{
+                font-size: 2.9rem;
+            }
+
         }
     </style>
 
@@ -1212,10 +1230,6 @@
 
                     </div>
 
-
-                    <div class="col-sm-1">
-                        <i id="icon_velo" class="fas fa-tachometer-alt"></i>
-                    </div>
                     <div class="col-sm-1">
                         <i id="icon_velo" class="fas fa-tachometer-alt"></i>
                         <p class="p_inputs_spec">Velocidade</p>
@@ -1237,7 +1251,7 @@
 
                     <div class="col-sm-3">
                         <p class="p_inputs">Data</p>
-                        <input id="date" type="date" style="margin-left: 5px;" onchange="getInfo_outraData()">
+                        <input id="date" type="date" onchange="getInfo_outraData()">
                     </div>
                     <div class="col-sm-1">
                         <!-- <img id="icon_velo" src="https://img.icons8.com/ios/50/000000/boat-returning-to-port.png"/> -->
