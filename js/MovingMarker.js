@@ -356,7 +356,7 @@ L.Marker.MovingMarker = L.Marker.extend({
             this.setLatLng(p);
 
             //console.log(elapsedTime);
-            //console.log(this._currentDuration);
+            console.log(this._currentDuration);
             if(this._currentDuration <= 8000 && this._currentDuration >= 2000){
                 console.log('avisa')
                 this._state = L.Marker.MovingMarker.endedState;
