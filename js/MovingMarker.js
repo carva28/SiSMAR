@@ -354,6 +354,25 @@ L.Marker.MovingMarker = L.Marker.extend({
                 this._currentDuration,
                 elapsedTime);
             this.setLatLng(p);
+
+            //console.log(elapsedTime);
+            //console.log(this._currentDuration);
+            if(this._currentDuration <= 8000 && this._currentDuration >= 2000){
+                console.log('avisa')
+                this._state = L.Marker.MovingMarker.endedState;
+                //this.fire('end', { elapsedTime: elapsedTime });
+                markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> que deseja fazer?</p>'+
+                '<button onclick="moverBarco()">Calcular com a mesma data e simular uma previsão</button>'+
+                '<button>Mudar a data</button>', { closeOnClick: false })
+                .openPopup();
+
+                setTimeout(function () {
+
+                    if (markerAnimado) {
+                        mymap.removeLayer(markerAnimado);
+                    }
+                }, 5000);
+            }
             // console.log(p);
             // console.log(this._currentLine[0]);
             // console.log(this._currentLine[1]['lat']);
