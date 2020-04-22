@@ -362,8 +362,7 @@ L.Marker.MovingMarker = L.Marker.extend({
                 this._state = L.Marker.MovingMarker.endedState;
                 //this.fire('end', { elapsedTime: elapsedTime });
                 markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> que deseja fazer?</p>'+
-                '<button onclick="moverBarco()">Calcular com a mesma data e simular uma previsão</button>'+
-                '<button>Mudar a data</button>', { closeOnClick: false })
+                '<button onclick="moverBarco()">Calcular com a mesma data e simular uma previsão</button>', { closeOnClick: false })
                 .openPopup();
 
                 setTimeout(function () {
