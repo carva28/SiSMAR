@@ -4968,7 +4968,7 @@
                             variavelVelocidadeAnimBarco[i - 4] = 1500;
                             variavelVelocidadeAnimBarco[i - 5] = 1500;
 
-                            variavelVelocidadeAnimBarco[i] = 200;
+                            variavelVelocidadeAnimBarco[i] = 550;
 
 
                             setTimeout(function () {
@@ -5012,6 +5012,116 @@
                                 });
                                 firstpolyline.addTo(mymap);
                             }, 6000);
+                        }else if (variavelVelocidadeAnimBarco[i] == 6000) {
+                            estadoAnimarBarco = 'faz2';
+
+                            rotaRed = true;
+
+                            variavelVelocidadeAnimBarco[i - 1] = 1900;
+                            variavelVelocidadeAnimBarco[i - 2] = 1900;
+                            variavelVelocidadeAnimBarco[i - 3] = 1900;
+                            variavelVelocidadeAnimBarco[i - 4] = 1900;
+                            variavelVelocidadeAnimBarco[i - 5] = 1900;
+
+                            variavelVelocidadeAnimBarco[i] = 700;
+
+
+                            setTimeout(function () {
+                                var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                                var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                                var pointList = [pointA, pointB];
+
+                                var firstpolyline = new L.Polyline(pointList, {
+                                    color: 'orange',
+                                    radius: 8,
+                                    weight: 10,
+                                    opacity: 1,
+                                });
+                                firstpolyline.addTo(mymap);
+                            }, 4000);
+
+                            setTimeout(function () {
+                                var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                                var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                                var pointList = [pointA, pointB];
+
+                                var firstpolyline = new L.Polyline(pointList, {
+                                    color: 'yellow',
+                                    radius: 8,
+                                    weight: 10,
+                                    opacity: 1,
+                                });
+                                firstpolyline.addTo(mymap);
+                            }, 6000);
+
+                            setTimeout(function () {
+                                var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                                var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                                var pointList = [pointA, pointB];
+
+                                var firstpolyline = new L.Polyline(pointList, {
+                                    color: 'green',
+                                    radius: 8,
+                                    weight: 10,
+                                    opacity: 1,
+                                });
+                                firstpolyline.addTo(mymap);
+                            }, 8000);
+                        }else if (variavelVelocidadeAnimBarco[i] == 2000) {
+                            estadoAnimarBarco = 'faz2';
+
+                            rotaRed = true;
+
+                            variavelVelocidadeAnimBarco[i - 1] = 1000;
+                            variavelVelocidadeAnimBarco[i - 2] = 1000;
+                            variavelVelocidadeAnimBarco[i - 3] = 1000;
+                            variavelVelocidadeAnimBarco[i - 4] = 1000;
+                            variavelVelocidadeAnimBarco[i - 5] = 1000;
+
+                            variavelVelocidadeAnimBarco[i] = 400;
+
+
+                            setTimeout(function () {
+                                var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                                var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                                var pointList = [pointA, pointB];
+
+                                var firstpolyline = new L.Polyline(pointList, {
+                                    color: 'orange',
+                                    radius: 8,
+                                    weight: 10,
+                                    opacity: 1,
+                                });
+                                firstpolyline.addTo(mymap);
+                            }, 2000);
+
+                            setTimeout(function () {
+                                var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                                var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                                var pointList = [pointA, pointB];
+
+                                var firstpolyline = new L.Polyline(pointList, {
+                                    color: 'yellow',
+                                    radius: 8,
+                                    weight: 10,
+                                    opacity: 1,
+                                });
+                                firstpolyline.addTo(mymap);
+                            }, 4000);
+
+                            setTimeout(function () {
+                                var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                                var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                                var pointList = [pointA, pointB];
+
+                                var firstpolyline = new L.Polyline(pointList, {
+                                    color: 'green',
+                                    radius: 8,
+                                    weight: 10,
+                                    opacity: 1,
+                                });
+                                firstpolyline.addTo(mymap);
+                            }, 5000);
                         }
 
                     }
