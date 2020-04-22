@@ -673,6 +673,14 @@
             display: none;
         } */
 
+        #btn_calculo{
+            background-color: #214198;
+    color: white;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+        }
+
         #date {
             margin-left: 5px;
         }
@@ -4848,16 +4856,15 @@
 
 
                     markerAnimado.on('end', function () {
-                        markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> que deseja fazer?</p>' +
-                            '<button onclick="moverBarco()">Calcular com a mesma data e simular uma previsão</button>' +
-                            '<button>Mudar a data</button>', { closeOnClick: false })
+                        markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> Que deseja fazer?</p>' +
+                            '<button id="btn_calculo" onclick="moverBarco()">Calcular com a mesma data e simular uma previsão</button>' , { closeOnClick: false })
                             .openPopup();
-                        // setTimeout(function () {
+                        setTimeout(function () {
 
-                        //     if (markerAnimado) {
-                        //         mymap.removeLayer(markerAnimado);
-                        //     }
-                        // }, 1000);
+                            if (markerAnimado) {
+                                mymap.removeLayer(markerAnimado);
+                            }
+                        }, 1000);
 
                     });
                 } else {
@@ -4868,12 +4875,12 @@
                     markerAnimado.on('end', function () {
                         markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
                         .openPopup();
-                        // setTimeout(function () {
+                        setTimeout(function () {
 
-                        //     if (markerAnimado) {
-                        //         mymap.removeLayer(markerAnimado);
-                        //     }
-                        // }, 1000);
+                            if (markerAnimado) {
+                                mymap.removeLayer(markerAnimado);
+                            }
+                        }, 1000);
 
                     });
                 }
