@@ -1693,6 +1693,8 @@
 *****************************************************************************
 ******************************************************** -->
 
+
+
     <div id="issMap"></div>
     <div id="load_fetch">
         <h2>Carregando...</h2>
@@ -1816,9 +1818,7 @@
             iconAnchor: [30, 30],
             shadowSize: [50, 64],
         });
-        start_boat = new L.marker([40.70, -8.69], {
-            icon: start_boat
-        }).addTo(mymap);
+        
 
 
         var cssIcon = L.divIcon({
@@ -1828,8 +1828,8 @@
                 'width: 100px; ' +
                 'font-size: 1.0rem;' +
                 'text-align: center; ' +
-                'font-weight: 500; ' +
-                '">Posicione o seu barco perto dos cais de onde pertende partir</p></div>'
+                'font-weight: 900; ' +
+                '">Posicione o seu barco perto dos cais de onde pretende partir</p></div>'
             // Set marker width and height
             , iconSize: [12, 30]
             // ,iconAnchor: [11,11]
@@ -1838,7 +1838,9 @@
         // Create three markers and set their icons to cssIcon
         L.marker([40.70, -8.69], { icon: cssIcon }).addTo(mymap);
 
-
+        start_boat = new L.marker([40.704, -8.679999], {
+            icon: start_boat
+        }).addTo(mymap);
 
         /*****/
 
@@ -3134,6 +3136,7 @@
 
             mymap.removeLayer(start_boat);
             document.getElementById('gps_ringit').style.display = "none";
+
             arrayCoor = [];
             var coord = e.latlng;
             var lat = coord.lat;
@@ -4858,7 +4861,7 @@
             }
 
             //If para barco andar a fazer pedidos
-
+            var primeiroHorMin = [];
                                                          
             if (AnimarBarco.length <= somarNumero) {
                 if(AnimarBarco[somarNumero - 1]){

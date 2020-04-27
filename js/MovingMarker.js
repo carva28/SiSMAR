@@ -382,8 +382,8 @@ L.Marker.MovingMarker = L.Marker.extend({
                 somarNumero = 0;
                 this._state = L.Marker.MovingMarker.endedState;
                 //this.fire('end', { elapsedTime: elapsedTime });
-                markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> que deseja fazer?</p>' +
-                    '<button onclick="moverBarco()" id="btn_calculo">Calcular com a mesma data e simular uma previsão</button>', { closeOnClick: false })
+                markerAnimado.bindPopup('<p>Terá que mudar a sua hora de partida ou a sua velocidade</p>' +
+                    '', { closeOnClick: false })
                     .openPopup();
                     pointList = [];    
                     hasLine = false;
@@ -396,7 +396,7 @@ L.Marker.MovingMarker = L.Marker.extend({
                         mymap.removeLayer(markerAnimado);
                     }
                     
-                }, 2000);//8000
+                }, 3000);//8000
             }
             // console.log(p);
             // console.log(this._currentLine[0]);
