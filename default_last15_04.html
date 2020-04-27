@@ -1957,6 +1957,7 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+                    somarNumero = 0;
 
                     g.on('click', function (e) {
                         var gpx = e.target;
@@ -1970,6 +1971,7 @@
                         arrayGPX.push(gpx._gpx)
                     })
                     g.addTo(mymap);
+
                 });
             mymap.setView([40.678, -8.7166], 11);
 
@@ -2041,6 +2043,7 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+                    somarNumero = 0;
                     g.on('click', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -2124,6 +2127,8 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+                    somarNumero = 0;
+
                     g.on('click', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -2210,6 +2215,9 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+
+                    somarNumero = 0;
+
                     g.on('click', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -2296,6 +2304,8 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+                    somarNumero = 0;
+
                     g.on('click', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -2380,6 +2390,8 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+                    somarNumero = 0;
+
                     g.on('click', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -2467,6 +2479,8 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+
+                    somarNumero = 0;
                     g.on('click', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
@@ -2982,7 +2996,7 @@
 
 
         function changeValue(e) {
-
+            //somarNumero = 0;
             var valorInput = document.getElementById('calado_span').value;
             //document.getElementById('amount').value = valorInput;
             var valorInput2 = document.getElementById('calado_sup_span').value;
@@ -3717,7 +3731,7 @@
         var estadoAnimarBarco = 'faz1';
 
         var somarNumero = 0;
-
+        var pointList = [];
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
             somarNumero = somarNumero + 3;
@@ -4856,11 +4870,11 @@
             console.log(somarNumero != 0);
             console.log(AnimarBarco.length);
             if (AnimarBarco.length <= somarNumero) {
-                console.log(somarNumero)
                 markerAnimado = L.Marker.movingMarker([AnimarBarco[somarNumero - 3], AnimarBarco[somarNumero - 2], AnimarBarco[somarNumero - 1]],
                     variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
 
 
+                somarNumero = 0;
 
                 markerAnimado.on('end', function () {
                     markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
@@ -4871,7 +4885,6 @@
                             mymap.removeLayer(markerAnimado);
                         }
 
-                        somarNumero = 0;
                     }, 2000);
 
                 });
@@ -4904,11 +4917,29 @@
                 console.log(f);
 
 
+
                 console.log(somarNumero)
                 markerAnimado = L.Marker.movingMarker([AnimarBarco[somarNumero - 3], AnimarBarco[somarNumero - 2], AnimarBarco[somarNumero - 1]],
-                    [variavelVelocidadeAnimBarco[somarNumero - 3],variavelVelocidadeAnimBarco[somarNumero - 2],variavelVelocidadeAnimBarco[somarNumero - 1]], { autostart: true }).addTo(mymap);
+                    [variavelVelocidadeAnimBarco[somarNumero - 3], variavelVelocidadeAnimBarco[somarNumero - 2], variavelVelocidadeAnimBarco[somarNumero - 1]], { autostart: true }).addTo(mymap);
+
+                var pointA = new L.LatLng(AnimarBarco[somarNumero - 3][0], AnimarBarco[somarNumero - 3][1]);
+                var pointB = new L.LatLng(AnimarBarco[somarNumero - 2][0], AnimarBarco[somarNumero - 2][1]);
+                var pointC = new L.LatLng(AnimarBarco[somarNumero - 1][0], AnimarBarco[somarNumero - 1][1]);
+
+                pointList.push(pointA, pointB, pointC);
 
 
+                // console.log(pointA)
+                // console.log(pointB)
+
+
+                var firstpolyline2 = new L.Polyline(pointList, {
+                    color: '#214198',
+                    radius: 8,
+                    weight: 5,
+                    opacity: 1,
+                });
+                firstpolyline2.addTo(mymap);
 
                 markerAnimado.on('end', function () {
 
@@ -4917,7 +4948,16 @@
                         if (markerAnimado) {
                             mymap.removeLayer(markerAnimado);
                         }
-                    }, 500);
+
+                        if (firstpolyline2) {
+                            mymap.eachLayer(function (layer) {
+                                console.log(layer.options.pane)
+                                // if (layer.options.pane == "overlayPane") {
+                                //     mymap.removeLayer(layer);
+                                // }
+                            });
+                        }
+                    }, 1000);
                     setTimeout(function () {
 
                         changeValue();
@@ -4925,9 +4965,9 @@
                     }, 1000);
                 });
 
-
-
             }
+
+
             // else if(6 == somarNumero){
 
 

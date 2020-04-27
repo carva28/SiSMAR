@@ -28,6 +28,7 @@ L.Marker.MovingMarker = L.Marker.extend({
         //     iconAnchor: [22, 94],
         // });
 
+       
         L.Marker.prototype.initialize.call(this, latlngs[0], options);
         //delete L.Icon.Default.prototype._getIconUrl;
         //Apagar icone
@@ -46,7 +47,6 @@ L.Marker.MovingMarker = L.Marker.extend({
         });
 
         L.Marker.prototype.options.icon = DefaultIcon;
-
 
 
 
@@ -357,13 +357,13 @@ L.Marker.MovingMarker = L.Marker.extend({
 
             //console.log(elapsedTime);
             console.log(this._currentDuration);
-            if(this._currentDuration <= 8000 && this._currentDuration >= 2000){
-                console.log('avisa')
+            if (this._currentDuration <= 8000 && this._currentDuration >= 2000) {
+                somarNumero = 0;
                 this._state = L.Marker.MovingMarker.endedState;
                 //this.fire('end', { elapsedTime: elapsedTime });
-                markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> que deseja fazer?</p>'+
-                '<button onclick="moverBarco()" id="btn_calculo">Calcular com a mesma data e simular uma previsão</button>', { closeOnClick: false })
-                .openPopup();
+                markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> que deseja fazer?</p>' +
+                    '<button onclick="moverBarco()" id="btn_calculo">Calcular com a mesma data e simular uma previsão</button>', { closeOnClick: false })
+                    .openPopup();
 
                 setTimeout(function () {
 
@@ -376,23 +376,22 @@ L.Marker.MovingMarker = L.Marker.extend({
             // console.log(this._currentLine[0]);
             // console.log(this._currentLine[1]['lat']);
 
-            var pointA = new L.LatLng(this._currentLine[0]['lat'], this._currentLine[0]['lng']);
-            var pointB = new L.LatLng(this._currentLine[1]['lat'], this._currentLine[1]['lng']);
-            var pointList = [pointA, pointB];
 
 
-            // console.log(pointA)
-            // console.log(pointB)
+            //**********Pintar caminho onde barco passou */
 
-           
 
-            var firstpolyline2 = new L.Polyline(pointList, {
-                color: '#214198ad',
-                radius: 8,
-                weight: 5,
-                //opacity: '0.2',
-            });
-            firstpolyline2.addTo(mymap);
+            // var pointA = new L.LatLng(this._currentLine[0]['lat'], this._currentLine[0]['lng']);
+            // var pointB = new L.LatLng(this._currentLine[1]['lat'], this._currentLine[1]['lng']);
+            // var pointList = [pointA, pointB];
+
+
+            // firstpolyline2 = new L.Polyline(pointList, {
+            //     color: '#214198ad',
+            //     radius: 8,
+            //     weight: 5,
+            // });
+            // firstpolyline2.addTo(mymap);
 
         }
 
