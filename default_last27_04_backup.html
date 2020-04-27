@@ -4855,11 +4855,27 @@
                 }
             } else {
                 console.log('Else_sem_rota')
+
             }
 
-            //If para barco andar a fazer pedidos
+            // var markerAnimado = L.Marker.movingMarker(AnimarBarco, 
+            // [
+            //     600,700,700,700,700,700,
+            //     600,700,700,700,500,500,
+            //     600,700,700,500,500,500,
+            //     800,700,700,700,700,700,
+            //     500,500,500,500,500,500,
+            //     800,800,1000,3000,4000,5000,
+            //     3000,4000,5000,600,700,700,700,
+            //     500,500,500,500
+            //     ], { autostart: true,loop:true }).addTo(mymap);
 
-                                                         
+
+
+
+
+            //moverBarco(AnimarBarco, variavelVelocidadeAnimBarco);
+       
             if (AnimarBarco.length <= somarNumero) {
                 if(AnimarBarco[somarNumero - 1]){
                     markerAnimado = L.Marker.movingMarker(
@@ -4950,7 +4966,7 @@
                     document.getElementById('time').value = UserHoras2;
                     primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
                 } else {
-                    var minutos = parseInt(splitTime1[1]) + 10;
+                    var minutos = parseInt(splitTime1[1]) + 15;
                     UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], minutos);
                     primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
 
@@ -4979,9 +4995,25 @@
                         variavelVelocidadeAnimBarco[somarNumero - 2],
                         variavelVelocidadeAnimBarco[somarNumero - 1]
                     ], { autostart: true }).addTo(mymap);
+                // var pointA = new L.LatLng(AnimarBarco[somarNumero - 3][0], AnimarBarco[somarNumero - 3][1]);
+                // var pointB = new L.LatLng(AnimarBarco[somarNumero - 2][0], AnimarBarco[somarNumero - 2][1]);
+                // var pointC = new L.LatLng(AnimarBarco[somarNumero - 1][0], AnimarBarco[somarNumero - 1][1]);
 
+                // pointList.push(pointA, pointB, pointC);
 
                 hasLine = true;
+
+                // // console.log(pointA)
+                // // console.log(pointB)
+
+
+                // var firstpolyline2 = new L.Polyline(pointList, {
+                //     color: '#214198',
+                //     radius: 8,
+                //     weight: 5,
+                //     opacity: 1,
+                // });
+                // firstpolyline2.addTo(mymap);
 
                 markerAnimado.on('end', function () {
 
@@ -5000,6 +5032,442 @@
                 });
 
             }
+
+
+            // else if(6 == somarNumero){
+
+
+            //         tempo = document.getElementById('time').value;
+            //         var d = new Date();
+            //         var nday = d.getDay(),
+            //             nmonth = d.getMonth() + 1,
+            //             ndate = d.getDate(),
+            //             nyear = d.getYear();
+            //         if (nyear < 1000) nyear += 1900;
+            //         var splitTime1 = tempo.split(':');
+            //         if (splitTime1[1] == 59) {
+            //             var horas = parseInt(splitTime1[0]) + 1;
+            //             UserHoras2 = new Date(nyear, nmonth, nday, horas, 00);
+            //             document.getElementById('time').value = UserHoras2;
+            //             primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
+            //         } else {
+            //             var minutos = parseInt(splitTime1[1]) + 15;
+            //             UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], minutos);
+            //             primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
+
+            //         }
+
+
+            //         var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
+            //         document.getElementById('time').value = f;
+            //         console.log(f);
+
+
+
+            //         markerAnimado = L.Marker.movingMarker([AnimarBarco[6 - 3], AnimarBarco[6 - 2], AnimarBarco[6 - 1]],
+            //             variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
+
+
+
+            //             markerAnimado.on('end', function () {
+
+            //             setTimeout(function () {
+
+            //                 if (markerAnimado) {
+            //                     mymap.removeLayer(markerAnimado);
+            //                 }
+            //             }, 500);
+
+            //         });
+
+            //         setTimeout(function () {
+
+            //         changeValue();
+
+            //         }, 2000);
+
+            // }
+
+
+
+            //     setTimeout(function(){
+            //         calculo();
+            //         changeValue();
+            //     },500);
+
+
+
+            // if (estadoAnimarBarco == 'faz1') {
+            //     if (warning > 0) {
+            //         markerAnimado = L.Marker.movingMarker(AnimarBarco,
+            //             variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
+
+
+            //         markerAnimado.on('end', function () {
+            //             markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> Que deseja fazer?</p>' +
+            //                 '<button id="btn_calculo" onclick="moverBarco()">Calcular com a mesma data e simular uma previsão</button>' , { closeOnClick: false })
+            //                 .openPopup();
+            //             setTimeout(function () {
+
+            //                 if (markerAnimado) {
+            //                     mymap.removeLayer(markerAnimado);
+            //                 }
+            //             }, 1000);
+
+            //         });
+            //     } else {
+            //         markerAnimado = L.Marker.movingMarker(AnimarBarco,
+            //         variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
+
+
+            //         markerAnimado.on('end', function () {
+            //             markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
+            //             .openPopup();
+            //             setTimeout(function () {
+
+            //                 if (markerAnimado) {
+            //                     mymap.removeLayer(markerAnimado);
+            //                 }
+            //             }, 1000);
+
+            //         });
+            //     }
+
+            // }else if (estadoAnimarBarco == 'faz2') {
+            //         moverBarco(AnimarBarco, variavelVelocidadeAnimBarco);
+            //     } else {
+            //         console.log('nada');
+            //     }
+
+
+
+
+            //só funciona uma vez
+            //document.getElementsByClassName('leaflet-marker-icon')[2].src = "./user_marker.png";
+            // var markerAnimado;
+
+            //     if (markerAnimado) {
+            //         mymap.removeLayer(markerAnimado);
+            //         //document.getElementsByClassName('leaflet-marker-icon')[2].innerHTML="";
+            //     }
+
+            //     //variavelVelocidadeAnimBarco -> é identico aos valores acima do 600,700,1000,3000
+            //     //AnimarBarco -> coordenadas
+
+            //     markerAnimado = L.Marker.movingMarker(AnimarBarco,
+            //         variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
+
+            //markerAnimado.start();
+
+            //QUANDO ACABA DE ANIMAR APAGA O BARQUINHO
+
+            // markerAnimado.on('end', function () {
+            //     markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
+            //         .openPopup();
+
+
+            //     setTimeout(function () {
+
+            //         if (markerAnimado) {
+            //             mymap.removeLayer(markerAnimado);
+            //         }
+            //     }, 1000);
+
+            // });
+
+            // var myIcon = L.icon({
+            //     iconUrl: 'user_marker.png',
+            // iconSize: [22, 32, 5],
+            // iconAnchor: [10, 30],
+            // });
+            // var line = L.polyline(AnimarBarco),
+            //     animatedMarker = L.animatedMarker(AnimarBarco, { 
+            //         icon: myIcon, distance: variavelVelocidadeAnimBarco, interval: 2000,// milliseconds
+            //      });
+
+            // mymap.addLayer(animatedMarker);
+
+
+
+
+        }
+
+
+
+        var primeiroHorMin = [];
+        var entrouRed = false;
+        //function moverBarco(AnimarBarco, variavelVelocidadeAnimBarco) {
+        function moverBarco() {
+
+
+            var markerAnimado;
+            if (markerAnimado) {
+                mymap.removeLayer(markerAnimado);
+            }
+
+            var linesFeatureLayer4;
+            var rotaRed = false;
+            for (let i = 0; i < AnimarBarco.length; i++) {
+
+                if (AnimarBarco[i + 1] != undefined) {
+
+
+                    if (variavelVelocidadeAnimBarco[i] == 4000) {
+                        estadoAnimarBarco = 'faz2';
+
+                        rotaRed = true;
+
+                        variavelVelocidadeAnimBarco[i - 1] = 1500;
+                        variavelVelocidadeAnimBarco[i - 2] = 1500;
+                        variavelVelocidadeAnimBarco[i - 3] = 1500;
+                        variavelVelocidadeAnimBarco[i - 4] = 1500;
+                        variavelVelocidadeAnimBarco[i - 5] = 1500;
+
+                        variavelVelocidadeAnimBarco[i] = 550;
+
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'orange',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 2000);
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'yellow',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 4000);
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'green',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 6000);
+                    } else if (variavelVelocidadeAnimBarco[i] == 6000) {
+                        estadoAnimarBarco = 'faz2';
+
+                        rotaRed = true;
+
+                        variavelVelocidadeAnimBarco[i - 1] = 1900;
+                        variavelVelocidadeAnimBarco[i - 2] = 1900;
+                        variavelVelocidadeAnimBarco[i - 3] = 1900;
+                        variavelVelocidadeAnimBarco[i - 4] = 1900;
+                        variavelVelocidadeAnimBarco[i - 5] = 1900;
+
+                        variavelVelocidadeAnimBarco[i] = 700;
+
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'orange',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 4000);
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'yellow',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 6000);
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'green',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 8000);
+                    } else if (variavelVelocidadeAnimBarco[i] == 2000) {
+                        estadoAnimarBarco = 'faz2';
+
+                        rotaRed = true;
+
+                        variavelVelocidadeAnimBarco[i - 1] = 1000;
+                        variavelVelocidadeAnimBarco[i - 2] = 1000;
+                        variavelVelocidadeAnimBarco[i - 3] = 1000;
+                        variavelVelocidadeAnimBarco[i - 4] = 1000;
+                        variavelVelocidadeAnimBarco[i - 5] = 1000;
+
+                        variavelVelocidadeAnimBarco[i] = 400;
+
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'orange',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 2000);
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'yellow',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 4000);
+
+                        setTimeout(function () {
+                            var pointA = new L.LatLng(AnimarBarco[i][0], AnimarBarco[i][1]);
+                            var pointB = new L.LatLng(AnimarBarco[i + 1][0], AnimarBarco[i + 1][1]);
+                            var pointList = [pointA, pointB];
+
+                            var firstpolyline = new L.Polyline(pointList, {
+                                color: 'green',
+                                radius: 8,
+                                weight: 10,
+                                opacity: 1,
+                            });
+                            firstpolyline.addTo(mymap);
+                        }, 5000);
+                    }
+
+                }
+            }
+
+
+            if (rotaRed) {
+                entrouRed = true;
+
+                tempo = document.getElementById('time').value;
+                var d = new Date();
+                var nday = d.getDay(),
+                    nmonth = d.getMonth() + 1,
+                    ndate = d.getDate(),
+                    nyear = d.getYear();
+                if (nyear < 1000) nyear += 1900;
+                var splitTime1 = tempo.split(':');
+                if (splitTime1[1] == 59) {
+                    var horas = parseInt(splitTime1[0]) + 1;
+                    UserHoras2 = new Date(nyear, nmonth, nday, horas, 00);
+                    document.getElementById('time').value = UserHoras2;
+                    primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
+                } else {
+                    var minutos = parseInt(splitTime1[1]) + 15;
+                    UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], minutos);
+                    primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
+
+                }
+
+
+                var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
+                document.getElementById('time').value = f;
+                console.log(f);
+
+                changeValue();
+
+            } else {
+                estadoAnimarBarco = 'faz3';
+                if (entrouRed) {
+                    console.log(UserHoras2)
+
+                    var f = leadZero(primeiroHorMin[0][0]) + ":" + leadZero(primeiroHorMin[0][1]);
+                    document.getElementById('time').value = f;
+                    console.log(f);
+                    console.log(horas_chegada);
+
+
+                    markerAnimado = L.Marker.movingMarker(AnimarBarco,
+                        variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
+
+                    markerAnimado.on('end', function () {
+                        markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>' +
+                            '<b>Vai ter que chegar mais tarde pelas ' + horas_chegada[0][0] + ':' +
+                            horas_chegada[0][1] + ' caso vá às ' + f + '</b>', { closeOnClick: false })
+                            .openPopup();
+
+
+                        setTimeout(function () {
+
+                            if (markerAnimado) {
+                                mymap.removeLayer(markerAnimado);
+                            }
+                        }, 10000);
+
+                    });
+
+                    primeiroHorMin = [];
+                    entrouRed = false;
+
+                } else {
+
+                    markerAnimado = L.Marker.movingMarker(AnimarBarco,
+                        variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
+
+
+                    markerAnimado.on('end', function () {
+                        markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
+                            .openPopup();
+                        setTimeout(function () {
+
+                            if (markerAnimado) {
+                                mymap.removeLayer(markerAnimado);
+                            }
+                        }, 1000);
+
+                    });
+                }
+
+            }
+
+
 
         }
 
