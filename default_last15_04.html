@@ -2994,9 +2994,10 @@
         }
 
 
+        var hasLine = false;
 
         function changeValue(e) {
-            
+
             //somarNumero = 0;
             var valorInput = document.getElementById('calado_span').value;
             //document.getElementById('amount').value = valorInput;
@@ -3062,11 +3063,12 @@
             } else if (estadoAnimarBarco == 'faz1') {
                 estadoAnimarBarco = 'faz1';
             }
-
-            if(!hasLine){
+            console.log("------------HAS LINE---------")
+            console.log(hasLine)
+            if (hasLine == false) {
                 pointList = [];
             }
-        
+
         }
 
 
@@ -3741,7 +3743,7 @@
         var pointList = [];
         //Realiza o calculo com base no excel
         function calculo(valor_cal, cal_sup, cal_inf) {
-            somarNumero = somarNumero + 3;
+            somarNumero = somarNumero + 5;
 
             CalCalado = valor_cal;
             limitSuper = cal_sup;
@@ -4873,15 +4875,66 @@
 
 
             //moverBarco(AnimarBarco, variavelVelocidadeAnimBarco);
-            console.log(somarNumero);
-            console.log(somarNumero != 0);
-            console.log(AnimarBarco.length);
+       
             if (AnimarBarco.length <= somarNumero) {
-                markerAnimado = L.Marker.movingMarker([AnimarBarco[somarNumero - 3], AnimarBarco[somarNumero - 2], AnimarBarco[somarNumero - 1]],
-                    variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
-          
+                if(AnimarBarco[somarNumero - 1]){
+                    markerAnimado = L.Marker.movingMarker(
+                    [
+                        AnimarBarco[somarNumero - 5],
+                        AnimarBarco[somarNumero - 4],
+                        AnimarBarco[somarNumero - 3],
+                        AnimarBarco[somarNumero - 2],
+                        AnimarBarco[somarNumero - 1]
+                    ],
+                    [
+                        variavelVelocidadeAnimBarco[somarNumero - 5],
+                        variavelVelocidadeAnimBarco[somarNumero - 4],
+                        variavelVelocidadeAnimBarco[somarNumero - 3],
+                        variavelVelocidadeAnimBarco[somarNumero - 2],
+                        variavelVelocidadeAnimBarco[somarNumero - 1]
+                    ], { autostart: true }).addTo(mymap);
+                }else if(AnimarBarco[somarNumero - 2]){
+                    markerAnimado = L.Marker.movingMarker(
+                    [
+                        AnimarBarco[somarNumero - 5],
+                        AnimarBarco[somarNumero - 4],
+                        AnimarBarco[somarNumero - 3],
+                        AnimarBarco[somarNumero - 2],
+                    ],
+                    [
+                        variavelVelocidadeAnimBarco[somarNumero - 5],
+                        variavelVelocidadeAnimBarco[somarNumero - 4],
+                        variavelVelocidadeAnimBarco[somarNumero - 3],
+                        variavelVelocidadeAnimBarco[somarNumero - 2],
+                    ], { autostart: true }).addTo(mymap);
+                }else if(AnimarBarco[somarNumero - 3]){
+                    markerAnimado = L.Marker.movingMarker(
+                    [
+                        AnimarBarco[somarNumero - 5],
+                        AnimarBarco[somarNumero - 4],
+                        AnimarBarco[somarNumero - 3],
+                    ],
+                    [
+                        variavelVelocidadeAnimBarco[somarNumero - 5],
+                        variavelVelocidadeAnimBarco[somarNumero - 4],
+                        variavelVelocidadeAnimBarco[somarNumero - 3],
+                    ], { autostart: true }).addTo(mymap);
+                }else if(AnimarBarco[somarNumero - 4]){
+                    markerAnimado = L.Marker.movingMarker(
+                    [
+                        AnimarBarco[somarNumero - 5],
+                        AnimarBarco[somarNumero - 4],
+                    ],
+                    [
+                        variavelVelocidadeAnimBarco[somarNumero - 5],
+                        variavelVelocidadeAnimBarco[somarNumero - 4],
+                    ], { autostart: true }).addTo(mymap);
+                }
+                
+
                 somarNumero = 0;
-                hasLine = false;
+               
+            
                 markerAnimado.on('end', function () {
                     markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
                         .openPopup();
@@ -4890,7 +4943,9 @@
                         if (markerAnimado) {
                             mymap.removeLayer(markerAnimado);
                         }
+                        hasLine = false;
 
+                        pointList = [];
                     }, 2000);
 
                 });
@@ -4925,8 +4980,21 @@
 
 
                 console.log(somarNumero)
-                markerAnimado = L.Marker.movingMarker([AnimarBarco[somarNumero - 3], AnimarBarco[somarNumero - 2], AnimarBarco[somarNumero - 1]],
-                    [variavelVelocidadeAnimBarco[somarNumero - 3], variavelVelocidadeAnimBarco[somarNumero - 2], variavelVelocidadeAnimBarco[somarNumero - 1]], { autostart: true }).addTo(mymap);
+                markerAnimado = L.Marker.movingMarker(
+                    [
+                        AnimarBarco[somarNumero - 5],
+                        AnimarBarco[somarNumero - 4],
+                        AnimarBarco[somarNumero - 3],
+                        AnimarBarco[somarNumero - 2],
+                        AnimarBarco[somarNumero - 1]
+                    ],
+                    [
+                        variavelVelocidadeAnimBarco[somarNumero - 5],
+                        variavelVelocidadeAnimBarco[somarNumero - 4],
+                        variavelVelocidadeAnimBarco[somarNumero - 3],
+                        variavelVelocidadeAnimBarco[somarNumero - 2],
+                        variavelVelocidadeAnimBarco[somarNumero - 1]
+                    ], { autostart: true }).addTo(mymap);
                 // var pointA = new L.LatLng(AnimarBarco[somarNumero - 3][0], AnimarBarco[somarNumero - 3][1]);
                 // var pointB = new L.LatLng(AnimarBarco[somarNumero - 2][0], AnimarBarco[somarNumero - 2][1]);
                 // var pointC = new L.LatLng(AnimarBarco[somarNumero - 1][0], AnimarBarco[somarNumero - 1][1]);
@@ -4957,7 +5025,7 @@
 
                     }, 1000);
                     setTimeout(function () {
-
+                        
                         changeValue();
 
                     }, 1000);

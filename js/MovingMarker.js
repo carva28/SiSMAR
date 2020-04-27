@@ -5,6 +5,8 @@ L.interpolatePosition = function (p1, p2, duration, t) {
     return L.latLng(p1.lat + k * (p2.lat - p1.lat),
         p1.lng + k * (p2.lng - p1.lng));
 };
+var globalvariavel = [];
+
 var count = 0;
 L.Marker.MovingMarker = L.Marker.extend({
 
@@ -359,7 +361,23 @@ L.Marker.MovingMarker = L.Marker.extend({
             this.setLatLng(p);
 
             //console.log(elapsedTime);
-            console.log(this._currentDuration);
+              //**********Pintar caminho onde barco passou */
+
+
+              var pointA = new L.LatLng(this._currentLine[0]['lat'], this._currentLine[0]['lng']);
+              var pointB = new L.LatLng(this._currentLine[1]['lat'], this._currentLine[1]['lng']);
+  
+              //var pointList = [pointA, pointB];
+              pointList.push(pointA, pointB);  
+              firstpolyline2 = new L.Polyline(pointList, {
+                  color: '#214198ad',
+                  radius: 8,
+                  weight: 5,
+              });
+              firstpolyline2.addTo(mymap);
+           
+              
+
             if (this._currentDuration <= 8000 && this._currentDuration >= 2000) {
                 somarNumero = 0;
                 this._state = L.Marker.MovingMarker.endedState;
@@ -367,15 +385,18 @@ L.Marker.MovingMarker = L.Marker.extend({
                 markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> que deseja fazer?</p>' +
                     '<button onclick="moverBarco()" id="btn_calculo">Calcular com a mesma data e simular uma previsão</button>', { closeOnClick: false })
                     .openPopup();
-                
+                    pointList = [];    
+                    hasLine = false;
+                    pointList.shift();
+                    pointList.shift();
+                    console.log(pointList);
                 setTimeout(function () {
 
                     if (markerAnimado) {
                         mymap.removeLayer(markerAnimado);
                     }
-                    //pointList = [];
-                    hasLine = false;
-                }, 5000);//8000
+                    
+                }, 2000);//8000
             }
             // console.log(p);
             // console.log(this._currentLine[0]);
@@ -383,20 +404,7 @@ L.Marker.MovingMarker = L.Marker.extend({
 
 
 
-            //**********Pintar caminho onde barco passou */
-
-
-            var pointA = new L.LatLng(this._currentLine[0]['lat'], this._currentLine[0]['lng']);
-            var pointB = new L.LatLng(this._currentLine[1]['lat'], this._currentLine[1]['lng']);
-            //var pointList = [pointA, pointB];
-            pointList.push(pointA, pointB);
-
-            firstpolyline2 = new L.Polyline(pointList, {
-                color: '#214198ad',
-                radius: 8,
-                weight: 5,
-            });
-            firstpolyline2.addTo(mymap);
+          
 
         }
 
@@ -410,6 +418,5 @@ L.Marker.MovingMarker = L.Marker.extend({
 });
 
 L.Marker.movingMarker = function (latlngs, duration, options) {
-
     return new L.Marker.MovingMarker(latlngs, duration, options);
 };
