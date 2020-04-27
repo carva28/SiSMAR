@@ -2996,6 +2996,7 @@
 
 
         function changeValue(e) {
+            
             //somarNumero = 0;
             var valorInput = document.getElementById('calado_span').value;
             //document.getElementById('amount').value = valorInput;
@@ -3061,7 +3062,13 @@
             } else if (estadoAnimarBarco == 'faz1') {
                 estadoAnimarBarco = 'faz1';
             }
+
+            if(!hasLine){
+                pointList = [];
+            }
+        
         }
+
 
         function leadZero(_something) {
             if (parseInt(_something) < 10) return "0" + _something;
@@ -4872,10 +4879,9 @@
             if (AnimarBarco.length <= somarNumero) {
                 markerAnimado = L.Marker.movingMarker([AnimarBarco[somarNumero - 3], AnimarBarco[somarNumero - 2], AnimarBarco[somarNumero - 1]],
                     variavelVelocidadeAnimBarco, { autostart: true }).addTo(mymap);
-
-
+          
                 somarNumero = 0;
-
+                hasLine = false;
                 markerAnimado.on('end', function () {
                     markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
                         .openPopup();
@@ -4921,25 +4927,25 @@
                 console.log(somarNumero)
                 markerAnimado = L.Marker.movingMarker([AnimarBarco[somarNumero - 3], AnimarBarco[somarNumero - 2], AnimarBarco[somarNumero - 1]],
                     [variavelVelocidadeAnimBarco[somarNumero - 3], variavelVelocidadeAnimBarco[somarNumero - 2], variavelVelocidadeAnimBarco[somarNumero - 1]], { autostart: true }).addTo(mymap);
+                // var pointA = new L.LatLng(AnimarBarco[somarNumero - 3][0], AnimarBarco[somarNumero - 3][1]);
+                // var pointB = new L.LatLng(AnimarBarco[somarNumero - 2][0], AnimarBarco[somarNumero - 2][1]);
+                // var pointC = new L.LatLng(AnimarBarco[somarNumero - 1][0], AnimarBarco[somarNumero - 1][1]);
 
-                var pointA = new L.LatLng(AnimarBarco[somarNumero - 3][0], AnimarBarco[somarNumero - 3][1]);
-                var pointB = new L.LatLng(AnimarBarco[somarNumero - 2][0], AnimarBarco[somarNumero - 2][1]);
-                var pointC = new L.LatLng(AnimarBarco[somarNumero - 1][0], AnimarBarco[somarNumero - 1][1]);
+                // pointList.push(pointA, pointB, pointC);
 
-                pointList.push(pointA, pointB, pointC);
+                hasLine = true;
 
-
-                // console.log(pointA)
-                // console.log(pointB)
+                // // console.log(pointA)
+                // // console.log(pointB)
 
 
-                var firstpolyline2 = new L.Polyline(pointList, {
-                    color: '#214198',
-                    radius: 8,
-                    weight: 5,
-                    opacity: 1,
-                });
-                firstpolyline2.addTo(mymap);
+                // var firstpolyline2 = new L.Polyline(pointList, {
+                //     color: '#214198',
+                //     radius: 8,
+                //     weight: 5,
+                //     opacity: 1,
+                // });
+                // firstpolyline2.addTo(mymap);
 
                 markerAnimado.on('end', function () {
 
@@ -4949,14 +4955,6 @@
                             mymap.removeLayer(markerAnimado);
                         }
 
-                        if (firstpolyline2) {
-                            mymap.eachLayer(function (layer) {
-                                console.log(layer.options.pane)
-                                // if (layer.options.pane == "overlayPane") {
-                                //     mymap.removeLayer(layer);
-                                // }
-                            });
-                        }
                     }, 1000);
                     setTimeout(function () {
 

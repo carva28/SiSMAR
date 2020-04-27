@@ -236,6 +236,9 @@ L.Marker.MovingMarker = L.Marker.extend({
 
 
     _startAnimation: function () {
+        //iniciar path a azul
+        var pointList = [];
+
         this._state = L.Marker.MovingMarker.runState;
         this._animId = L.Util.requestAnimFrame(function (timestamp) {
             this._startTime = Date.now();
@@ -364,12 +367,14 @@ L.Marker.MovingMarker = L.Marker.extend({
                 markerAnimado.bindPopup('<b>Probabilidade de encalhar</b><br><p> que deseja fazer?</p>' +
                     '<button onclick="moverBarco()" id="btn_calculo">Calcular com a mesma data e simular uma previsão</button>', { closeOnClick: false })
                     .openPopup();
-
+                
                 setTimeout(function () {
 
                     if (markerAnimado) {
                         mymap.removeLayer(markerAnimado);
                     }
+                    //pointList = [];
+                    hasLine = false;
                 }, 5000);//8000
             }
             // console.log(p);
@@ -381,17 +386,17 @@ L.Marker.MovingMarker = L.Marker.extend({
             //**********Pintar caminho onde barco passou */
 
 
-            // var pointA = new L.LatLng(this._currentLine[0]['lat'], this._currentLine[0]['lng']);
-            // var pointB = new L.LatLng(this._currentLine[1]['lat'], this._currentLine[1]['lng']);
-            // var pointList = [pointA, pointB];
+            var pointA = new L.LatLng(this._currentLine[0]['lat'], this._currentLine[0]['lng']);
+            var pointB = new L.LatLng(this._currentLine[1]['lat'], this._currentLine[1]['lng']);
+            //var pointList = [pointA, pointB];
+            pointList.push(pointA, pointB);
 
-
-            // firstpolyline2 = new L.Polyline(pointList, {
-            //     color: '#214198ad',
-            //     radius: 8,
-            //     weight: 5,
-            // });
-            // firstpolyline2.addTo(mymap);
+            firstpolyline2 = new L.Polyline(pointList, {
+                color: '#214198ad',
+                radius: 8,
+                weight: 5,
+            });
+            firstpolyline2.addTo(mymap);
 
         }
 
