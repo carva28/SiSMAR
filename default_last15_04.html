@@ -595,6 +595,7 @@
 
 
         .gps_ring {
+
             margin: 0 35px;
             border: #214198 10px solid;
             -webkit-border-radius: 30px;
@@ -615,6 +616,8 @@
             width: 50px;
             -webkit-animation: pulsate 1.5s ease-out;
             -webkit-animation-iteration-count: infinite;
+
+
             /*opacity: 0.0*/
         }
 
@@ -678,6 +681,55 @@
 
         #date {
             margin-left: 5px;
+        }
+
+
+        /*********Tutorial **********/
+
+        .tutorial {
+            width: 100%;
+            position: absolute;
+            font-size: 1.0rem;
+            text-align: left;
+            font-weight: 500;
+            margin: auto;
+            display: block;
+            margin-top: 20px;
+            z-index: 9999999;
+
+        }
+
+        .tutorial01 {
+            margin: auto;
+            color: white;
+            width: 30%;
+            background-color: #5b70a8;
+            border: 1px solid transparent;
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+
+        #tutorial02 {
+            display: none;
+            position: absolute;
+            right: 90px;
+            top: 50px;
+            padding: 10px 20px;
+        }
+
+        #tutorial03 {
+            display: none;
+            position: absolute;
+            right: 90px;
+            top: 130px;
+            padding: 10px 20px;
+
+        }
+
+        #tutorial01,
+        #tutorial02,
+        #tutorial03 p {
+            margin-bottom: 0 !important;
         }
 
         /***** MEDIA QUERIES ***********/
@@ -1694,10 +1746,21 @@
     <div id="load_fetch">
         <h2>Carregando...</h2>
     </div>
-
+    <div class="tutorial">
+        <div class="tutorial01" id="tutorial01">
+            <p>Posicione o seu barco perto dos cais de onde pretende partir</p>
+        </div>
+        <div class="tutorial01" id="tutorial02">
+            <p>Clique no botão Rotas <i style="color:white;" class="fas fa-route"></i> para visualizar quais os trajetos
+                disponíveis a partir do cais selecionado</p>
+        </div>
+        <div class="tutorial01" id="tutorial03">
+            <p>De seguida após escolher uma rota pode simular através do botão <i style="color:white;"
+                    class="fas fa-play-circle"></i> com base a data e hora atual.<b>Boa viagem! 😀⛵️</b></p>
+        </div>
+    </div>
     <script src="./js/leaflet-sidebar.js"></script>
     <script type="text/javascript" src="./js/MovingMarker.js"></script>
-    <script type="text/javascript" src="./js/AnimatedMarker.js"></script>
     <script src='https://unpkg.com/leaflet.marker.slideto@0.2.0/Leaflet.Marker.SlideTo.js'></script>
 
     <script>
@@ -1708,9 +1771,11 @@
 
 
         var calado = 1;
+        var tutorial = true;
         var velocidademedia;
         // Making a map and tiles
-        const mymap = L.map('issMap').setView([40.70, -8.69], 11);
+        const mymap = L.map('issMap').setView([40.7288, -8.6467], 16);
+        //const mymap = L.map('issMap').setView([40.70, -8.69], 11);
         const attribution =
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
@@ -1813,27 +1878,23 @@
             iconAnchor: [30, 30],
             shadowSize: [50, 64],
         });
-        
+
 
 
         var cssIcon = L.divIcon({
             // Specify a class name we can refer to in CSS.
             className: 'css-icon',
-            html: '<div  id="gps_ringit"><div class="gps_ring2"></div><div class="gps_ring"></div><p style="  ' +
-                'width: 100px; ' +
-                'font-size: 1.0rem;' +
-                'text-align: center; ' +
-                'font-weight: 900; ' +
-                '">Posicione o seu barco perto dos cais de onde pretende partir</p></div>'
+            html: '<div  id="gps_ringit"><div class="gps_ring2"></div><div class="gps_ring"></div></div>'
             // Set marker width and height
             , iconSize: [12, 30]
             // ,iconAnchor: [11,11]
         });
 
-        // Create three markers and set their icons to cssIcon
-        L.marker([40.70, -8.69], { icon: cssIcon }).addTo(mymap);
 
-        start_boat = new L.marker([40.704, -8.679999], {
+        // Create three markers and set their icons to cssIcon
+        L.marker([40.7288, -8.6467], { icon: cssIcon }).addTo(mymap);
+
+        start_boat = new L.marker([40.7268, -8.6507], {
             icon: start_boat
         }).addTo(mymap);
 
@@ -1851,40 +1912,8 @@
 
 
 
-        // //ANIMAÇÃO SIMPLES
-        // var marker = L.marker([40.70, -8.69]).addTo(mymap);
-        // marker.slideTo([40.714, -8.681],{
-        //     duration: 2000,
-        //     //keepAtCenter: true   -- camara seguir o percurso
-
-        // });
 
 
-
-        // /***ANIMAÇÃO BARCO ***/
-        // var londonParisRomeBerlinBucarest = [[40.70, -8.69], [40.714, -8.681],
-        // [40.723, -8.662], [40.726, -8.6520], [40.729, -8.646],];
-
-        // var marker2 = L.Marker.movingMarker(londonParisRomeBerlinBucarest,
-        //     [3000, 9000, 9000, 4000], { autostart: true, }).addTo(mymap); //{loop:true}
-        // console.log(marker2);
-        // console.log(marker2._durations);
-        // console.log(marker2._durations[0]);
-        // console.log(document.getElementsByClassName('leaflet-marker-icon'))
-        // console.log(document.getElementsByClassName('leaflet-marker-icon')[2].style.transform)
-        // if (marker2._durations[0] < 9000) {
-        //     //L.polyline(londonParisRomeBerlinBucarest, { color: 'red' }).addTo(mymap);
-
-        // } else {
-        //     //L.polyline(londonParisRomeBerlinBucarest, { color: 'green' }).addTo(mymap);
-
-        // }
-        // console.log(londonParisRomeBerlinBucarest);
-
-        // marker2.on('end', function () {
-        //     marker2.bindPopup('<b>Welcome to Cais do Bico !</b>', { closeOnClick: false })
-        //         .openPopup();
-        // });
 
         //Funções responsáveis por ler a data do GPX e armazená-la num array
         async function getTorreiraGPX() {
@@ -2055,6 +2084,7 @@
                     g.addTo(mymap);
                 });
             mymap.setView([40.678, -8.7166], 13);
+
 
         }
 
@@ -2615,7 +2645,7 @@
 
     <script type="text/javascript">
         window.onload = function () {
-            getIdaBicoGPX();
+            //getIdaBicoGPX();
             getInfo();
         }
 
@@ -3130,7 +3160,13 @@
         mymap.on('click', function (e) {
 
             mymap.removeLayer(start_boat);
+            if(tutorial){
+            document.getElementById('tutorial01').style.display = "none";
+            document.getElementById('tutorial02').style.display = "block";
             document.getElementById('gps_ringit').style.display = "none";
+            }
+           
+
 
             arrayCoor = [];
             var coord = e.latlng;
@@ -3175,12 +3211,29 @@
 
 
         function clickedPointer(valor) {
+
+            if (tutorial) {
+                setTimeout(function () {
+                    document.getElementById('tutorial02').style.display = "none";
+
+                    document.getElementById('tutorial03').style.display = "block";
+                }, 6000);
+                setTimeout(function () {
+                    document.getElementById('tutorial03').style.display = "none";
+                    tutorial = false;
+                }, 15000);
+            }
+
+
+
             if (valor) {
                 verificaClickCoor(arrayCoor[0]);
             } else {
                 console.log(arrayCoor);
                 colocaPedra(arrayCoor[0])
             }
+
+
         }
 
         var newMarker_Pedras;
@@ -4857,66 +4910,66 @@
 
             //If para barco andar a fazer pedidos
             var primeiroHorMin = [];
-                                                         
+
             if (AnimarBarco.length <= somarNumero) {
-                if(AnimarBarco[somarNumero - 1]){
+                if (AnimarBarco[somarNumero - 1]) {
                     markerAnimado = L.Marker.movingMarker(
-                    [
-                        AnimarBarco[somarNumero - 5],
-                        AnimarBarco[somarNumero - 4],
-                        AnimarBarco[somarNumero - 3],
-                        AnimarBarco[somarNumero - 2],
-                        AnimarBarco[somarNumero - 1]
-                    ],
-                    [
-                        variavelVelocidadeAnimBarco[somarNumero - 5],
-                        variavelVelocidadeAnimBarco[somarNumero - 4],
-                        variavelVelocidadeAnimBarco[somarNumero - 3],
-                        variavelVelocidadeAnimBarco[somarNumero - 2],
-                        variavelVelocidadeAnimBarco[somarNumero - 1]
-                    ], { autostart: true }).addTo(mymap);
-                }else if(AnimarBarco[somarNumero - 2]){
+                        [
+                            AnimarBarco[somarNumero - 5],
+                            AnimarBarco[somarNumero - 4],
+                            AnimarBarco[somarNumero - 3],
+                            AnimarBarco[somarNumero - 2],
+                            AnimarBarco[somarNumero - 1]
+                        ],
+                        [
+                            variavelVelocidadeAnimBarco[somarNumero - 5],
+                            variavelVelocidadeAnimBarco[somarNumero - 4],
+                            variavelVelocidadeAnimBarco[somarNumero - 3],
+                            variavelVelocidadeAnimBarco[somarNumero - 2],
+                            variavelVelocidadeAnimBarco[somarNumero - 1]
+                        ], { autostart: true }).addTo(mymap);
+                } else if (AnimarBarco[somarNumero - 2]) {
                     markerAnimado = L.Marker.movingMarker(
-                    [
-                        AnimarBarco[somarNumero - 5],
-                        AnimarBarco[somarNumero - 4],
-                        AnimarBarco[somarNumero - 3],
-                        AnimarBarco[somarNumero - 2],
-                    ],
-                    [
-                        variavelVelocidadeAnimBarco[somarNumero - 5],
-                        variavelVelocidadeAnimBarco[somarNumero - 4],
-                        variavelVelocidadeAnimBarco[somarNumero - 3],
-                        variavelVelocidadeAnimBarco[somarNumero - 2],
-                    ], { autostart: true }).addTo(mymap);
-                }else if(AnimarBarco[somarNumero - 3]){
+                        [
+                            AnimarBarco[somarNumero - 5],
+                            AnimarBarco[somarNumero - 4],
+                            AnimarBarco[somarNumero - 3],
+                            AnimarBarco[somarNumero - 2],
+                        ],
+                        [
+                            variavelVelocidadeAnimBarco[somarNumero - 5],
+                            variavelVelocidadeAnimBarco[somarNumero - 4],
+                            variavelVelocidadeAnimBarco[somarNumero - 3],
+                            variavelVelocidadeAnimBarco[somarNumero - 2],
+                        ], { autostart: true }).addTo(mymap);
+                } else if (AnimarBarco[somarNumero - 3]) {
                     markerAnimado = L.Marker.movingMarker(
-                    [
-                        AnimarBarco[somarNumero - 5],
-                        AnimarBarco[somarNumero - 4],
-                        AnimarBarco[somarNumero - 3],
-                    ],
-                    [
-                        variavelVelocidadeAnimBarco[somarNumero - 5],
-                        variavelVelocidadeAnimBarco[somarNumero - 4],
-                        variavelVelocidadeAnimBarco[somarNumero - 3],
-                    ], { autostart: true }).addTo(mymap);
-                }else if(AnimarBarco[somarNumero - 4]){
+                        [
+                            AnimarBarco[somarNumero - 5],
+                            AnimarBarco[somarNumero - 4],
+                            AnimarBarco[somarNumero - 3],
+                        ],
+                        [
+                            variavelVelocidadeAnimBarco[somarNumero - 5],
+                            variavelVelocidadeAnimBarco[somarNumero - 4],
+                            variavelVelocidadeAnimBarco[somarNumero - 3],
+                        ], { autostart: true }).addTo(mymap);
+                } else if (AnimarBarco[somarNumero - 4]) {
                     markerAnimado = L.Marker.movingMarker(
-                    [
-                        AnimarBarco[somarNumero - 5],
-                        AnimarBarco[somarNumero - 4],
-                    ],
-                    [
-                        variavelVelocidadeAnimBarco[somarNumero - 5],
-                        variavelVelocidadeAnimBarco[somarNumero - 4],
-                    ], { autostart: true }).addTo(mymap);
+                        [
+                            AnimarBarco[somarNumero - 5],
+                            AnimarBarco[somarNumero - 4],
+                        ],
+                        [
+                            variavelVelocidadeAnimBarco[somarNumero - 5],
+                            variavelVelocidadeAnimBarco[somarNumero - 4],
+                        ], { autostart: true }).addTo(mymap);
                 }
-                
+
 
                 somarNumero = 0;
-               
-            
+
+
                 markerAnimado.on('end', function () {
                     markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
                         .openPopup();
@@ -4991,7 +5044,7 @@
 
                     }, 1000);
                     setTimeout(function () {
-                        
+
                         changeValue();
 
                     }, 1000);
