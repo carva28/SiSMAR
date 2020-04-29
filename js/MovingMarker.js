@@ -377,7 +377,7 @@ L.Marker.MovingMarker = L.Marker.extend({
               firstpolyline2.addTo(mymap);
            
               
-
+            console.log(this._currentDuration);
             if (this._currentDuration <= 8000 && this._currentDuration >= 2000) {
                 somarNumero = 0;
                 this._state = L.Marker.MovingMarker.endedState;

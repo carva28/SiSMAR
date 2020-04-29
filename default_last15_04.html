@@ -287,14 +287,17 @@
             left: 0;
             width: 50%;
             margin: auto;
-            border-radius: 20px;
             /* position: relative; */
             /* display: flex; */
             justify-content: center;
             /* display: block; */
             /*background-color: rgb(255, 238, 217);*/
-            background-color: #1F3436;
-            color: white;
+            background-color: #fff;
+            
+            color:#5b70a8;
+            border:#5b70a8 1px solid;
+            border-radius: 20px;
+
             /* padding: 10%;*/
         }
 
@@ -3090,8 +3093,7 @@
             } else if (estadoAnimarBarco == 'faz1') {
                 estadoAnimarBarco = 'faz1';
             }
-            console.log("------------HAS LINE---------")
-            console.log(hasLine)
+
             if (hasLine == false) {
                 pointList = [];
             }
@@ -3115,7 +3117,7 @@
         var arrayCoor = [];
 
         document.getElementById('btn_legenda3').onclick = function () {
-            clickedPointer(true);
+            //clickedPointer(true);
         };
 
 
@@ -3459,7 +3461,8 @@
                             console.log(result);
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Cais mais próximo: Torreira</h5>" +
-                                "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6>" +
+                                "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
                                 "<p>Deseja ir até:</p>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
@@ -3550,7 +3553,8 @@
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Cais mais próximo: ANGE</h5>" +
-                                "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6> " +
+                                "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
                                 "<p>Deseja ir até:</p>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
@@ -3594,7 +3598,8 @@
                             var result = n.toTimeString().slice(0, 5);
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Cais mais próximo: Aveiro</h5>" +
-                                "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas</h6> " +
+                                "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
                                 "<p>Deseja ir até:</p>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
@@ -3662,7 +3667,8 @@
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Cais mais próximo: Bico</h5>" +
-                                "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                                "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6> " +
+                                "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
                                 "<p>Deseja ir até:</p>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
@@ -3696,7 +3702,8 @@
                     setTimeout(function () {
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
                             "<h5>Cais mais próximo: Vagueira</h5>" +
-                            "a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas" +
+                            "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas</h6> " +
+                            "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
                             "<p>Deseja ir até:</p>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
@@ -4934,228 +4941,233 @@
 
             //If para barco andar a fazer pedidos
             var primeiroHorMin = [];
+            var markerAnimado;
+            
+                //document.getElementById('load_fetch').style.display = "none";
 
-            if (AnimarBarco.length <= somarNumero) {
-                if (AnimarBarco[somarNumero - 1]) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                } else if (AnimarBarco[somarNumero - 2]) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                        ], { autostart: true }).addTo(mymap);
-                } else if (AnimarBarco[somarNumero - 3]) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                        ], { autostart: true }).addTo(mymap);
-                } else if (AnimarBarco[somarNumero - 4]) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                        ], { autostart: true }).addTo(mymap);
+
+                if (AnimarBarco.length <= somarNumero) {
+                    if (AnimarBarco[somarNumero - 1]) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (AnimarBarco[somarNumero - 2]) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (AnimarBarco[somarNumero - 3]) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (AnimarBarco[somarNumero - 4]) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                            ], { autostart: true }).addTo(mymap);
+                    }
+
+
+                    somarNumero = 0;
+
+
+                    markerAnimado.on('end', function () {
+                        markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
+                            .openPopup();
+                        setTimeout(function () {
+
+                            if (markerAnimado) {
+                                mymap.removeLayer(markerAnimado);
+                            }
+                            hasLine = false;
+
+                            pointList = [];
+                        }, 2000);
+
+                    });
+                } else if (somarNumero != 0 && AnimarBarco.length > somarNumero) {
+
+
+                    tempo = document.getElementById('time').value;
+                    var d = new Date();
+                    var nday = d.getDay(),
+                        nmonth = d.getMonth() + 1,
+                        ndate = d.getDate(),
+                        nyear = d.getYear();
+                    if (nyear < 1000) nyear += 1900;
+                    var splitTime1 = tempo.split(':');
+                    if (splitTime1[1] == 59) {
+                        var horas = parseInt(splitTime1[0]) + 1;
+                        UserHoras2 = new Date(nyear, nmonth, nday, horas, 00);
+                        document.getElementById('time').value = UserHoras2;
+                        primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
+                    } else {
+                        var minutos = parseInt(splitTime1[1]) + 10;
+                        UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], minutos);
+                        primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
+
+                    }
+
+
+                    var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
+                    document.getElementById('time').value = f;
+                    console.log(f);
+
+
+
+                    console.log(somarNumero)
+                    input_Vel = document.getElementById("velocidade").value;
+
+                    if (input_Vel == 1) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (input_Vel == 2) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (input_Vel == 3) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (input_Vel == 4) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (input_Vel == 5) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+
+                    } else if (input_Vel == 6) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    }
+
+
+
+
+                    hasLine = true;
+
+                    markerAnimado.on('end', function () {
+
+                        setTimeout(function () {
+
+                            if (markerAnimado) {
+                                mymap.removeLayer(markerAnimado);
+                            }
+
+                        }, 1000);
+                        setTimeout(function () {
+
+                            changeValue();
+
+                        }, 1000);
+                    });
+
                 }
-
-
-                somarNumero = 0;
-
-
-                markerAnimado.on('end', function () {
-                    markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
-                        .openPopup();
-                    setTimeout(function () {
-
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
-                        hasLine = false;
-
-                        pointList = [];
-                    }, 2000);
-
-                });
-            } else if (somarNumero != 0 && AnimarBarco.length > somarNumero) {
-
-
-                tempo = document.getElementById('time').value;
-                var d = new Date();
-                var nday = d.getDay(),
-                    nmonth = d.getMonth() + 1,
-                    ndate = d.getDate(),
-                    nyear = d.getYear();
-                if (nyear < 1000) nyear += 1900;
-                var splitTime1 = tempo.split(':');
-                if (splitTime1[1] == 59) {
-                    var horas = parseInt(splitTime1[0]) + 1;
-                    UserHoras2 = new Date(nyear, nmonth, nday, horas, 00);
-                    document.getElementById('time').value = UserHoras2;
-                    primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
-                } else {
-                    var minutos = parseInt(splitTime1[1]) + 10;
-                    UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], minutos);
-                    primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
-
-                }
-
-
-                var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
-                document.getElementById('time').value = f;
-                console.log(f);
-
-
-
-                console.log(somarNumero)
-                input_Vel = document.getElementById("velocidade").value;
-
-                if (input_Vel == 1) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                } else if (input_Vel == 2) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                } else if (input_Vel == 3) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                } else if (input_Vel == 4) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                } else if (input_Vel == 5) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-
-                } else if (input_Vel == 6) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 7],
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 7],
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                }
-
-
-
-
-                hasLine = true;
-
-                markerAnimado.on('end', function () {
-
-                    setTimeout(function () {
-
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
-
-                    }, 1000);
-                    setTimeout(function () {
-
-                        changeValue();
-
-                    }, 1000);
-                });
-
-            }
+            
 
         }
 
