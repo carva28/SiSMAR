@@ -3087,7 +3087,7 @@
 
         function changeValue(e) {
 
-           
+
             sidebar.open('infoRealTime');
 
             //somarNumero = 0;
@@ -4807,11 +4807,11 @@
                         '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + '</div>')
                     //popup.addTo(mymap);
 
-                    if(parseFloat([mare_por_minuto2[i]]).toFixed(2) > 2.00){
-                    document.getElementById('mare_atualizada').innerHTML = "<p style='color:green;'>"+ parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
-                }else{
-                    document.getElementById('mare_atualizada').innerHTML = "<p style='color:red;'>"+ parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
-                }
+                    if (parseFloat([mare_por_minuto2[i]]).toFixed(2) > 2.00) {
+                        document.getElementById('mare_atualizada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
+                    } else {
+                        document.getElementById('mare_atualizada').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
+                    }
 
 
                     document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
@@ -5033,16 +5033,16 @@
             }
             if (modal_eta) {
                 document.getElementById('eta_1').innerHTML = horas_chegada[0];
-                if(parseFloat([mare_por_minuto2[0]]).toFixed(2) > 2.00){
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>"+ parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros</p>";
-                }else{
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>"+ parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros</p>";
+                if (parseFloat([mare_por_minuto2[0]]).toFixed(2) > 2.00) {
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros</p>";
+                } else {
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros</p>";
                 }
 
-                if(parseFloat([ultimaMare[0]]).toFixed(2) > 2.00){
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>"+ parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
-                }else{
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>"+ parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
+                if (parseFloat([ultimaMare[0]]).toFixed(2) > 2.00) {
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
+                } else {
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
                 }
                 modal_eta = false;
             }
