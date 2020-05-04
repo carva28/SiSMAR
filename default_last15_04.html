@@ -1429,35 +1429,45 @@
                 </div>
                 <table class="table">
                     <thead>
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Cais</th>
-                        <th scope="col">Hora</th>
-                        <th scope="col">Altura da Maré</th>
-                      </tr>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Cais</th>
+                            <th scope="col">Hora</th>
+                            <th scope="col">Altura da Maré</th>
+                        </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">Partida</th>
-                        <td><p id="cais_partida"></p></td>
-                        <td><input type="time" id="time_partida"></td>
-                        <td><p id="mare_partida"></p></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Chegada</th>
-                        <td><p id="cais_chegada"></p></td>
-                        <td><output name="eta_1" id="eta_1"></output></td>
-                        <td><p id="mare_chegada"></p></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Posição do Barco</th>
-                        <td></td>
-                        <td><input type="time" id="time_2"></td>
-                        <td><p id="mare_atualizada"></p></td>
-                      </tr>
+                        <tr>
+                            <th scope="row">Partida</th>
+                            <td>
+                                <p id="cais_partida"></p>
+                            </td>
+                            <td><input type="time" id="time_partida"></td>
+                            <td>
+                                <p id="mare_partida"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Chegada</th>
+                            <td>
+                                <p id="cais_chegada"></p>
+                            </td>
+                            <td><output name="eta_1" id="eta_1"></output></td>
+                            <td>
+                                <p id="mare_chegada"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Posição do Barco</th>
+                            <td></td>
+                            <td><input type="time" id="time_2"></td>
+                            <td>
+                                <p id="mare_atualizada"></p>
+                            </td>
+                        </tr>
                     </tbody>
-                  </table>
-               
+                </table>
+
             </div>
 
 
@@ -3076,6 +3086,9 @@
         var hasLine = false;
 
         function changeValue(e) {
+
+           
+            sidebar.open('infoRealTime');
 
             //somarNumero = 0;
             var valorInput = document.getElementById('calado_span').value;
@@ -4794,7 +4807,7 @@
                         '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + '</div>')
                     //popup.addTo(mymap);
 
-                    document.getElementById('mare_atualizada').innerHTML = [mare_por_minuto2[i]] + " metros";
+                    document.getElementById('mare_atualizada').innerHTML = parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros";
 
 
                     document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
@@ -5016,9 +5029,9 @@
             }
             if (modal_eta) {
                 document.getElementById('eta_1').innerHTML = horas_chegada[0];
-                document.getElementById('mare_partida').innerHTML = [mare_por_minuto2[0]] + " metros";
+                document.getElementById('mare_partida').innerHTML = parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros";
                 console.log(ultimaMare);
-                document.getElementById('mare_chegada').innerHTML = [ultimaMare[0]] + " metros";
+                document.getElementById('mare_chegada').innerHTML = parseFloat([ultimaMare[0]]).toFixed(2) + " metros";
                 modal_eta = false;
             }
 
