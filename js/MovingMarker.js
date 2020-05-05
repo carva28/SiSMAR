@@ -390,6 +390,9 @@ L.Marker.MovingMarker = L.Marker.extend({
                     pointList.shift();
                     pointList.shift();
                     console.log(pointList);
+                    modal_eta = true; 
+                    time_partida_1 = true;
+
                 setTimeout(function () {
 
                     if (markerAnimado) {

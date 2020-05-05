@@ -3948,6 +3948,13 @@
                 if (nyear < 1000) nyear += 1900;
                 var splitTime1 = tempo.split(':');
                 UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+                var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
+                document.getElementById('time').value = f;
+                console.log(f);
+                if (time_partida_1) {
+                    document.getElementById('time_partida').value = f;
+                    time_partida_1 = false;
+                }
             } else {
                 var d = new Date();
                 var nday = d.getDay(),
@@ -3962,6 +3969,7 @@
                 var now = new Date(Date.now());
                 var f = leadZero(now.getHours()) + ":" + leadZero(now.getMinutes());
                 document.getElementById('time').value = f;
+                console.log(f);
                 if (time_partida_1) {
                     document.getElementById('time_partida').value = f;
                     time_partida_1 = false;
@@ -5126,6 +5134,10 @@
                     }, 2000);
 
                 });
+
+                modal_eta = true; 
+                time_partida_1 = true;
+
             } else if (somarNumero != 0 && AnimarBarco.length > somarNumero) {
 
 
