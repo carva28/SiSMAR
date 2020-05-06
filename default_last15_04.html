@@ -2708,7 +2708,58 @@
     <script type="text/javascript">
         window.onload = function () {
             //getIdaBicoGPX();
+            markersAPI();
             getInfo();
+            
+        }
+
+        async function markersAPI() {
+            let url = 'https://sismarbackoffice.herokuapp.com/localizacao';
+            const response = await fetch(url);
+            const json = await response.json();
+            for (let u = 0; u < json.dados.length; u++) {
+
+                var lat = json.dados[u].latitude;
+                var lon = json.dados[u].longitude;
+                var nomePo = json.dados[u].nome_pois;
+                var nomeuser = json.dados[u].nome;
+                var tipologiaPOI = json.dados[u].nome_tipopois;
+
+                if (tipologiaPOI == "Restaurante") {
+                    var imagem = "<i class='fas fa-utensils' style='font-size:1.4rem;'></i>";
+                    newMarker = L.icon({
+                        iconUrl: 'marker_poi/marker_restaurante.png',
+                        iconSize: [30, 40, 5],
+                        iconAnchor: [10, 30],
+                    });
+                } else if (tipologiaPOI == "Bar") {
+                    var imagem = "<i class='fas fa-glass-martini-alt' style='font-size:1.4rem;'></i>";
+                    newMarker = L.icon({
+                        iconUrl: 'marker_poi/marker_bar.png',
+                        iconSize: [30, 40, 5],
+                        iconAnchor: [10, 30],
+                    });
+                } else if (tipologiaPOI == "Ilha") {
+                    var imagem = "<i class='fas fa-seedling' style='font-size:1.4rem;'></i>";
+                    newMarker = L.icon({
+                        iconUrl: 'marker_poi/marker_ilha.png',
+                        iconSize: [30, 40, 5],
+                        iconAnchor: [10, 30],
+                    });
+                }
+
+
+
+                var marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
+                    icon: newMarker
+                }).addTo(mymap);
+
+
+                marker_pois.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>'+
+                    '<br><b>Tipologia:</b> ' + tipologiaPOI +
+                    '<br><b>Colocado por :</b> ' + nomeuser).openPopup();
+            }
+
         }
 
 
@@ -5135,7 +5186,7 @@
 
                 });
 
-                modal_eta = true; 
+                modal_eta = true;
                 time_partida_1 = true;
 
             } else if (somarNumero != 0 && AnimarBarco.length > somarNumero) {
