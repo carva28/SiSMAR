@@ -1829,7 +1829,12 @@
 
 
 
-
+window.onload = function () {
+            //getIdaBicoGPX();
+            markersAPI();
+            getInfo();
+            
+        }
 
 
         var calado = 1;
@@ -2706,12 +2711,7 @@
     </script>
 
     <script type="text/javascript">
-        window.onload = function () {
-            //getIdaBicoGPX();
-            markersAPI();
-            getInfo();
-            
-        }
+       
 
         async function markersAPI() {
             let url = 'https://sismarbackoffice.herokuapp.com/localizacao';
@@ -2757,7 +2757,7 @@
 
                 marker_pois.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>'+
                     '<br><b>Tipologia:</b> ' + tipologiaPOI +
-                    '<br><b>Colocado por :</b> ' + nomeuser).openPopup();
+                    '<br><b>Colocado por :</b> ' + nomeuser);
             }
 
         }
