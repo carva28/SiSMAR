@@ -109,6 +109,7 @@ L.Marker.MovingMarker = L.Marker.extend({
     },
 
     isPaused: function () {
+        
         return this._state === L.Marker.MovingMarker.pausedState;
     },
 
@@ -147,9 +148,12 @@ L.Marker.MovingMarker = L.Marker.extend({
         this._state = L.Marker.MovingMarker.pausedState;
         this._stopAnimation();
         this._updatePosition();
+                          
     },
 
     stop: function (elapsedTime) {
+
+       
         if (this.isEnded()) {
             return;
         }
@@ -253,6 +257,7 @@ L.Marker.MovingMarker = L.Marker.extend({
     },
 
     _resumeAnimation: function () {
+    
         if (!this._animRequested) {
             this._animRequested = true;
             this._animId = L.Util.requestAnimFrame(function (timestamp) {
@@ -262,6 +267,7 @@ L.Marker.MovingMarker = L.Marker.extend({
     },
 
     _stopAnimation: function () {
+    
         if (this._animRequested) {
             L.Util.cancelAnimFrame(this._animId);
             this._animRequested = false;
@@ -379,6 +385,10 @@ L.Marker.MovingMarker = L.Marker.extend({
               
 
             if (this._currentDuration <= 8000 && this._currentDuration >= 2000) {
+                document.getElementById('btn_pause').style.opacity = "1";
+                document.getElementById('btn_play').style.opacity = "1";
+                console.log(document.getElementById('btn_play'));
+
                 somarNumero = 0;
                 this._state = L.Marker.MovingMarker.endedState;
                 //this.fire('end', { elapsedTime: elapsedTime });
@@ -392,13 +402,13 @@ L.Marker.MovingMarker = L.Marker.extend({
                     console.log(pointList);
                     modal_eta = true; 
                     time_partida_1 = true;
-
+                  
                 setTimeout(function () {
 
                     if (markerAnimado) {
                         mymap.removeLayer(markerAnimado);
                     }
-                    
+                                    
                 }, 3000);//8000
             }
             // console.log(p);
