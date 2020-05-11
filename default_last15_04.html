@@ -175,6 +175,16 @@
             background-color: rgb(209, 163, 46);
         }
 
+        .btn_showPois {
+            background-color: #F0BC33;
+            border: none;
+            color: #1F3436;
+            margin: 10px 30px;
+            width: 100px;
+            border-radius:10px;
+        }
+
+
         .btn_color_del {
             margin-top: 40px;
             width: 300px;
@@ -1578,7 +1588,19 @@
                 <h1 class="sidebar-header">Definições<span class="sidebar-close"> <i
                             class="fas fa-times-circle"></i></span>
                 </h1>
-
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <button class="btn_showPois" id="btn_esconderPOIS">
+                                Esconder POIS
+                            </button>
+                            <button class="btn_showPois" id="btn_mostrarPOIS" >
+                                Mostrar POIS
+                            </button>
+                        </div>
+                       
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2772,8 +2794,12 @@
 
     <script type="text/javascript">
 
+        var marker_pois;
+        var markerGroup;
 
         async function markersAPI() {
+            markerGroup = L.layerGroup().addTo(mymap);
+
             let url = 'https://sismarbackoffice.herokuapp.com/localizacao';
             const response = await fetch(url);
             const json = await response.json();
@@ -2810,17 +2836,40 @@
 
 
 
-                var marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
+                // marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
+                //     icon: newMarker
+                // }).addTo(mymap);
+
+                marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
                     icon: newMarker
-                }).addTo(mymap);
+                }).addTo(markerGroup);
 
 
                 marker_pois.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>' +
                     '<br><b>Tipologia:</b> ' + tipologiaPOI +
                     '<br><b>Colocado por :</b> ' + nomeuser);
             }
+        }
+
+
+        document.getElementById('btn_esconderPOIS').onclick = function () {
+            console.log(markerGroup);
+            if (markerGroup) { // check
+                mymap.removeLayer(markerGroup); // remove
+            }
+            document.getElementById('btn_mostrarPOIS').style.opacity = "1";
+            document.getElementById('btn_esconderPOIS').style.opacity = "0.4";
+        }
+
+        document.getElementById('btn_mostrarPOIS').onclick = function () {
+            markerGroup = L.layerGroup().addTo(mymap);
+            document.getElementById('btn_esconderPOIS').style.opacity = "1";
+            document.getElementById('btn_mostrarPOIS').style.opacity = "0.4";
+
+            markersAPI();
 
         }
+
 
 
         async function getInfo() {
