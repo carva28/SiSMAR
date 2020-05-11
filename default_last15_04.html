@@ -2161,19 +2161,18 @@
         async function getTorreiraGPX_Revserse() {
 
             mymap.eachLayer(function (layer) {
-                //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_Reverse.gpx';
-            fetch(url)
+            let url3_2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_Reverse.gpx';
+            fetch(url3_2)
                 .then(function (response) {
                     return response.text();
                 })
                 .then(function (json) {
                     VEri_text_gpx = json;
-                    arrayClickGPX.push(json);
+
                     var g = new L.GPX(json, {
                         async: true,
                         parseElements: ['track'],
@@ -2206,25 +2205,35 @@
                             distKmRnd = distKm.toFixed(1),
                             eleGain = gpx.get_elevation_gain().toFixed(2),
                             eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        moving_speed = gpx.get_moving_speed().toFixed(2);
+                        moving_pace = gpx.get_moving_pace().toFixed(2);
                         var info = "Name: " + name + "</br>" +
                             "Distance: " + distKmRnd + " km </br>" +
-                            "Elevation Gain: " + eleGain + " m </br>"
-
+                            "Elevation Gain: " + eleGain + " m </br>" +
+                            "moving_speed: " + moving_speed + "</br>" +
+                            "moving_pace: " + moving_pace + "</br>"
+                        console.log(info)
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
-
 
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-                        //document.getElementById('time').value = hora_min_gpx;
-                        let nyear = date.getYear();
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+
                     somarNumero = 0;
 
                     g.on('click', function (e) {
@@ -2232,37 +2241,36 @@
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
                         changeValue();
-                    })
+                    });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
                     })
                     g.addTo(mymap);
-
                 });
-            mymap.setView([40.678, -8.7166], 11);
-
+            mymap.setView([40.701, -8.68,], 13);
         }
+
+
 
 
 
         async function getIdaBicoGPX_Revserse() {
-
             mymap.eachLayer(function (layer) {
-                //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Bico_Reverse.gpx';
-            fetch(url)
+            let url3_1= 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Bico_Reverse.gpx';
+
+            fetch(url3_1)
                 .then(function (response) {
                     return response.text();
                 })
                 .then(function (json) {
                     VEri_text_gpx = json;
-                    arrayClickGPX.push(json);
+
                     var g = new L.GPX(json, {
                         async: true,
                         parseElements: ['track'],
@@ -2295,25 +2303,35 @@
                             distKmRnd = distKm.toFixed(1),
                             eleGain = gpx.get_elevation_gain().toFixed(2),
                             eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        moving_speed = gpx.get_moving_speed().toFixed(2);
+                        moving_pace = gpx.get_moving_pace().toFixed(2);
                         var info = "Name: " + name + "</br>" +
                             "Distance: " + distKmRnd + " km </br>" +
-                            "Elevation Gain: " + eleGain + " m </br>"
-
+                            "Elevation Gain: " + eleGain + " m </br>" +
+                            "moving_speed: " + moving_speed + "</br>" +
+                            "moving_pace: " + moving_pace + "</br>"
+                        console.log(info)
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
-
 
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-                        //document.getElementById('time').value = hora_min_gpx;
-                        let nyear = date.getYear();
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
 
                     });
+
                     somarNumero = 0;
 
                     g.on('click', function (e) {
@@ -2321,18 +2339,17 @@
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
                         changeValue();
-                    })
+                    });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
                     })
                     g.addTo(mymap);
-
                 });
-            mymap.setView([40.678, -8.7166], 11);
-
+            mymap.setView([40.701, -8.68,], 13);
         }
+
 
 
         async function getDataGPX_RegressoBico() {
@@ -4371,7 +4388,9 @@
                                 //z_adquirido_rota = parseFloat(z_adquir) + 0;
                                 z1_rota_adquirida.push(z_adquirido_rota)
                                 coordenadas.push([lon_gpx, lat_gpx])
-                                horasdarota_medida.push(horatempo_GPX)
+                                horasdarota_medida.push(horatempo_GPX);
+
+                                console.log(horatempo_GPX)
                             }
                         }
                     }
