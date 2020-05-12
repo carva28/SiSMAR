@@ -387,7 +387,7 @@ L.Marker.MovingMarker = L.Marker.extend({
             if (this._currentDuration <= 8000 && this._currentDuration >= 2000) {
                 document.getElementById('btn_pause').style.opacity = "1";
                 document.getElementById('btn_play').style.opacity = "1";
-                console.log(document.getElementById('btn_play'));
+     
 
                 somarNumero = 0;
                 this._state = L.Marker.MovingMarker.endedState;
