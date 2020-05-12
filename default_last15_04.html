@@ -4100,7 +4100,8 @@
 
 
         function selecioneLocal() {
-            console.log(coordClicadas);
+           
+            
             var value_escolhido = document.getElementById("sel1").value;
 
             switch (value_escolhido) {
@@ -4114,7 +4115,7 @@
                     "<p style='font-size:0.9rem;'><b>Partida</b>Torreira</p>"+
                     "<p style='font-size:0.9rem;'><b>Chegada</b>ANGE</p>"+
                     "<p style='font-size:0.7rem;'><b>Rota</b> da Torreira</p>"+
-                    "<button onclick='verificaClickCoor("+coordClicadas+")'>Mudar Rota</button>"+
+                    "<button onclick='sendBack()'>Mudar Rota</button>"+
                     "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>"+
                     "</div>").openPopup();
                     getTorreiraGPX();
@@ -4187,6 +4188,14 @@
             }
 
         }
+
+
+        function sendBack (){
+            console.log(coordClicadas);
+            console.log(arrayCoor[0]);
+            verificaClickCoor(arrayCoor[0]);
+        }
+
 
         //saber as horas que chego
         var horas_chegada = [];
