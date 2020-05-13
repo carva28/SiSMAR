@@ -38,10 +38,12 @@
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     <link rel="stylesheet" href="./css/leaflet-sidebar.css" />
 
-    <link href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css" />    
-    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />    
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />    
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css" />
+    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css"
+        rel="stylesheet" type="text/css" />
     <link href="css/example_2.css" rel="stylesheet" type="text/css" />
 
 
@@ -57,7 +59,7 @@
 
         .leaflet-interactive {
             /* stroke: #00ff6a; */
-            /*opacity: 0.6;*/
+            opacity: 0.6;
         }
 
         .leaflet-marker-icon {
@@ -1982,7 +1984,7 @@
                     class="fas fa-anchor"></i> com base a data e hora atual.<b>Boa viagem! 😀⛵️</b></p>
         </div>
     </div>
-   
+
     <script src="./js/leaflet-sidebar.js"></script>
     <script type="text/javascript" src="./js/MovingMarker.js"></script>
     <script src='https://unpkg.com/leaflet.marker.slideto@0.2.0/Leaflet.Marker.SlideTo.js'></script>
@@ -1990,15 +1992,16 @@
     <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 
-    <script src="http://jdewit.github.io/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>    
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>    
+    <script src="http://jdewit.github.io/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+    <script
+        src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 
     <script src="js/LeafletPlayback.js"></script>
-    
+
     <script src="js/example_2_control.js"></script>
     <script src="js/example_2.js"></script>
-  
+
     <script>
 
 
@@ -4352,7 +4355,7 @@
         var CalCalado, limitSuper, limitInferi;
         //guardamos as coordenadas para animar o barquinho
         var AnimarBarco = [];
-
+        var AnimarBarco_ComSLider = [];
         // guardar a velocidade com base nos pontos
         var variavelVelocidadeAnimBarco = [];
 
@@ -4500,7 +4503,7 @@
             let ar_CoordExcel = [],
                 horasdarota_medida = [];
             var dataViajaUser = [];
-
+            var TempoParaANimar = [];
             parser = new DOMParser();
             xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
             if (arrayGPX.length != 0 || arrayUser.length != 0) {
@@ -4510,6 +4513,7 @@
                             xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != undefined) {
                             let tempoveri = xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML;
                             var newStr = tempoveri.replace(/T/g, " ");
+                            TempoParaANimar.push(newStr);
                             let date = new Date(newStr);
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
                             if (date.getSeconds() == 00) {
@@ -5275,6 +5279,7 @@
             // //guardamos as coordenadas para animar o barquinho
             // var AnimarBarco = [];
             AnimarBarco = [];
+            AnimarBarco_ComSLider = [];
 
             // // guardar a velocidade com base nos pontos
             // var variavelVelocidadeAnimBarco = [];
@@ -5322,6 +5327,12 @@
                     AnimarBarco.push([
                         parseFloat(coordenadas[i][1]),
                         parseFloat(coordenadas[i][0])
+                    ]);
+
+                    AnimarBarco_ComSLider.push([
+                        
+                        parseFloat(coordenadas[i][0]),
+                        parseFloat(coordenadas[i][1])
                     ]);
 
                     popup = new L.popup();
@@ -5560,6 +5571,7 @@
                 console.log('Else_sem_rota')
             }
 
+            //testing();
 
             if (modal_eta) {
 
@@ -5853,6 +5865,10 @@
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
                 }
+
+
+
+
 
 
 

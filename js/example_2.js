@@ -1,5 +1,5 @@
-$(function() {
-   // Colors for AwesomeMarkers
+function testing() {
+    // Colors for AwesomeMarkers
     var _colorIdx = 0,
         _colors = [
             'orange',
@@ -15,7 +15,7 @@ $(function() {
         ];
 
     function _assignColor() {
-        return _colors[_colorIdx++%10];
+        return _colors[_colorIdx++ % 10];
     }
 
     // =====================================================
@@ -23,17 +23,17 @@ $(function() {
     // =====================================================
 
     // Playback options
-    var playbackOptions = {        
+    var playbackOptions = {
         // layer and marker options
         layer: {
-            pointToLayer : function(featureData, latlng){
+            pointToLayer: function (featureData, latlng) {
                 var result = {};
 
-                if (featureData && featureData.properties && featureData.properties.path_options){
+                if (featureData && featureData.properties && featureData.properties.path_options) {
                     result = featureData.properties.path_options;
                 }
 
-                if (!result.radius){
+                if (!result.radius) {
                     result.radius = 5;
                 }
 
@@ -41,7 +41,7 @@ $(function() {
             }
         },
 
-        marker: function(){
+        marker: function () {
             if (DefaultIcon) {
                 mymap.removeLayer(DefaultIcon);
             }
@@ -57,59 +57,106 @@ $(function() {
                 //     markerColor: _assignColor()
                 // })                 
             };
-        }        
+        }
     };
 
-    var tillicum = {
-        "type": "Feature",
-        "geometry": {
-            "type": "MultiPoint",
-            "coordinates": [
-                [-8.73929 ,40.61388    ],
-                [-8.739138 ,40.627096    ],
-                [-0.3686 ,43.3017    ],
-                [-0.579541 ,44.837912    ],
-                [5.369889 ,43.296346    ],
-                [7.424616 ,43.738418    ]
-            ]
-        },
-        "properties": {
-            "title" : "tillicum",
-            "path_options" : { "color" : "red" },
-            "time": [
-                1369786338000,
-                1369786340000,
-                1369786342000,
-                 1369786342000,
-                 1369786342000,
-                 1369786342000,
-            ],
-            "speed": [
-                85,
-                88,
-                90,
-                85,
-                88,
-                200,
-            ],
+    console.log(AnimarBarco_ComSLider)
+    console.log(AnimarBarco_ComSLider.length)
+    console.log(AnimarBarco)
 
-            "raw": []
-        },
-        
-    };
+    if (AnimarBarco_ComSLider.length > 0) {
+        var tillicum = {
+            "type": "Feature",
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    AnimarBarco_ComSLider[0],
+                    AnimarBarco_ComSLider[1],
+                    AnimarBarco_ComSLider[2],
+                    AnimarBarco_ComSLider[3],
+                    AnimarBarco_ComSLider[4],
+                    AnimarBarco_ComSLider[5],
+                    AnimarBarco_ComSLider[6],
+                    AnimarBarco_ComSLider[7],
+                    AnimarBarco_ComSLider[8],
+                    AnimarBarco_ComSLider[9],
+                    AnimarBarco_ComSLider[10],
+                    AnimarBarco_ComSLider[11],
+                    AnimarBarco_ComSLider[12],
+                    AnimarBarco_ComSLider[13],
+                    AnimarBarco_ComSLider[14],
+                    AnimarBarco_ComSLider[15],
+                    AnimarBarco_ComSLider[16],
 
-    var testeTracks = [tillicum];
+                ]
+            },
+            "properties": {
+                "title": "tillicum",
+                "path_options": { "color": "red" },
+                "time": [
+                    1369786339000,
+                    1369786340000,
+                    1369786341000,
+                    1369786342000,
+                    1369786343000,
+                    1369786344000,
+                    1369786345000,
+                    1369786339000,
+                    1369786340000,
+                    1369786341000,
+                    1369786342000,
+                    1369786343000,
+                    1369786344000,
+                    1369786345000,
+                    1369786339000,
+                    1369786340000,
+                    1369786341000,
+                    1369786342000,
+                    1369786343000,
+                    1369786344000,
+                    1369786345000,
+                    1369786339000,
+                    1369786340000,
+                    1369786341000,
+                    1369786342000,
+                    1369786343000,
+                    1369786344000,
+                    1369786345000,
+                    1369786339000,
+                    1369786340000,
+                    1369786341000,
+                    1369786342000,
+                    1369786343000,
+                    1369786344000,
+                    1369786345000,
+                
+
+                ],
+                "speed": [
+                    variavelVelocidadeAnimBarco
+                ],
+
+                "raw": []
+            },
+
+        };
+
+        var testeTracks = [tillicum];
 
 
-    // Initialize playback
-    //var playback = new L.Playback(map, demoTracks, null, playbackOptions);
-    var playback = new L.Playback(mymap, testeTracks, null, playbackOptions);
+        // Initialize playback
+        //var playback = new L.Playback(map, demoTracks, null, playbackOptions);
+        var playback = new L.Playback(mymap, testeTracks, null, playbackOptions);
 
-    // Initialize custom control
-    var control = new L.Playback.Control(playback);
-    control.addTo(mymap);
+        // Initialize custom control
+        var control = new L.Playback.Control(playback);
+        control.addTo(mymap);
 
-    // Add data
-    //playback.addData(testeTracks);
+        //Add data
+        playback.addData(testeTracks);
+    } else {
+        console.log('esperar')
+    }
 
-});
+
+}
