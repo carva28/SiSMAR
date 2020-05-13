@@ -60,35 +60,20 @@ function testing() {
         }
     };
 
-    console.log(AnimarBarco_ComSLider)
-    console.log(AnimarBarco_ComSLider.length)
-    console.log(AnimarBarco)
+    // console.log(AnimarBarco_ComSLider)
+    // console.log(AnimarBarco_ComSLider.length)
+    // console.log(AnimarBarco)
 
     if (AnimarBarco_ComSLider.length > 0) {
         var tillicum = {
             "type": "Feature",
             "geometry": {
                 "type": "MultiPoint",
-                "coordinates": [
-                    AnimarBarco_ComSLider[0],
-                    AnimarBarco_ComSLider[1],
-                    AnimarBarco_ComSLider[2],
-                    AnimarBarco_ComSLider[3],
-                    AnimarBarco_ComSLider[4],
-                    AnimarBarco_ComSLider[5],
-                    AnimarBarco_ComSLider[6],
-                    AnimarBarco_ComSLider[7],
-                    AnimarBarco_ComSLider[8],
-                    AnimarBarco_ComSLider[9],
-                    AnimarBarco_ComSLider[10],
-                    AnimarBarco_ComSLider[11],
-                    AnimarBarco_ComSLider[12],
-                    AnimarBarco_ComSLider[13],
-                    AnimarBarco_ComSLider[14],
-                    AnimarBarco_ComSLider[15],
-                    AnimarBarco_ComSLider[16],
-
-                ]
+                "coordinates": AnimarBarco_ComSLider
+                // [
+                //     AnimarBarco_ComSLider[0],
+                //     AnimarBarco_ComSLider[1],
+                // ]
             },
             "properties": {
                 "title": "tillicum",
