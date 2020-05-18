@@ -76,9 +76,11 @@ function GPX_Reader(){
                 };
             }
         };
-    
+        
+        
 
-        geoJsonData = L.Playback.Util.ParseGPX(arrayGPX[0]);
+        //geoJsonData = L.Playback.Util.ParseGPX(arrayGPX[0]);
+        geoJsonData = L.Playback.Util.ParseGPX(convertXML_String_2);
 
             var playback = new L.Playback(mymap, geoJsonData, null, playbackOptions);
     

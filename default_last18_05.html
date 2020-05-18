@@ -38,6 +38,13 @@
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     <link rel="stylesheet" href="./css/leaflet-sidebar.css" />
 
+    <link href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css" />
+    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css"
+        rel="stylesheet" type="text/css" />
+    <link href="css/example_2.css" rel="stylesheet" type="text/css" />
 
 
     <style>
@@ -1968,10 +1975,10 @@
         <div class="tutorial01" id="tutorial01">
             <p>Clique para posicionar o barco no cais de onde pretende partir</p>
         </div>
-        <!-- <div class="tutorial01" id="tutorial02">
+        <div class="tutorial01" id="tutorial02">
             <p>Clique no botão Rotas <i style="color:white;" class="fas fa-route"></i> para visualizar quais os trajetos
                 disponíveis a partir do cais selecionado</p>
-        </div> -->
+        </div>
         <div class="tutorial01" id="tutorial03">
             <p>De seguida após escolher uma rota pode simular através do botão <i style="color:white;"
                     class="fas fa-anchor"></i> com base a data e hora atual.<b>Boa viagem! 😀⛵️</b></p>
@@ -1980,6 +1987,22 @@
 
     <script src="./js/leaflet-sidebar.js"></script>
     <script type="text/javascript" src="./js/MovingMarker.js"></script>
+    <script src='https://unpkg.com/leaflet.marker.slideto@0.2.0/Leaflet.Marker.SlideTo.js'></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
+    <script src="http://jdewit.github.io/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+    <script
+        src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+    <script src="js/LeafletPlayback.js"></script>
+
+    <script src="js/example_2_control.js"></script>
+    <script src="js/example_2.js"></script>
+    <script src="js/example_4.js"></script>
+
     <script>
 
 
@@ -3562,11 +3585,8 @@
 
             mymap.removeLayer(start_boat);
             if (tutorial) {
-                // document.getElementById('tutorial01').style.display = "none";
-                // document.getElementById('tutorial02').style.display = "block";
-                // document.getElementById('gps_ringit').style.display = "none";
                 document.getElementById('tutorial01').style.display = "none";
-                document.getElementById('tutorial03').style.display = "block";
+                document.getElementById('tutorial02').style.display = "block";
                 document.getElementById('gps_ringit').style.display = "none";
             }
 
@@ -3601,21 +3621,16 @@
             document.getElementById('btn_legenda2').style.opacity = "1";
             document.getElementById('btn_legenda').style.opacity = "1";
 
-            verificaClickCoor(arrayCoor[0]);
-                document.getElementById('btn_legenda2').style.opacity = "0.6";
-                document.getElementById('btn_legenda').style.opacity = "1";
-
             document.getElementById('btn_legenda2').onclick = function () {
-                //clickedPointer(true);
-                verificaClickCoor(arrayCoor[0]);
+                clickedPointer(true);
                 document.getElementById('btn_legenda2').style.opacity = "0.6";
                 document.getElementById('btn_legenda').style.opacity = "1";
             };
-            // document.getElementById('btn_legenda').onclick = function () {
-            //     clickedPointer(false)
-            //     document.getElementById('btn_legenda2').style.opacity = "1";
-            //     document.getElementById('btn_legenda').style.opacity = "0.6";
-            // };
+            document.getElementById('btn_legenda').onclick = function () {
+                clickedPointer(false)
+                document.getElementById('btn_legenda2').style.opacity = "1";
+                document.getElementById('btn_legenda').style.opacity = "0.6";
+            };
         });
 
 
@@ -3781,8 +3796,6 @@
 
             localiz_distan.push(distancia8);
             local_Nome_rota.push('NovaRotaCriada');
-
-            
 
             document.getElementById('btn_legenda2').style.opacity = "1";
             document.getElementById('btn_legenda').style.opacity = "1";
@@ -4022,7 +4035,7 @@
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
-                    marker_Teste1 = L.marker([40.728990556225284,-8.646782040596008], {
+                    marker_Teste1 = L.marker([40.727508, -8.648118], {
                         icon: issIcon
                     }).addTo(mymap);
 
@@ -4324,7 +4337,7 @@
             }
             setTimeout(function () {
                 document.getElementById('tutorial03').style.display = "none";
-            }, 5000);
+            }, 3000);
         }
 
 
@@ -4490,7 +4503,8 @@
             var z1_rota_adquirida = [];
             var coordenadas = [];
             let ar_CoordExcel = [],
-                horasdarota_medida = [];
+                horasdarota_medida = [],
+                speedGPX = [];
             var dataViajaUser = [];
             var TempoParaANimar = [];
             parser = new DOMParser();
@@ -4519,6 +4533,7 @@
                                 z1_rota_adquirida.push(z_adquirido_rota)
                                 coordenadas.push([lon_gpx, lat_gpx])
                                 horasdarota_medida.push(horatempo_GPX)
+                                speedGPX.push(velocidade);
                             }
                         }
                     }
@@ -5563,6 +5578,41 @@
                 console.log('Else_sem_rota')
             }
 
+
+
+            var y_node;
+            console.log("ANTES")
+            console.log(xmlDoc.getElementsByTagName("trkpt").length)
+            for (let i = 0; i < xmlDoc.getElementsByTagName("trkpt").length; i++) {
+
+                let tempoveri = xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML;
+                var newStr = tempoveri.replace(/T/g, " ");
+                let date = new Date(newStr);
+
+                if (date.getSeconds() == 00) {
+                    //Guardar Coordenadas do GPX e Z
+
+                    //var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
+                    //velocidade = 2.000;
+                    xmlDoc.getElementsByTagName("speed")[i].innerHTML = "2.000";
+                    //speedGPX.push(velocidade);
+                    //console.log(xmlDoc.getElementsByTagName("speed")[i]);
+
+                }else{
+                    y_node = xmlDoc.getElementsByTagName("trkpt")[i];
+                    y_node.parentNode.removeChild(y_node);
+                }
+
+
+            }
+
+           
+            //convertXML_String_1 = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+            convertXML_String_2 = new XMLSerializer().serializeToString(xmlDoc);
+
+            //console.log(arrayGPX[0])
+             //testing();
+            GPX_Reader();
 
             if (modal_eta) {
 
