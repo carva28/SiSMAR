@@ -2395,6 +2395,13 @@
         }
 
         async function getIdaBicoGPX() {
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+
             let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
 
             fetch(url3)
@@ -2484,6 +2491,12 @@
         }
 
         async function getBicoAngeGPX() {
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
             let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
 
             fetch(url3)
@@ -2831,6 +2844,12 @@
         }
 
         async function getTorreiraGPX_Revserse() {
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
             let url_Reverse1 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/TorreiraRevserse.gpx';
 
             fetch(url_Reverse1)
@@ -2924,89 +2943,190 @@
 
         async function getDataGPX_ANGE_Torreira_1705() {
 
-mymap.eachLayer(function (layer) {
-    //console.log(layer.options.pane)
-    if (layer.options.pane == "overlayPane") {
-        mymap.removeLayer(layer);
-    }
-});
-let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx';
-fetch(url)
-    .then(function (response) {
-        return response.text();
-    })
-    .then(function (json) {
-        VEri_text_gpx = json;
-
-        var g = new L.GPX(json, {
-            async: true,
-            parseElements: ['track'],
-            polyline_options: {
-                color: '#020202',
-                weight: 10,
-            },
-            marker_options: {
-                'startIcon': new L.icon({
-                    iconUrl: 'marker.png',
-                    iconSize: [22, 32, 5],
-                    iconAnchor: [10, 30],
-                }),
-                'endIcon': new L.icon({
-                    iconUrl: 'marker_chegada.png',
-                    iconSize: [22, 32, 5],
-                    iconAnchor: [10, 30],
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
                 })
-            }
+                .then(function (json) {
+                    VEri_text_gpx = json;
 
-        });
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
 
-        g.on('loaded', function (e) {
-            var gpx = e.target,
-                elevation_data = gpx.get_elevation_data();
-            data_hora = gpx.get_start_time();
-            name = gpx.get_name(),
-                distM = gpx.get_distance(),
-                distKm = distM / 1000,
-                distKmRnd = distKm.toFixed(1),
-                eleGain = gpx.get_elevation_gain().toFixed(2),
-                eleLoss = gpx.get_elevation_loss().toFixed(2);
-            var info = "Name: " + name + "</br>" +
-                "Distance: " + distKmRnd + " km </br>" +
-                "Elevation Gain: " + eleGain + " m </br>"
+                    });
 
-            //document.getElementById('km').innerHTML = info;
-            gpx.getLayers()[0].bindPopup(info)
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
 
-            let date = new Date(data_hora);
-            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
 
-            //document.getElementById('time').value = hora_min_gpx;
-            let nyear = date.getYear();
-            if (nyear < 1000) nyear += 1900;
-            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-            var arrayhidrografico = [];
-            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-        });
-        somarNumero = 0;
-        g.on('click', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-            changeValue();
-        });
-        g.on('addpoint', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-        })
-        g.addTo(mymap);
-    });
-mymap.setView([40.678, -8.7166], 13);
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+
+                    somarNumero = 0;
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.678, -8.7166], 13);
 
 
-}
+        }
 
+
+        // Torreira - ANGE 17/05
+
+        //Rota ANGE - Torreira 17/05
+
+        async function getDataGPX_Torreira_ANGE_1705() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+
+                    somarNumero = 0;
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.678, -8.7166], 13);
+
+
+        }
 
         //No clique do marker
 
@@ -3872,6 +3992,41 @@ mymap.setView([40.678, -8.7166], 13);
 
 
 
+
+
+            let url9 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx';
+
+            const response9 = await fetch(url9);
+            const json9 = await response9.text();
+            parser9 = new DOMParser();
+            xmlDoc9 = parser9.parseFromString(json9, "text/xml");
+            var lat_gpx9 = xmlDoc9.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx9 = xmlDoc9.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia9 = mymap.distance([lat_gpx9, lon_gpx9], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia9);
+            local_Nome_rota.push('getDataGPX_ANGE_Torreira_1705');
+
+
+            
+
+            let url10 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx';
+
+            const response10 = await fetch(url10);
+            const json10 = await response10.text();
+            parser10 = new DOMParser();
+            xmlDoc10 = parser10.parseFromString(json9, "text/xml");
+            var lat_gpx10 = xmlDoc10.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx10 = xmlDoc10.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia10 = mymap.distance([lat_gpx10, lon_gpx10], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia10);
+            local_Nome_rota.push('getDataGPX_Torreira_ANGE_1705');
+
+
+
             document.getElementById('btn_legenda2').style.opacity = "1";
             document.getElementById('btn_legenda').style.opacity = "1";
 
@@ -3897,7 +4052,9 @@ mymap.setView([40.678, -8.7166], 13);
                     'getIdaBicoGPX', //3
                     'getDataGPX_RegressoBico', //4
                     'getData_IDA10_3_20_GPX', //5
-                    'getData_Volta10_3_20_GPX'
+                    'getData_Volta10_3_20_GPX',
+                    'getDataGPX_ANGE_Torreira_1705',
+                    'getDataGPX_Torreira_ANGE_1705'
                 ];
 
 
@@ -3938,6 +4095,15 @@ mymap.setView([40.678, -8.7166], 13);
                         distance_gpx_real.push(distNM);
                     });
 
+                    var gpxMAIN2 = new L.GPX(json10, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
+                    
+
                     setTimeout(function () {
 
                         console.log(distance_gpx_real[0]);
@@ -3949,9 +4115,15 @@ mymap.setView([40.678, -8.7166], 13);
                             let tempo = dc2_dist / velocidadeUser;
                             var n = new Date(0, 0);
                             n.setMinutes(+tempo * 60);
-                            console.log(n.toTimeString());
                             var result = n.toTimeString().slice(0, 5);
-                            console.log(result);
+                            
+                            let dc2_dist_2 = distance_gpx_real[1].toFixed(2);
+                            let tempo2 = dc2_dist_2 / velocidadeUser;
+                            var n2 = new Date(0, 0);
+                            n2.setMinutes(+tempo2 * 60);
+                            var result2 = n2.toTimeString().slice(0, 5);
+
+
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Cais mais próximo: Torreira</h5>" +
                                 "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6>" +
@@ -3960,7 +4132,9 @@ mymap.setView([40.678, -8.7166], 13);
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getTorreiraGPX'>Para ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                                "<option value='getDataGPX_Torreira_ANGE_1705'>Para ANGE 17/05 - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "</div>").openPopup();
+                                
                         }
 
 
@@ -3999,6 +4173,8 @@ mymap.setView([40.678, -8.7166], 13);
                         distance_gpx_real.push(distNM);
                     });
 
+
+
                     var gpxMAIN2 = new L.GPX(json6, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
@@ -4012,6 +4188,15 @@ mymap.setView([40.678, -8.7166], 13);
                         distNM = distM * 0.0005;
                         distance_gpx_real.push(distNM);
                     });
+
+                    var gpxMAIN4 = new L.GPX(json9, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
+
 
                     setTimeout(function () {
 
@@ -4040,9 +4225,14 @@ mymap.setView([40.678, -8.7166], 13);
                             let dc2_dist_4 = distance_gpx_real[3].toFixed(2);
                             let tempo4 = dc2_dist_4 / velocidadeUser;
                             var n4 = new Date(0, 0);
-                            n4.setMinutes(+tempo3 * 60);
+                            n4.setMinutes(+tempo4 * 60);
                             var result4 = n4.toTimeString().slice(0, 5);
 
+                            let dc2_dist_5 = distance_gpx_real[4].toFixed(2);
+                            let tempo5 = dc2_dist_5 / velocidadeUser;
+                            var n5 = new Date(0, 0);
+                            n5.setMinutes(+tempo5 * 60);
+                            var result5 = n5.toTimeString().slice(0, 5);
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Cais mais próximo: ANGE</h5>" +
@@ -4055,7 +4245,9 @@ mymap.setView([40.678, -8.7166], 13);
                                 "<option value='getTorreiraGPX_Revserse'>Para Torreira - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "<option value='getData_IDA10_3_20_GPX'>Para Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
                                 "<option value='NovaRotaCriada'>Para Ange 2 - " + distance_gpx_real[3].toFixed(2) + " milhas com Duração " + result4 + "</option>" +
+                                "<option value='getDataGPX_ANGE_Torreira_1705'>Para Torreira 17/05 - " + distance_gpx_real[4].toFixed(2) + " milhas com Duração " + result5 + "</option>" +
                                 "</div>").openPopup();
+
                         }
 
 
@@ -4250,6 +4442,51 @@ mymap.setView([40.678, -8.7166], 13);
                         marker_Teste1.openPopup();
                     });
                     break;
+                    case 'getDataGPX_Torreira_ANGE_1705':
+                    nomeDestino = [];
+                    nomeDestino.push("ANGE");
+                    document.getElementById('tutorial03').style.display = "block";
+                    document.getElementById('cais_partida').innerHTML = "Torreira";
+                    document.getElementById('cais_chegada').innerHTML = "ANGE";
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Torreira</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> ANGE</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> da Torreira 17/05</p>" +
+                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 5000);
+                    getDataGPX_Torreira_ANGE_1705();
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+                    
+                case 'getDataGPX_ANGE_Torreira_1705':
+                    nomeDestino = [];
+                    nomeDestino.push("Torreira");
+                    document.getElementById('tutorial03').style.display = "block";
+                    document.getElementById('cais_partida').innerHTML = "Torreira";
+                    document.getElementById('cais_chegada').innerHTML = "ANGE";
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> ANGE</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Torreira</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> da Torreira dia 17/05</p>" +
+                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 5000);
+                    getDataGPX_ANGE_Torreira_1705();
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+
+
                 case 'getTorreiraGPX_Revserse':
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
@@ -4471,10 +4708,10 @@ mymap.setView([40.678, -8.7166], 13);
             } else if (input_Vel >= 10 && input_Vel <= 15) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 9;
-            }else if (input_Vel >= 16 && input_Vel <= 24) {
+            } else if (input_Vel >= 16 && input_Vel <= 24) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 12;
-            }else if (input_Vel >= 25 && input_Vel <= 30) {
+            } else if (input_Vel >= 25 && input_Vel <= 30) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 15;
             }
@@ -4750,9 +4987,11 @@ mymap.setView([40.678, -8.7166], 13);
                 let data1 = new Date(sortedData[0].SDATA);
                 let data2 = new Date(sortedData[1].SDATA);
                 let data3 = new Date(sortedData[2].SDATA);
-                let data4 = new Date(sortedData[3].SDATA);
-
-
+                // console.log(sortedData)
+                // console.log(sortedData[2])
+                if (sortedData[3] != null) {
+                    let data4 = new Date(sortedData[3].SDATA);
+                }
 
                 //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
 
@@ -5817,7 +6056,7 @@ mymap.setView([40.678, -8.7166], 13);
                             variavelVelocidadeAnimBarco[somarNumero - 5],
                             variavelVelocidadeAnimBarco[somarNumero - 4],
                         ], { autostart: true }).addTo(mymap);
-                }else if (AnimarBarco[somarNumero - 6]) {
+                } else if (AnimarBarco[somarNumero - 6]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 6],
@@ -5835,7 +6074,7 @@ mymap.setView([40.678, -8.7166], 13);
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                }else if (AnimarBarco[somarNumero - 7]) {
+                } else if (AnimarBarco[somarNumero - 7]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 7],
@@ -5855,7 +6094,7 @@ mymap.setView([40.678, -8.7166], 13);
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                }else if (AnimarBarco[somarNumero - 8]) {
+                } else if (AnimarBarco[somarNumero - 8]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 8],
@@ -5877,7 +6116,7 @@ mymap.setView([40.678, -8.7166], 13);
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                }else if (AnimarBarco[somarNumero - 9]) {
+                } else if (AnimarBarco[somarNumero - 9]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 9],
@@ -5901,7 +6140,7 @@ mymap.setView([40.678, -8.7166], 13);
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                }else if (AnimarBarco[somarNumero - 10]) {
+                } else if (AnimarBarco[somarNumero - 10]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 10],
@@ -6078,7 +6317,7 @@ mymap.setView([40.678, -8.7166], 13);
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                }else if (input_Vel >= 10 && input_Vel <= 15) {
+                } else if (input_Vel >= 10 && input_Vel <= 15) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 9],
@@ -6132,7 +6371,7 @@ mymap.setView([40.678, -8.7166], 13);
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                }  else if (input_Vel >= 25 && input_Vel <= 30) {
+                } else if (input_Vel >= 25 && input_Vel <= 30) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 15],
@@ -6168,7 +6407,7 @@ mymap.setView([40.678, -8.7166], 13);
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                } 
+                }
 
 
 
