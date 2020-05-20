@@ -246,11 +246,11 @@
         }
 
         .leaflet-control-layers-expanded {
-            background-color: #fff;
+            background-color: rgb(255, 255, 255);
             padding: 10px 45px;
             position: fixed;
             /* height: 250px; */
-            z-index: 20;
+            z-index: 99999;
             top: 10px;
             right: 60px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
@@ -773,26 +773,45 @@
         /*********Tutorial **********/
 
         .tutorial {
-            width: 100%;
+            /* width: 100%; */
+            width: 40%;
             position: absolute;
             font-size: 1.0rem;
             text-align: left;
             font-weight: 500;
-            margin: auto;
-            display: block;
             margin-top: 20px;
-            z-index: 9999999;
-
+            z-index: 99999;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            /* right: 20px;
+            top: 65px; */
         }
 
         .tutorial01 {
             margin: auto;
             color: white;
-            width: 30%;
+            /* width: 30%; */
+            width: 100%;
             background-color: #5b70a8;
             border: 1px solid transparent;
             border-radius: 20px;
             padding: 10px 20px;
+        }
+
+        .leaflet-control-layers-expanded {
+            background-color: rgb(255, 255, 255);
+            padding: 10px 45px;
+            position: fixed;
+            /* height: 250px; */
+            z-index: 99999;
+            top: 10px;
+            right: 60px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+            font-size: 1rem;
+            border: #214198;
         }
 
         #tutorial02 {
@@ -808,10 +827,10 @@
         #tutorial03 {
             display: none;
             position: absolute;
-            right: 90px;
-            top: 130px;
             padding: 10px 20px;
-            border-radius: 20px 200px 200px 20px;
+            border-radius: 20px;
+            width: 40%;
+            right: 150px;
         }
 
         #tutorial01,
@@ -1277,15 +1296,15 @@
 
 
 
-    <button type="button" id="btn_legenda" class="btn btn-dark">
-        <!--onclick="addRock()"-->
+    <!-- <button type="button" id="btn_legenda" class="btn btn-dark">
+        onclick="addRock()
         <img id="icon_crash" src="./crash1@300x.png" />
 
-    </button>
-    <button type="button" id="btn_legenda2" class="btn btn-dark">
-        <!--onclick="addRoute()"-->
+    </button> -->
+    <!-- <button type="button" id="btn_legenda2" class="btn btn-dark">
+        onclick="addRoute()"
         <i id="icon_crash" class="fas fa-route"></i>
-    </button>
+    </button> -->
 
     <button type="button" id="btn_legenda3" class="btn btn-dark">
         <i id="icon_crash" class="fas fa-tachometer-alt"></i>
@@ -1973,8 +1992,8 @@
                 disponíveis a partir do cais selecionado</p>
         </div> -->
         <div class="tutorial01" id="tutorial03">
-            <p>De seguida após escolher uma rota pode simular através do botão <i style="color:white;"
-                    class="fas fa-anchor"></i> com base a data e hora atual.<b>Boa viagem! 😀⛵️</b></p>
+            <p>Pode simular a rota que selecionou clicando em Simular <i style="color:white;"
+                    class="fas fa-anchor"></i><b>Boa viagem! 😀⛵️</b></p>
         </div>
     </div>
 
@@ -2114,11 +2133,11 @@
 
 
         // Create three markers and set their icons to cssIcon
-        L.marker([40.7288, -8.6467], { icon: cssIcon }).addTo(mymap);
+        L.marker([40.7261, -8.6467], { icon: cssIcon }).addTo(mymap);
 
-        start_boat = new L.marker([40.7268, -8.6507], {
-            icon: start_boat
-        }).addTo(mymap);
+        // start_boat = new L.marker([40.7268, -8.6507], {
+        //     icon: start_boat
+        // }).addTo(mymap);
 
         /*****/
 
@@ -2162,13 +2181,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2249,13 +2268,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2334,13 +2353,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2419,13 +2438,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2514,13 +2533,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2609,13 +2628,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2699,13 +2718,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2785,13 +2804,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2867,13 +2886,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -2965,13 +2984,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -3061,13 +3080,13 @@
                             weight: 10,
                         },
                         marker_options: {
-                            'startIcon': new L.icon({
-                                iconUrl: 'marker.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            }),
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
                             'endIcon': new L.icon({
-                                iconUrl: 'marker_chegada.png',
+                                iconUrl: 'fim_icnon.png',
                                 iconSize: [22, 32, 5],
                                 iconAnchor: [10, 30],
                             })
@@ -3618,7 +3637,7 @@
         function changeValue(e) {
 
 
-            sidebar.open('infoRealTime');
+            //sidebar.open('infoRealTime');
 
             //somarNumero = 0;
             var valorInput = document.getElementById('calado_span').value;
@@ -3774,7 +3793,6 @@
                 // document.getElementById('tutorial02').style.display = "block";
                 // document.getElementById('gps_ringit').style.display = "none";
                 document.getElementById('tutorial01').style.display = "none";
-                document.getElementById('tutorial03').style.display = "block";
                 document.getElementById('gps_ringit').style.display = "none";
             }
 
@@ -3806,19 +3824,19 @@
             //     "<button onclick='clickedPointer(false)'>Quero marcar pedras</button>").openPopup();
 
             //verificaClickCoor(coord);
-            document.getElementById('btn_legenda2').style.opacity = "1";
-            document.getElementById('btn_legenda').style.opacity = "1";
+            // document.getElementById('btn_legenda2').style.opacity = "1";
+            // document.getElementById('btn_legenda').style.opacity = "1";
 
             verificaClickCoor(arrayCoor[0]);
-            document.getElementById('btn_legenda2').style.opacity = "0.6";
-            document.getElementById('btn_legenda').style.opacity = "1";
+            // document.getElementById('btn_legenda2').style.opacity = "0.6";
+            // document.getElementById('btn_legenda').style.opacity = "1";
 
-            document.getElementById('btn_legenda2').onclick = function () {
-                //clickedPointer(true);
-                verificaClickCoor(arrayCoor[0]);
-                document.getElementById('btn_legenda2').style.opacity = "0.6";
-                document.getElementById('btn_legenda').style.opacity = "1";
-            };
+            // document.getElementById('btn_legenda2').onclick = function () {
+            //     //clickedPointer(true);
+            //     verificaClickCoor(arrayCoor[0]);
+            //     document.getElementById('btn_legenda2').style.opacity = "0.6";
+            //     document.getElementById('btn_legenda').style.opacity = "1";
+            // };
             // document.getElementById('btn_legenda').onclick = function () {
             //     clickedPointer(false)
             //     document.getElementById('btn_legenda2').style.opacity = "1";
@@ -4009,7 +4027,7 @@
             local_Nome_rota.push('getDataGPX_ANGE_Torreira_1705');
 
 
-            
+
 
             let url10 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx';
 
@@ -4027,8 +4045,8 @@
 
 
 
-            document.getElementById('btn_legenda2').style.opacity = "1";
-            document.getElementById('btn_legenda').style.opacity = "1";
+            // document.getElementById('btn_legenda2').style.opacity = "1";
+            // document.getElementById('btn_legenda').style.opacity = "1";
 
             let dataOrdenada, guardardistancia = [];
             let primeira_pos;
@@ -4102,7 +4120,7 @@
                         distance_gpx_real.push(distNM);
                     });
 
-                    
+
 
                     setTimeout(function () {
 
@@ -4116,7 +4134,7 @@
                             var n = new Date(0, 0);
                             n.setMinutes(+tempo * 60);
                             var result = n.toTimeString().slice(0, 5);
-                            
+
                             let dc2_dist_2 = distance_gpx_real[1].toFixed(2);
                             let tempo2 = dc2_dist_2 / velocidadeUser;
                             var n2 = new Date(0, 0);
@@ -4128,13 +4146,13 @@
                                 "<h5>Cais mais próximo: Torreira</h5>" +
                                 "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6>" +
                                 // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
-                                "<p>Deseja ir até:</p>" +
+                                
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getTorreiraGPX'>Para ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "<option value='getDataGPX_Torreira_ANGE_1705'>Para ANGE 17/05 - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "</div>").openPopup();
-                                
+
                         }
 
 
@@ -4238,7 +4256,7 @@
                                 "<h5>Cais mais próximo: ANGE</h5>" +
                                 "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6> " +
                                 // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
-                                "<p>Deseja ir até:</p>" +
+                               
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getCostaNovaGPX'>Para Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
@@ -4285,7 +4303,7 @@
                                 "<h5>Cais mais próximo: Aveiro</h5>" +
                                 "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas</h6> " +
                                 // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
-                                "<p>Deseja ir até:</p>" +
+                                
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getData4GPX'>Para Aveiro - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
@@ -4354,7 +4372,7 @@
                                 "<h5>Cais mais próximo: Bico</h5>" +
                                 "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6> " +
                                 // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
-                                "<p>Deseja ir até:</p>" +
+                                
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getIdaBicoGPX'>Para Bico (debugging) - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
@@ -4389,7 +4407,7 @@
                             "<h5>Cais mais próximo: Vagueira</h5>" +
                             "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas</h6> " +
                             // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
-                            "<p>Deseja ir até:</p>" +
+                            
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
                             "<option value='getData_Volta10_3_20_GPX'>Para Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
@@ -4419,7 +4437,7 @@
 
 
             var value_escolhido = document.getElementById("sel1").value;
-
+            sidebar.open('infoRealTime');
             switch (value_escolhido) {
                 case 'getTorreiraGPX':
                     nomeDestino = [];
@@ -4442,7 +4460,7 @@
                         marker_Teste1.openPopup();
                     });
                     break;
-                    case 'getDataGPX_Torreira_ANGE_1705':
+                case 'getDataGPX_Torreira_ANGE_1705':
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
                     document.getElementById('tutorial03').style.display = "block";
@@ -4463,7 +4481,7 @@
                         marker_Teste1.openPopup();
                     });
                     break;
-                    
+
                 case 'getDataGPX_ANGE_Torreira_1705':
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
@@ -4649,7 +4667,7 @@
             }
             setTimeout(function () {
                 document.getElementById('tutorial03').style.display = "none";
-            }, 5000);
+            }, 10000);
         }
 
 
