@@ -106,16 +106,7 @@
             border: 2px solid #F0BC33;
             border-radius: 20px;
             margin-bottom: 10px;
-        }
 
-        .output_time {
-            margin: auto;
-            display: block;
-            text-align: center;
-            border: 2px solid #F0BC33;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            font-size: 1rem;
         }
 
         .row,
@@ -219,29 +210,6 @@
         .btn-danger:hover {
             background-color: rgb(255, 75, 43);
         }
-
-
-        .btn_playAnimacao {
-            background-color: #F0BC33;
-            border: none;
-            color: #1F3436;
-            width: 100px;
-            height: 50px;
-            margin: 10px 30px;
-            border-radius: 5px;
-        }
-
-        .btn_pararAnimacao {
-            background-color: #d9a210;
-            border: none;
-            color: rgb(0, 0, 0);
-            width: 100px;
-            height: 50px;
-            margin: 10px 30px;
-            border-radius: 5px;
-        }
-
-
 
         .img_logo2 {
             display: none;
@@ -562,25 +530,6 @@
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
         }
 
-
-        #div_veloc {
-            font-size: 1.5rem;
-            width: 100%;
-            margin: auto;
-            display: block;
-            text-align: center;
-            padding-bottom: 25px;
-        }
-
-        #div_veloc .input_div_vel {
-            width: 70px;
-            height: 30px;
-            text-align: center;
-            border: #214198 3px solid;
-            border-radius: 20px;
-            font-size: 1.3rem;
-        }
-
         .btn_legenda4 {
             background-color: #ffc10a;
             font-size: 20px;
@@ -598,15 +547,15 @@
 
         .simulControll {
             position: absolute;
-            top: 80px;
-            right: 20px;
+            top: 170px;
+            right: 40px;
             background-color: #ffffff;
             width: 200px;
-            height: 80px;
+            height: 60px;
             z-index: 99;
             border-radius: 20px;
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
-            display: none;
+
         }
 
         .btn_legenda5 {
@@ -619,8 +568,8 @@
             border-radius: 100px;
             position: fixed;
             z-index: 20;
-            top: 115px;
-            right: 65px;
+            top: 180px;
+            right: 100px;
         }
 
         .btn_legenda6 {
@@ -633,8 +582,8 @@
             border-radius: 100px;
             position: fixed;
             z-index: 20;
-            top: 115px;
-            right: 145px;
+            top: 180px;
+            right: 160px;
         }
 
         #icon_mini {
@@ -1357,20 +1306,24 @@
         <i id="icon_crash" class="fas fa-route"></i>
     </button> -->
 
-    <!-- <button type="button" id="btn_legenda3" class="btn btn-dark">
+    <button type="button" id="btn_legenda3" class="btn btn-dark">
         <i id="icon_crash" class="fas fa-tachometer-alt"></i>
         <input type="number" id="velocidade" class="input_btn_vel" min="1" max="30" value="3" />
         <p class="p_inputs" style="font-size: 3.0rem;">Knots</p>
-    </button> -->
-    <div class="simulControll" id="simulControll_display">
-        <p style="text-align: center;font-weight: bolder;">Controladores</p>
+
+    </button>
+    <div class="simulControll">
+
         <button type="button" class="btn_legenda5" id="btn_pause" class="btn btn-dark">
             <i id="icon_mini" class="fas fa-pause-circle"></i>
         </button>
         <button type="button" class="btn_legenda6" id="btn_play" class="btn btn-dark">
             <i id="icon_mini" class="fas fa-play-circle"></i>
         </button>
-
+        <button type="button" class="btn_legenda4" class="btn btn-dark" onclick="changeValue()">
+            <!--onclick="addRock()"-->
+            <i id="icon_crash2" class="fas fa-anchor"></i>
+        </button>
     </div>
 
     <!-- <div id="div_first" href="#" 
@@ -1487,7 +1440,7 @@
                     <div class="col-sm-1">
                         <i id="icon_velo" class="fas fa-tachometer-alt"></i>
                         <p class="p_inputs_spec">Velocidade</p>
-                        <!-- <input type="number" id="velocidade" class="input_vel" min="1" max="6" value="3" /> -->
+                        <input type="number" id="velocidade" class="input_vel" min="1" max="6" value="3" />
                         <p class="p_inputs" style="font-size: 2.0rem;">Knots</p>
                     </div>
 
@@ -1625,18 +1578,6 @@
                     <img src="SiSMAR.png" class="img_logo2">
 
                 </div>
-
-                <div style="margin-top:30px;">
-                    <p style="text-align:center;font-size:1.2rem;"><b>Velocidade média prevista </b><i id="icon_crash"
-                            class="fas fa-tachometer-alt"></i></p>
-                    <div id="div_veloc">
-                        <input type="number" id="velocidade" class="input_div_vel" min="1" max="30" value="3" />
-                        <span class="" style="color:black;font-size: 1.0rem;">Knots</span>
-
-                    </div>
-
-                </div>
-
                 <table class="table">
                     <thead>
                         <tr>
@@ -1665,31 +1606,22 @@
                             <td>
                                 <p id="cais_chegada"></p>
                             </td>
-                            <td><output class="output_time" name="eta_1" id="eta_1"></output></td>
+                            <td><output name="eta_1" id="eta_1"></output></td>
                             <td>
                                 <p id="mare_chegada"></p>
                             </td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <th scope="row">Na posição do Barco</th>
                             <td></td>
                             <td><output type="time" id="time_2"></output></td>
                             <td>
                                 <p id="mare_atualizada"></p>
                             </td>
-                        </tr> -->
-
-                        <!-- <tr>
-                            <td></td>
-                            <td></td>
-                        </tr> -->
+                        </tr>
                     </tbody>
                 </table>
-                <div class="col-m-1" style="text-align: center;">
-                    <button type="button" class="btn_playAnimacao" onclick="changeValue()">Simular</button>
-                    <button type="button" class="btn_pararAnimacao" id="parar_Animacao" onclick="recomecarAnima()">
-                        Recomeçar </button>
-                </div>
+
             </div>
 
 
@@ -2060,7 +1992,8 @@
                 disponíveis a partir do cais selecionado</p>
         </div> -->
         <div class="tutorial01" id="tutorial03">
-            <p>Pode simular a rota que selecionou clicando em simular<b>Boa viagem! 😀⛵️</b></p>
+            <p>Pode simular a rota que selecionou clicando em Simular <i style="color:white;"
+                    class="fas fa-anchor"></i><b>Boa viagem! 😀⛵️</b></p>
         </div>
     </div>
 
@@ -3288,13 +3221,6 @@
                         iconSize: [30, 40, 5],
                         iconAnchor: [10, 30],
                     });
-                }else if (tipologiaPOI == "Cais") {
-                    var imagem = "<i class='fas fa-anchor' style='font-size:1.4rem;'></i>";
-                    newMarker = L.icon({
-                        iconUrl: 'marker_poi/marker_cais.png',
-                        iconSize: [35, 45, 5],
-                        iconAnchor: [10, 30],
-                    });
                 }
 
 
@@ -3756,9 +3682,9 @@
                     calculo(valorInput, valorInput2, valorInput3);
 
                 } else {
-                    // document.getElementById('load_fetch').style.display = "block";
-                    // document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Carregando</h4>" +
-                    //     "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
+                    document.getElementById('load_fetch').style.display = "block";
+                    document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Carregando</h4>" +
+                        "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
                 }
             } else {
                 if (array_hidrografico_simulacao_API.length > 0) {
@@ -3768,9 +3694,9 @@
                     calculo(1, 0.2, 0.1);
                     document.getElementById('amount').value = calado;
                 } else {
-                    // document.getElementById('load_fetch').style.display = "block";
-                    // document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Carregando</h4>" +
-                    //     "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
+                    document.getElementById('load_fetch').style.display = "block";
+                    document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Carregando</h4>" +
+                        "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
                 }
             }
             if (estadoAnimarBarco == 'faz3') {
@@ -3791,7 +3717,6 @@
         }
 
 
-
         function leadZero(_something) {
             if (parseInt(_something) < 10) return "0" + _something;
             return _something; //else    
@@ -3807,9 +3732,9 @@
 
         var arrayCoor = [];
 
-        // document.getElementById('btn_legenda3').onclick = function () {
-        //     //clickedPointer(true);
-        // };
+        document.getElementById('btn_legenda3').onclick = function () {
+            //clickedPointer(true);
+        };
 
 
         //var sideaberta = true;
@@ -3892,7 +3817,7 @@
                 icon: newMarker
             }).addTo(mymap);
 
-            //console.log(coord.lat, coord.lng);
+            console.log(coord.lat, coord.lng);
 
             // newMarker.bindPopup("<h2>PopUp Map</h2>" +
             //     "<button onclick='clickedPointer(true)'>Quero Rotas</button>" +
@@ -3934,7 +3859,7 @@
                 //*************------Ativar o clique do input velocidade
                 verificaClickCoor(arrayCoor[0]);
             } else {
-                //console.log(arrayCoor);
+                console.log(arrayCoor);
                 colocaPedra(arrayCoor[0])
             }
 
@@ -4133,10 +4058,10 @@
                 dataOrdenada = guardardistancia.sort(function (a, b) {
                     return a[0] - b[0]
                 });
-                // console.log({ array: guardardistancia })
+                console.log({ array: guardardistancia })
 
-                // console.log({ primeira: guardardistancia[0][1] })
-                // console.log({ segunda: guardardistancia[1][1] })
+                console.log({ primeira: guardardistancia[0][1] })
+                console.log({ segunda: guardardistancia[1][1] })
 
                 let arrayFuncoesGpx = [
                     'getTorreiraGPX', //0
@@ -4218,7 +4143,10 @@
 
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
-                                "<h5>Da sua atual posição deseja ir até</h5>" +
+                                "<h5>Cais mais próximo: Torreira</h5>" +
+                                "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6>" +
+                                // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
+                                
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getTorreiraGPX'>Para ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
@@ -4325,7 +4253,10 @@
                             var result5 = n5.toTimeString().slice(0, 5);
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
-                                "<h5>Da sua atual posição deseja ir até</h5>" +
+                                "<h5>Cais mais próximo: ANGE</h5>" +
+                                "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6> " +
+                                // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
+                               
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getCostaNovaGPX'>Para Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
@@ -4369,7 +4300,10 @@
                             n.setMinutes(+tempo * 60);
                             var result = n.toTimeString().slice(0, 5);
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
-                                "<h5>Da sua atual posição deseja ir até</h5>" +
+                                "<h5>Cais mais próximo: Aveiro</h5>" +
+                                "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas</h6> " +
+                                // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
+                                
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getData4GPX'>Para Aveiro - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
@@ -4435,7 +4369,10 @@
                             var result3 = n3.toTimeString().slice(0, 5);
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
-                                "<h5>Da sua atual posição deseja ir até</h5>" +
+                                "<h5>Cais mais próximo: Bico</h5>" +
+                                "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas </h6> " +
+                                // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
+                                
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione um local</option>" +
                                 "<option value='getIdaBicoGPX'>Para Bico (debugging) - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
@@ -4467,7 +4404,10 @@
                     // let convert_milesnaut = distance_Ange * 0.0005;
                     setTimeout(function () {
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
-                            "<h5>Da sua atual posição deseja ir até</h5>" +
+                            "<h5>Cais mais próximo: Vagueira</h5>" +
+                            "<h6> a " + (guardardistancia[0][0] * 0.0005).toFixed(2) + " milhas</h6> " +
+                            // "<h6>Velocidade: " + velocidadeUser + " Knots</h6>" +
+                            
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                             "<option selected disabled>Selecione um local</option>" +
                             "<option value='getData_Volta10_3_20_GPX'>Para Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
@@ -5752,11 +5692,11 @@
                         '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + '</div>')
                     //popup.addTo(mymap);
 
-                    // if (parseFloat([mare_por_minuto2[i]]).toFixed(2) > 2.00) {
-                    //     document.getElementById('mare_atualizada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
-                    // } else {
-                    //     document.getElementById('mare_atualizada').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
-                    // }
+                    if (parseFloat([mare_por_minuto2[i]]).toFixed(2) > 2.00) {
+                        document.getElementById('mare_atualizada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
+                    } else {
+                        document.getElementById('mare_atualizada').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
+                    }
 
 
                     document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
@@ -6259,7 +6199,6 @@
                             mymap.removeLayer(markerAnimado);
                         }
                         hasLine = false;
-                        document.getElementById('simulControll_display').style.display = "none";
 
                         pointList = [];
                     }, 2000);
@@ -6301,7 +6240,7 @@
 
                 var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
                 document.getElementById('time').value = f;
-                //document.getElementById('time_2').value = f;
+                document.getElementById('time_2').value = f;
 
                 input_Vel = document.getElementById("velocidade").value;
 
@@ -6489,12 +6428,10 @@
                 }
 
 
-                document.getElementById('simulControll_display').style.display = "block";
-                if (markerAnimado.isPaused()) {
-                    if (markerAnimado) {
-                        mymap.removeLayer(markerAnimado);
-                    }
-                }
+
+
+
+
 
                 hasLine = true;
 
@@ -6511,50 +6448,16 @@
                     }
                 }
                 document.getElementById('btn_play').onclick = function () {
-                    if (markerAnimado.isPaused()) {
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
-                        markerAnimado.start();
-                        document.getElementById('btn_pause').style.opacity = '1';
-                        document.getElementById('btn_play').style.opacity = "0.4";
+                    if (markerAnimado) {
+                        mymap.removeLayer(markerAnimado);
                     }
-
+                    if (newMarker) { // check
+                        mymap.removeLayer(newMarker); // remove
+                    }
+                    markerAnimado.start();
+                    document.getElementById('btn_pause').style.opacity = '1';
+                    document.getElementById('btn_play').style.opacity = "0.4";
                 }
-
-                document.getElementById('parar_Animacao').onclick = function () {
-
-                    if (markerAnimado.isRunning()) {
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
-                        markerAnimado.stop();
-                    }
-                    else if (markerAnimado.isPaused()) {
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
-                        markerAnimado.stop();
-
-                    }
-
-                    somarNumero = 0;
-
-                    pointList = [];
-                    hasLine = false;
-                    pointList.shift();
-                    pointList.shift();
-                    console.log(pointList);
-                    modal_eta = true;
-                    time_partida_1 = true;
-
-                    setTimeout(function () {
-                        markerAnimado.start();
-
-                    }, 1000);
-                }
-
-
                 markerAnimado.on('end', function () {
 
                     setTimeout(function () {

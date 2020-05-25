@@ -402,7 +402,8 @@ L.Marker.MovingMarker = L.Marker.extend({
                     console.log(pointList);
                     modal_eta = true; 
                     time_partida_1 = true;
-                  
+                    document.getElementById('simulControll_display').style.display = "none";
+
                 setTimeout(function () {
 
                     if (markerAnimado) {
