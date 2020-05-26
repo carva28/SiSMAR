@@ -1364,7 +1364,7 @@
     </button> -->
     <div class="simulControll" id="simulControll_display">
         <p style="text-align: center;font-weight: bolder;">Controladores</p>
-        <button type="button" class="btn_legenda5" id="btn_pause" class="btn btn-dark">
+        <button onclick="pauseAnimation()" type="button" class="btn_legenda5" id="btn_pause" class="btn btn-dark">
             <i id="icon_mini" class="fas fa-pause-circle"></i>
         </button>
         <button type="button" class="btn_legenda6" id="btn_play" class="btn btn-dark">
@@ -3288,7 +3288,7 @@
                         iconSize: [30, 40, 5],
                         iconAnchor: [10, 30],
                     });
-                }else if (tipologiaPOI == "Cais") {
+                } else if (tipologiaPOI == "Cais") {
                     var imagem = "<i class='fas fa-anchor' style='font-size:1.4rem;'></i>";
                     newMarker = L.icon({
                         iconUrl: 'marker_poi/marker_cais.png',
@@ -3966,8 +3966,13 @@
         var distance_gpx_real = [];
         var nomeDestino = [];
         var coordClicadas;
-
+        markerAnimado = "";
         async function verificaClickCoor(arrayClicked) {
+
+            if (markerAnimado) {
+                mymap.removeLayer(markerAnimado);
+            }
+
             console.log(arrayClicked);
             var localiz_distan = [], local_Nome_rota = [];
             coordClicadas = arrayClicked;
@@ -6007,61 +6012,90 @@
                 let horasChegada = User_Tempo_cada_coor.getHours();
 
                 let dataInformacion_3;
-                console.log(sortedData2)
 
                 if (sortedData2[3] != null) {
                     dataInformacion_3 = new Date(sortedData2[3].SDATA);
                 }
 
+
+
                 if (horasChegada <= dataInformacion_0.getHours()) {
-                    console.log(sortedData2[0].ALT)
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i> </p>";
-
-                    console.log('mare desce')
-
-                } else if (horasChegada <= dataInformacion_1.getHours()) {
-                    console.log(sortedData2[1].ALT)
-                    console.log('mare sobe')
                     document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
-
-                } else if (horasChegada <= dataInformacion_2.getHours()) {
-
-                    console.log(sortedData2[2].ALT)
+                } else if (horasChegada < dataInformacion_1.getHours()) {
                     document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i> </p>";
 
-                    console.log('mare sobe')
+
+                } else if (horasChegada < dataInformacion_2.getHours()) {
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
                 } else if (sortedData2[3] != null) {
+                 
+                    if (dataInformacion_3.getHours() == 0) {
+                        let novahora = 24;
+                        if (horasChegada < novahora) {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
 
-                    if (horasChegada < dataInformacion_3.getHours()) {
+                        } else {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
 
-                        console.log(sortedData2[3].ALT)
-                        console.log('mare desce')
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
-
+                        }
                     } else {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
 
+                        if (horasChegada < dataInformacion_3.getHours()) {
+
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
+
+                        } else {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
+
+                        }
                     }
                 } else if (sortedData2[3] == null) {
-                    console.log(sortedData2[2].ALT)
-                    console.log('mare sobe')
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i> </p>";
+
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 }
 
+                let tempoPrim = document.getElementById('time_partida').value;
+                var splitTimePartida = tempoPrim.split(':');             
+                let horasPartida = parseInt(splitTimePartida[0]);
+                console.log(horasPartida)
+            
 
-                var first_elemetn = mare_por_minuto2[0];
-                var last_element = mare_por_minuto2[mare_por_minuto2.length - 1];
-                if (first_elemetn < last_element) {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +
-                        parseFloat([mare_por_minuto2[0]]).toFixed(2) +
-                        " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
+                if (horasPartida <= dataInformacion_0.getHours()) {
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
-                } else {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" +
-                        parseFloat([mare_por_minuto2[0]]).toFixed(2) +
-                        " metros <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
+                } else if (horasPartida < dataInformacion_1.getHours()) {
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i> </p>";
+
+
+                } else if (horasPartida < dataInformacion_2.getHours()) {
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                } else if (sortedData2[3] != null) {
+                 
+                    if (dataInformacion_3.getHours() == 0) {
+                        let novahora = 24;
+                        if (horasPartida < novahora) {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
+
+                        } else {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
+
+                        }
+                    } else {
+
+                        if (horasPartida < dataInformacion_3.getHours()) {
+
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
+
+                        } else {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
+
+                        }
+                    }
+                } else if (sortedData2[3] == null) {
+
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 }
 
@@ -6498,18 +6532,18 @@
 
                 hasLine = true;
 
-                document.getElementById('btn_pause').onclick = function () {
-                    if (markerAnimado.isRunning()) {
-                        markerAnimado.pause();
-                        document.getElementById('btn_pause').style.opacity = '0.4';
-                        document.getElementById('btn_play').style.opacity = "1";
-                        time_partida_1 = true;
-                        modal_eta = true;
-                        // if (markerAnimado) {
-                        // mymap.removeLayer(markerAnimado);
-                        // }
-                    }
-                }
+                // document.getElementById('btn_pause').onclick = function () {
+                //     if (markerAnimado.isRunning()) {
+                //         markerAnimado.pause();
+                //         document.getElementById('btn_pause').style.opacity = '0.4';
+                //         document.getElementById('btn_play').style.opacity = "1";
+                //         time_partida_1 = true;
+                //         modal_eta = true;
+                //         // if (markerAnimado) {
+                //         // mymap.removeLayer(markerAnimado);
+                //         // }
+                //     }
+                // }
                 document.getElementById('btn_play').onclick = function () {
                     if (markerAnimado.isPaused()) {
                         if (markerAnimado) {
@@ -6576,7 +6610,24 @@
 
         }
 
+        function pauseAnimation() {
+            markerAnimado.pause();
+            document.getElementById('btn_pause').style.opacity = '0.4';
+            document.getElementById('btn_play').style.opacity = "1";
+            time_partida_1 = true;
+            modal_eta = true;
 
+            // if (markerAnimado.isRunning()) {
+            //             markerAnimado.pause();
+            //             document.getElementById('btn_pause').style.opacity = '0.4';
+            //             document.getElementById('btn_play').style.opacity = "1";
+            //             time_partida_1 = true;
+            //             modal_eta = true;
+            //             // if (markerAnimado) {
+            //             // mymap.removeLayer(markerAnimado);
+            //             // }
+            //         }
+        }
 
         function clearmap() {
             mymap.eachLayer(function (layer) {
