@@ -394,6 +394,39 @@
             max-width: 37%;
         }
 
+        /*************** TABELA MARES *******************************/
+        .table td, .table th{
+            padding:0.70rem 0.25rem;
+            vertical-align: middle;
+        }
+
+        .table thead th{
+            text-align: center;
+        }
+
+        #mare_partida{
+            width: 120px;
+        }
+
+        .table th{
+            vertical-align: top;
+        }
+
+
+        #info_mare2{
+            /* padding:0rem 0.10rem; */
+            padding: 1rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        #info_mare2 td{
+            text-align: center;
+        }
+
+        .inforMare2 td {
+            padding:0.20rem 0.05rem!important;
+            font-size: 0.8rem;
+        }
 
 
         /* cell number */
@@ -1660,6 +1693,28 @@
                                 <p id="mare_partida"></p>
                             </td>
                         </tr>
+                        <tr id="info_mare2" class="inforMare2">
+                            <td style="text-align: left;padding:0.00rem 0.0rem;">
+                                <p>PM</p>
+                                <p>BM</p>
+                            </td>
+                            <td>
+                                <p id="info_mare_1"></p>
+                                <p>&nbsp</p>
+                            </td>
+                            <td>
+                                <p>&nbsp</p>
+                                <p id="info_mare_2"></p>
+                            </td>
+                            <td>
+                                <p id="info_mare_3"></p>
+                                <p>&nbsp</p>
+                            </td>
+                            <td>
+                                <p>&nbsp</p>
+                                <p id="info_mare_4"></p>
+                            </td>
+                        </tr>
                         <tr>
                             <th scope="row">Chegada</th>
                             <td>
@@ -1668,6 +1723,29 @@
                             <td><output class="output_time" name="eta_1" id="eta_1"></output></td>
                             <td>
                                 <p id="mare_chegada"></p>
+                            </td>
+                        </tr>
+                        
+                        <tr id="info_mare2" class="inforMare2">
+                            <td style="text-align: left;padding:0.00rem 0.0rem;">
+                                <p>PM</p>
+                                <p>BM</p>
+                            </td>
+                            <td>
+                                <p id="info_mare_1_1"></p>
+                                <p>&nbsp</p>
+                            </td>
+                            <td>
+                                <p>&nbsp</p>
+                                <p id="info_mare_2_1"></p>
+                            </td>
+                            <td>
+                                <p id="info_mare_3_1"></p>
+                                <p>&nbsp</p>
+                            </td>
+                            <td>
+                                <p>&nbsp</p>
+                                <p id="info_mare_4_1"></p>
                             </td>
                         </tr>
                         <!-- <tr>
@@ -1679,10 +1757,7 @@
                             </td>
                         </tr> -->
 
-                        <!-- <tr>
-                            <td></td>
-                            <td></td>
-                        </tr> -->
+                        
                     </tbody>
                 </table>
                 <div class="col-m-1" style="text-align: center;">
@@ -2060,7 +2135,7 @@
                 disponíveis a partir do cais selecionado</p>
         </div> -->
         <div class="tutorial01" id="tutorial03">
-            <p>Pode simular a rota que selecionou clicando em simular<b>Boa viagem! 😀⛵️</b></p>
+            <p>Pode simular a rota que selecionou clicando em simular <br><b>Boa viagem! 😀⛵️</b></p>
         </div>
     </div>
 
@@ -2074,7 +2149,7 @@
             //getIdaBicoGPX();
             markersAPI();
             getInfo();
-
+          
         }
 
 
@@ -3373,6 +3448,46 @@
             const response3 = await fetch(proxyurl + url_anterior);
             const json3 = await response3.json();
             array_hidrografico_simulacao_API_anterior.push(json3)
+
+        let horasInfo = new Date (array_hidrografico_simulacao_API[0][0].SDATA);
+        let horasInfo2 = new Date (array_hidrografico_simulacao_API[0][1].SDATA);
+        let horasInfo3 = new Date (array_hidrografico_simulacao_API[0][2].SDATA);
+        let horasInfo4 = new Date (array_hidrografico_simulacao_API[0][3].SDATA);
+        // if(array_hidrografico_simulacao_API[0][3].SDATA != null){
+        //     let horasInfo4 = new Date (array_hidrografico_simulacao_API[0][3].SDATA);
+        // }
+
+        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours()+":"+horasInfo.getMinutes() 
+        + "&nbsp" + "|" +
+        "<span style='color:green;'><b>"+array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+        document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours()+":"+horasInfo2.getMinutes() 
+        + "&nbsp" + "|" +
+        "<span style='color:red;'><b>"+array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+        document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours()+":"+horasInfo3.getMinutes() 
+        + "&nbsp" + "|" +
+        "<span style='color:green;'><b>"+array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+        if(array_hidrografico_simulacao_API[0][3].ALT != null){
+            document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours()+":"+horasInfo4.getMinutes() 
+        + "&nbsp" + "|" +
+        "<span style='color:red;'><b>"+array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+        }
+
+        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours()+":"+horasInfo.getMinutes() 
+        + "&nbsp" + "|" +
+        "<span style='color:green;'><b>"+array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+        document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours()+":"+horasInfo2.getMinutes() 
+        + "&nbsp" + "|" +
+        "<span style='color:red;'><b>"+array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+        document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours()+":"+horasInfo3.getMinutes() 
+        + "&nbsp" + "|" +
+        "<span style='color:green;'><b>"+array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+        if(array_hidrografico_simulacao_API[0][3].ALT != null){
+            document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours()+":"+horasInfo4.getMinutes() 
+        + "&nbsp" + "|" +
+        "<span style='color:red;'><b>"+array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+        }
+        
+
         }
 
 
@@ -3512,6 +3627,8 @@
                     "</tbody></table>";
             }
         }
+    
+       
 
 
         var arrayhidrografico_posdia = [], arrayhidrografico_anteriordia = [];
@@ -4503,6 +4620,18 @@
 
             var value_escolhido = document.getElementById("sel1").value;
             sidebar.open('infoRealTime');
+
+             var d = new Date();
+                    var nday = d.getDay(),
+                        nmonth = d.getMonth(),
+                        ndate = d.getDate(),
+                        nyear = d.getYear();
+                    if (nyear < 1000) nyear += 1900;
+                    nhour = d.getHours(), nmin = d.getMinutes();
+            UserHoras_Inicial = new Date(nyear, nmonth, nday, nhour, nmin);
+            var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
+            document.getElementById('time_partida').value = f;
+
             switch (value_escolhido) {
                 case 'getTorreiraGPX':
                     nomeDestino = [];
@@ -4519,7 +4648,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     getTorreiraGPX();
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
@@ -4540,7 +4669,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     getDataGPX_Torreira_ANGE_1705();
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
@@ -4562,7 +4691,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     getDataGPX_ANGE_Torreira_1705();
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
@@ -4585,7 +4714,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     getTorreiraGPX_Revserse();
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
@@ -4607,7 +4736,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
                     });
@@ -4627,7 +4756,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     getIdaBicoGPX();
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
@@ -4660,7 +4789,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
                     });
@@ -4681,7 +4810,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
                     });
@@ -4702,7 +4831,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
                     });
@@ -4724,7 +4853,7 @@
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
-                    }, 5000);
+                    }, 7000);
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
                     });
@@ -5295,7 +5424,7 @@
                     let dateshr_min = horas_min_seguinte.getHours() * 60;
 
                     let count = (UserHoras.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
-                    let total = delta_mare * (count / 375) + sortedData[3].ALT;
+                    let total = delta_mare * (count / 375) - sortedData[3].ALT;
 
                     mareUser.push(total)
                     for (let p = 0; p < horasdarota_medida.length; p++) {
@@ -5308,7 +5437,7 @@
                             let dateshr_min = data4.getHours() * 60;
 
                             let count = ((UserHoras.getMinutes() + p) + usershr_min) - (data4.getMinutes() + dateshr_min);
-                            let total = delta_mare * (count / 375) + sortedData[3].ALT;
+                            let total = delta_mare * (count / 375) - sortedData[3].ALT;
                             mare_por_minuto.push(total)
                         }
                     }
@@ -5605,7 +5734,7 @@
                         let dateshr_min = horas_min_seguinte.getHours() * 60;
 
                         let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
-                        let total = delta_mare * (count / 375) + sortedData2[3].ALT;
+                        let total = delta_mare * (count / 375) - sortedData2[3].ALT;
 
                         mareUser2.push(total)
                         for (let p = 0; p < horasdarota_medida.length; p++) {
@@ -5619,9 +5748,10 @@
                                 let usershr_min = UserHoras2.getHours() * 60;
                                 let dateshr_min = data4.getHours() * 60;
 
-                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data4.getMinutes() + dateshr_min);
-                                let total = delta_mare * (count / 375) + sortedData2[3].ALT;
-                                mare_por_minuto2.push(total)
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (data4.getMinutes() + dateshr_min));
+
+                                let total = delta_mare * (count / 375) - sortedData2[3].ALT;
+                                mare_por_minuto2.push(Math.abs(total));
                                 let min_incr_user = UserHoras2.getMinutes() + p;
                                 horas_pontos_user.push(UserHoras2.getHours() + ":" + min_incr_user)
                             }
@@ -6020,82 +6150,82 @@
 
 
                 if (horasChegada <= dataInformacion_0.getHours()) {
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 } else if (horasChegada < dataInformacion_1.getHours()) {
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
 
 
                 } else if (horasChegada < dataInformacion_2.getHours()) {
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                 } else if (sortedData2[3] != null) {
-                 
+
                     if (dataInformacion_3.getHours() == 0) {
                         let novahora = 24;
                         if (horasChegada < novahora) {
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                         } else {
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                         }
                     } else {
 
                         if (horasChegada < dataInformacion_3.getHours()) {
 
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                         } else {
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                         }
                     }
                 } else if (sortedData2[3] == null) {
 
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 }
 
                 let tempoPrim = document.getElementById('time_partida').value;
-                var splitTimePartida = tempoPrim.split(':');             
+                var splitTimePartida = tempoPrim.split(':');
                 let horasPartida = parseInt(splitTimePartida[0]);
                 console.log(horasPartida)
-            
+
 
                 if (horasPartida <= dataInformacion_0.getHours()) {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 } else if (horasPartida < dataInformacion_1.getHours()) {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
 
 
                 } else if (horasPartida < dataInformacion_2.getHours()) {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                 } else if (sortedData2[3] != null) {
-                 
+
                     if (dataInformacion_3.getHours() == 0) {
                         let novahora = 24;
                         if (horasPartida < novahora) {
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                         } else {
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                         }
                     } else {
 
                         if (horasPartida < dataInformacion_3.getHours()) {
 
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros  <i style='color:red;font-size: 1.4rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                         } else {
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros  <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i></p>";
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                         }
                     }
                 } else if (sortedData2[3] == null) {
 
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" +  parseFloat([mare_por_minuto2[0]]).toFixed(2)  + " metros <i style='color:green;font-size: 1.4rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 }
 
