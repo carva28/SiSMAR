@@ -1474,6 +1474,7 @@
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
                     Web App SISMAR
+                    <span id="close_side" class="sidebar-close"> <i class="fas fa-times-circle"></i></span>
                 </h1>
                 <div class="">
                     <img src="SiSMAR.png" class="img_logo2">
@@ -1492,9 +1493,9 @@
 
             <div class="sidebar-pane" id="profile">
                 <h1 class="sidebar-header">Profile
-                    <!-- <span id="close_side2" class="sidebar-close">
+                    <span id="close_side2" class="sidebar-close">
                         <i class="fas fa-times-circle"></i>
-                    </span> -->
+                    </span>
                 </h1>
 
                 <div class="col ">
@@ -1574,10 +1575,8 @@
 
             <div class="sidebar-pane" id="messages">
 
-                <h1 class="sidebar-header">Rotas
-                    <!-- <span id="close_side3" class="sidebar-close">
+                <h1 class="sidebar-header">Rotas<span id="close_side3" class="sidebar-close">
                         <i class="fas fa-times-circle"></i>
-                    </span> -->
                 </h1>
 
                 <div onclick="getTorreiraGPX()" class="carousel-cell">
@@ -1629,8 +1628,8 @@
 
             <div class="sidebar-pane" id="infoMar">
                 <h1 class="sidebar-header" style="font-size:15.4pt;">Informação Instituto Hidrográfico
-                    <!-- <span id="close_side4" class="sidebar-close">
-                        <i class="fas fa-times-circle"></i></span> -->
+                    <span id="close_side4" class="sidebar-close">
+                        <i class="fas fa-times-circle"></i></span>
                 </h1>
                 <p><b>*</b>Informação de maré no dia em que a rota foi adquirida</p>
                 <div class="row ">
@@ -1663,7 +1662,7 @@
             <div class="sidebar-pane" id="infoRealTime">
                 <h1 class="sidebar-header">
                     Rota em tempo real
-                    <!-- <span id="close_side" class="sidebar-close"> <i class="fas fa-times-circle"></i></span> -->
+                    <span id="close_side" class="sidebar-close"> <i class="fas fa-times-circle"></i></span>
                 </h1>
                 <div class="">
                     <img src="SiSMAR.png" class="img_logo2">
@@ -1796,9 +1795,8 @@
             ************************************************************************************ -->
 
             <div class="sidebar-pane" id="informacao">
-                <h1 class="sidebar-header">Legenda
-                    <!-- <span class="sidebar-close"> <i
-                            class="fas fa-times-circle"></i></span> -->
+                <h1 class="sidebar-header">Legenda<span class="sidebar-close"> <i
+                            class="fas fa-times-circle"></i></span>
                 </h1>
                 <div class="container">
                     <div class="row">
@@ -1837,9 +1835,8 @@
 
             </div>
             <div class="sidebar-pane" id="settings">
-                <h1 class="sidebar-header">Definições
-                    <!-- <span class="sidebar-close"> <i
-                            class="fas fa-times-circle"></i></span> -->
+                <h1 class="sidebar-header">Definições<span class="sidebar-close"> <i
+                            class="fas fa-times-circle"></i></span>
                 </h1>
                 <div class="container">
                     <div class="row">
@@ -4020,7 +4017,25 @@
 
             document.getElementsByClassName('sidebar')[0].style.width = 100 + "%";
         };
-       
+        document.getElementById('close_side').onclick = function () {
+
+            document.getElementsByClassName('sidebar')[0].style.width = 15 + "%";
+
+        };
+        document.getElementById('close_side2').onclick = function () {
+
+            document.getElementsByClassName('sidebar')[0].style.width = 15 + "%";
+
+        };
+        document.getElementById('close_side3').onclick = function () {
+
+            document.getElementsByClassName('sidebar')[0].style.width = 15 + "%";
+
+        };
+        document.getElementById('close_side4').onclick = function () {
+            document.getElementsByClassName('sidebar')[0].style.width = 15 + "%";
+
+        };
 
 
         function MouseOver(elem) {
