@@ -395,36 +395,37 @@
         }
 
         /*************** TABELA MARES *******************************/
-        .table td, .table th{
-            padding:0.70rem 0.25rem;
+        .table td,
+        .table th {
+            padding: 0.70rem 0.25rem;
             vertical-align: middle;
         }
 
-        .table thead th{
+        .table thead th {
             text-align: center;
         }
 
-        #mare_partida{
+        #mare_partida {
             width: 120px;
         }
 
-        .table th{
+        .table th {
             vertical-align: top;
         }
 
 
-        #info_mare2{
+        #info_mare2 {
             /* padding:0rem 0.10rem; */
             padding: 1rem 1.5rem;
             font-size: 0.9rem;
         }
 
-        #info_mare2 td{
+        #info_mare2 td {
             text-align: center;
         }
 
         .inforMare2 td {
-            padding:0.20rem 0.05rem!important;
+            padding: 0.20rem 0.05rem !important;
             font-size: 0.8rem;
         }
 
@@ -630,16 +631,19 @@
         }
 
         .simulControll {
-            position: absolute;
+            /* position: absolute;
             top: 80px;
-            right: 20px;
+            right: 20px; */
+            margin: auto;
             background-color: #ffffff;
-            width: 200px;
-            height: 80px;
+            width: 300px;
+            height: 100px;
             z-index: 99;
+            border: 3px solid #ffc10a;
             border-radius: 20px;
-            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+            /* box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4); */
             display: none;
+            /*none*/
         }
 
         .btn_legenda5 {
@@ -650,10 +654,13 @@
             width: 35px;
             height: 35px;
             border-radius: 100px;
-            position: fixed;
+            margin: auto 70px;
+            /*display:block;*/
+            text-align: center;
+            /*position: fixed;*/
             z-index: 20;
-            top: 115px;
-            right: 65px;
+            /* top: 115px;
+            right: 65px; */
         }
 
         .btn_legenda6 {
@@ -664,10 +671,13 @@
             width: 35px;
             height: 35px;
             border-radius: 100px;
-            position: fixed;
             z-index: 20;
+            /*margin:auto 160px;*/
+            /*display:block;*/
+            text-align: center;
+            /* position: fixed;
             top: 115px;
-            right: 145px;
+            right: 145px; */
         }
 
         #icon_mini {
@@ -1395,7 +1405,7 @@
         <input type="number" id="velocidade" class="input_btn_vel" min="1" max="30" value="3" />
         <p class="p_inputs" style="font-size: 3.0rem;">Knots</p>
     </button> -->
-    <div class="simulControll" id="simulControll_display">
+    <!-- <div class="simulControll" id="simulControll_display">
         <p style="text-align: center;font-weight: bolder;">Controladores</p>
         <button onclick="pauseAnimation()" type="button" class="btn_legenda5" id="btn_pause" class="btn btn-dark">
             <i id="icon_mini" class="fas fa-pause-circle"></i>
@@ -1404,7 +1414,7 @@
             <i id="icon_mini" class="fas fa-play-circle"></i>
         </button>
 
-    </div>
+    </div> -->
 
     <!-- <div id="div_first" href="#" 
        data-tooltip="This link goes nowhere"
@@ -1725,7 +1735,7 @@
                                 <p id="mare_chegada"></p>
                             </td>
                         </tr>
-                        
+
                         <tr id="info_mare2" class="inforMare2">
                             <td style="text-align: left;padding:0.00rem 0.0rem;">
                                 <p>PM</p>
@@ -1757,13 +1767,25 @@
                             </td>
                         </tr> -->
 
-                        
+
                     </tbody>
                 </table>
                 <div class="col-m-1" style="text-align: center;">
                     <button type="button" class="btn_playAnimacao" onclick="changeValue()">Simular</button>
                     <button type="button" class="btn_pararAnimacao" id="parar_Animacao" onclick="recomecarAnima()">
                         Recomeçar </button>
+                </div>
+
+                <div class="simulControll" id="simulControll_display">
+                    <p style="text-align: center;font-weight: bolder;">Controladores</p>
+                    <button onclick="pauseAnimation()" type="button" class="btn_legenda5" id="btn_pause"
+                        class="btn btn-dark">
+                        <i id="icon_mini" class="fas fa-pause-circle"></i>
+                    </button>
+                    <button type="button" class="btn_legenda6" id="btn_play" class="btn btn-dark">
+                        <i id="icon_mini" class="fas fa-play-circle"></i>
+                    </button>
+
                 </div>
             </div>
 
@@ -2121,7 +2143,10 @@
 
 
 
-    <div id="issMap"></div>
+    <div id="issMap">
+    </div>
+    <button id="btn_layers"><i style="font-size:1.2rem;" class="fas fa-layer-group"></i></button>
+
     <div id="load_fetch">
         <h2>Carregando...</h2>
     </div>
@@ -2149,7 +2174,7 @@
             //getIdaBicoGPX();
             markersAPI();
             getInfo();
-          
+
         }
 
 
@@ -2220,7 +2245,8 @@
 
 
 
-
+        var baseLayers = {
+  };
         baseMaps = {
             "NOAA": NauticalMap,
             "Normal": tiles,
@@ -2234,7 +2260,24 @@
             "Thunderforest_TransportDark": Thunderforest_TransportDark,
         };
 
-        ControlLayer = L.control.layers(baseMaps).addTo(mymap);
+        ControlLayer = L.control.layers(baseMaps,baseLayers,{collapsed:false}).addTo(mymap);
+
+        $('.leaflet-control-layers').hide();
+        $('#btn_layers').css('width', '70px');
+        $('#btn_layers').css('position', 'absolute');
+        $('#btn_layers').css('z-index', '9999999');
+        $('#btn_layers').css('height', '60px');
+        $('#btn_layers').css('background-color', '#214198');
+        $('#btn_layers').css('color', '#ffffff');
+        $('#btn_layers').css('top', '20px');
+        $('#btn_layers').css('right', '20px');
+        $('#btn_layers').css('border', 'none');
+        $('#btn_layers').css('border-radius', '8px');
+
+        btn_layers.onclick = function () {
+            $('.leaflet-control-layers').toggle();
+        }
+
         /**Colocar os botões de zoom na posição top right*/
         mymap.zoomControl.setPosition('topright');
 
@@ -3449,44 +3492,44 @@
             const json3 = await response3.json();
             array_hidrografico_simulacao_API_anterior.push(json3)
 
-        let horasInfo = new Date (array_hidrografico_simulacao_API[0][0].SDATA);
-        let horasInfo2 = new Date (array_hidrografico_simulacao_API[0][1].SDATA);
-        let horasInfo3 = new Date (array_hidrografico_simulacao_API[0][2].SDATA);
-        let horasInfo4 = new Date (array_hidrografico_simulacao_API[0][3].SDATA);
-        // if(array_hidrografico_simulacao_API[0][3].SDATA != null){
-        //     let horasInfo4 = new Date (array_hidrografico_simulacao_API[0][3].SDATA);
-        // }
+            let horasInfo = new Date(array_hidrografico_simulacao_API[0][0].SDATA);
+            let horasInfo2 = new Date(array_hidrografico_simulacao_API[0][1].SDATA);
+            let horasInfo3 = new Date(array_hidrografico_simulacao_API[0][2].SDATA);
+            let horasInfo4 = new Date(array_hidrografico_simulacao_API[0][3].SDATA);
+            // if(array_hidrografico_simulacao_API[0][3].SDATA != null){
+            //     let horasInfo4 = new Date (array_hidrografico_simulacao_API[0][3].SDATA);
+            // }
 
-        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours()+":"+horasInfo.getMinutes() 
-        + "&nbsp" + "|" +
-        "<span style='color:green;'><b>"+array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
-        document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours()+":"+horasInfo2.getMinutes() 
-        + "&nbsp" + "|" +
-        "<span style='color:red;'><b>"+array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
-        document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours()+":"+horasInfo3.getMinutes() 
-        + "&nbsp" + "|" +
-        "<span style='color:green;'><b>"+array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
-        if(array_hidrografico_simulacao_API[0][3].ALT != null){
-            document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours()+":"+horasInfo4.getMinutes() 
-        + "&nbsp" + "|" +
-        "<span style='color:red;'><b>"+array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
-        }
+            document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                + "&nbsp" + "|" +
+                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+            document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                + "&nbsp" + "|" +
+                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+            document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                + "&nbsp" + "|" +
+                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+            }
 
-        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours()+":"+horasInfo.getMinutes() 
-        + "&nbsp" + "|" +
-        "<span style='color:green;'><b>"+array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
-        document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours()+":"+horasInfo2.getMinutes() 
-        + "&nbsp" + "|" +
-        "<span style='color:red;'><b>"+array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
-        document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours()+":"+horasInfo3.getMinutes() 
-        + "&nbsp" + "|" +
-        "<span style='color:green;'><b>"+array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
-        if(array_hidrografico_simulacao_API[0][3].ALT != null){
-            document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours()+":"+horasInfo4.getMinutes() 
-        + "&nbsp" + "|" +
-        "<span style='color:red;'><b>"+array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
-        }
-        
+            document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                + "&nbsp" + "|" +
+                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+            document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                + "&nbsp" + "|" +
+                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+            document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                + "&nbsp" + "|" +
+                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+            }
+
 
         }
 
@@ -3627,8 +3670,8 @@
                     "</tbody></table>";
             }
         }
-    
-       
+
+
 
 
         var arrayhidrografico_posdia = [], arrayhidrografico_anteriordia = [];
@@ -4342,7 +4385,7 @@
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                                "<option selected disabled>Selecione um local</option>" +
+                                "<option selected disabled>Selecione uma rota</option>" +
                                 "<option value='getTorreiraGPX'>Para ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "<option value='getDataGPX_Torreira_ANGE_1705'>Para ANGE 17/05 - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "</div>").openPopup();
@@ -4449,7 +4492,7 @@
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                                "<option selected disabled>Selecione um local</option>" +
+                                "<option selected disabled>Selecione uma rota</option>" +
                                 "<option value='getCostaNovaGPX'>Para Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "<option value='getTorreiraGPX_Revserse'>Para Torreira - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "<option value='getData_IDA10_3_20_GPX'>Para Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
@@ -4493,7 +4536,7 @@
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                                "<option selected disabled>Selecione um local</option>" +
+                                "<option selected disabled>Selecione uma rota</option>" +
                                 "<option value='getData4GPX'>Para Aveiro - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "</div>").openPopup();
                         }
@@ -4559,7 +4602,7 @@
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                                "<option selected disabled>Selecione um local</option>" +
+                                "<option selected disabled>Selecione uma rota</option>" +
                                 "<option value='getIdaBicoGPX'>Para Bico (debugging) - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "<option value='getDataGPX_RegressoBico'>Para Boca da Barra - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "<option value='NovaRotaCriada'>Para Ange - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
@@ -4591,7 +4634,7 @@
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
                             "<h5>Da sua atual posição deseja ir até</h5>" +
                             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                            "<option selected disabled>Selecione um local</option>" +
+                            "<option selected disabled>Selecione uma rota</option>" +
                             "<option value='getData_Volta10_3_20_GPX'>Para Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
                             "</div>").openPopup();
                     }, 1000);
@@ -4621,13 +4664,13 @@
             var value_escolhido = document.getElementById("sel1").value;
             sidebar.open('infoRealTime');
 
-             var d = new Date();
-                    var nday = d.getDay(),
-                        nmonth = d.getMonth(),
-                        ndate = d.getDate(),
-                        nyear = d.getYear();
-                    if (nyear < 1000) nyear += 1900;
-                    nhour = d.getHours(), nmin = d.getMinutes();
+            var d = new Date();
+            var nday = d.getDay(),
+                nmonth = d.getMonth(),
+                ndate = d.getDate(),
+                nyear = d.getYear();
+            if (nyear < 1000) nyear += 1900;
+            nhour = d.getHours(), nmin = d.getMinutes();
             UserHoras_Inicial = new Date(nyear, nmonth, nday, nhour, nmin);
             var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
             document.getElementById('time_partida').value = f;
