@@ -1771,7 +1771,8 @@
                     </tbody>
                 </table>
                 <div class="col-m-1" style="text-align: center;">
-                    <button type="button" class="btn_playAnimacao" onclick="changeValue()">Simular</button>
+                    <button type="button" class="btn_playAnimacao" id="simuPlay" onclick="changeValue()"
+                        disabled>Simular</button>
                     <button type="button" class="btn_pararAnimacao" id="parar_Animacao" onclick="recomecarAnima()">
                         Recomeçar </button>
                 </div>
@@ -2246,7 +2247,7 @@
 
 
         var baseLayers = {
-  };
+        };
         baseMaps = {
             "NOAA": NauticalMap,
             "Normal": tiles,
@@ -2260,7 +2261,7 @@
             "Thunderforest_TransportDark": Thunderforest_TransportDark,
         };
 
-        ControlLayer = L.control.layers(baseMaps,baseLayers,{collapsed:false}).addTo(mymap);
+        ControlLayer = L.control.layers(baseMaps, baseLayers, { collapsed: false }).addTo(mymap);
 
         $('.leaflet-control-layers').hide();
         $('#btn_layers').css('width', '70px');
@@ -3500,35 +3501,61 @@
             //     let horasInfo4 = new Date (array_hidrografico_simulacao_API[0][3].SDATA);
             // }
 
-            document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
-                + "&nbsp" + "|" +
-                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
-            document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
-                + "&nbsp" + "|" +
-                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
-            document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
-                + "&nbsp" + "|" +
-                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
-            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
-                document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+            if (horasInfo4.getHours() == 0 || horasInfo4.getHours() == 00 || array_hidrografico_simulacao_API[0][3].ALT == null) {
+                document.getElementById('info_mare_2').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
                     + "&nbsp" + "|" +
-                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                document.getElementById('info_mare_3').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                document.getElementById('info_mare_4').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                document.getElementById('info_mare_2_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                document.getElementById('info_mare_3_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                document.getElementById('info_mare_4_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+            } else {
+                document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                    document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                }
+
+                document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                    + "&nbsp" + "|" +
+                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                    document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                }
             }
 
-            document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
-                + "&nbsp" + "|" +
-                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
-            document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
-                + "&nbsp" + "|" +
-                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
-            document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
-                + "&nbsp" + "|" +
-                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
-            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
-                document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
-            }
+
 
 
         }
@@ -4662,6 +4689,8 @@
 
 
             var value_escolhido = document.getElementById("sel1").value;
+            $('#simuPlay').removeAttr("disabled");
+
             sidebar.open('infoRealTime');
 
             var d = new Date();
@@ -6730,20 +6759,12 @@
                 }
 
                 document.getElementById('parar_Animacao').onclick = function () {
-
-                    if (markerAnimado.isRunning()) {
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
-                        markerAnimado.stop();
+                    if (markerAnimado) {
+                        mymap.removeLayer(markerAnimado);
                     }
-                    else if (markerAnimado.isPaused()) {
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
-                        markerAnimado.stop();
 
-                    }
+                    markerAnimado.stop();
+
 
                     somarNumero = 0;
 
@@ -6757,8 +6778,8 @@
 
                     setTimeout(function () {
                         markerAnimado.start();
-
                     }, 1000);
+                    changeValue();
                 }
 
 
