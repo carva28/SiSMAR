@@ -1450,7 +1450,7 @@
     </div>
 
     <div id="sidebar" class="sidebar collapsed">
-        <div id="desktop" class="sidebar-tabs">
+        <div id="mobile" class="sidebar-tabs">
             <ul role="tablist">
                 <li id="tab_side"><a id="a_link1" href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
                 <!-- <li><a href="" role="tab"><i class="fa fa-user"></i></a></li> -->
@@ -1859,8 +1859,8 @@
 
         <div id="desktop" class="sidebar-tabs">
             <ul role="tablist">
-                <li id="tab_side" onmouseover="MouseOver('div_fir');" onmouseout="MouseOut('div_fir');"><a href="#home"
-                        role="tab"><i class="fa fa-bars"></i></a></li>
+                <li id="tab_side" onmouseover="MouseOver('div_fir');" onmouseout="MouseOut('div_fir');"><a id="a_link1"
+                        href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
                 <!-- <li><a href="" role="tab"><i class="fa fa-user"></i></a></li> -->
                 <li id="tab_side2" onmouseover="MouseOver('div_second');" onmouseout="MouseOut('div_second');"><a
                         href="#messages" role="tab"><i class="fas fa-map-marked-alt"></i></a></li>
@@ -2339,8 +2339,6 @@
 
         /*****Menu Lateral*****/
         var sidebar = L.control.sidebar('sidebar').addTo(mymap);
-
-
 
 
 
@@ -3336,6 +3334,282 @@
 
         }
 
+
+        async function getDataGPX_ANGE_CALEDOURO_3005() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/1_ANGE_CALE_DOURO.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+
+                    somarNumero = 0;
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.678, -8.7166], 13);
+
+
+        }
+
+        async function getDataGPX_CALEDOURO_ANGE_3005() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/2_CALE_DOURO_VEIA_DA_TESTADA.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+
+                    somarNumero = 0;
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.678, -8.7166], 13);
+
+
+        }
+
+        async function getDataGPX_Testada_Torreira_3005() {
+
+mymap.eachLayer(function (layer) {
+    //console.log(layer.options.pane)
+    if (layer.options.pane == "overlayPane") {
+        mymap.removeLayer(layer);
+    }
+});
+let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/3_VEIA_DA_TESTADA_TORREIRA.gpx';
+fetch(url)
+    .then(function (response) {
+        return response.text();
+    })
+    .then(function (json) {
+        VEri_text_gpx = json;
+
+        var g = new L.GPX(json, {
+            async: true,
+            parseElements: ['track'],
+            polyline_options: {
+                color: '#020202',
+                weight: 10,
+            },
+            marker_options: {
+                // 'startIcon': new L.icon({
+                //     iconUrl: 'marker.png',
+                //     iconSize: [22, 32, 5],
+                //     iconAnchor: [10, 30],
+                // }),
+                'endIcon': new L.icon({
+                    iconUrl: 'fim_icnon.png',
+                    iconSize: [22, 32, 5],
+                    iconAnchor: [10, 30],
+                })
+            }
+
+        });
+
+        g.on('loaded', function (e) {
+            var gpx = e.target,
+                elevation_data = gpx.get_elevation_data();
+            data_hora = gpx.get_start_time();
+            name = gpx.get_name(),
+                distM = gpx.get_distance(),
+                distKm = distM / 1000,
+                distKmRnd = distKm.toFixed(1),
+                eleGain = gpx.get_elevation_gain().toFixed(2),
+                eleLoss = gpx.get_elevation_loss().toFixed(2);
+            var info = "Name: " + name + "</br>" +
+                "Distance: " + distKmRnd + " km </br>" +
+                "Elevation Gain: " + eleGain + " m </br>"
+
+            //document.getElementById('km').innerHTML = info;
+            gpx.getLayers()[0].bindPopup(info)
+
+            let date = new Date(data_hora);
+            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+            var nday = date.getDay(),
+                nmonth = date.getMonth() + 1,
+                ndate = date.getDate(),
+                nyear = date.getYear();
+            if (nyear < 1000) nyear += 1900;
+            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+            //document.getElementById('time').value = hora_min_gpx;
+
+            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+            var arrayhidrografico = [];
+            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+        });
+
+        somarNumero = 0;
+        g.on('click', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+            changeValue();
+        });
+        g.on('addpoint', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+        })
+        g.addTo(mymap);
+    });
+mymap.setView([40.678, -8.7166], 13);
+
+
+}
+
+
+
         //No clique do marker
 
         var linesFeatureLayer
@@ -4020,7 +4294,7 @@
 
             document.getElementsByClassName('sidebar')[0].style.width = 100 + "%";
         };
-       
+
 
 
         function MouseOver(elem) {
