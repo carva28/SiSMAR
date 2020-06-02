@@ -440,6 +440,12 @@
             font-size: 0.8rem;
         }
 
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            table-layout: fixed;
+        }
 
         /* cell number */
         .carousel-cell:before {
@@ -6193,8 +6199,7 @@
                             + "&nbsp" + "|" +
                             "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
 
-                    }
-                    else {
+                    } else {
                         document.getElementById('info_mare_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
                             + "&nbsp" + "|" +
                             "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
