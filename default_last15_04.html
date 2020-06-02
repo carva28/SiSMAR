@@ -113,7 +113,7 @@
             display: block;
             text-align: center;
             border: 2px solid #F0BC33;
-            border-radius: 5px;
+            border-radius: 20px;
             margin-bottom: 10px;
             font-size: 1rem;
         }
@@ -425,7 +425,8 @@
         }
 
         .inforMare2 td {
-            padding: 0.20rem 0.05rem !important;
+            /*padding: 0.20rem 0.05rem !important;*/
+            padding: 0.20rem 0.85rem !important;
             font-size: 0.8rem;
         }
 
@@ -654,7 +655,7 @@
             width: 35px;
             height: 35px;
             border-radius: 100px;
-            margin: auto 70px;
+            margin: auto 25px;
             /*display:block;*/
             text-align: center;
             /*position: fixed;*/
@@ -672,6 +673,25 @@
             height: 35px;
             border-radius: 100px;
             z-index: 20;
+            /* margin: auto 45px; */
+            margin: auto 60px 0 40px;
+
+            /*display:block;*/
+            text-align: center;
+            /* position: fixed;
+            top: 115px;
+            right: 145px; */
+        }
+
+        .btn_legenda7 {
+            background-color: #ffc20a;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 35px;
+            height: 35px;
+            border-radius: 100px;
+            z-index: 20;
             /*margin:auto 160px;*/
             /*display:block;*/
             text-align: center;
@@ -679,6 +699,7 @@
             top: 115px;
             right: 145px; */
         }
+
 
         #icon_mini {
             color: #1F3436;
@@ -1662,7 +1683,7 @@
 
             <div class="sidebar-pane" id="infoRealTime">
                 <h1 class="sidebar-header">
-                    Rota em tempo real
+                    Simulação da Rota
                     <!-- <span id="close_side" class="sidebar-close"> <i class="fas fa-times-circle"></i></span> -->
                 </h1>
                 <div class="">
@@ -1774,8 +1795,8 @@
                 <div class="col-m-1" style="text-align: center;">
                     <button type="button" class="btn_playAnimacao" id="simuPlay" onclick="changeValue()"
                         disabled>Simular</button>
-                    <button type="button" class="btn_pararAnimacao" id="parar_Animacao" onclick="recomecarAnima()">
-                        Recomeçar </button>
+                    <!-- <button type="button" class="btn_pararAnimacao" id="parar_Animacao" onclick="recomecarAnima()">
+                        Recomeçar </button> -->
                 </div>
 
                 <div class="simulControll" id="simulControll_display">
@@ -1784,8 +1805,13 @@
                         class="btn btn-dark">
                         <i id="icon_mini" class="fas fa-pause-circle"></i>
                     </button>
-                    <button type="button" class="btn_legenda6" id="btn_play" class="btn btn-dark">
+                    <button type="button" class="btn_legenda6" id="btn_play" class="btn btn-dark"
+                        onclick="comecaAnimar()">
                         <i id="icon_mini" class="fas fa-play-circle"></i>
+                    </button>
+                    <button type="button" class="btn_legenda7" id="parar_Animacao" onclick="recomecarAnima()"
+                        class="btn btn-dark">
+                        <i id="icon_mini" class="fas fa-redo"></i>
                     </button>
 
                 </div>
@@ -2280,6 +2306,10 @@
 
         btn_layers.onclick = function () {
             $('.leaflet-control-layers').toggle();
+
+            setTimeout(function () {
+                $('.leaflet-control-layers').toggle();
+            }, 3000);
         }
 
         /**Colocar os botões de zoom na posição top right*/
@@ -3335,98 +3365,9 @@
         }
 
 
-        async function getDataGPX_ANGE_CALEDOURO_3005() {
-
-            mymap.eachLayer(function (layer) {
-                //console.log(layer.options.pane)
-                if (layer.options.pane == "overlayPane") {
-                    mymap.removeLayer(layer);
-                }
-            });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/1_ANGE_CALE_DOURO.gpx';
-            fetch(url)
-                .then(function (response) {
-                    return response.text();
-                })
-                .then(function (json) {
-                    VEri_text_gpx = json;
-
-                    var g = new L.GPX(json, {
-                        async: true,
-                        parseElements: ['track'],
-                        polyline_options: {
-                            color: '#020202',
-                            weight: 10,
-                        },
-                        marker_options: {
-                            // 'startIcon': new L.icon({
-                            //     iconUrl: 'marker.png',
-                            //     iconSize: [22, 32, 5],
-                            //     iconAnchor: [10, 30],
-                            // }),
-                            'endIcon': new L.icon({
-                                iconUrl: 'fim_icnon.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            })
-                        }
-
-                    });
-
-                    g.on('loaded', function (e) {
-                        var gpx = e.target,
-                            elevation_data = gpx.get_elevation_data();
-                        data_hora = gpx.get_start_time();
-                        name = gpx.get_name(),
-                            distM = gpx.get_distance(),
-                            distKm = distM / 1000,
-                            distKmRnd = distKm.toFixed(1),
-                            eleGain = gpx.get_elevation_gain().toFixed(2),
-                            eleLoss = gpx.get_elevation_loss().toFixed(2);
-                        var info = "Name: " + name + "</br>" +
-                            "Distance: " + distKmRnd + " km </br>" +
-                            "Elevation Gain: " + eleGain + " m </br>"
-
-                        //document.getElementById('km').innerHTML = info;
-                        gpx.getLayers()[0].bindPopup(info)
-
-                        let date = new Date(data_hora);
-                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
-
-                        var nday = date.getDay(),
-                            nmonth = date.getMonth() + 1,
-                            ndate = date.getDate(),
-                            nyear = date.getYear();
-                        if (nyear < 1000) nyear += 1900;
-                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-                        //document.getElementById('time').value = hora_min_gpx;
-
-                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-                        var arrayhidrografico = [];
-                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
-
-                    });
-
-                    somarNumero = 0;
-                    g.on('click', function (e) {
-                        var gpx = e.target;
-                        arrayGPX = [];
-                        arrayGPX.push(gpx._gpx)
-                        changeValue();
-                    });
-                    g.on('addpoint', function (e) {
-                        var gpx = e.target;
-                        arrayGPX = [];
-                        arrayGPX.push(gpx._gpx)
-                    })
-                    g.addTo(mymap);
-                });
-            mymap.setView([40.678, -8.7166], 13);
 
 
-        }
-
-        async function getDataGPX_CALEDOURO_ANGE_3005() {
+        async function getDataGPX_CALEDOURO_TESTADA_3005() {
 
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
@@ -4662,7 +4603,7 @@
             local_Nome_rota.push('getDataGPX_Torreira_ANGE_1705');
 
 
-            let url11 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/1_ANGE_CALE_DOURO.gpx';
+            let url11 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/3_VEIA_DA_TESTADA_TORREIRA.gpx';
 
             const response11 = await fetch(url11);
             const json11 = await response11.text();
@@ -4674,7 +4615,7 @@
             distancia11 = mymap.distance([lat_gpx11, lon_gpx11], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(distancia11);
-            local_Nome_rota.push('getDataGPX_ANGE_CALEDOURO_3005');
+            local_Nome_rota.push('getDataGPX_Testada_Torreira_3005');
 
             let url12 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/2_CALE_DOURO_VEIA_DA_TESTADA.gpx';
 
@@ -4688,7 +4629,7 @@
             distancia12 = mymap.distance([lat_gpx12, lon_gpx12], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(distancia12);
-            local_Nome_rota.push('getDataGPX_CALEDOURO_ANGE_3005');
+            local_Nome_rota.push('getDataGPX_CALEDOURO_TESTADA_3005');
 
             // document.getElementById('btn_legenda2').style.opacity = "1";
             // document.getElementById('btn_legenda').style.opacity = "1";
@@ -4718,8 +4659,8 @@
                     'getData_Volta10_3_20_GPX',
                     'getDataGPX_ANGE_Torreira_1705',
                     'getDataGPX_Torreira_ANGE_1705',
-                    'getDataGPX_ANGE_CALEDOURO_3005',
-                    'getDataGPX_CALEDOURO_ANGE_3005'
+                    'getDataGPX_Testada_Torreira_3005',
+                    'getDataGPX_CALEDOURO_TESTADA_3005'
                 ];
 
 
@@ -4811,7 +4752,7 @@
                         this.openPopup();
                     });
 
-                } if (guardardistancia[0][1] == 'getDataGPX_CALEDOURO_ANGE_3005') {
+                } if (guardardistancia[0][1] == 'getDataGPX_CALEDOURO_TESTADA_3005') {
                     nomeDestino = [];
                     nomeDestino.push("Cale Douro");
                     distance_gpx_real = [];
@@ -4835,14 +4776,63 @@
                         distance_gpx_real.push(distNM);
                     });
 
-                    var gpxMAIN2 = new L.GPX(json12, { async: true }).on('loaded', function (e) {
+                    setTimeout(function () {
+
+                        console.log(distance_gpx_real[0]);
+                        let velocidadeUser = document.getElementById('velocidade').value;
+                        if (!velocidadeUser) {
+                        } else {
+                            let dc2_dist = distance_gpx_real[0].toFixed(2);
+                            let tempo = dc2_dist / velocidadeUser;
+                            var n = new Date(0, 0);
+                            n.setMinutes(+tempo * 60);
+                            var result = n.toTimeString().slice(0, 5);
+
+
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
+                                "<h5>Da sua atual posição deseja ir até</h5>" +
+                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                                "<option selected disabled>Selecione uma rota</option>" +
+                                "<option value='getDataGPX_CALEDOURO_TESTADA_3005'>Para Testada - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                                "</div>").openPopup();
+
+                        }
+
+
+
+
+
+                    }, 1000);
+
+                    //convert_milesnaut[0].toFixed(2)
+
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
+
+                } else if (guardardistancia[0][1] == 'getDataGPX_Testada_Torreira_3005') {
+                    nomeDestino = [];
+                    nomeDestino.push("Torreira");
+                    distance_gpx_real = [];
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+
+
+                    marker_Teste1 = L.marker([40.70749067180911, -8.659404683858158], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    // let distance_Ange = mymap.distance([40.754585, -8.696377], [40.612488, -8.738059]);
+                    // let convert_milesnaut = distance_Ange * 0.0005;
+
+
+                    var gpxMAIN = new L.GPX(json11, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
                         distNM = distM * 0.0005;
                         distance_gpx_real.push(distNM);
                     });
-
-
 
                     setTimeout(function () {
 
@@ -4861,7 +4851,7 @@
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione uma rota</option>" +
-                                "<option value='getDataGPX_CALEDOURO_ANGE_3005'>Para Testada - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                                "<option value='getDataGPX_Testada_Torreira_3005'>Para Torreira - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "</div>").openPopup();
 
                         }
@@ -4878,7 +4868,7 @@
                         this.openPopup();
                     });
 
-                }else if (guardardistancia[0][1] == 'getCostaNovaGPX' ||
+                } else if (guardardistancia[0][1] == 'getCostaNovaGPX' ||
                     guardardistancia[0][1] == 'getData_IDA10_3_20_GPX') {
 
                     distance_gpx_real = [];
@@ -4925,13 +4915,6 @@
                         distance_gpx_real.push(distNM);
                     });
 
-                    var gpxMAIN5 = new L.GPX(json11, { async: true }).on('loaded', function (e) {
-                        var gpx = e.target;
-                        distM = gpx.get_distance();
-                        distNM = distM * 0.0005;
-                        distance_gpx_real.push(distNM);
-                    });
-
 
 
                     setTimeout(function () {
@@ -4970,11 +4953,7 @@
                             n5.setMinutes(+tempo5 * 60);
                             var result5 = n5.toTimeString().slice(0, 5);
 
-                            let dc2_dist_6 = distance_gpx_real[5].toFixed(2);
-                            let tempo6 = dc2_dist_6 / velocidadeUser;
-                            var n6 = new Date(0, 0);
-                            n6.setMinutes(+tempo6 * 60);
-                            var result6 = n6.toTimeString().slice(0, 5);
+
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
@@ -4985,7 +4964,6 @@
                                 "<option value='getData_IDA10_3_20_GPX'>Para Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
                                 "<option value='NovaRotaCriada'>Para Ange 2 - " + distance_gpx_real[3].toFixed(2) + " milhas com Duração " + result4 + "</option>" +
                                 "<option value='getDataGPX_ANGE_Torreira_1705'>Para Torreira 17/05 - " + distance_gpx_real[4].toFixed(2) + " milhas com Duração " + result5 + "</option>" +
-                                "<option value='getDataGPX_ANGE_CALEDOURO_3005'>Para Cale Douro - " + distance_gpx_real[5].toFixed(2) + " milhas com Duração " + result6 + "</option>" +
                                 "</div>").openPopup();
 
                         }
@@ -5177,7 +5155,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> ANGE</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> da Torreira</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5198,7 +5176,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> ANGE</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> da Torreira 17/05</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5208,19 +5186,19 @@
                         marker_Teste1.openPopup();
                     });
                     break;
-                    
+
                 case 'getDataGPX_ANGE_Torreira_1705':
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
-                    document.getElementById('cais_partida').innerHTML = "Torreira";
-                    document.getElementById('cais_chegada').innerHTML = "ANGE";
+                    document.getElementById('cais_partida').innerHTML = "ANGE";
+                    document.getElementById('cais_chegada').innerHTML = "Torreira";
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Partida</b> ANGE</p>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Torreira</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> da Torreira dia 17/05</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5243,7 +5221,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Torreira</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> da Torreira </p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5265,7 +5243,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Costa Nova</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> da Costa Nova</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5274,19 +5252,19 @@
                         marker_Teste1.openPopup();
                     });
                     break;
-                    case 'getDataGPX_ANGE_CALEDOURO_3005':
-                    getDataGPX_ANGE_CALEDOURO_3005();
+                case 'getDataGPX_Testada_Torreira_3005':
+                    getDataGPX_Testada_Torreira_3005();
                     nomeDestino = [];
-                    nomeDestino.push("Cale Douro");
+                    nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
-                    document.getElementById('cais_partida').innerHTML = "ANGE";
-                    document.getElementById('cais_chegada').innerHTML = "Cale Douro";
+                    document.getElementById('cais_partida').innerHTML = "Testada";
+                    document.getElementById('cais_chegada').innerHTML = "Torreira";
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
-                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> ANGE</p>" +
-                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Cale Douro</p>" +
-                        "<p style='font-size:0.8rem;'><b>Rota</b> do cale douro</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Testada</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Torreira</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> da testada até torreira</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5295,19 +5273,19 @@
                         marker_Teste1.openPopup();
                     });
                     break;
-                    case 'getDataGPX_CALEDOURO_ANGE_3005':
-                    getDataGPX_CALEDOURO_ANGE_3005();
+                case 'getDataGPX_CALEDOURO_TESTADA_3005':
+                    getDataGPX_CALEDOURO_TESTADA_3005();
                     nomeDestino = [];
-                    nomeDestino.push("ANGE");
+                    nomeDestino.push("Testada");
                     document.getElementById('tutorial03').style.display = "block";
                     document.getElementById('cais_partida').innerHTML = "Cale Douro";
-                    document.getElementById('cais_chegada').innerHTML = "ANGE";
+                    document.getElementById('cais_chegada').innerHTML = "Testada";
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Partida</b>Cale Douro </p>" +
-                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b>ANGE </p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b>Testada </p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> do cale douro</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5327,7 +5305,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Bico</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> ao Bico</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5360,7 +5338,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Vagueira</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> Vagueira</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5381,7 +5359,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Ange</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> Vagueira</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5402,7 +5380,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Boca da Barra</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> Boca da Barra</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5424,7 +5402,7 @@
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> ANGE</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> Bico - Ange</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão <i style='color:black;' class='fas fa-anchor'></i></span>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
                     setTimeout(function () {
                         marker_Teste1.closePopup();
@@ -5460,18 +5438,19 @@
         var variavelVelocidadeAnimBarco = [];
 
         var estadoAnimarBarco = 'faz1';
-
+        var comecAnimarfirst = false;
         var somarNumero = 0;
         var pointList = [];
         var input_Vel;
         var modal_eta = true;
         var time_partida_1 = true;
         var convertXML_String_1, convertXML_String_2;
+
         //Realiza o calculo com base no excel
+
         function calculo(valor_cal, cal_sup, cal_inf) {
 
-            document.getElementById('btn_pause').style.opacity = '1';
-            document.getElementById('btn_play').style.opacity = "0.4";
+    
 
             input_Vel = document.getElementById("velocidade").value;
             if (input_Vel == 1) {
@@ -6470,7 +6449,8 @@
 
 
                     document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
-                    horas_chegada = [User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos '];
+                    //horas_chegada = [User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos '];
+                    horas_chegada = [User_Tempo_cada_coor.getHours() + ':' + User_Tempo_cada_coor.getMinutes()];
                     ultimaMare = [mare_por_minuto2[i]];
                     //horas_chegada.push(User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ');
                     marker = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
@@ -6815,9 +6795,23 @@
             }
 
 
+            document.getElementById('simulControll_display').style.display = "block";
 
             //If para barco andar a fazer pedidos
+
+
+            if (comecAnimarfirst) {
+                comecaAnimar();
+            }
+
+        }
+        var pausa = false;
+        function comecaAnimar() {
+            comecAnimarfirst = true;
             var primeiroHorMin = [];
+            document.getElementById('btn_pause').style.opacity = '1';
+            document.getElementById('btn_play').style.opacity = "0.4";
+            document.getElementById('parar_Animacao').style.opacity = '1';
 
 
             if (AnimarBarco.length <= somarNumero) {
@@ -6837,6 +6831,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 } else if (AnimarBarco[somarNumero - 2]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -6851,6 +6846,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 3],
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 } else if (AnimarBarco[somarNumero - 3]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -6863,6 +6859,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 4],
                             variavelVelocidadeAnimBarco[somarNumero - 3],
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 } else if (AnimarBarco[somarNumero - 4]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -6873,6 +6870,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 5],
                             variavelVelocidadeAnimBarco[somarNumero - 4],
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 } else if (AnimarBarco[somarNumero - 6]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -6891,6 +6889,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 } else if (AnimarBarco[somarNumero - 7]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -6911,6 +6910,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 } else if (AnimarBarco[somarNumero - 8]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -6933,6 +6933,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 } else if (AnimarBarco[somarNumero - 9]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -6957,6 +6958,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 } else if (AnimarBarco[somarNumero - 10]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -6983,6 +6985,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
+                    comecAnimarfirst = false;
                 }
 
 
@@ -7013,8 +7016,11 @@
 
             } else if (somarNumero != 0 && AnimarBarco.length > somarNumero) {
 
-                if (newMarker) { // check
-                    mymap.removeLayer(newMarker); // remove
+                if (pausa) {
+                    if (markerAnimado) {
+                        mymap.removeLayer(markerAnimado);
+                    }
+                    pausa = false;
                 }
 
                 tempo = document.getElementById('time').value;
@@ -7227,13 +7233,18 @@
                         ], { autostart: true }).addTo(mymap);
                 }
 
+                //document.getElementById('simulControll_display').style.display = "block";
 
-                document.getElementById('simulControll_display').style.display = "block";
-                if (markerAnimado.isPaused()) {
-                    if (markerAnimado) {
-                        mymap.removeLayer(markerAnimado);
+                if (markerAnimado.isRunning()) {
+                    if (newMarker) { // check
+                        mymap.removeLayer(newMarker); // remove
+                    }
+                } else if (markerAnimado.isPaused()) {
+                    if (newMarker) { // check
+                        mymap.removeLayer(newMarker); // remove
                     }
                 }
+
 
                 hasLine = true;
 
@@ -7249,19 +7260,16 @@
                 //         // }
                 //     }
                 // }
-                document.getElementById('btn_play').onclick = function () {
-                    if (markerAnimado.isPaused()) {
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
-                        markerAnimado.start();
-                        document.getElementById('btn_pause').style.opacity = '1';
-                        document.getElementById('btn_play').style.opacity = "0.4";
-                    }
+                // 
 
-                }
+
 
                 document.getElementById('parar_Animacao').onclick = function () {
+
+                    document.getElementById('parar_Animacao').style.opacity = '0.4';
+                    document.getElementById('btn_play').style.opacity = "1";
+                    document.getElementById('btn_pause').style.opacity = "1";
+
                     if (markerAnimado) {
                         mymap.removeLayer(markerAnimado);
                     }
@@ -7303,26 +7311,24 @@
                 });
 
             }
-
-
         }
 
         function pauseAnimation() {
             markerAnimado.pause();
             document.getElementById('btn_pause').style.opacity = '0.4';
             document.getElementById('btn_play').style.opacity = "1";
+            document.getElementById('parar_Animacao').style.opacity = '1';
+
             time_partida_1 = true;
             modal_eta = true;
-
+            pausa = true;
             // if (markerAnimado.isRunning()) {
             //             markerAnimado.pause();
             //             document.getElementById('btn_pause').style.opacity = '0.4';
             //             document.getElementById('btn_play').style.opacity = "1";
             //             time_partida_1 = true;
             //             modal_eta = true;
-            //             // if (markerAnimado) {
-            //             // mymap.removeLayer(markerAnimado);
-            //             // }
+
             //         }
         }
 
