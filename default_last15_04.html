@@ -241,6 +241,16 @@
             border-radius: 5px;
         }
 
+        .btn_pararAnimacao {
+            background-color: tomato;
+            border: none;
+            color: rgb(255, 255, 255);
+            width: 100px;
+            height: 50px;
+            margin: 10px 30px;
+            border-radius: 5px;
+        }
+
 
 
         .img_logo2 {
@@ -597,6 +607,12 @@
             box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
         }
 
+        #div_dura_rot {
+            font-size: 1.2rem;
+            margin: auto;
+            display: block;
+            text-align: center;
+        }
 
         #div_veloc {
             font-size: 1.5rem;
@@ -884,6 +900,14 @@
             margin-left: 5px;
         }
 
+        #date {
+            margin: auto;
+            width: 100px;
+            height: 50px !important;
+            font-size: 0.8rem;
+            padding: 2px;
+        }
+
 
         /*********Tutorial **********/
 
@@ -947,6 +971,8 @@
             width: 40%;
             right: 150px;
         }
+
+
 
         #tutorial01,
         #tutorial02,
@@ -1014,11 +1040,22 @@
 
             }
 
-            #date {
+            #date2 {
                 width: 90%;
                 height: 100px !important;
                 font-size: 3.2rem;
                 margin: auto;
+            }
+
+            #date {
+                width: 30%;
+                height: 100px !important;
+                font-size: 3.2rem;
+                margin: auto;
+            }
+
+            #date {
+                width: 100px;
             }
 
 
@@ -1568,7 +1605,7 @@
 
                     <div class="col-sm-3">
                         <p class="p_inputs">Data</p>
-                        <input id="date" type="date" onchange="getInfo_outraData()">
+                        <input id="date2" type="date" onchange="getInfo_outraData()">
                     </div>
                     <div class="col-sm-1">
                         <!-- <img id="icon_velo" src="https://img.icons8.com/ios/50/000000/boat-returning-to-port.png"/> -->
@@ -1691,6 +1728,7 @@
 
                 </div>
 
+
                 <div style="margin-top:30px;">
                     <p style="text-align:center;font-size:1.2rem;"><b>Velocidade média prevista </b><i id="icon_crash"
                             class="fas fa-tachometer-alt"></i></p>
@@ -1698,6 +1736,13 @@
                         <input type="number" id="velocidade" class="input_div_vel" min="1" max="30" value="3" />
                         <span class="" style="color:black;font-size: 1.0rem;">Knots</span>
 
+                    </div>
+
+                </div>
+                <div style="margin-top:30px;">
+                    <p style="text-align:center;font-size:1.2rem;"><b>Duração da Rota </b></p>
+                    <div id="div_dura_rot">
+                        <p id="duracao_rota"></p>
                     </div>
 
                 </div>
@@ -1717,8 +1762,9 @@
                             <td>
                                 <p id="cais_partida"></p>
                             </td>
-                            <td><input style="width: 80px;font-size:16px;" type="time" id="time_partida">
-                                <input style="width: 80px;font-size:16px; display:none;" type="time" id="time">
+                            <td><input style="width: 100px;font-size:16px;" type="time" id="time_partida">
+                                <input style="width: 100px;font-size:16px; display:none;" type="time" id="time">
+                                <input id="date" type="date" onchange="getInfo_outraData()">
                             </td>
 
                             <td>
@@ -1795,6 +1841,9 @@
                 <div class="col-m-1" style="text-align: center;">
                     <button type="button" class="btn_playAnimacao" id="simuPlay" onclick="changeValue()"
                         disabled>Simular</button>
+                    <button type="button" class="btn_pararAnimacao" onclick="clearmap()">
+                        Limpar
+                    </button>
                     <!-- <button type="button" class="btn_pararAnimacao" id="parar_Animacao" onclick="recomecarAnima()">
                         Recomeçar </button> -->
                 </div>
@@ -4444,6 +4493,7 @@
         var distTOTAL;
         var distance_gpx_real = [];
         var nomeDestino = [];
+        var duracaoRotaChoosen = [];
         var coordClicadas;
         markerAnimado = "";
         async function verificaClickCoor(arrayClicked) {
@@ -4676,7 +4726,7 @@
                 nomeDestino = [];
                 nomeDestino.push("Ange");
 
-
+                duracaoRotaChoosen = [];
                 if (guardardistancia[0][1] == 'getTorreiraGPX') {
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
@@ -4737,7 +4787,8 @@
                                 "<option value='getTorreiraGPX'>Para ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "<option value='getDataGPX_Torreira_ANGE_1705'>Para ANGE 17/05 - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "</div>").openPopup();
-
+                            duracaoRotaChoosen.push(result)
+                            duracaoRotaChoosen.push(result2)
                         }
 
 
@@ -4795,12 +4846,8 @@
                                 "<option selected disabled>Selecione uma rota</option>" +
                                 "<option value='getDataGPX_CALEDOURO_TESTADA_3005'>Para Testada - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "</div>").openPopup();
-
+                            duracaoRotaChoosen.push(result)
                         }
-
-
-
-
 
                     }, 1000);
 
@@ -4853,7 +4900,7 @@
                                 "<option selected disabled>Selecione uma rota</option>" +
                                 "<option value='getDataGPX_Testada_Torreira_3005'>Para Torreira - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "</div>").openPopup();
-
+                            duracaoRotaChoosen.push(result)
                         }
 
 
@@ -4908,6 +4955,7 @@
                         distance_gpx_real.push(distNM);
                     });
 
+
                     var gpxMAIN4 = new L.GPX(json9, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
@@ -4915,7 +4963,12 @@
                         distance_gpx_real.push(distNM);
                     });
 
-
+                    var gpxMAIN1 = new L.GPX(json4, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
 
                     setTimeout(function () {
 
@@ -4953,6 +5006,11 @@
                             n5.setMinutes(+tempo5 * 60);
                             var result5 = n5.toTimeString().slice(0, 5);
 
+                            let dc2_dist_6 = distance_gpx_real[5].toFixed(2);
+                            let tempo6 = dc2_dist_6 / velocidadeUser;
+                            var n6 = new Date(0, 0);
+                            n6.setMinutes(+tempo6 * 60);
+                            var result6 = n6.toTimeString().slice(0, 5);
 
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
@@ -4962,10 +5020,14 @@
                                 "<option value='getCostaNovaGPX'>Para Costa Nova - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "<option value='getTorreiraGPX_Revserse'>Para Torreira - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "<option value='getData_IDA10_3_20_GPX'>Para Vagueira - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
-                                "<option value='NovaRotaCriada'>Para Ange 2 - " + distance_gpx_real[3].toFixed(2) + " milhas com Duração " + result4 + "</option>" +
+                                "<option value='getIdaBicoGPX'>Para Bico (debugging) - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result6 + "</option>" +
                                 "<option value='getDataGPX_ANGE_Torreira_1705'>Para Torreira 17/05 - " + distance_gpx_real[4].toFixed(2) + " milhas com Duração " + result5 + "</option>" +
                                 "</div>").openPopup();
-
+                            duracaoRotaChoosen.push(result)
+                            duracaoRotaChoosen.push(result2)
+                            duracaoRotaChoosen.push(result3)
+                            duracaoRotaChoosen.push(result6)
+                            duracaoRotaChoosen.push(result5)
                         }
 
 
@@ -5005,6 +5067,7 @@
                                 "<option selected disabled>Selecione uma rota</option>" +
                                 "<option value='getData4GPX'>Para Aveiro - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
                                 "</div>").openPopup();
+
                         }
 
                     }, 1000);
@@ -5073,6 +5136,10 @@
                                 "<option value='getDataGPX_RegressoBico'>Para Boca da Barra - " + distance_gpx_real[1].toFixed(2) + " milhas com Duração " + result2 + "</option>" +
                                 "<option value='NovaRotaCriada'>Para Ange - " + distance_gpx_real[2].toFixed(2) + " milhas com Duração " + result3 + "</option>" +
                                 "</div>").openPopup();
+                            duracaoRotaChoosen.push(result3)
+                            duracaoRotaChoosen.push(result2)
+                            duracaoRotaChoosen.push(0)
+                            duracaoRotaChoosen.push(result)
                         }
 
                     }, 1000);
@@ -5103,6 +5170,7 @@
                             "<option selected disabled>Selecione uma rota</option>" +
                             "<option value='getData_Volta10_3_20_GPX'>Para Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
                             "</div>").openPopup();
+                        duracaoRotaChoosen.push(result)
                     }, 1000);
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
@@ -5125,7 +5193,7 @@
 
 
         function selecioneLocal() {
-
+            comecAnimarfirst = false;
 
             var value_escolhido = document.getElementById("sel1").value;
             $('#simuPlay').removeAttr("disabled");
@@ -5147,6 +5215,7 @@
                 case 'getTorreiraGPX':
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
                     document.getElementById('tutorial03').style.display = "block";
                     document.getElementById('cais_partida').innerHTML = "Torreira";
                     document.getElementById('cais_chegada').innerHTML = "ANGE";
@@ -5166,6 +5235,8 @@
                     });
                     break;
                 case 'getDataGPX_Torreira_ANGE_1705':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[1];
+
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
                     document.getElementById('tutorial03').style.display = "block";
@@ -5188,6 +5259,8 @@
                     break;
 
                 case 'getDataGPX_ANGE_Torreira_1705':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[4];
+
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
@@ -5211,6 +5284,8 @@
 
 
                 case 'getTorreiraGPX_Revserse':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[1];
+
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
@@ -5232,6 +5307,8 @@
                     });
                     break;
                 case 'getCostaNovaGPX':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
+
                     getCostaNovaGPX();
                     nomeDestino = [];
                     nomeDestino.push("Costa Nova");
@@ -5253,6 +5330,8 @@
                     });
                     break;
                 case 'getDataGPX_Testada_Torreira_3005':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
+
                     getDataGPX_Testada_Torreira_3005();
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
@@ -5274,6 +5353,8 @@
                     });
                     break;
                 case 'getDataGPX_CALEDOURO_TESTADA_3005':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
+
                     getDataGPX_CALEDOURO_TESTADA_3005();
                     nomeDestino = [];
                     nomeDestino.push("Testada");
@@ -5295,6 +5376,8 @@
                     });
                     break;
                 case 'getIdaBicoGPX':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[3];
+
                     nomeDestino = [];
                     nomeDestino.push("do Bico");
                     document.getElementById('tutorial03').style.display = "block";
@@ -5328,6 +5411,7 @@
                     break;
                 case 'getData_IDA10_3_20_GPX':
                     getData_IDA10_3_20_GPX();
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[2];
                     nomeDestino = [];
                     nomeDestino.push("Vagueira");
                     document.getElementById('tutorial03').style.display = "block";
@@ -5348,6 +5432,8 @@
                     });
                     break;
                 case 'getData_Volta10_3_20_GPX':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
+
                     getData_Volta10_3_20_GPX();
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
@@ -5369,6 +5455,8 @@
                     });
                     break;
                 case 'getDataGPX_RegressoBico':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[1];
+
                     getDataGPX_RegressoBico();
                     nomeDestino = [];
                     nomeDestino.push("Boca da Barra");
@@ -5391,6 +5479,7 @@
                     break;
 
                 case 'NovaRotaCriada':
+                    document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
                     getBicoAngeGPX();
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
@@ -5450,7 +5539,7 @@
 
         function calculo(valor_cal, cal_sup, cal_inf) {
 
-    
+
 
             input_Vel = document.getElementById("velocidade").value;
             if (input_Vel == 1) {
@@ -6079,6 +6168,85 @@
                 let data1 = new Date(sortedData2[0].SDATA);
                 let data2 = new Date(sortedData2[1].SDATA);
                 let data3 = new Date(sortedData2[2].SDATA);
+
+                if (sortedData2[3] != null || sortedData2[3] != undefined) {
+                    let data4 = new Date(sortedData2[3].SDATA);
+                    if (data4.getHours() == 0 || data4.getHours() == 00 || array_hidrografico_simulacao_API[0][3].ALT == null) {
+                        document.getElementById('info_mare_2').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                        document.getElementById('info_mare_3').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                        document.getElementById('info_mare_4').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                        document.getElementById('info_mare_2_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                        document.getElementById('info_mare_3_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                        document.getElementById('info_mare_4_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    }
+                    else {
+                        document.getElementById('info_mare_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                        document.getElementById('info_mare_2').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                        document.getElementById('info_mare_3').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                        if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                            document.getElementById('info_mare_4').innerHTML = data4.getHours() + ":" + data4.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                        }
+
+                        document.getElementById('info_mare_1_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                        document.getElementById('info_mare_2_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                        document.getElementById('info_mare_3_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                        if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                            document.getElementById('info_mare_4_1').innerHTML = data4.getHours() + ":" + data4.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                        }
+                    }
+                } else {
+                    document.getElementById('info_mare_2').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_4').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                    document.getElementById('info_mare_2_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_4_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                }
 
 
                 //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
@@ -7337,6 +7505,8 @@
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
+                    mymap.removeLayer(markerAnimado);
+                    mymap.removeLayer(firstpolyline2);
                 }
             });
             document.getElementById('date').value = "";
@@ -7348,8 +7518,23 @@
             arrayUser = [];
             sortedData = 0;
             mareUser = [];
+            arrayCoor = [];
             mare_por_minuto = [];
-            document.getElementById('fileUploader').value = "";
+            hasLine = false;
+            var AnimarBarco = [];
+            var AnimarBarco_ComSLider = [];
+            // guardar a velocidade com base nos pontos
+            var variavelVelocidadeAnimBarco = [];
+            document.getElementById('simulControll_display').style.display = "none";
+
+            var estadoAnimarBarco = 'faz1';
+            var comecAnimarfirst = false;
+            var somarNumero = 0;
+            var pointList = [];
+            var input_Vel;
+            var modal_eta = true;
+            var time_partida_1 = true;
+            //document.getElementById('fileUploader').value = "";
             getInfo();
         }
     </script>
