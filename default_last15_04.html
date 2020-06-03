@@ -1803,7 +1803,7 @@
                             <td>
                                 <p id="cais_partida"></p>
                             </td>
-                            <td><input style="width: 100px;font-size:16px;" type="time" id="time_partida">
+                            <td><input style="width: 100px;font-size:16px;" type="time" id="time_partida" onchange="mudarTime()">
                                 <input style="width: 100px;font-size:16px; display:none;" type="time" id="time">
                                 <input id="date" type="date" onchange="getInfo_outraData()">
                             </td>
@@ -5616,6 +5616,12 @@
             verificaClickCoor(arrayCoor[0]);
         }
 
+
+        function mudarTime() {
+            time_partida_1 = true;
+            modal_eta = true;
+            changeValue();
+        }
 
         //saber as horas que chego
         var horas_chegada = [];
