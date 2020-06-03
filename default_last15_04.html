@@ -6548,17 +6548,38 @@
 
                         console.log("if 05")
 
-                        
-                        let horas_min_seguinte = new Date(sortedData2_seguinte[0].SDATA);
-                        let delta_mare;
 
-                        delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
+                        // let horas_min_seguinte = new Date(sortedData2_seguinte[0].SDATA);
+                        // let delta_mare;
+
+                        // delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
+                   
+                        // let usershr_min = UserHoras2.getHours() * 60;
+                        // let dateshr_min = horas_min_seguinte.getHours() * 60;
+                        // console.log(usershr_min)
+                        // console.log(dateshr_min)
+                        // let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
+                        // let total = delta_mare * (count / 375) - sortedData2[3].ALT;
+
+
+                        let horas_min_seguinte = new Date(sortedData2_seguinte[0].SDATA);
+                        let delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
 
                         let usershr_min = UserHoras2.getHours() * 60;
                         let dateshr_min = horas_min_seguinte.getHours() * 60;
+                        console.log(usershr_min)
+                        console.log(dateshr_min)
 
                         let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
-                        let total = delta_mare * (count / 375) - sortedData2[3].ALT;
+                        console.log(count)
+                        let total = delta_mare * (count / 375) - sortedData2[0].ALT; // ? sortedData2_seguinte[0].SDATA
+                        console.log(total)
+                        mareUser2.push(total)
+                        horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
+
+
+
+
 
                         mareUser2.push(total)
                         for (let p = 0; p < horasdarota_medida.length; p++) {
@@ -6570,16 +6591,23 @@
                                 delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
 
                                 let usershr_min = UserHoras2.getHours() * 60;
-                                let dateshr_min = data4.getHours() * 60;
+                                let dateshr_min = horas_min_seguinte.getHours() * 60;
 
-                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (data4.getMinutes() + dateshr_min));
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
 
-                                let total = delta_mare * (count / 375) - sortedData2[3].ALT;
+                                let total = delta_mare * (count / 375)  + sortedData2[3].ALT;//- sortedData2[3].ALT;
                                 mare_por_minuto2.push(Math.abs(total));
                                 let min_incr_user = UserHoras2.getMinutes() + p;
                                 horas_pontos_user.push(UserHoras2.getHours() + ":" + min_incr_user)
                             }
                         }
+
+                        console.log(horas_min_seguinte)
+                        console.log(horas_min_seguinte.getMinutes())
+                        console.log(delta_mare)
+                        console.log(count)
+                        console.log(total)
+                        console.log(mare_por_minuto2)
                     }
 
                 } else if (sortedData2[3] == undefined) {
@@ -6610,9 +6638,9 @@
                                 delta_mare = sortedData2_seguinte[0].ALT - sortedData2[2].ALT;
 
                                 let usershr_min = UserHoras2.getHours() * 60;
-                                let dateshr_min = data3.getHours() * 60;
+                                let dateshr_min = horas_min_seguinte.getHours() * 60;
 
-                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data3.getMinutes() + dateshr_min);
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (horas_min_seguinte.getMinutes() + dateshr_min);
                                 let total = delta_mare * (count / 375) + sortedData2[2].ALT;
                                 mare_por_minuto2.push(total)
                                 let min_incr_user = UserHoras2.getMinutes() + p;
