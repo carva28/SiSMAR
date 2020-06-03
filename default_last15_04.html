@@ -412,10 +412,11 @@
         }
 
         .table thead th {
-            text-align: center;
+            text-align: left;
         }
 
-        #mare_partida {
+        #mare_partida,
+        #mare_chegada {
             width: 120px;
         }
 
@@ -426,13 +427,20 @@
 
         #info_mare2 {
             /* padding:0rem 0.10rem; */
-            padding: 1rem 1.5rem;
+            padding: 0 !important;
             font-size: 0.9rem;
+            border-bottom: 5px solid #0c0c0c;
         }
 
         #info_mare2 td {
             text-align: center;
         }
+
+        #primeira_col {
+            border-bottom: 5px solid #0c0c0c;
+        }
+
+
 
         .inforMare2 td {
             /*padding: 0.20rem 0.05rem !important;*/
@@ -445,6 +453,25 @@
             margin-bottom: 1rem;
             color: #212529;
             table-layout: fixed;
+            font-size: 0.9rem;
+        }
+
+        .table td {
+            text-align: left;
+            width: 50px !important;
+            /* padding: 0 !important; */
+            margin: 0 !important;
+            padding: 10px 0px !important;
+        }
+
+        .table th {
+            width: 20% !important;
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        #label_metros_mare {
+            padding: 0 50px !important;
         }
 
         /* cell number */
@@ -509,11 +536,17 @@
             margin-right: 14px !important;
         }
 
+        #th_styles {
+            width: 14% !important;
+        }
 
         .sidebar.leaflet-touch {
             z-index: 99999999;
         }
 
+        .sidebar {
+            width: 520px;
+        }
 
         .btn_changeRotas {
             width: 10rem;
@@ -726,7 +759,7 @@
         #icon_mini {
             color: #1F3436;
             margin-top: 4px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-left: -1px;
         }
 
@@ -1502,7 +1535,7 @@
     </div>
 
     <div id="div_five">
-        <p>Rota em Tempo Real</p>
+        <p>Simulação da Rota</p>
     </div>
 
     <div id="div_six">
@@ -1576,7 +1609,7 @@
                     <div class="col-sm-1">
 
                         <p class="p_inputs">Calado metro(s)</p>
-                        <input type="number" id="calado_span" min="1" max="5" value="1" step="0.01">
+                        <input type="number" id="calado_span" min="0.5" max="5" value="1" step="0.01">
 
                     </div>
                     <div class="col-sm-1">
@@ -1739,7 +1772,8 @@
                     <p style="text-align:center;font-size:1.2rem;"><b>Velocidade média prevista </b><i id="icon_crash"
                             class="fas fa-tachometer-alt"></i></p>
                     <div id="div_veloc">
-                        <input type="number" id="velocidade" class="input_div_vel" min="1" max="30" value="3" />
+                        <input type="number" id="velocidade" class="input_div_vel" min="1" max="30" value="3"
+                            onchange="mudarVeloDura()" />
                         <span class="" style="color:black;font-size: 1.0rem;">Knots</span>
 
                     </div>
@@ -1755,11 +1789,12 @@
 
                 <table class="table">
                     <thead>
-                        <tr>
+                        <tr id="primeira_col">
                             <th scope="col"></th>
                             <th scope="col">Cais</th>
-                            <th scope="col">Hora</th>
-                            <th scope="col">Altura da Maré</th>
+                            <th scope="col" id="">Hora</th>
+                            <th scope="col" style="padding: 0 0px 0 30px!important;">Altura da Maré (metros)</th>
+                            <th id="th_styles"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1773,7 +1808,7 @@
                                 <input id="date" type="date" onchange="getInfo_outraData()">
                             </td>
 
-                            <td>
+                            <td id="label_metros_mare">
                                 <p id="mare_partida"></p>
                             </td>
                         </tr>
@@ -1805,7 +1840,7 @@
                                 <p id="cais_chegada"></p>
                             </td>
                             <td><output class="output_time" name="eta_1" id="eta_1"></output></td>
-                            <td>
+                            <td id="label_metros_mare">
                                 <p id="mare_chegada"></p>
                             </td>
                         </tr>
@@ -1858,11 +1893,11 @@
                     <p style="text-align: center;font-weight: bolder;">Controladores</p>
                     <button onclick="pauseAnimation()" type="button" class="btn_legenda5" id="btn_pause"
                         class="btn btn-dark">
-                        <i id="icon_mini" class="fas fa-pause-circle"></i>
+                        <i id="icon_mini" class="fas fa-pause"></i>
                     </button>
                     <button type="button" class="btn_legenda6" id="btn_play" class="btn btn-dark"
                         onclick="comecaAnimar()">
-                        <i id="icon_mini" class="fas fa-play-circle"></i>
+                        <i id="icon_mini" class="fas fa-play"></i>
                     </button>
                     <button type="button" class="btn_legenda7" id="parar_Animacao" onclick="recomecarAnima()"
                         class="btn btn-dark">
@@ -4452,7 +4487,46 @@
             //     document.getElementById('btn_legenda').style.opacity = "0.6";
             // };
         });
+        var arrayURL = [];
+        async function mudarVeloDura() {
+         
+            let url = arrayURL[0];
+            const response = await fetch(url);
+            const json = await response.text();
 
+            parser = new DOMParser();
+            xmlDoc = parser.parseFromString(json, "text/xml");
+
+            distance_gpx_real = [];
+
+            var gpxMAIN = new L.GPX(json, { async: true }).on('loaded', function (e) {
+                var gpx = e.target;
+                distM = gpx.get_distance();
+                distNM = distM * 0.0005;
+                distance_gpx_real.push(distNM);
+            });
+
+            setTimeout(function () {
+
+                let velocidadeUser = document.getElementById('velocidade').value;
+                if (!velocidadeUser) {
+                    alert('insira uma velocidade')
+                } else {
+                    let dc2_dist = distance_gpx_real[0].toFixed(2);
+                    let tempo = dc2_dist / velocidadeUser;
+                    var n = new Date(0, 0);
+                    n.setMinutes(+tempo * 60);
+                    var result = n.toTimeString().slice(0, 5);
+
+                    console.log(distance_gpx_real[0].toFixed(2));
+
+                    console.log(result);
+                    document.getElementById('duracao_rota').innerHTML = result;
+                }
+
+            }, 1000);
+
+        }
 
         function clickedPointer(valor) {
 
@@ -5236,12 +5310,16 @@
                         marker_Teste1.closePopup();
                     }, 7000);
                     getTorreiraGPX();
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx');
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
                     });
                     break;
                 case 'getDataGPX_Torreira_ANGE_1705':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[1];
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx');
 
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
@@ -5266,6 +5344,8 @@
 
                 case 'getDataGPX_ANGE_Torreira_1705':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[4];
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx');
 
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
@@ -5291,7 +5371,8 @@
 
                 case 'getTorreiraGPX_Revserse':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[1];
-
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/TorreiraRevserse.gpx');
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
@@ -5314,7 +5395,8 @@
                     break;
                 case 'getCostaNovaGPX':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
-
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx');
                     getCostaNovaGPX();
                     nomeDestino = [];
                     nomeDestino.push("Costa Nova");
@@ -5337,7 +5419,8 @@
                     break;
                 case 'getDataGPX_Testada_Torreira_3005':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
-
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/3_VEIA_DA_TESTADA_TORREIRA.gpx');
                     getDataGPX_Testada_Torreira_3005();
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
@@ -5360,6 +5443,8 @@
                     break;
                 case 'getDataGPX_CALEDOURO_TESTADA_3005':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/2_CALE_DOURO_VEIA_DA_TESTADA.gpx');
 
                     getDataGPX_CALEDOURO_TESTADA_3005();
                     nomeDestino = [];
@@ -5383,6 +5468,8 @@
                     break;
                 case 'getIdaBicoGPX':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[3];
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx');
 
                     nomeDestino = [];
                     nomeDestino.push("do Bico");
@@ -5416,6 +5503,9 @@
                     });
                     break;
                 case 'getData_IDA10_3_20_GPX':
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx');
+
                     getData_IDA10_3_20_GPX();
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[2];
                     nomeDestino = [];
@@ -5439,7 +5529,9 @@
                     break;
                 case 'getData_Volta10_3_20_GPX':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
-
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx');
+                    
                     getData_Volta10_3_20_GPX();
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
@@ -5462,7 +5554,9 @@
                     break;
                 case 'getDataGPX_RegressoBico':
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[1];
-
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx');
+                    
                     getDataGPX_RegressoBico();
                     nomeDestino = [];
                     nomeDestino.push("Boca da Barra");
@@ -5485,6 +5579,9 @@
                     break;
 
                 case 'NovaRotaCriada':
+                arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx');
+                    
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
                     getBicoAngeGPX();
                     nomeDestino = [];
@@ -5700,7 +5797,7 @@
                             TempoParaANimar.push(newStr);
                             let date = new Date(newStr);
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
-                            if (date.getSeconds() == 00) {
+                            if (date.getSeconds() == 00 && input_Vel < 10 ) {
                                 //Guardar Coordenadas do GPX e Z
                                 // console.log(xmlDoc.getElementsByTagName("speed"))
                                 // console.log(xmlDoc.getElementsByTagName("speed")[i])
@@ -6451,7 +6548,7 @@
 
                         console.log("if 05")
 
-
+                        
                         let horas_min_seguinte = new Date(sortedData2_seguinte[0].SDATA);
                         let delta_mare;
 
@@ -6878,39 +6975,39 @@
 
 
                 if (horasChegada <= dataInformacion_0.getHours()) {
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 } else if (horasChegada < dataInformacion_1.getHours()) {
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
 
 
                 } else if (horasChegada < dataInformacion_2.getHours()) {
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                 } else if (sortedData2[3] != null) {
 
                     if (dataInformacion_3.getHours() == 0) {
                         let novahora = 24;
                         if (horasChegada < novahora) {
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                         } else {
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                         }
                     } else {
 
                         if (horasChegada < dataInformacion_3.getHours()) {
 
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                         } else {
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                         }
                     }
                 } else if (sortedData2[3] == null) {
 
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 }
 
@@ -6921,39 +7018,39 @@
 
 
                 if (horasPartida <= dataInformacion_0.getHours()) {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 } else if (horasPartida < dataInformacion_1.getHours()) {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
 
 
                 } else if (horasPartida < dataInformacion_2.getHours()) {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                 } else if (sortedData2[3] != null) {
 
                     if (dataInformacion_3.getHours() == 0) {
                         let novahora = 24;
                         if (horasPartida < novahora) {
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                         } else {
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                         }
                     } else {
 
                         if (horasPartida < dataInformacion_3.getHours()) {
 
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                         } else {
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                         }
                     }
                 } else if (sortedData2[3] == null) {
 
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " metros <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                 }
 
