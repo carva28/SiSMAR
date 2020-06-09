@@ -7341,7 +7341,7 @@
                     document.getElementById('time').value = UserHoras2;
                     primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
                 } else {
-                    var minutos = parseInt(splitTime1[1]) + 10;
+                    var minutos = parseInt(splitTime1[1]) + 1;
                     UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], minutos);
                     primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
 
