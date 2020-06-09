@@ -344,7 +344,7 @@
             z-index: 999999999;
             position: absolute;
             font-size: 50px;
-            top: 250px;
+            top: 150px;
             /* text-align: center; */
             right: 0;
             left: 0;
@@ -358,7 +358,8 @@
             background-color: #fff;
 
             color: #5b70a8;
-            border: #5b70a8 1px solid;
+            border: #5b70a8 4px solid;
+            border-radius:20px;
             /* padding: 10%;*/
         }
 
@@ -1803,7 +1804,8 @@
                             <td>
                                 <p id="cais_partida"></p>
                             </td>
-                            <td><input style="width: 100px;font-size:16px;" type="time" id="time_partida" onchange="mudarTime()">
+                            <td><input style="width: 100px;font-size:16px;" type="time" id="time_partida"
+                                    onchange="mudarTime()">
                                 <input style="width: 100px;font-size:16px; display:none;" type="time" id="time">
                                 <input id="date" type="date" onchange="getInfo_outraData()">
                             </td>
@@ -1819,18 +1821,18 @@
                             </td>
                             <td>
                                 <p id="info_mare_1"></p>
-                                <p>&nbsp</p>
+                                <p id="info_mare_1_troca">&nbsp</p>
                             </td>
                             <td>
-                                <p>&nbsp</p>
+                                <p id="info_mare_2_troca">&nbsp</p>
                                 <p id="info_mare_2"></p>
                             </td>
                             <td>
                                 <p id="info_mare_3"></p>
-                                <p>&nbsp</p>
+                                <p id="info_mare_3_troca">&nbsp</p>
                             </td>
                             <td>
-                                <p>&nbsp</p>
+                                <p id="info_mare_4_troca">&nbsp</p>
                                 <p id="info_mare_4"></p>
                             </td>
                         </tr>
@@ -1852,18 +1854,18 @@
                             </td>
                             <td>
                                 <p id="info_mare_1_1"></p>
-                                <p>&nbsp</p>
+                                <p id="info_mare_1_1_troca">&nbsp</p>
                             </td>
                             <td>
-                                <p>&nbsp</p>
+                                <p id="info_mare_2_1_troca">&nbsp</p>
                                 <p id="info_mare_2_1"></p>
                             </td>
                             <td>
                                 <p id="info_mare_3_1"></p>
-                                <p>&nbsp</p>
+                                <p id="info_mare_3_1_troca">&nbsp</p>
                             </td>
                             <td>
-                                <p>&nbsp</p>
+                                <p id="info_mare_4_1_troca">&nbsp</p>
                                 <p id="info_mare_4_1"></p>
                             </td>
                         </tr>
@@ -2268,7 +2270,11 @@
     <button id="btn_layers"><i style="font-size:1.2rem;" class="fas fa-layer-group"></i></button>
 
     <div id="load_fetch">
-        <h2>Carregando...</h2>
+        <h2>Por favor aguarde</h2>
+        <div class="spinner-border" style="font-size: 20px;margin: auto;display: block;" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        <p style="font-size: 1.5rem;text-align: center;">Estamos a preparar-lhe uma viagem com segurança </p>
     </div>
 
     <div class="tutorial">
@@ -3901,57 +3907,142 @@
             //     let horasInfo4 = new Date (array_hidrografico_simulacao_API[0][3].SDATA);
             // }
 
+            document.getElementById('info_mare_1').innerHTML = "&nbsp";
+            document.getElementById('info_mare_2').innerHTML = "&nbsp";
+            document.getElementById('info_mare_3').innerHTML = "&nbsp";
+            document.getElementById('info_mare_4').innerHTML = "&nbsp";
+
+            document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
+            document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
+            document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
+            document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
+
+            document.getElementById('info_mare_1_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_2_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_3_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_4_troca').innerHTML = "&nbsp";
+
+            document.getElementById('info_mare_1_1_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_2_1_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_3_1_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_4_1_troca').innerHTML = "&nbsp";
+
             if (horasInfo4.getHours() == 0 || horasInfo4.getHours() == 00 || array_hidrografico_simulacao_API[0][3].ALT == null) {
-                document.getElementById('info_mare_2').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
-                document.getElementById('info_mare_3').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
-                document.getElementById('info_mare_4').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                if (array_hidrografico_simulacao_API[0][0].ALT > array_hidrografico_simulacao_API[0][1].ALT) {
+                    console.log('siiimmm')
 
 
-                document.getElementById('info_mare_2_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
-                document.getElementById('info_mare_3_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
-                document.getElementById('info_mare_4_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
-
-            } else {
-                document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
-                document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
-                document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
-                if (array_hidrografico_simulacao_API[0][3].ALT != null) {
-                    document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                    document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
                         + "&nbsp" + "|" +
-                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                    document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                } else {
+                    document.getElementById('info_mare_2').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_4').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_4_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
                 }
 
-                document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
-                document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
-                document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
-                    + "&nbsp" + "|" +
-                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
-                if (array_hidrografico_simulacao_API[0][3].ALT != null) {
-                    document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+
+            } else {
+                console.log('siiimmm second ifffff')
+
+                if (array_hidrografico_simulacao_API[0][0].ALT > array_hidrografico_simulacao_API[0][1].ALT) {
+
+                    document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
                         + "&nbsp" + "|" +
-                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                    if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                        document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    }
+
+                    document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                    if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                        document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    }
+
+                } else {
+                    document.getElementById('info_mare_1_troca').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_troca').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_troca').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                    if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                        document.getElementById('info_mare_4_troca').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    }
+
+                    document.getElementById('info_mare_1_1_troca').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1_troca').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1_troca').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                    if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                        document.getElementById('info_mare_4_1_troca').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    }
                 }
             }
 
@@ -3962,13 +4053,11 @@
 
 
         async function getInfo_outraData() {
+            document.getElementById('load_fetch').style.display = "block";
             array_hidrografico_simulacao_API = [];
             array_hidrografico_simulacao_API_diapos = [];
             array_hidrografico_simulacao_API_anterior = [];
 
-            console.log(array_hidrografico_simulacao_API)
-            console.log(array_hidrografico_simulacao_API_diapos)
-            console.log(array_hidrografico_simulacao_API_anterior)
             //arrayUser = [];
             sortedData = 0;
             mareUser = [];
@@ -3991,8 +4080,7 @@
                 .then(response => response.json())
                 .then(contents => array_hidrografico_simulacao_API.push(contents))
                 .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
-
-
+       
             const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
             const response2 = await fetch(proxyurl + url_posterior);
             const json2 = await response2.json();
@@ -4003,98 +4091,179 @@
             const json3 = await response3.json();
             array_hidrografico_simulacao_API_anterior.push(json3)
 
-            console.log(array_hidrografico_simulacao_API_anterior)
+            //console.log(array_hidrografico_simulacao_API_anterior)
+
+            if(array_hidrografico_simulacao_API[0].length > 0){
+                document.getElementById('load_fetch').style.display = "none";
+            }
         }
 
         //Carregar Informação do Instituto Hidrográfico na Modal
         function onclick_modal_data_amanha() {
+
             if (array_hidrografico_simulacao_API_diapos.length > 0) {
-                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                    "<th scope='col'>Data</th>" +
-                    "<th scope='col'>Altura Maré</th>" +
-                    "</tr></thead>" +
-                    "<tbody>" +
-                    "<tr>" +
-                    "<th scope='row'>1</th>" +
-                    "<td>" + array_hidrografico_simulacao_API_diapos[0][0].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API_diapos[0][0].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>2</th>" +
-                    "<td>" + array_hidrografico_simulacao_API_diapos[0][1].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API_diapos[0][1].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>3</th>" +
-                    "<td>" + array_hidrografico_simulacao_API_diapos[0][2].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API_diapos[0][2].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>4</th>" +
-                    "<td>" + array_hidrografico_simulacao_API_diapos[0][3].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API_diapos[0][3].ALT + "</td>" +
-                    "</tr>" +
-                    "</tbody></table>";
+                if (array_hidrografico_simulacao_API_diapos.length > 2) {
+
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][0].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][1].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][2].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][3].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                } else {
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][0].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][1].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][2].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_diapos[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                }
             }
         }
         function onclick_modal_data_ontem() {
             if (array_hidrografico_simulacao_API_anterior.length > 0) {
-                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                    "<th scope='col'>Data</th>" +
-                    "<th scope='col'>Altura Maré</th>" +
-                    "</tr></thead>" +
-                    "<tbody>" +
-                    "<tr>" +
-                    "<th scope='row'>1</th>" +
-                    "<td>" + array_hidrografico_simulacao_API_anterior[0][0].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API_anterior[0][0].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>2</th>" +
-                    "<td>" + array_hidrografico_simulacao_API_anterior[0][1].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API_anterior[0][1].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>3</th>" +
-                    "<td>" + array_hidrografico_simulacao_API_anterior[0][2].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API_anterior[0][2].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>4</th>" +
-                    "<td>" + array_hidrografico_simulacao_API_anterior[0][3].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</td>" +
-                    "</tr>" +
-                    "</tbody></table>";
+                if (array_hidrografico_simulacao_API_anterior[0][3].ALT != null) {
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][0].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][1].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][2].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][3].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                } else {
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][0].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][1].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][2].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API_anterior[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                }
             }
         }
         function onclick_modal_data_hoje() {
             if (array_hidrografico_simulacao_API.length > 0) {
-                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                    "<th scope='col'>Data</th>" +
-                    "<th scope='col'>Altura Maré</th>" +
-                    "</tr></thead>" +
-                    "<tbody>" +
-                    "<tr>" +
-                    "<th scope='row'>1</th>" +
-                    "<td>" + array_hidrografico_simulacao_API[0][0].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API[0][0].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>2</th>" +
-                    "<td>" + array_hidrografico_simulacao_API[0][1].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API[0][1].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>3</th>" +
-                    "<td>" + array_hidrografico_simulacao_API[0][2].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API[0][2].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>4</th>" +
-                    "<td>" + array_hidrografico_simulacao_API[0][3].SDATA + "</td>" +
-                    "<td>" + array_hidrografico_simulacao_API[0][3].ALT + "</td>" +
-                    "</tr>" +
-                    "</tbody></table>";
+                if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][0].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][1].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][2].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][3].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+
+                } else {
+
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][0].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][1].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][2].SDATA + "</td>" +
+                        "<td>" + array_hidrografico_simulacao_API[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                }
             }
         }
 
@@ -4141,40 +4310,7 @@
 
         function onclick_modal_data_ondia15() {
             if (arrayhidrografico_anteriordia.length > 0) {
-                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                    "<th scope='col'>Data</th>" +
-                    "<th scope='col'>Altura Maré</th>" +
-                    "</tr></thead>" +
-                    "<tbody>" +
-                    "<tr>" +
-                    "<th scope='row'>1</th>" +
-                    "<td>" + arrayhidrografico_anteriordia[0][0].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico_anteriordia[0][0].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>2</th>" +
-                    "<td>" + arrayhidrografico_anteriordia[0][1].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico_anteriordia[0][1].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>3</th>" +
-                    "<td>" + arrayhidrografico_anteriordia[0][2].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico_anteriordia[0][2].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>4</th>" +
-                    "<td>" + arrayhidrografico_anteriordia[0][3].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico_anteriordia[0][3].ALT + "</td>" +
-                    "</tr>" +
-                    "</tbody></table>";
-            }
-        }
-
-        function onclick_modal_data_ondia16() {
-            console.log(arrayhidrografico)
-
-            if (arrayhidrografico.length > 0) {
-                if (arrayhidrografico[0][0] != null) {
+                if (arrayhidrografico_anteriordia[0][3].ALT != null) {
                     document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
                         "<th scope='col'>Data</th>" +
                         "<th scope='col'>Altura Maré</th>" +
@@ -4182,51 +4318,23 @@
                         "<tbody>" +
                         "<tr>" +
                         "<th scope='row'>1</th>" +
-                        "<td>" + arrayhidrografico[0][0].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[0][0].ALT + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][0].ALT + "</td>" +
                         "</tr>" +
                         "<tr>" +
                         "<th scope='row'>2</th>" +
-                        "<td>" + arrayhidrografico[0][1].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[0][1].ALT + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][1].ALT + "</td>" +
                         "</tr>" +
                         "<tr>" +
                         "<th scope='row'>3</th>" +
-                        "<td>" + arrayhidrografico[0][2].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[0][2].ALT + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][2].ALT + "</td>" +
                         "</tr>" +
                         "<tr>" +
                         "<th scope='row'>4</th>" +
-                        "<td>" + arrayhidrografico[0][3].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[0][3].ALT + "</td>" +
-                        "</tr>" +
-                        "</tbody></table>";
-                }
-                if (arrayhidrografico[2] != null) {
-                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                        "<th scope='col'>Data</th>" +
-                        "<th scope='col'>Altura Maré</th>" +
-                        "</tr></thead>" +
-                        "<tbody>" +
-                        "<tr>" +
-                        "<th scope='row'>1</th>" +
-                        "<td>" + arrayhidrografico[2][0].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[2][0].ALT + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<th scope='row'>2</th>" +
-                        "<td>" + arrayhidrografico[2][1].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[2][1].ALT + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<th scope='row'>3</th>" +
-                        "<td>" + arrayhidrografico[2][2].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[2][2].ALT + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<th scope='row'>4</th>" +
-                        "<td>" + arrayhidrografico[2][3].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[2][3].ALT + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][3].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][3].ALT + "</td>" +
                         "</tr>" +
                         "</tbody></table>";
                 } else {
@@ -4237,25 +4345,183 @@
                         "<tbody>" +
                         "<tr>" +
                         "<th scope='row'>1</th>" +
-                        "<td>" + arrayhidrografico[1][0].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[1][0].ALT + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][0].ALT + "</td>" +
                         "</tr>" +
                         "<tr>" +
                         "<th scope='row'>2</th>" +
-                        "<td>" + arrayhidrografico[1][1].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[1][1].ALT + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][1].ALT + "</td>" +
                         "</tr>" +
                         "<tr>" +
                         "<th scope='row'>3</th>" +
-                        "<td>" + arrayhidrografico[1][2].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[1][2].ALT + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<th scope='row'>4</th>" +
-                        "<td>" + arrayhidrografico[1][3].SDATA + "</td>" +
-                        "<td>" + arrayhidrografico[1][3].ALT + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_anteriordia[0][2].ALT + "</td>" +
                         "</tr>" +
                         "</tbody></table>";
+
+                }
+            }
+
+        }
+
+        function onclick_modal_data_ondia16() {
+            console.log(arrayhidrografico)
+
+            if (arrayhidrografico.length > 0) {
+                if (arrayhidrografico[0][3].ALT != null || arrayhidrografico[1][3].ALT != null || arrayhidrografico[2][3].ALT != null) {
+                    if (arrayhidrografico[0][0] != null) {
+                        document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                            "<th scope='col'>Data</th>" +
+                            "<th scope='col'>Altura Maré</th>" +
+                            "</tr></thead>" +
+                            "<tbody>" +
+                            "<tr>" +
+                            "<th scope='row'>1</th>" +
+                            "<td>" + arrayhidrografico[0][0].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[0][0].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>2</th>" +
+                            "<td>" + arrayhidrografico[0][1].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[0][1].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>3</th>" +
+                            "<td>" + arrayhidrografico[0][2].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[0][2].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>4</th>" +
+                            "<td>" + arrayhidrografico[0][3].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[0][3].ALT + "</td>" +
+                            "</tr>" +
+                            "</tbody></table>";
+                    }
+                    if (arrayhidrografico[2] != null) {
+                        document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                            "<th scope='col'>Data</th>" +
+                            "<th scope='col'>Altura Maré</th>" +
+                            "</tr></thead>" +
+                            "<tbody>" +
+                            "<tr>" +
+                            "<th scope='row'>1</th>" +
+                            "<td>" + arrayhidrografico[2][0].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[2][0].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>2</th>" +
+                            "<td>" + arrayhidrografico[2][1].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[2][1].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>3</th>" +
+                            "<td>" + arrayhidrografico[2][2].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[2][2].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>4</th>" +
+                            "<td>" + arrayhidrografico[2][3].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[2][3].ALT + "</td>" +
+                            "</tr>" +
+                            "</tbody></table>";
+                    } else {
+                        document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                            "<th scope='col'>Data</th>" +
+                            "<th scope='col'>Altura Maré</th>" +
+                            "</tr></thead>" +
+                            "<tbody>" +
+                            "<tr>" +
+                            "<th scope='row'>1</th>" +
+                            "<td>" + arrayhidrografico[1][0].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[1][0].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>2</th>" +
+                            "<td>" + arrayhidrografico[1][1].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[1][1].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>3</th>" +
+                            "<td>" + arrayhidrografico[1][2].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[1][2].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>4</th>" +
+                            "<td>" + arrayhidrografico[1][3].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[1][3].ALT + "</td>" +
+                            "</tr>" +
+                            "</tbody></table>";
+                    }
+                } else {
+                    if (arrayhidrografico[0][0] != null) {
+                        document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                            "<th scope='col'>Data</th>" +
+                            "<th scope='col'>Altura Maré</th>" +
+                            "</tr></thead>" +
+                            "<tbody>" +
+                            "<tr>" +
+                            "<th scope='row'>1</th>" +
+                            "<td>" + arrayhidrografico[0][0].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[0][0].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>2</th>" +
+                            "<td>" + arrayhidrografico[0][1].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[0][1].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>3</th>" +
+                            "<td>" + arrayhidrografico[0][2].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[0][2].ALT + "</td>" +
+                            "</tr>" +
+                            "</tbody></table>";
+                    }
+                    if (arrayhidrografico[2] != null) {
+                        document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                            "<th scope='col'>Data</th>" +
+                            "<th scope='col'>Altura Maré</th>" +
+                            "</tr></thead>" +
+                            "<tbody>" +
+                            "<tr>" +
+                            "<th scope='row'>1</th>" +
+                            "<td>" + arrayhidrografico[2][0].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[2][0].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>2</th>" +
+                            "<td>" + arrayhidrografico[2][1].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[2][1].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>3</th>" +
+                            "<td>" + arrayhidrografico[2][2].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[2][2].ALT + "</td>" +
+                            "</tr>" +
+                            "</tbody></table>";
+                    } else {
+                        document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                            "<th scope='col'>Data</th>" +
+                            "<th scope='col'>Altura Maré</th>" +
+                            "</tr></thead>" +
+                            "<tbody>" +
+                            "<tr>" +
+                            "<th scope='row'>1</th>" +
+                            "<td>" + arrayhidrografico[1][0].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[1][0].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>2</th>" +
+                            "<td>" + arrayhidrografico[1][1].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[1][1].ALT + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th scope='row'>3</th>" +
+                            "<td>" + arrayhidrografico[1][2].SDATA + "</td>" +
+                            "<td>" + arrayhidrografico[1][2].ALT + "</td>" +
+                            "</tr>" +
+                            "</tbody></table>";
+                    }
                 }
 
             }
@@ -4263,33 +4529,58 @@
 
         function onclick_modal_data_ondia17() {
             if (arrayhidrografico_posdia.length > 0) {
-                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
-                    "<th scope='col'>Data</th>" +
-                    "<th scope='col'>Altura Maré</th>" +
-                    "</tr></thead>" +
-                    "<tbody>" +
-                    "<tr>" +
-                    "<th scope='row'>1</th>" +
-                    "<td>" + arrayhidrografico_posdia[0][0].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico_posdia[0][0].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>2</th>" +
-                    "<td>" + arrayhidrografico_posdia[0][1].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico_posdia[0][1].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>3</th>" +
-                    "<td>" + arrayhidrografico_posdia[0][2].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico_posdia[0][2].ALT + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<th scope='row'>4</th>" +
-                    "<td>" + arrayhidrografico_posdia[0][3].SDATA + "</td>" +
-                    "<td>" + arrayhidrografico_posdia[0][3].ALT + "</td>" +
-                    "</tr>" +
-                    "</tbody></table>";
+                if (arrayhidrografico_posdia[0][3].ALT != null) {
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + arrayhidrografico_posdia[0][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_posdia[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + arrayhidrografico_posdia[0][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_posdia[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + arrayhidrografico_posdia[0][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_posdia[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + arrayhidrografico_posdia[0][3].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_posdia[0][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                } else {
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + arrayhidrografico_posdia[0][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_posdia[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + arrayhidrografico_posdia[0][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_posdia[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + arrayhidrografico_posdia[0][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico_posdia[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                }
             }
+
         }
 
 
@@ -4297,7 +4588,13 @@
 
         function changeValue(e) {
 
+            if (markerAnimado) {
+                mymap.removeLayer(markerAnimado);
+            }
 
+            document.getElementById('simulControll_display').style.display = "none";
+
+            //getInfo();
             //sidebar.open('infoRealTime');
 
             //somarNumero = 0;
@@ -4310,7 +4607,6 @@
             var data_insert = document.getElementById('date').value;
             let testData;
             if (data_insert == "") {
-                document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Dever inserir uma data</h4>";
                 var d = new Date();
                 var nday = d.getDay();
                 var nmonth = d.getMonth() + 1;
@@ -4360,11 +4656,6 @@
                     //     "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
                 }
             }
-            if (estadoAnimarBarco == 'faz3') {
-                estadoAnimarBarco = 'faz1';
-            } else if (estadoAnimarBarco == 'faz1') {
-                estadoAnimarBarco = 'faz1';
-            }
 
             if (hasLine == false) {
                 pointList = [];
@@ -4374,7 +4665,6 @@
                 document.getElementById('tutorial03').style.display = "none";
                 tutorial = false;
             }
-
         }
 
 
@@ -4489,7 +4779,7 @@
         });
         var arrayURL = [];
         async function mudarVeloDura() {
-         
+
             let url = arrayURL[0];
             const response = await fetch(url);
             const json = await response.text();
@@ -5531,7 +5821,7 @@
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx');
-                    
+
                     getData_Volta10_3_20_GPX();
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
@@ -5556,7 +5846,7 @@
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[1];
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx');
-                    
+
                     getDataGPX_RegressoBico();
                     nomeDestino = [];
                     nomeDestino.push("Boca da Barra");
@@ -5579,9 +5869,9 @@
                     break;
 
                 case 'NovaRotaCriada':
-                arrayURL = [];
+                    arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx');
-                    
+
                     document.getElementById('duracao_rota').innerHTML = duracaoRotaChoosen[0];
                     getBicoAngeGPX();
                     nomeDestino = [];
@@ -5635,7 +5925,6 @@
         // guardar a velocidade com base nos pontos
         var variavelVelocidadeAnimBarco = [];
 
-        var estadoAnimarBarco = 'faz1';
         var comecAnimarfirst = false;
         var somarNumero = 0;
         var pointList = [];
@@ -5647,6 +5936,10 @@
         //Realiza o calculo com base no excel
 
         function calculo(valor_cal, cal_sup, cal_inf) {
+            if (hasLine == false) {
+                pointList = [];
+            }
+
 
 
 
@@ -5681,9 +5974,12 @@
             }
 
 
+
             CalCalado = valor_cal;
             limitSuper = cal_sup;
             limitInferi = cal_inf;
+
+
 
 
 
@@ -5803,7 +6099,7 @@
                             TempoParaANimar.push(newStr);
                             let date = new Date(newStr);
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
-                            if (date.getSeconds() == 00 && input_Vel < 10 ) {
+                            if (date.getSeconds() == 00 && input_Vel < 10) {
                                 //Guardar Coordenadas do GPX e Z
                                 // console.log(xmlDoc.getElementsByTagName("speed"))
                                 // console.log(xmlDoc.getElementsByTagName("speed")[i])
@@ -6559,7 +6855,7 @@
                         // let delta_mare;
 
                         // delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
-                   
+
                         // let usershr_min = UserHoras2.getHours() * 60;
                         // let dateshr_min = horas_min_seguinte.getHours() * 60;
                         // console.log(usershr_min)
@@ -6601,7 +6897,7 @@
 
                                 let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
 
-                                let total = delta_mare * (count / 375)  + sortedData2[3].ALT;//- sortedData2[3].ALT;
+                                let total = delta_mare * (count / 375) + sortedData2[3].ALT;//- sortedData2[3].ALT;
                                 mare_por_minuto2.push(Math.abs(total));
                                 let min_incr_user = UserHoras2.getMinutes() + p;
                                 horas_pontos_user.push(UserHoras2.getHours() + ":" + min_incr_user)
@@ -7341,7 +7637,7 @@
                     document.getElementById('time').value = UserHoras2;
                     primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
                 } else {
-                    var minutos = parseInt(splitTime1[1]) + 1;
+                    var minutos = parseInt(splitTime1[1]) + 1; //antes estava 10
                     UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], minutos);
                     primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
 
@@ -7594,7 +7890,10 @@
                     setTimeout(function () {
                         markerAnimado.start();
                     }, 1000);
-                    changeValue();
+                    var valorInput = document.getElementById('calado_span').value;
+                    var valorInput2 = document.getElementById('calado_sup_span').value;
+                    var valorInput3 = document.getElementById('calado_inf_span').value;
+                    calculo(valorInput, valorInput2, valorInput3);
                 }
 
 
@@ -7609,8 +7908,13 @@
                     }, 1000);
                     setTimeout(function () {
 
-                        changeValue();
 
+                        //changeValue();
+                        //calculo();
+                        var valorInput = document.getElementById('calado_span').value;
+                        var valorInput2 = document.getElementById('calado_sup_span').value;
+                        var valorInput3 = document.getElementById('calado_inf_span').value;
+                        calculo(valorInput, valorInput2, valorInput3);
                     }, 1000);
                 });
 
@@ -7663,7 +7967,6 @@
             var variavelVelocidadeAnimBarco = [];
             document.getElementById('simulControll_display').style.display = "none";
 
-            var estadoAnimarBarco = 'faz1';
             var comecAnimarfirst = false;
             var somarNumero = 0;
             var pointList = [];
