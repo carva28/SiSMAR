@@ -3900,6 +3900,11 @@
                 .then(contents => arrayhidrografico.push(contents))
                 .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
 
+            // const url_tes = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
+            // const response1 = await fetch(proxyurl + url_tes);
+            // const json1 = await response1.json();
+            // arrayhidrografico.push(json1)
+
             const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
             const response2 = await fetch(proxyurl + url_posterior);
             const json2 = await response2.json();
@@ -4605,7 +4610,9 @@
             }
 
             document.getElementById('simulControll_display').style.display = "none";
-
+            modal_eta = true;
+            arrayHorasUser_Pontos = [];
+            arrayMinutosUser_Pontos = [];
             //getInfo();
             //sidebar.open('infoRealTime');
 
@@ -5919,6 +5926,8 @@
         function mudarTime() {
             time_partida_1 = true;
             modal_eta = true;
+            arrayHorasUser_Pontos = [];
+            arrayMinutosUser_Pontos = [];
             changeValue();
         }
 
@@ -5937,6 +5946,7 @@
         var comecAnimarfirst = false;
         var somarNumero = 0;
         var pointList = [];
+        var arrayHorasUser_Pontos = [], arrayMinutosUser_Pontos = [];
         var input_Vel;
         var modal_eta = true;
         var time_partida_1 = true;
@@ -7195,13 +7205,28 @@
 
                     popup = new L.popup();
                     popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                    popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
+                    if(modal_eta){
+                        arrayHorasUser_Pontos.push(User_Tempo_cada_coor.getHours());
+                        arrayMinutosUser_Pontos.push(User_Tempo_cada_coor.getMinutes());
+                        popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
                         '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
                         '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
                         '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
                         '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                         '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
-                        '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + '</div>')
+                        '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + 
+                        '</div>')
+                    }else{
+                        popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
+                        '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
+                        '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
+                        '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
+                        '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                        '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
+                        '<p> <b>Horas do utilizador: </b>' + arrayHorasUser_Pontos[i] + ' horas e ' + arrayMinutosUser_Pontos[i] + ' minutos ' + '</p>' + 
+                        '</div>')
+                    }
+                    
                     //popup.addTo(mymap);
 
                     // if (parseFloat([mare_por_minuto2[i]]).toFixed(2) > 2.00) {
@@ -7210,10 +7235,11 @@
                     //     document.getElementById('mare_atualizada').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
                     // }
 
-
+                    if (modal_eta) {
                     document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
                     //horas_chegada = [User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos '];
                     horas_chegada = [User_Tempo_cada_coor.getHours() + ':' + User_Tempo_cada_coor.getMinutes()];
+                    }
                     ultimaMare = [mare_por_minuto2[i]];
                     //horas_chegada.push(User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ');
                     marker = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
