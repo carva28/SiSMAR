@@ -6175,7 +6175,7 @@
             var z1_rota_adquirida = [];
             var coordenadas = [];
             let ar_CoordExcel = [],
-                horasdarota_medida = [];
+                horasdarota_medida = [], distancePontos = [];
             var dataViajaUser = [];
             var TempoParaANimar = [];
             parser = new DOMParser();
@@ -6204,12 +6204,17 @@
                                 z1_rota_adquirida.push(z_adquirido_rota)
                                 coordenadas.push([lon_gpx, lat_gpx])
                                 horasdarota_medida.push(horatempo_GPX)
+                                // if(coordenadas.length > 0){
+                                //     let distanciaPequePontos = mymap.distance([coordenadas[i][1],coordenadas[i][0]], [lon_gpx, lat_gpx]);
+                                //     distancePontos.push(distanciaPequePontos);
+                                // }
                             }
                         }
                     }
                 }
             }
-
+            // console.log(coordenadas)
+            // console.log(distancePontos);
             let latit, longitu, zadquirido = [];
 
             if (ar_CoordExcel.length > 0) {
@@ -7059,6 +7064,7 @@
                     let data4 = new Date(sortedData2[3].SDATA);
 
                     if (UserHoras2.getHours() >= data3.getHours() && UserHoras2.getHours() < data4.getHours()) {
+                    
                         console.log("if 04")
 
                         let delta_mare = sortedData2[3].ALT - sortedData2[2].ALT;
@@ -7089,9 +7095,9 @@
                         }
 
                     }
-
+                    
                     else if (UserHoras2.getHours() >= data4.getHours()) {
-
+                      
                         console.log("if 05")
 
 
@@ -7118,7 +7124,7 @@
 
                         let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
                         console.log(count)
-                        let total = delta_mare * (count / 375) - sortedData2[0].ALT; // ? sortedData2_seguinte[0].SDATA
+                        let total = delta_mare * (count / 375) - sortedData2[3].ALT; // ? sortedData2_seguinte[0].SDATA antes estava sortedData2[0].ALT
                         console.log(total)
                         mareUser2.push(total)
                         horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
