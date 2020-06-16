@@ -4826,13 +4826,11 @@
 
                     var milesNauticalRoute = parseFloat(dc2_dist);
                     //var velocidadeUser = document.getElementById('velocidade').value;
-                    console.log(milesNauticalRoute);
 
                     var tempo = milesNauticalRoute / velocidadeUser;
                     var n = new Date(0, 0);
                     n.setMinutes(+tempo * 60);
                     var result = n.toTimeString().slice(0, 5);
-                    console.log(result)
 
                     //****** Tempo de partida ******//
                     let tempoPrim = document.getElementById('time_partida').value;
@@ -4854,7 +4852,6 @@
                     var mRotaChegada = new Date(0, 0);
                     let hours_ofsumRote = total_Partida_Rota / 60;
 
-                    console.log(hours_ofsumRote)
                     let d2cHours = hours_ofsumRote.toFixed(2);
                     let sumRoute_Hours = hours_ofsumRote.toString().split(".");
 
@@ -4862,24 +4859,20 @@
                     let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
 
                     if (sumRoute_Hours[0] == "24" || sumRoute_Hours[0] == 24) {
-                        console.log(sumRoute_Hours[0] + ":" + parseInt(min_SumRoute));
                         let minutos_Sum_Root = parseInt(min_SumRoute);
                        
                         document.getElementById('eta_1').innerHTML = 00 + ":" + minutos_Sum_Root;
 
                     } else if (sumRoute_Hours[0] == "25" || sumRoute_Hours[0] == 25) {
-                        console.log(sumRoute_Hours[0] + ":" + parseInt(min_SumRoute));
                         let minutos_Sum_Root = parseInt(min_SumRoute);
                         document.getElementById('eta_1').innerHTML = 01 + ":" + minutos_Sum_Root;
 
                     } else if (sumRoute_Hours[0] == "26" || sumRoute_Hours[0] == 26) {
-                        console.log(sumRoute_Hours[0] + ":" + parseInt(min_SumRoute));
                         let minutos_Sum_Root = parseInt(min_SumRoute);
                         document.getElementById('eta_1').innerHTML = 02 + ":" + minutos_Sum_Root;
 
                     } else {
                         
-                        console.log(sumRoute_Hours[0] + ":" + parseInt(min_SumRoute));
                         let minutos_Sum_Root = parseInt(min_SumRoute);
                         let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
                         document.getElementById('eta_1').innerHTML = hours_Sum_Root + ":" + minutos_Sum_Root;
@@ -7568,20 +7561,17 @@
                 var diferencaMinutosRota = minutos_ARRAYUSER_chegada - minutos_ARRAYUSER_inicio;
 
 
-                let Distance = 3 * (diferencaHorasRota + Math.abs(diferencaMinutosRota));
+                //let Distance = 3 * (diferencaHorasRota + Math.abs(diferencaMinutosRota));
 
 
 
-                console.log(milesRoute[0])
                 var milesNauticalRoute = parseFloat(milesRoute[0]);
                 var velocidadeUser = document.getElementById('velocidade').value;
-                console.log(milesNauticalRoute);
 
                 var tempo = milesNauticalRoute / velocidadeUser;
                 var n = new Date(0, 0);
                 n.setMinutes(+tempo * 60);
                 var result = n.toTimeString().slice(0, 5);
-                console.log(result)
 
                 //****** Tempo de partida ******//
                 let tempoPrim = document.getElementById('time_partida').value;
@@ -7603,7 +7593,6 @@
                 var mRotaChegada = new Date(0, 0);
                 let hours_ofsumRote = total_Partida_Rota / 60;
 
-                console.log(hours_ofsumRote)
                 let d2cHours = hours_ofsumRote.toFixed(2);
                 let sumRoute_Hours = hours_ofsumRote.toString().split(".");
 
@@ -7619,22 +7608,18 @@
 
 
                 if (sumRoute_Hours[0] == "24" || sumRoute_Hours[0] == 24) {
-                    console.log(sumRoute_Hours[0] + ":" + parseInt(min_SumRoute));
                     let minutos_Sum_Root = parseInt(min_SumRoute);
                     document.getElementById('eta_1').innerHTML = 00 + ":" + minutos_Sum_Root;
 
                 } else if (sumRoute_Hours[0] == "25" || sumRoute_Hours[0] == 25) {
-                    console.log(sumRoute_Hours[0] + ":" + parseInt(min_SumRoute));
                     let minutos_Sum_Root = parseInt(min_SumRoute);
                     document.getElementById('eta_1').innerHTML = 01 + ":" + minutos_Sum_Root;
 
                 } else if (sumRoute_Hours[0] == "26" || sumRoute_Hours[0] == 26) {
-                    console.log(sumRoute_Hours[0] + ":" + parseInt(min_SumRoute));
                     let minutos_Sum_Root = parseInt(min_SumRoute);
                     document.getElementById('eta_1').innerHTML = 02 + ":" + minutos_Sum_Root;
 
                 } else {
-                    console.log(sumRoute_Hours[0] + ":" + parseInt(min_SumRoute));
                     let minutos_Sum_Root = parseInt(min_SumRoute);
                     let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
                     document.getElementById('eta_1').innerHTML = hours_Sum_Root + ":" + minutos_Sum_Root;
