@@ -1722,6 +1722,30 @@
                         <span>Pelo canal</span>
                     </h5>
                 </div>
+                <div onclick="getDataGPX_ANGE_Torreira_1705()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
+                    <h5>Ange - Torreira<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+                <div onclick="getDataGPX_Torreira_ANGE_1705()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/Ange.jpg);"></div>
+                    <h5>Torreira - Ange<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+                <div onclick="getDataGPX_Testada_Torreira_3005()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
+                    <h5>Testada - Torreira<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+                <div onclick="getDataGPX_CALEDOURO_TESTADA_3005()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
+                    <h5>Cale Douro - Testada<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
             </div>
 
 
@@ -3566,7 +3590,7 @@
         }
 
         async function getDataGPX_Testada_Torreira_3005() {
-
+            
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
@@ -3617,6 +3641,10 @@
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>"
 
+                        distNM = distM * 0.0005;
+                        milesRoute.push(distNM)
+                        document.getElementById('duracao_rota').innerHTML  = distNM;
+                        $('#simuPlay').removeAttr("disabled");
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
