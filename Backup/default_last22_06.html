@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     <link rel="stylesheet" href="./css/leaflet-sidebar.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 
 
 
@@ -4642,8 +4641,8 @@
             modal_eta = true;
             arrayHorasUser_Pontos = [];
             arrayMinutosUser_Pontos = [];
-            distanciaCalculada_RotaSimulada = [];
-            distanciaAcumulada = [];
+            distanciaCalculada_RotaSimulada= [];
+            distanciaAcumulada= [];
             //getInfo();
             //sidebar.open('infoRealTime');
 
@@ -6203,13 +6202,6 @@
             var dataViajaUser = [];
             var TempoParaANimar = [];
             parser = new DOMParser();
-
-            //variaveis API
-            var tempoAPI = [];
-            var coord_lat_API = [];
-            var coord_long_API = [];
-            var points = [];
-
             xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
             if (arrayGPX.length != 0 || arrayUser.length != 0) {
                 if (arrayGPX[0].length > 0) {
@@ -6221,24 +6213,17 @@
                             TempoParaANimar.push(newStr);
                             let date = new Date(newStr);
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
-
+                            
                             //if (date.getSeconds() == 00 && input_Vel < 10) {
-                            if (date.getSeconds() == 00 || date.getSeconds() == 30) {
-                                var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
-                                var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
-                                var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
-                                var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
-
-                                tempoAPI.push(tempoveri);
-                                coord_lat_API.push(parseFloat(lat_gpx));
-                                coord_long_API.push(parseFloat(lon_gpx));
-                                //points.push({"data":tempoveri,"latitude":parseFloat(lat_gpx),"longitude":parseFloat(lon_gpx)})
-                                
+                            if (date.getSeconds() == 00 || date.getSeconds() == 30 ) {
                                 //Guardar Coordenadas do GPX e Z
                                 // console.log(xmlDoc.getElementsByTagName("speed"))
                                 // console.log(xmlDoc.getElementsByTagName("speed")[i])
                                 // console.log(xmlDoc.getElementsByTagName("speed")[i].innerHTML)
-                                
+                                var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
+                                var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
+                                var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
+                                var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
                                 z_adquirido_rota = parseFloat(z_adquir) + 0.4;
                                 //z_adquirido_rota = parseFloat(z_adquir) + 0;
                                 z1_rota_adquirida.push(z_adquirido_rota)
@@ -6252,7 +6237,7 @@
                                     // let distanciaPequePontos = mymap.distance(coordenadas[0],
                                     //     [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
                                     //     xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
-
+                      
 
                                     var distNM_Coord = distanciaPequePontos * 0.0005;
 
@@ -6276,8 +6261,8 @@
 
             }
             //console.log(distancePontos);
-            // console.log("Distância adquirida");
-            // console.log(distanciaAcumulada);
+            console.log("Distância adquirida");
+            console.log(distanciaAcumulada);
             let latit, longitu, zadquirido = [];
 
             if (ar_CoordExcel.length > 0) {
@@ -6342,32 +6327,7 @@
 
 
 
-            // tempoAPI
-            // coord_lat_API
-            // coord_long_API
-            var tempoISO_API = [];
-            var initialID = '2A2F4FE6592648BD9D881A153183C8A8';
 
-            var startDate = Date.now();
-
-            console.log(startDate)
-            console.log(moment(startDate).toISOString())
-
-      
-            var points = [];
-            for(let y=0;y<tempoAPI.length;y++){
-                if(y==0){
-                    //tempoISO_API.push({ date: moment(startDate).toISOString()});
-                    points.push({  "date": moment(startDate).toISOString(),"latitude":coord_lat_API[y],"longitude":coord_long_API[y]});
-                }else{
-                    //tempoISO_API.push({  date: moment(startDate).add(y, 'm').toDate().toISOString() } );
-                    points.push({  "date": moment(startDate).add(y, 'm').toDate().toISOString(),"latitude":coord_lat_API[y],"longitude":coord_long_API[y]});
-                }
-            }
-
-            console.log(points)
-
-       
             /*********************************************************************************/
             /********************************************************************************/
             /************************** ROTA Adquirida ******************************************/
@@ -6930,7 +6890,7 @@
 
                             }
 
-
+                          
                         } else {
 
                             if (array_hidrografico_simulacao_API[0][3].ALT != null) {
@@ -7279,117 +7239,6 @@
                 document.getElementById('load_fetch').style.display = "block";
             }
 
-            httpClient = {
-			get: function (url, data, callback) {
-				var xhr = new XMLHttpRequest();
-
-				xhr.onreadystatechange = function () {
-					var readyState = xhr.readyState;
-
-					if (readyState == 4) {
-						callback(xhr);
-					}
-				};
-
-				var queryString = '';
-				if (typeof data === 'object') {
-					for (var propertyName in data) {
-						queryString += (queryString.length === 0 ? '' : '&') + propertyName + '=' + encodeURIComponent(data[propertyName]);
-					}
-				}
-
-				if (queryString.length !== 0) {
-					url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
-				}
-
-				xhr.open('GET', url, true);
-				xhr.send(null);
-			},
-
-			post: function (url, data, callback) {
-				var xhr = new XMLHttpRequest();
-
-				xhr.onreadystatechange = function () {
-					var readyState = xhr.readyState;
-
-					if (readyState == 4) {
-						callback(xhr);
-					}
-				};
-
-				var queryString = '';
-				if (typeof data === 'object') {
-					queryString = JSON.stringify(data);
-				}
-
-				xhr.open('POST', url, true);
-				xhr.setRequestHeader('content-type', 'application/json');
-				xhr.send(queryString);
-			},
-
-			delete: function (url, data, callback) {
-				var xhr = new XMLHttpRequest();
-
-				xhr.onreadystatechange = function () {
-					var readyState = xhr.readyState;
-
-					if (readyState == 4) {
-						callback(xhr);
-					}
-				};
-
-				var queryString = '';
-				if (typeof data === 'object') {
-					for (var propertyName in data) {
-						queryString += (queryString.length === 0 ? '' : '&') + propertyName + '=' + encodeURIComponent(data[propertyName]);
-					}
-				}
-
-				if (queryString.length !== 0) {
-					url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
-				}
-
-				xhr.open('DELETE', url, true);
-				xhr.send(queryString);
-			},
-		};
-		httpClient.post(`https://service.hidromod.com/valida4dapi/Execution/Start/${initialID}`, points, function (xhr) {
-			var resultPost = JSON.parse(xhr.responseText);
-
-			console.log(resultPost);
-
-			var waitForResult = setInterval(getStatus, 1000);
-
-			function getStatus() {
-                console.log("-------------");
-                console.log(resultPost.id);
-                
-				httpClient.get(`https://service.hidromod.com/valida4dapi/Execution/Status/${resultPost.id}`, null, function (xhr) {
-					var resultStatus = JSON.parse(xhr.responseText);
-
-					console.log(resultStatus);
-					console.log('loading...');
-
-					if (resultStatus.status == 2) {
-						clearInterval(waitForResult);
-						httpClient.get(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`, null, function (xhr) {
-							var resultData = JSON.parse(xhr.responseText);
-							console.log(resultData);
-							console.log(resultData.values[2]);
-							console.log(resultData.values);
-                            mare_por_minuto2 = [];
-                            mare_por_minuto2.push(resultData.values[2])
-                        });
-					} else if (resultStatus.status == 3) {
-						clearInterval(waitForResult);
-						console.log('failed');
-
-						httpClient.delete(`https://service.hidromod.com/valida4dapi/Execution/Delete/${resultPost.id}`, null, function (xhr) {
-						});
-					}
-				});
-			}
-		});
 
             var User_Tempo_cada_coor_Acumula;
             let distanciaCalculada_RotaSimulada = [];
@@ -7398,10 +7247,10 @@
             var milesnaut_ChooseRoute = parseFloat(milesRoute[0]);
             console.log(milesRoute[0])
             var velociUtiliza = document.getElementById('velocidade').value;
-            var tempo_chooseroute = milesnaut_ChooseRoute / velociUtiliza;
-            var n_chooseRote = new Date(0, 0);
-            n_chooseRote.setMinutes(+tempo_chooseroute * 60);
-            var resultado = n_chooseRote.toTimeString().slice(0, 5);
+                var tempo_chooseroute = milesnaut_ChooseRoute / velociUtiliza;
+                var n_chooseRote = new Date(0, 0);
+                n_chooseRote.setMinutes(+tempo_chooseroute * 60);
+                var resultado = n_chooseRote.toTimeString().slice(0, 5);
             console.log(resultado)
             var splitTempo_rotaCHoose = resultado.split(':');
             console.log(splitTempo_rotaCHoose)
@@ -7422,12 +7271,12 @@
                 //     User_Tempo_cada_coor_Acumula = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
 
                 // }
-                let velUser = document.getElementById('velocidade').value;
-                let DistTotal = velUser / 60;
-                //let leTotaDIstSimu = DistTotal * User_Tempo_cada_coor_Acumula.getMinutes();
-                let leTotaDIstSimu = DistTotal * dk;
-
-                distanciaCalculada_RotaSimulada.push(leTotaDIstSimu.toFixed(5));
+                    let velUser = document.getElementById('velocidade').value;
+                    let DistTotal = velUser / 60 ;
+                    //let leTotaDIstSimu = DistTotal * User_Tempo_cada_coor_Acumula.getMinutes();
+                    let leTotaDIstSimu = DistTotal * dk;
+                    
+                    distanciaCalculada_RotaSimulada.push(leTotaDIstSimu.toFixed(5));
             }
             console.log("Distância Simulada")
             console.log(distanciaCalculada_RotaSimulada)
@@ -7457,10 +7306,9 @@
                     //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
                     //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
-                    
+
                     if (mare_por_minuto2.length > 0) {
-                        //diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i]);
-                        diferençaAlturaMare = parseFloat(mare_por_minuto2[0][i]) - parseFloat(mare_por_minuto[i]);
+                        diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i]);
                         //diferençaAlturaMare = mare_por_minuto[i];
                         //console.log({ array: mare_por_minuto2[i] })
                     }
@@ -7472,8 +7320,7 @@
                         Z2_NOvaRota = z1_rota_adquirida[i] + diferençaAlturaMare;
                     }
                     z2_menos_calado = Z2_NOvaRota - parseFloat(calado);
-                    console.log(mare_por_minuto2[0][i]);
-                    console.log(z2_menos_calado);
+
                     //console.log(horas_pontos_user);
                     if (horas_pontos_user.length > 0) {
                         var d = new Date();
@@ -7509,52 +7356,32 @@
                     popup = new L.popup();
 
                     if (coordenadas[i + 1] != undefined) {
-                        if (parseFloat(distanciaAcumulada[i]) >= parseFloat(distanciaCalculada_RotaSimulada[i]) &&
-                            parseFloat(distanciaCalculada_RotaSimulada[i]) < parseFloat(distanciaAcumulada[i + 1])) {
-                            // console.log("distancia adquirida normal"+distanciaAcumulada[i])
-                            // console.log("distancia adquirida seguinte"+distanciaAcumulada[i+1])
-                            // console.log("distancia rota simulada"+distanciaCalculada_RotaSimulada[i])
+                        if (parseFloat(distanciaAcumulada[i]) >= parseFloat(distanciaCalculada_RotaSimulada[i]) && 
+                        parseFloat(distanciaCalculada_RotaSimulada[i]) < parseFloat(distanciaAcumulada[i+1])) {
+                            console.log("distancia adquirida normal"+distanciaAcumulada[i])
+                            console.log("distancia adquirida seguinte"+distanciaAcumulada[i+1])
+                            console.log("distancia rota simulada"+distanciaCalculada_RotaSimulada[i])
                             markerPoi = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
-                                color: "red",
-                                fillColor: "#000000",
-                                fillOpacity: 0.5,
-                                radius: 100.0
-                            })
-                                .bindPopup(popup)
-                                .addTo(mymap);
+                        color: "red",
+                        fillColor: "#000000",
+                        fillOpacity: 0.5,
+                        radius: 100.0
+                    })
+                        .bindPopup(popup)
+                        .addTo(mymap);
                             // console.log({ coord: [coordenadas[i][1], coordenadas[i][0]] })
                             // console.log({ distanciAdquirida: distanciaAcumulada[i] })                            
                             // console.log({ distanciAdquirida: parseFloat(distanciaAcumulada[i]) })
                             // console.log({ distanSimulada: distanciaCalculada_RotaSimulada[i] })                            
                             // console.log({ distanSimulada: parseFloat(distanciaCalculada_RotaSimulada[i]) })
                             // console.log({ distanSimulada: parseFloat(distanciaAcumulada[i + 1])})
-                            
-                        }
-                        //     else if(parseFloat(distanciaCalculada_RotaSimulada[i]) > parseFloat(distanciaAcumulada[i+1]) 
-                        //     || parseFloat(distanciaCalculada_RotaSimulada[i]) > parseFloat(distanciaAcumulada[i]) ){
-                        //         console.log("valor é maior")
-                        //         markerPoi = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
-                        //     color: "blue",
-                        //     fillColor: "#000000",
-                        //     fillOpacity: 0.5,
-                        //     radius: 100.0
-                        // })
-                        //     .bindPopup(popup)
-                        //     .addTo(mymap);
-                        //     }
-                    }
-                    //popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
-
-
-
-                    popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                            popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
                             if (modal_eta) {
                                 arrayHorasUser_Pontos.push(User_Tempo_cada_coor.getHours());
                                 arrayMinutosUser_Pontos.push(User_Tempo_cada_coor.getMinutes());
                                 popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
                                     '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
-                                    //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
-                                    '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[0][i]] + '</p>' +
+                                    '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
                                     '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
                                     '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                     '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
@@ -7563,14 +7390,31 @@
                             } else {
                                 popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
                                     '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
-                                    //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
-                                    '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[0][i]] + '</p>' +
+                                    '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
                                     '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
                                     '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                     '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                                     '<p> <b>Horas do utilizador: </b>' + arrayHorasUser_Pontos[i] + ' horas e ' + arrayMinutosUser_Pontos[i] + ' minutos ' + '</p>' +
                                     '</div>')
                             }
+
+                        }else if(parseFloat(distanciaCalculada_RotaSimulada[i]) > parseFloat(distanciaAcumulada[i+1]) 
+                        || parseFloat(distanciaCalculada_RotaSimulada[i]) > parseFloat(distanciaAcumulada[i]) ){
+                            console.log("valor é maior")
+                            markerPoi = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
+                        color: "blue",
+                        fillColor: "#000000",
+                        fillOpacity: 0.5,
+                        radius: 100.0
+                    })
+                        .bindPopup(popup)
+                        .addTo(mymap);
+                        }
+                    }
+                    //popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
+
+
+
 
 
                     //popup.addTo(mymap);
@@ -7585,7 +7429,7 @@
                         document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
                         //horas_chegada = [User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos '];
                         horas_chegada = [User_Tempo_cada_coor.getHours() + ':' + User_Tempo_cada_coor.getMinutes()];
-                        horas_chegada.push([User_Tempo_cada_coor.getHours()], [User_Tempo_cada_coor.getMinutes()])
+                        horas_chegada.push([User_Tempo_cada_coor.getHours()],[User_Tempo_cada_coor.getMinutes()])
                     }
                     ultimaMare = [mare_por_minuto2[i]];
                     //horas_chegada.push(User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ');
@@ -7821,8 +7665,8 @@
             } else {
                 console.log('Else_sem_rota')
             }
-       
 
+            
             if (modal_eta) {
                 // console.log(horasdarota_medida[0]);
                 // console.log(horasdarota_medida[horasdarota_medida.length - 1]);
@@ -7904,7 +7748,7 @@
 
                 let dataInformacion_2 = new Date(sortedData2[2].SDATA);
 
-
+                
                 console.log(User_Tempo_cada_coor)
 
                 let horasChegada = User_Tempo_cada_coor.getHours();
@@ -8092,7 +7936,7 @@
             if (comecAnimarfirst) {
                 comecaAnimar();
             }
-      
+
         }
         var pausa = false;
         function comecaAnimar() {
