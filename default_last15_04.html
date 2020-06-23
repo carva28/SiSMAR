@@ -6368,10 +6368,23 @@
 
                             //if (date.getSeconds() == 00 && input_Vel < 10) {
                             if (date.getSeconds() == 00 || date.getSeconds() == 30) {
+                            // if (date.getSeconds() == 00  && (date.getMinutes() == 00 || date.getMinutes() == 05 
+                            // || date.getMinutes() == 10 || 
+                            // date.getMinutes() == 15|| 
+                            // date.getMinutes() == 20|| 
+                            // date.getMinutes() == 25|| 
+                            // date.getMinutes() == 30 || 
+                            // date.getMinutes() == 35 || 
+                            // date.getMinutes() == 40|| 
+                            // date.getMinutes() == 45|| 
+                            // date.getMinutes() == 50|| 
+                            // date.getMinutes() == 55)) {
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
                                 var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
+
+                                console.log(tempoveri);
 
                                 tempoAPI.push(tempoveri);
                                 coord_lat_API.push(parseFloat(lat_gpx));
