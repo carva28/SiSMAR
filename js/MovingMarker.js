@@ -403,7 +403,7 @@ L.Marker.MovingMarker = L.Marker.extend({
                     modal_eta = true; 
                     time_partida_1 = true;
                     document.getElementById('simulControll_display').style.display = "none";
-
+                    dataCalls = false;
                 setTimeout(function () {
 
                     if (markerAnimado) {
