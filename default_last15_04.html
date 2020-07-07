@@ -6280,7 +6280,7 @@
                     var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
                     document.getElementById('time').value = f;
                     document.getElementById('time_partida').value = f;
-                    time_partida_1 = false;
+                    //time_partida_1 = false;
                 } else {
                     var d = new Date();
                     var nday = d.getDay(),
@@ -6296,7 +6296,7 @@
                     var f = leadZero(now.getHours()) + ":" + leadZero(now.getMinutes());
                     document.getElementById('time').value = f;
                     document.getElementById('time_partida').value = f;
-                    time_partida_1 = false;
+                    //time_partida_1 = false;
 
                 }
             } else {
@@ -6314,7 +6314,7 @@
                     console.log(f);
                     if (time_partida_1) {
                         document.getElementById('time_partida').value = f;
-                        time_partida_1 = false;
+                        //time_partida_1 = false;
                     }
                 } else {
                     var d = new Date();
@@ -6333,7 +6333,7 @@
                     console.log(f);
                     if (time_partida_1) {
                         document.getElementById('time_partida').value = f;
-                        time_partida_1 = false;
+                        //time_partida_1 = false;
                     }
                 }
             }
@@ -6519,11 +6519,23 @@
             var tempoISO_API = [];
             var initialID = '2A2F4FE6592648BD9D881A153183C8A8';
 
-            var splitTime1 = tempo.split(':');
-            UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+          
+            var splitTime1_tempoAPI;
+            if(time_partida_1){
+                splitTime1_tempoAPI  = tempoUser.split(':');
+                time_partida_1 = false;
+            }else{
+                splitTime1_tempoAPI  = tempo.split(':');
+            }
+
+            console.log(splitTime1_tempoAPI);
+            console.log(tempoUser);
+            console.log(tempo);
+            console.log(time_partida_1);
+
+            UserHoras2 = new Date(nyear, nmonth, nday, splitTime1_tempoAPI[0], splitTime1_tempoAPI[1]);
             //var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
-            console.log(splitTime1)
-            console.log(UserHoras2)
+            // console.log(UserHoras2)
             console.log(UserHoras2.getHours())
             console.log(UserHoras2.getMinutes())
 
