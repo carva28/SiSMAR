@@ -2557,14 +2557,15 @@
                         //document.getElementById('time').value = hora_min_gpx;
                         let nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
-                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-                        var arrayhidrografico = [];
-                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
-
+                  
                         var nday = date.getDay(),
                             nmonth = date.getMonth() + 1,
                             ndate = date.getDate();
                         UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
                     });
                     somarNumero = 0;
 
@@ -3868,6 +3869,187 @@
 
 
         }
+
+
+        async function getDataGPX_PonteBarra_Testada() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                    });
+                    somarNumero = 0;
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+                mymap.setView([40.678, -8.7166], 13);
+        }
+
+
+
+        async function getDataGPX_Testada_Salreu() {
+
+mymap.eachLayer(function (layer) {
+    //console.log(layer.options.pane)
+    if (layer.options.pane == "overlayPane") {
+        mymap.removeLayer(layer);
+    }
+});
+let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx';
+fetch(url)
+    .then(function (response) {
+        return response.text();
+    })
+    .then(function (json) {
+        VEri_text_gpx = json;
+
+        var g = new L.GPX(json, {
+            async: true,
+            parseElements: ['track'],
+            polyline_options: {
+                color: '#020202',
+                weight: 10,
+            },
+            marker_options: {
+                // 'startIcon': new L.icon({
+                //     iconUrl: 'marker.png',
+                //     iconSize: [22, 32, 5],
+                //     iconAnchor: [10, 30],
+                // }),
+                'endIcon': new L.icon({
+                    iconUrl: 'fim_icnon.png',
+                    iconSize: [22, 32, 5],
+                    iconAnchor: [10, 30],
+                })
+            }
+
+        });
+
+        g.on('loaded', function (e) {
+            var gpx = e.target,
+                elevation_data = gpx.get_elevation_data();
+            data_hora = gpx.get_start_time();
+            name = gpx.get_name(),
+                distM = gpx.get_distance(),
+                distKm = distM / 1000,
+                distKmRnd = distKm.toFixed(1),
+                eleGain = gpx.get_elevation_gain().toFixed(2),
+                eleLoss = gpx.get_elevation_loss().toFixed(2);
+            var info = "Name: " + name + "</br>" +
+                "Distance: " + distKmRnd + " km </br>" +
+                "Elevation Gain: " + eleGain + " m </br>"
+
+            //document.getElementById('km').innerHTML = info;
+            gpx.getLayers()[0].bindPopup(info)
+
+            let date = new Date(data_hora);
+            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+            //document.getElementById('time').value = hora_min_gpx;
+
+
+            var nday = date.getDay(),
+                nmonth = date.getMonth() + 1,
+                ndate = date.getDate(),
+                nyear = date.getYear();
+            if (nyear < 1000) nyear += 1900;
+            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+            var arrayhidrografico = [];
+            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+        });
+        somarNumero = 0;
+        g.on('click', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+            changeValue();
+        });
+        g.on('addpoint', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+        })
+        g.addTo(mymap);
+    });
+    mymap.setView([40.72397393626433, -8.628129959106444], 13);
+}
 
         //No clique do marker
 
@@ -5256,6 +5438,36 @@
             localiz_distan.push(distancia13);
             local_Nome_rota.push('getDataGPX_ANGE_RioNovo_2006');
 
+            let url14 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
+            const response14 = await fetch(url14);
+            const json14 = await response14.text();
+            parser14 = new DOMParser();
+            xmlDoc14 = parser14.parseFromString(json14, "text/xml");
+            var lat_gpx14 = xmlDoc14.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx14 = xmlDoc14.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia14 = mymap.distance([lat_gpx14, lon_gpx14], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia14);
+            local_Nome_rota.push('getDataGPX_PonteBarra_Testada');
+            
+
+            let url15 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx';
+            const response15 = await fetch(url15);
+            const json15 = await response15.text();
+            parser15 = new DOMParser();
+            xmlDoc15 = parser15.parseFromString(json15, "text/xml");
+            var lat_gpx15 = xmlDoc15.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx15 = xmlDoc15.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia15 = mymap.distance([lat_gpx15, lon_gpx15], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia15);
+            local_Nome_rota.push('getDataGPX_Testada_Salreu');
+
+
+
+
 
 
             // document.getElementById('btn_legenda2').style.opacity = "1";
@@ -5288,7 +5500,9 @@
                     'getDataGPX_Torreira_ANGE_1705',
                     'getDataGPX_Testada_Torreira_3005',
                     'getDataGPX_CALEDOURO_TESTADA_3005',
-                    'getDataGPX_ANGE_RioNovo_2006'
+                    'getDataGPX_ANGE_RioNovo_2006',
+                    'getDataGPX_PonteBarra_Testada',
+                    'getDataGPX_Testada_Salreu'
                 ];
 
 
@@ -5383,7 +5597,63 @@
                         this.openPopup();
                     });
 
-                } if (guardardistancia[0][1] == 'getDataGPX_CALEDOURO_TESTADA_3005') {
+                }else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
+                    nomeDestino = [];
+                    nomeDestino.push("Salreu");
+                    distance_gpx_real = [];
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+
+
+                    marker_Teste1 = L.marker([40.69385000634655, -8.663835525512695], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    // let distance_Ange = mymap.distance([40.754585, -8.696377], [40.612488, -8.738059]);
+                    // let convert_milesnaut = distance_Ange * 0.0005;
+
+
+                    var gpxMAIN = new L.GPX(json12, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
+                    setTimeout(function () {
+
+                        console.log(distance_gpx_real[0]);
+                        let velocidadeUser = document.getElementById('velocidade').value;
+                        if (!velocidadeUser) {
+                        } else {
+                            let dc2_dist = distance_gpx_real[0].toFixed(2);
+                            let tempo = dc2_dist / velocidadeUser;
+                            var n = new Date(0, 0);
+                            n.setMinutes(+tempo * 60);
+                            var result = n.toTimeString().slice(0, 5);
+
+
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
+                                "<h5>Da sua atual posição deseja ir até</h5>" +
+                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                                "<option selected disabled>Selecione uma rota</option>" +
+                                "<option value='getDataGPX_Testada_Salreu'>Para Salreu - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
+                                "</div>").openPopup();
+                            duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
+                        }
+
+                    }, 1000);
+
+                    //convert_milesnaut[0].toFixed(2)
+
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
+
+                }  
+                
+                else if (guardardistancia[0][1] == 'getDataGPX_CALEDOURO_TESTADA_3005') {
                     nomeDestino = [];
                     nomeDestino.push("Cale Douro");
                     distance_gpx_real = [];
@@ -5543,7 +5813,7 @@
                         distance_gpx_real.push(distNM);
                     });
 
-                    var gpxMAIN1 = new L.GPX(json4, { async: true }).on('loaded', function (e) {
+                    var gpxMAIN1_1 = new L.GPX(json4, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
                         distNM = distM * 0.0005;
@@ -5556,6 +5826,14 @@
                         distNM = distM * 0.0005;
                         distance_gpx_real.push(distNM);
                     });
+
+                    var gpxMAIN_7 = new L.GPX(json14, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
                     setTimeout(function () {
 
                         let velocidadeUser = document.getElementById('velocidade').value;
@@ -5592,12 +5870,17 @@
                             n5.setMinutes(+tempo5 * 60);
                             var result5 = n5.toTimeString().slice(0, 5);
 
-                            let dc2_dist_6 = distance_gpx_real[5].toFixed(2);
+                            let dc2_dist_6 = distance_gpx_real[6].toFixed(2);
                             let tempo6 = dc2_dist_6 / velocidadeUser;
                             var n6 = new Date(0, 0);
                             n6.setMinutes(+tempo6 * 60);
                             var result6 = n6.toTimeString().slice(0, 5);
 
+                            let dc2_dist_7 = distance_gpx_real[7].toFixed(2);
+                            let tempo7 = dc2_dist_7 / velocidadeUser;
+                            var n7 = new Date(0, 0);
+                            n7.setMinutes(+tempo7 * 60);
+                            var result7 = n7.toTimeString().slice(0, 5);
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
@@ -5609,7 +5892,7 @@
                                 "<option value='getIdaBicoGPX'>Para Bico (debugging) - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_ANGE_Torreira_1705'>Para Torreira 17/05 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_ANGE_RioNovo_2006'>Para Rio Novo - " + distance_gpx_real[6].toFixed(2) + "milhas</option>" +
-
+                                "<option value='getDataGPX_PonteBarra_Testada'>Para Testada - " + distance_gpx_real[7].toFixed(2) + "milhas</option>" +
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[1].toFixed(2))
@@ -5617,6 +5900,7 @@
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[4].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[6].toFixed(2))
+                            duracaoRotaChoosen.push(distance_gpx_real[7].toFixed(2))
                         }
 
 
@@ -6147,6 +6431,57 @@
                         marker_Teste1.openPopup();
                     });
                     break;
+                    case 'getDataGPX_PonteBarra_Testada':
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx');
+                    milesRoute.push(duracaoRotaChoosen[6]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    getDataGPX_PonteBarra_Testada();
+                    nomeDestino = [];
+                    nomeDestino.push("Testada");
+                    document.getElementById('tutorial03').style.display = "block";
+                    document.getElementById('cais_partida').innerHTML = "Ponte Barra";
+                    document.getElementById('cais_chegada').innerHTML = "Testada";
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Ponte Barra</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Testada</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> Ponte Barra - Testada</p>" +
+                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
+                        "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 7000);
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+                    case 'getDataGPX_Testada_Salreu':
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx');
+                    milesRoute.push(duracaoRotaChoosen[0]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    getDataGPX_Testada_Salreu();
+                    nomeDestino = [];
+                    nomeDestino.push("Salreu");
+                    document.getElementById('tutorial03').style.display = "block";
+                    document.getElementById('cais_partida').innerHTML = "Testada";
+                    document.getElementById('cais_chegada').innerHTML = "Salreu";
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Testada</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Salreu</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> Testada - Salreu</p>" +
+                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
+                        "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 7000);
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+                    
             }
             setTimeout(function () {
                 document.getElementById('tutorial03').style.display = "none";
@@ -6371,17 +6706,17 @@
 
                             //if (date.getSeconds() == 00 && input_Vel < 10) {
                             if (input_Vel <= 3 && (date.getSeconds() == 00 || date.getSeconds() == 20 || date.getSeconds() == 30)) {
-                            // if ((date.getSeconds() == 00) && (date.getMinutes() == 02 || date.getMinutes() == 12
-                            //     || date.getMinutes() == 22 ||
-                            //     date.getMinutes() == 32 ||
-                            //     date.getMinutes() == 42 ||
-                            //     date.getMinutes() == 52 ||
-                            //     date.getMinutes() == 00 ||
-                            //     date.getMinutes() == 05 ||
-                            //     date.getMinutes() == 10 ||
-                            //     date.getMinutes() == 15 ||
-                            //     date.getMinutes() == 20 ||
-                            //     date.getMinutes() == 25)) {
+                                // if ((date.getSeconds() == 00) && (date.getMinutes() == 02 || date.getMinutes() == 12
+                                //     || date.getMinutes() == 22 ||
+                                //     date.getMinutes() == 32 ||
+                                //     date.getMinutes() == 42 ||
+                                //     date.getMinutes() == 52 ||
+                                //     date.getMinutes() == 00 ||
+                                //     date.getMinutes() == 05 ||
+                                //     date.getMinutes() == 10 ||
+                                //     date.getMinutes() == 15 ||
+                                //     date.getMinutes() == 20 ||
+                                //     date.getMinutes() == 25)) {
                                 // if (date.getSeconds() == 00  && (date.getMinutes() == 00 || date.getMinutes() == 05 
                                 // || date.getMinutes() == 10 || 
                                 // date.getMinutes() == 15|| 
@@ -6431,33 +6766,33 @@
 
 
                                 }
-                            }else if ((input_Vel > 3 && input_Vel <= 6) && 
-                            (date.getSeconds() == 00 || date.getSeconds() == 20 ) && 
-                            (date.getMinutes() == 02 || date.getMinutes() == 12 ||
-                                date.getMinutes() == 22 ||
-                                date.getMinutes() == 32 ||
-                                date.getMinutes() == 42 ||
-                                date.getMinutes() == 52 ||
-                                date.getMinutes() == 07 || 
-                                date.getMinutes() == 17 ||
-                                date.getMinutes() == 27 ||
-                                date.getMinutes() == 37 ||
-                                date.getMinutes() == 47 ||
-                                date.getMinutes() == 57 ||
-                                date.getMinutes() == 00 ||
-                                date.getMinutes() == 05 ||
-                                date.getMinutes() == 10 ||
-                                date.getMinutes() == 15 ||
-                                date.getMinutes() == 20 ||
-                                date.getMinutes() == 25 ||
-                                date.getMinutes() == 30 || 
-                                date.getMinutes() == 35 || 
-                                date.getMinutes() == 40 || 
-                                date.getMinutes() == 45 || 
-                                date.getMinutes() == 50 || 
-                                date.getMinutes() == 55
+                            } else if ((input_Vel > 3 && input_Vel <= 6) &&
+                                (date.getSeconds() == 00 || date.getSeconds() == 20) &&
+                                (date.getMinutes() == 02 || date.getMinutes() == 12 ||
+                                    date.getMinutes() == 22 ||
+                                    date.getMinutes() == 32 ||
+                                    date.getMinutes() == 42 ||
+                                    date.getMinutes() == 52 ||
+                                    date.getMinutes() == 07 ||
+                                    date.getMinutes() == 17 ||
+                                    date.getMinutes() == 27 ||
+                                    date.getMinutes() == 37 ||
+                                    date.getMinutes() == 47 ||
+                                    date.getMinutes() == 57 ||
+                                    date.getMinutes() == 00 ||
+                                    date.getMinutes() == 05 ||
+                                    date.getMinutes() == 10 ||
+                                    date.getMinutes() == 15 ||
+                                    date.getMinutes() == 20 ||
+                                    date.getMinutes() == 25 ||
+                                    date.getMinutes() == 30 ||
+                                    date.getMinutes() == 35 ||
+                                    date.getMinutes() == 40 ||
+                                    date.getMinutes() == 45 ||
+                                    date.getMinutes() == 50 ||
+                                    date.getMinutes() == 55
                                 )) {
-    
+
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
@@ -6584,13 +6919,13 @@
             var tempoISO_API = [];
             var initialID = '2A2F4FE6592648BD9D881A153183C8A8';
 
-          
+
             var splitTime1_tempoAPI;
-            if(time_partida_1){
-                splitTime1_tempoAPI  = tempoUser.split(':');
+            if (time_partida_1) {
+                splitTime1_tempoAPI = tempoUser.split(':');
                 time_partida_1 = false;
-            }else{
-                splitTime1_tempoAPI  = tempo.split(':');
+            } else {
+                splitTime1_tempoAPI = tempo.split(':');
             }
 
             console.log(splitTime1_tempoAPI);
@@ -6609,7 +6944,7 @@
 
             startDate.setHours(UserHoras2.getHours());
             startDate.setHours(UserHoras2.getMinutes());
-         
+
 
             console.log(startDate)
             console.log(moment(startDate).toISOString())
@@ -6689,6 +7024,12 @@
 
 
                 console.log(sortedData.length == 4);
+
+                console.log("Não tem 0");
+                    console.log(sortedData[1].SDATA);
+                    console.log(sortedData[2].SDATA);
+                    console.log(sortedData[3].SDATA);
+
                 if (sortedData[0].SDATA == null) {
                     console.log("eu sou a rota com null")
                 }
