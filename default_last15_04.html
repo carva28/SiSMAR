@@ -4051,6 +4051,99 @@ fetch(url)
     mymap.setView([40.72397393626433, -8.628129959106444], 13);
 }
 
+
+
+
+
+async function getDataGPX_Salreu_PonteBarra() {
+
+mymap.eachLayer(function (layer) {
+    //console.log(layer.options.pane)
+    if (layer.options.pane == "overlayPane") {
+        mymap.removeLayer(layer);
+    }
+});
+let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx';
+fetch(url)
+    .then(function (response) {
+        return response.text();
+    })
+    .then(function (json) {
+        VEri_text_gpx = json;
+
+        var g = new L.GPX(json, {
+            async: true,
+            parseElements: ['track'],
+            polyline_options: {
+                color: '#020202',
+                weight: 10,
+            },
+            marker_options: {
+                // 'startIcon': new L.icon({
+                //     iconUrl: 'marker.png',
+                //     iconSize: [22, 32, 5],
+                //     iconAnchor: [10, 30],
+                // }),
+                'endIcon': new L.icon({
+                    iconUrl: 'fim_icnon.png',
+                    iconSize: [22, 32, 5],
+                    iconAnchor: [10, 30],
+                })
+            }
+
+        });
+
+        g.on('loaded', function (e) {
+            var gpx = e.target,
+                elevation_data = gpx.get_elevation_data();
+            data_hora = gpx.get_start_time();
+            name = gpx.get_name(),
+                distM = gpx.get_distance(),
+                distKm = distM / 1000,
+                distKmRnd = distKm.toFixed(1),
+                eleGain = gpx.get_elevation_gain().toFixed(2),
+                eleLoss = gpx.get_elevation_loss().toFixed(2);
+            var info = "Name: " + name + "</br>" +
+                "Distance: " + distKmRnd + " km </br>" +
+                "Elevation Gain: " + eleGain + " m </br>"
+
+            //document.getElementById('km').innerHTML = info;
+            gpx.getLayers()[0].bindPopup(info)
+
+            let date = new Date(data_hora);
+            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+            //document.getElementById('time').value = hora_min_gpx;
+
+
+            var nday = date.getDay(),
+                nmonth = date.getMonth() + 1,
+                ndate = date.getDate(),
+                nyear = date.getYear();
+            if (nyear < 1000) nyear += 1900;
+            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+            var arrayhidrografico = [];
+            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+        });
+        somarNumero = 0;
+        g.on('click', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+            changeValue();
+        });
+        g.on('addpoint', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+        })
+        g.addTo(mymap);
+    });
+    mymap.setView([40.72397393626433, -8.628129959106444], 13);
+}
+
         //No clique do marker
 
         var linesFeatureLayer
@@ -5466,7 +5559,18 @@ fetch(url)
             local_Nome_rota.push('getDataGPX_Testada_Salreu');
 
 
+            let url16 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx';
+            const response16 = await fetch(url16);
+            const json16 = await response16.text();
+            parser16 = new DOMParser();
+            xmlDoc16 = parser16.parseFromString(json16, "text/xml");
+            var lat_gpx16 = xmlDoc16.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx16 = xmlDoc16.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
+            distancia16 = mymap.distance([lat_gpx16, lon_gpx16], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia16);
+            local_Nome_rota.push('getDataGPX_Salreu_PonteBarra');
 
 
 
@@ -5502,7 +5606,8 @@ fetch(url)
                     'getDataGPX_CALEDOURO_TESTADA_3005',
                     'getDataGPX_ANGE_RioNovo_2006',
                     'getDataGPX_PonteBarra_Testada',
-                    'getDataGPX_Testada_Salreu'
+                    'getDataGPX_Testada_Salreu',
+                    'getDataGPX_Salreu_PonteBarra'
                 ];
 
 
@@ -5614,7 +5719,7 @@ fetch(url)
                     // let convert_milesnaut = distance_Ange * 0.0005;
 
 
-                    var gpxMAIN = new L.GPX(json12, { async: true }).on('loaded', function (e) {
+                    var gpxMAIN = new L.GPX(json15, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
                         distNM = distM * 0.0005;
@@ -5639,6 +5744,59 @@ fetch(url)
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione uma rota</option>" +
                                 "<option value='getDataGPX_Testada_Salreu'>Para Salreu - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
+                                "</div>").openPopup();
+                            duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
+                        }
+
+                    }, 1000);
+
+                    //convert_milesnaut[0].toFixed(2)
+
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
+
+                }  else  if (guardardistancia[0][1] == 'getDataGPX_Salreu_PonteBarra') {
+                    nomeDestino = [];
+                    nomeDestino.push("Ponte da Barra");
+                    distance_gpx_real = [];
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+
+
+                    marker_Teste1 = L.marker([40.73219790515421, -8.568466901779175], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    // let distance_Ange = mymap.distance([40.754585, -8.696377], [40.612488, -8.738059]);
+                    // let convert_milesnaut = distance_Ange * 0.0005;
+
+
+                    var gpxMAIN = new L.GPX(json16, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
+                    setTimeout(function () {
+
+                        console.log(distance_gpx_real[0]);
+                        let velocidadeUser = document.getElementById('velocidade').value;
+                        if (!velocidadeUser) {
+                        } else {
+                            let dc2_dist = distance_gpx_real[0].toFixed(2);
+                            let tempo = dc2_dist / velocidadeUser;
+                            var n = new Date(0, 0);
+                            n.setMinutes(+tempo * 60);
+                            var result = n.toTimeString().slice(0, 5);
+
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
+                                "<h5>Da sua atual posição deseja ir até</h5>" +
+                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                                "<option selected disabled>Selecione uma rota</option>" +
+                                "<option value='getDataGPX_Salreu_PonteBarra'>Para Ponte da Barra - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                         }
@@ -6481,6 +6639,31 @@ fetch(url)
                         marker_Teste1.openPopup();
                     });
                     break;
+                    case 'getDataGPX_Salreu_PonteBarra':
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx');
+                    milesRoute.push(duracaoRotaChoosen[0]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    getDataGPX_Salreu_PonteBarra();
+                    nomeDestino = [];
+                    nomeDestino.push("Ponte Barra");
+                    document.getElementById('tutorial03').style.display = "block";
+                    document.getElementById('cais_partida').innerHTML = "Salreu";
+                    document.getElementById('cais_chegada').innerHTML = "Ponte da Barra";
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Salreu</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Ponte da Barra</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> Salreu - Ponte da Barra</p>" +
+                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
+                        "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 7000);
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
                     
             }
             setTimeout(function () {
@@ -7036,16 +7219,16 @@ fetch(url)
                 let data1 = new Date(sortedData[0].SDATA);
                 let data2 = new Date(sortedData[1].SDATA);
                 let data3 = new Date(sortedData[2].SDATA);
+                let data4;
                 console.log(sortedData)
+                console.log(sortedData.length)
+                console.log(sortedData.length > 3);
                 if (sortedData.length > 3) {
-                    let data4 = new Date(sortedData[3].SDATA);
+                    data4 = new Date(sortedData[3].SDATA);
                 } else {
-                    console.log("Tente outra rota")
+                    //console.log("Tente outra rota")
                 }
-                // else if (sortedData.length > 2) {
-                //     let data4 = new Date(sortedData[3].SDATA);
-                // }
-                // console.log(sortedData[2])
+
                 if (sortedData.length == 4) {
                     let data4 = new Date(sortedData[3].SDATA);
                 } else {
