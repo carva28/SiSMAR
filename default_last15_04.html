@@ -2392,8 +2392,8 @@
         // });
 
         //Adicionar Layer inicial
-        NauticalMap_2.addTo(mymap);
-
+        //NauticalMap_2.addTo(mymap);
+        Outdoors.addTo(mymap);
 
 
         var baseLayers = {
@@ -6370,7 +6370,7 @@
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
 
                             //if (date.getSeconds() == 00 && input_Vel < 10) {
-                            if (date.getSeconds() == 00 || date.getSeconds() == 30) {
+                            if (input_Vel <= 3 && (date.getSeconds() == 00 || date.getSeconds() == 20 || date.getSeconds() == 30)) {
                             // if ((date.getSeconds() == 00) && (date.getMinutes() == 02 || date.getMinutes() == 12
                             //     || date.getMinutes() == 22 ||
                             //     date.getMinutes() == 32 ||
@@ -6393,6 +6393,71 @@
                                 // date.getMinutes() == 45|| 
                                 // date.getMinutes() == 50|| 
                                 // date.getMinutes() == 55)) {
+                                var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
+                                var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
+                                var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
+                                var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
+
+                                //console.log(tempoveri);
+
+                                tempoAPI.push(tempoveri);
+                                coord_lat_API.push(parseFloat(lat_gpx));
+                                coord_long_API.push(parseFloat(lon_gpx));
+                                //points.push({"data":tempoveri,"latitude":parseFloat(lat_gpx),"longitude":parseFloat(lon_gpx)})
+
+                                //Guardar Coordenadas do GPX e Z
+                                // console.log(xmlDoc.getElementsByTagName("speed"))
+                                // console.log(xmlDoc.getElementsByTagName("speed")[i])
+                                // console.log(xmlDoc.getElementsByTagName("speed")[i].innerHTML)
+
+                                z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                //z_adquirido_rota = parseFloat(z_adquir) + 0;
+                                z1_rota_adquirida.push(z_adquirido_rota)
+                                horasdarota_medida.push(horatempo_GPX)
+                                coordenadas.push([lon_gpx, lat_gpx])
+
+                                if (coordenadas.length > 1) {
+                                    let distanciaPequePontos = mymap.distance([xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lon'),
+                                    xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lat')], [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
+                                    xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
+                                    // let distanciaPequePontos = mymap.distance(coordenadas[0],
+                                    //     [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
+                                    //     xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
+
+
+                                    var distNM_Coord = distanciaPequePontos * 0.0005;
+
+                                    distancePontos.push(distNM_Coord.toFixed(5));
+
+
+                                }
+                            }else if ((input_Vel > 3 && input_Vel <= 6) && 
+                            (date.getSeconds() == 00 || date.getSeconds() == 20 ) && 
+                            (date.getMinutes() == 02 || date.getMinutes() == 12 ||
+                                date.getMinutes() == 22 ||
+                                date.getMinutes() == 32 ||
+                                date.getMinutes() == 42 ||
+                                date.getMinutes() == 52 ||
+                                date.getMinutes() == 07 || 
+                                date.getMinutes() == 17 ||
+                                date.getMinutes() == 27 ||
+                                date.getMinutes() == 37 ||
+                                date.getMinutes() == 47 ||
+                                date.getMinutes() == 57 ||
+                                date.getMinutes() == 00 ||
+                                date.getMinutes() == 05 ||
+                                date.getMinutes() == 10 ||
+                                date.getMinutes() == 15 ||
+                                date.getMinutes() == 20 ||
+                                date.getMinutes() == 25 ||
+                                date.getMinutes() == 30 || 
+                                date.getMinutes() == 35 || 
+                                date.getMinutes() == 40 || 
+                                date.getMinutes() == 45 || 
+                                date.getMinutes() == 50 || 
+                                date.getMinutes() == 55
+                                )) {
+    
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
