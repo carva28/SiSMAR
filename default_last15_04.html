@@ -6726,7 +6726,7 @@ fetch(url)
             input_Vel = document.getElementById("velocidade").value;
             if (input_Vel == 1) {
                 //somarNumero = somarNumero + 1;
-                somarNumero = somarNumero + 2;
+                somarNumero = somarNumero + 3;
             } else if (input_Vel == 2) {
                 //somarNumero = somarNumero + 2;
                 somarNumero = somarNumero + 3;
@@ -6888,11 +6888,13 @@ fetch(url)
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
                             if (input_Vel <= 1 && (date.getSeconds() == 00 || date.getSeconds() == 05 || date.getSeconds() == 10 || date.getSeconds() == 15 || date.getSeconds() == 20
                             || date.getSeconds() == 20 || date.getSeconds() == 25 || date.getSeconds() == 30 || date.getSeconds() == 35 || date.getSeconds() == 40 || date.getSeconds() == 45
-                            || date.getSeconds() == 50 || date.getSeconds() == 55 || date.getSeconds() == 02 || date.getSeconds() == 04 || date.getSeconds() == 06 || date.getSeconds() == 08 || 
-                            date.getSeconds() == 12 || date.getSeconds() == 14 || date.getSeconds() == 16 || date.getSeconds() == 18 || date.getSeconds() == 22 || date.getSeconds() == 24
-                            || date.getSeconds() == 26 || date.getSeconds() == 28 || date.getSeconds() == 32 || date.getSeconds() == 34 || date.getSeconds() == 36 || date.getSeconds() == 38
-                            || date.getSeconds() == 42 || date.getSeconds() == 44 || date.getSeconds() == 46 || date.getSeconds() == 48 || date.getSeconds() == 52
-                            || date.getSeconds() == 54 || date.getSeconds() == 56 || date.getSeconds() == 58 || date.getSeconds() == 59)){
+                            //|| date.getSeconds() == 50 || date.getSeconds() == 55 || date.getSeconds() == 02 || date.getSeconds() == 04 || date.getSeconds() == 06 || date.getSeconds() == 08 || 
+                            || date.getSeconds() == 12 || date.getSeconds() == 14 || date.getSeconds() == 16 || date.getSeconds() == 18 || date.getSeconds() == 22 || date.getSeconds() == 24 ||
+                            date.getSeconds() == 59)){
+                            // || date.getSeconds() == 26 || date.getSeconds() == 28 || date.getSeconds() == 32 || date.getSeconds() == 34 || date.getSeconds() == 36 || date.getSeconds() == 38
+                            // || date.getSeconds() == 42 || date.getSeconds() == 44 || date.getSeconds() == 46 || date.getSeconds() == 48 || date.getSeconds() == 52
+                            // || date.getSeconds() == 54 || date.getSeconds() == 56 || date.getSeconds() == 58 ||
+                            
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
@@ -9243,10 +9245,12 @@ fetch(url)
                 if (input_Vel == 1) {
                     markerAnimado = L.Marker.movingMarker(
                         [
+                            AnimarBarco[somarNumero - 3],
                             AnimarBarco[somarNumero - 2],
                             AnimarBarco[somarNumero - 1]
                         ],
                         [
+                            variavelVelocidadeAnimBarco[somarNumero - 3],
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
