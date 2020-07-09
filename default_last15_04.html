@@ -6949,7 +6949,67 @@ fetch(url)
 
 
                                 }
-                            } else if ((input_Vel > 3 && input_Vel <= 6) &&
+                            }else if (input_Vel > 3 && input_Vel < 7 && (date.getSeconds() == 00 || date.getSeconds() == 30)) {
+                               
+                                var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
+                                var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
+                                var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
+                                var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
+
+                                //console.log(tempoveri);
+
+                                tempoAPI.push(tempoveri);
+                                coord_lat_API.push(parseFloat(lat_gpx));
+                                coord_long_API.push(parseFloat(lon_gpx));
+
+                                z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                //z_adquirido_rota = parseFloat(z_adquir) + 0;
+                                z1_rota_adquirida.push(z_adquirido_rota)
+                                horasdarota_medida.push(horatempo_GPX)
+                                coordenadas.push([lon_gpx, lat_gpx])
+
+                                if (coordenadas.length > 1) {
+                                    let distanciaPequePontos = mymap.distance([xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lon'),
+                                    xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lat')], [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
+                                    xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
+
+                                    var distNM_Coord = distanciaPequePontos * 0.0005;
+
+                                    distancePontos.push(distNM_Coord.toFixed(5));
+
+
+                                }
+                            } else if ((input_Vel >= 7 && input_Vel <= 9) && (date.getSeconds() == 00)) {
+                               
+                               var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
+                               var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
+                               var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
+                               var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
+
+                               //console.log(tempoveri);
+
+                               tempoAPI.push(tempoveri);
+                               coord_lat_API.push(parseFloat(lat_gpx));
+                               coord_long_API.push(parseFloat(lon_gpx));
+
+                               z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                               //z_adquirido_rota = parseFloat(z_adquir) + 0;
+                               z1_rota_adquirida.push(z_adquirido_rota)
+                               horasdarota_medida.push(horatempo_GPX)
+                               coordenadas.push([lon_gpx, lat_gpx])
+
+                               if (coordenadas.length > 1) {
+                                   let distanciaPequePontos = mymap.distance([xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lon'),
+                                   xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lat')], [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
+                                   xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
+
+                                   var distNM_Coord = distanciaPequePontos * 0.0005;
+
+                                   distancePontos.push(distNM_Coord.toFixed(5));
+
+
+                               }
+                           }else if ((input_Vel > 9 && input_Vel <= 14) &&
                                 (date.getSeconds() == 00 || date.getSeconds() == 20) &&
                                 (date.getMinutes() == 02 || date.getMinutes() == 12 ||
                                     date.getMinutes() == 22 ||
@@ -6986,13 +7046,6 @@ fetch(url)
                                 tempoAPI.push(tempoveri);
                                 coord_lat_API.push(parseFloat(lat_gpx));
                                 coord_long_API.push(parseFloat(lon_gpx));
-                                //points.push({"data":tempoveri,"latitude":parseFloat(lat_gpx),"longitude":parseFloat(lon_gpx)})
-
-                                //Guardar Coordenadas do GPX e Z
-                                // console.log(xmlDoc.getElementsByTagName("speed"))
-                                // console.log(xmlDoc.getElementsByTagName("speed")[i])
-                                // console.log(xmlDoc.getElementsByTagName("speed")[i].innerHTML)
-
                                 z_adquirido_rota = parseFloat(z_adquir) + 0.4;
                                 //z_adquirido_rota = parseFloat(z_adquir) + 0;
                                 z1_rota_adquirida.push(z_adquirido_rota)
@@ -7003,9 +7056,6 @@ fetch(url)
                                     let distanciaPequePontos = mymap.distance([xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lon'),
                                     xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lat')], [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
                                     xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
-                                    // let distanciaPequePontos = mymap.distance(coordenadas[0],
-                                    //     [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
-                                    //     xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
 
 
                                     var distNM_Coord = distanciaPequePontos * 0.0005;
@@ -7208,10 +7258,10 @@ fetch(url)
 
                 console.log(sortedData.length == 4);
 
-                console.log("Não tem 0");
-                    console.log(sortedData[1].SDATA);
-                    console.log(sortedData[2].SDATA);
-                    console.log(sortedData[3].SDATA);
+                // console.log("Não tem 0");
+                //     console.log(sortedData[1].SDATA);
+                //     console.log(sortedData[2].SDATA);
+                //     console.log(sortedData[3].SDATA);
 
                 if (sortedData[0].SDATA == null) {
                     console.log("eu sou a rota com null")
@@ -9094,7 +9144,8 @@ fetch(url)
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                }
+                } 
+
 
 
                 somarNumero = 0;
@@ -9108,9 +9159,10 @@ fetch(url)
                         .openPopup();
                     setTimeout(function () {
 
-                        if (markerAnimado) {
-                            mymap.removeLayer(markerAnimado);
-                        }
+                        //está comentado porque da erro e não aparece o barco
+                        // if (markerAnimado) {
+                        //     mymap.removeLayer(markerAnimado);
+                        // }
                         hasLine = false;
                         document.getElementById('simulControll_display').style.display = "none";
 
@@ -9233,9 +9285,32 @@ fetch(url)
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
 
-                } else if (input_Vel >= 6 && input_Vel >= 9) {
+                }else if (input_Vel == 6) {
                     markerAnimado = L.Marker.movingMarker(
                         [
+                            //AnimarBarco[somarNumero - 7],
+                            AnimarBarco[somarNumero - 6],
+                            AnimarBarco[somarNumero - 5],
+                            AnimarBarco[somarNumero - 4],
+                            AnimarBarco[somarNumero - 3],
+                            AnimarBarco[somarNumero - 2],
+                            AnimarBarco[somarNumero - 1]
+                        ],
+                        [
+                            //variavelVelocidadeAnimBarco[somarNumero - 7],
+                            variavelVelocidadeAnimBarco[somarNumero - 6],
+                            variavelVelocidadeAnimBarco[somarNumero - 5],
+                            variavelVelocidadeAnimBarco[somarNumero - 4],
+                            variavelVelocidadeAnimBarco[somarNumero - 3],
+                            variavelVelocidadeAnimBarco[somarNumero - 2],
+                            variavelVelocidadeAnimBarco[somarNumero - 1]
+                        ], { autostart: true }).addTo(mymap);
+
+                } 
+                else if (input_Vel == 7 || input_Vel == 8 ) {
+                    markerAnimado = L.Marker.movingMarker(
+                        [
+                            //AnimarBarco[somarNumero - 8],
                             AnimarBarco[somarNumero - 7],
                             AnimarBarco[somarNumero - 6],
                             AnimarBarco[somarNumero - 5],
@@ -9245,6 +9320,7 @@ fetch(url)
                             AnimarBarco[somarNumero - 1]
                         ],
                         [
+                            //variavelVelocidadeAnimBarco[somarNumero - 8],
                             variavelVelocidadeAnimBarco[somarNumero - 7],
                             variavelVelocidadeAnimBarco[somarNumero - 6],
                             variavelVelocidadeAnimBarco[somarNumero - 5],
@@ -9253,9 +9329,13 @@ fetch(url)
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                } else if (input_Vel >= 10 && input_Vel <= 15) {
+                } 
+               
+                
+                else if (input_Vel >= 9 && input_Vel <= 15) {
                     markerAnimado = L.Marker.movingMarker(
                         [
+                            //AnimarBarco[somarNumero - 10],
                             AnimarBarco[somarNumero - 9],
                             AnimarBarco[somarNumero - 8],
                             AnimarBarco[somarNumero - 7],
@@ -9267,6 +9347,7 @@ fetch(url)
                             AnimarBarco[somarNumero - 1]
                         ],
                         [
+                            //variavelVelocidadeAnimBarco[somarNumero - 10],
                             variavelVelocidadeAnimBarco[somarNumero - 9],
                             variavelVelocidadeAnimBarco[somarNumero - 8],
                             variavelVelocidadeAnimBarco[somarNumero - 7],
@@ -9348,9 +9429,9 @@ fetch(url)
                 //document.getElementById('simulControll_display').style.display = "block";
 
                 if (markerAnimado.isRunning()) {
-                    if (newMarker) { // check
-                        mymap.removeLayer(newMarker); // remove
-                    }
+                    // if (newMarker) { // check
+                    //     mymap.removeLayer(newMarker); // remove
+                    // }
                 } else if (markerAnimado.isPaused()) {
                     if (newMarker) { // check
                         mymap.removeLayer(newMarker); // remove
