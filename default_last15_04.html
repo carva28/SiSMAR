@@ -6726,7 +6726,7 @@ fetch(url)
             input_Vel = document.getElementById("velocidade").value;
             if (input_Vel == 1) {
                 //somarNumero = somarNumero + 1;
-                somarNumero = somarNumero + 3;
+                somarNumero = somarNumero + 4;
             } else if (input_Vel == 2) {
                 //somarNumero = somarNumero + 2;
                 somarNumero = somarNumero + 3;
@@ -9245,11 +9245,13 @@ fetch(url)
                 if (input_Vel == 1) {
                     markerAnimado = L.Marker.movingMarker(
                         [
+                            AnimarBarco[somarNumero - 4],
                             AnimarBarco[somarNumero - 3],
                             AnimarBarco[somarNumero - 2],
                             AnimarBarco[somarNumero - 1]
                         ],
                         [
+                            variavelVelocidadeAnimBarco[somarNumero - 4],
                             variavelVelocidadeAnimBarco[somarNumero - 3],
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
