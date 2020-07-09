@@ -6886,9 +6886,31 @@ fetch(url)
                             TempoParaANimar.push(newStr);
                             let date = new Date(newStr);
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+                            if (input_Vel <= 1 && (date.getSeconds() == 00 || date.getSeconds() == 05 || date.getSeconds() == 10 || date.getSeconds() == 15 || date.getSeconds() == 20
+                            || date.getSeconds() == 20 || date.getSeconds() == 25 || date.getSeconds() == 30 || date.getSeconds() == 35 || date.getSeconds() == 40 || date.getSeconds() == 45
+                            || date.getSeconds() == 50 || date.getSeconds() == 55 || date.getSeconds() == 02 || date.getSeconds() == 04 || date.getSeconds() == 06 || date.getSeconds() == 08 || 
+                            date.getSeconds() == 12 || date.getSeconds() == 14 || date.getSeconds() == 16 || date.getSeconds() == 18 || date.getSeconds() == 22 || date.getSeconds() == 24
+                            || date.getSeconds() == 26 || date.getSeconds() == 28 || date.getSeconds() == 32 || date.getSeconds() == 34 || date.getSeconds() == 36 || date.getSeconds() == 38
+                            || date.getSeconds() == 42 || date.getSeconds() == 44 || date.getSeconds() == 46 || date.getSeconds() == 48 || date.getSeconds() == 52
+                            || date.getSeconds() == 54 || date.getSeconds() == 56 || date.getSeconds() == 58 || date.getSeconds() == 59)){
+                                var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
+                                var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
+                                var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
+                                var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
 
+                                tempoAPI.push(tempoveri);
+                                coord_lat_API.push(parseFloat(lat_gpx));
+                                coord_long_API.push(parseFloat(lon_gpx));
+                                
+                                z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                //z_adquirido_rota = parseFloat(z_adquir) + 0;
+                                z1_rota_adquirida.push(z_adquirido_rota)
+                                horasdarota_medida.push(horatempo_GPX)
+                                coordenadas.push([lon_gpx, lat_gpx])
+
+                            }
                             //if (date.getSeconds() == 00 && input_Vel < 10) {
-                            if (input_Vel <= 3 && (date.getSeconds() == 00 || date.getSeconds() == 20 || date.getSeconds() == 30)) {
+                            else if (input_Vel <= 3 && (date.getSeconds() == 00 || date.getSeconds() == 10 || date.getSeconds() == 20 || date.getSeconds() == 30)) {
                                 // if ((date.getSeconds() == 00) && (date.getMinutes() == 02 || date.getMinutes() == 12
                                 //     || date.getMinutes() == 22 ||
                                 //     date.getMinutes() == 32 ||
@@ -6949,7 +6971,7 @@ fetch(url)
 
 
                                 }
-                            }else if (input_Vel > 3 && input_Vel < 7 && (date.getSeconds() == 00 || date.getSeconds() == 30)) {
+                            }else if (input_Vel > 3 && input_Vel < 7 && (date.getSeconds() == 00 || date.getSeconds() == 30 || date.getSeconds() == 10)) {
                                
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
@@ -8336,7 +8358,7 @@ fetch(url)
                     //console.log(mare_por_minuto2[i]);
                     //console.log(mare_por_minuto2[0][i]);
                     //console.log(z2_menos_calado);
-                    //console.log(horas_pontos_user);
+                   
 
                     if (horas_pontos_user.length > 0) {
                         var d = new Date();
@@ -8350,6 +8372,10 @@ fetch(url)
                         User_Tempo_cada_coor = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
                     }
 
+                    // console.log(horas_pontos_user);
+                    // console.log(User_Tempo_cada_coor)
+                    // console.log(User_Tempo_cada_coor.getHours())
+                    // console.log(User_Tempo_cada_coor.getMinutes())
                     //calculo da distancia
                     // console.log(User_Tempo_cada_coor.getHours())
                     // console.log(User_Tempo_cada_coor.getMinutes())
