@@ -2647,9 +2647,7 @@
 
                         //document.getElementById('time').value = hora_min_gpx;
 
-                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-                        var arrayhidrografico = [];
-                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                       
 
                         var nday = date.getDay(),
                             nmonth = date.getMonth() + 1,
@@ -2657,7 +2655,10 @@
                             nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
                         UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                       
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
                     });
                     somarNumero = 0;
                     g.on('click', function (e) {
