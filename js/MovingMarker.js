@@ -152,7 +152,7 @@ L.Marker.MovingMarker = L.Marker.extend({
     },
 
     stop: function (elapsedTime) {
-
+        
        
         if (this.isEnded()) {
             return;
@@ -272,12 +272,16 @@ L.Marker.MovingMarker = L.Marker.extend({
             L.Util.cancelAnimFrame(this._animId);
             this._animRequested = false;
         }
+      
     },
 
     _updatePosition: function () {
 
         var elapsedTime = Date.now() - this._startTime;
         this._animate(this._startTimeStamp + elapsedTime, true);
+        if (markerAnimado) {
+            mymap.removeLayer(markerAnimado);
+        }
     },
 
     _loadLine: function (index) {
@@ -404,6 +408,7 @@ L.Marker.MovingMarker = L.Marker.extend({
                     time_partida_1 = true;
                     document.getElementById('simulControll_display').style.display = "none";
                     dataCalls = false;
+                    markersAPI();
                 setTimeout(function () {
 
                     if (markerAnimado) {

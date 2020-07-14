@@ -1742,11 +1742,51 @@
                     </h5>
                 </div>
                 <div onclick="getDataGPX_CALEDOURO_TESTADA_3005()" class="carousel-cell">
-                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpeg);"></div>
+                    <div class="imagem_card" style="background-image:url(./cards_images/testada.jpeg);"></div>
                     <h5>Cale Douro - Testada<br>
                         <span>Pelo canal</span>
                     </h5>
                 </div>
+
+                <div onclick="getDataGPX_Torreira_ANGE_3005()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpg);"></div>
+                    <h5>Torreira - ANGE 30/05<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+                <div onclick="getDataGPX_Testada_Torreira_3005()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/torreira.jpg);"></div>
+                    <h5>Testada - Torreira<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+                <div onclick="getDataGPX_ANGE_RioNovo_2006()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/RioNovo.jpg);"></div>
+                    <h5>Ange - Lota Velha 20/06<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+
+                <div onclick="getDataGPX_PonteBarra_Testada()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/testada.jpg);"></div>
+                    <h5>Ponte da Barra - Testada<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+                <div onclick="getDataGPX_Testada_Salreu()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/salreu.jpg);"></div>
+                    <h5>Testada - Salreu<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+                <div onclick="getDataGPX_Salreu_PonteBarra()" class="carousel-cell">
+                    <div class="imagem_card" style="background-image:url(./cards_images/PonteBarra.jpg);"></div>
+                    <h5>Salreu - Ponte da Barra<br>
+                        <span>Pelo canal</span>
+                    </h5>
+                </div>
+
+
             </div>
 
 
@@ -2333,7 +2373,8 @@
         var tutorial = true;
         var velocidademedia;
         // Making a map and tiles
-        const mymap = L.map('issMap').setView([40.7288, -8.6467], 16);
+        const mymap = L.map('issMap').setView([40.6126, -8.7383], 16);
+        //const mymap = L.map('issMap').setView([40.7288, -8.6467], 16);
         //const mymap = L.map('issMap').setView([40.70, -8.69], 11);
         const attribution =
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -2473,7 +2514,7 @@
 
 
         // Create three markers and set their icons to cssIcon
-        L.marker([40.7261, -8.6467], { icon: cssIcon }).addTo(mymap);
+        L.marker([40.6126, -8.7383], { icon: cssIcon }).addTo(mymap);
 
         // start_boat = new L.marker([40.7268, -8.6507], {
         //     icon: start_boat
@@ -2557,7 +2598,7 @@
                         //document.getElementById('time').value = hora_min_gpx;
                         let nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
-                  
+
                         var nday = date.getDay(),
                             nmonth = date.getMonth() + 1,
                             ndate = date.getDate();
@@ -2591,8 +2632,11 @@
 
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
+
                 if (layer.options.pane == "overlayPane") {
+
                     mymap.removeLayer(layer);
+
                 }
             });
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
@@ -2647,7 +2691,7 @@
 
                         //document.getElementById('time').value = hora_min_gpx;
 
-                       
+
 
                         var nday = date.getDay(),
                             nmonth = date.getMonth() + 1,
@@ -2656,7 +2700,7 @@
                         if (nyear < 1000) nyear += 1900;
                         UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-                       
+
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
                     });
@@ -2738,11 +2782,16 @@
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
                         //document.getElementById('time').value = hora_min_gpx;
-                        let nyear = date.getYear();
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+
                         var arrayhidrografico = [];
-                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
 
                     });
                     somarNumero = 0;
@@ -3136,7 +3185,9 @@
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
+
                 }
+                markersAPI();
             });
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
             fetch(url)
@@ -3189,8 +3240,14 @@
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
                         //document.getElementById('time').value = hora_min_gpx;
-                        let nyear = date.getYear();
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
                         var arrayhidrografico = [];
 
@@ -3958,192 +4015,192 @@
                     })
                     g.addTo(mymap);
                 });
-                mymap.setView([40.678, -8.7166], 13);
+            mymap.setView([40.678, -8.7166], 13);
         }
 
 
 
         async function getDataGPX_Testada_Salreu() {
 
-mymap.eachLayer(function (layer) {
-    //console.log(layer.options.pane)
-    if (layer.options.pane == "overlayPane") {
-        mymap.removeLayer(layer);
-    }
-});
-let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx';
-fetch(url)
-    .then(function (response) {
-        return response.text();
-    })
-    .then(function (json) {
-        VEri_text_gpx = json;
-
-        var g = new L.GPX(json, {
-            async: true,
-            parseElements: ['track'],
-            polyline_options: {
-                color: '#020202',
-                weight: 10,
-            },
-            marker_options: {
-                // 'startIcon': new L.icon({
-                //     iconUrl: 'marker.png',
-                //     iconSize: [22, 32, 5],
-                //     iconAnchor: [10, 30],
-                // }),
-                'endIcon': new L.icon({
-                    iconUrl: 'fim_icnon.png',
-                    iconSize: [22, 32, 5],
-                    iconAnchor: [10, 30],
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
                 })
-            }
+                .then(function (json) {
+                    VEri_text_gpx = json;
 
-        });
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
 
-        g.on('loaded', function (e) {
-            var gpx = e.target,
-                elevation_data = gpx.get_elevation_data();
-            data_hora = gpx.get_start_time();
-            name = gpx.get_name(),
-                distM = gpx.get_distance(),
-                distKm = distM / 1000,
-                distKmRnd = distKm.toFixed(1),
-                eleGain = gpx.get_elevation_gain().toFixed(2),
-                eleLoss = gpx.get_elevation_loss().toFixed(2);
-            var info = "Name: " + name + "</br>" +
-                "Distance: " + distKmRnd + " km </br>" +
-                "Elevation Gain: " + eleGain + " m </br>"
+                    });
 
-            //document.getElementById('km').innerHTML = info;
-            gpx.getLayers()[0].bindPopup(info)
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
 
-            let date = new Date(data_hora);
-            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
 
-            //document.getElementById('time').value = hora_min_gpx;
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-
-            var nday = date.getDay(),
-                nmonth = date.getMonth() + 1,
-                ndate = date.getDate(),
-                nyear = date.getYear();
-            if (nyear < 1000) nyear += 1900;
-            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-
-            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-            var arrayhidrografico = [];
-            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
-        });
-        somarNumero = 0;
-        g.on('click', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-            changeValue();
-        });
-        g.on('addpoint', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-        })
-        g.addTo(mymap);
-    });
-    mymap.setView([40.72397393626433, -8.628129959106444], 13);
-}
+                        //document.getElementById('time').value = hora_min_gpx;
 
 
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                    });
+                    somarNumero = 0;
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.72397393626433, -8.628129959106444], 13);
+        }
 
 
 
-async function getDataGPX_Salreu_PonteBarra() {
 
-mymap.eachLayer(function (layer) {
-    //console.log(layer.options.pane)
-    if (layer.options.pane == "overlayPane") {
-        mymap.removeLayer(layer);
-    }
-});
-let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx';
-fetch(url)
-    .then(function (response) {
-        return response.text();
-    })
-    .then(function (json) {
-        VEri_text_gpx = json;
 
-        var g = new L.GPX(json, {
-            async: true,
-            parseElements: ['track'],
-            polyline_options: {
-                color: '#020202',
-                weight: 10,
-            },
-            marker_options: {
-                // 'startIcon': new L.icon({
-                //     iconUrl: 'marker.png',
-                //     iconSize: [22, 32, 5],
-                //     iconAnchor: [10, 30],
-                // }),
-                'endIcon': new L.icon({
-                    iconUrl: 'fim_icnon.png',
-                    iconSize: [22, 32, 5],
-                    iconAnchor: [10, 30],
+        async function getDataGPX_Salreu_PonteBarra() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
                 })
-            }
+                .then(function (json) {
+                    VEri_text_gpx = json;
 
-        });
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
 
-        g.on('loaded', function (e) {
-            var gpx = e.target,
-                elevation_data = gpx.get_elevation_data();
-            data_hora = gpx.get_start_time();
-            name = gpx.get_name(),
-                distM = gpx.get_distance(),
-                distKm = distM / 1000,
-                distKmRnd = distKm.toFixed(1),
-                eleGain = gpx.get_elevation_gain().toFixed(2),
-                eleLoss = gpx.get_elevation_loss().toFixed(2);
-            var info = "Name: " + name + "</br>" +
-                "Distance: " + distKmRnd + " km </br>" +
-                "Elevation Gain: " + eleGain + " m </br>"
+                    });
 
-            //document.getElementById('km').innerHTML = info;
-            gpx.getLayers()[0].bindPopup(info)
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
 
-            let date = new Date(data_hora);
-            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
 
-            //document.getElementById('time').value = hora_min_gpx;
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
 
 
-            var nday = date.getDay(),
-                nmonth = date.getMonth() + 1,
-                ndate = date.getDate(),
-                nyear = date.getYear();
-            if (nyear < 1000) nyear += 1900;
-            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
 
-            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-            var arrayhidrografico = [];
-            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
-        });
-        somarNumero = 0;
-        g.on('click', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-            changeValue();
-        });
-        g.on('addpoint', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-        })
-        g.addTo(mymap);
-    });
-    mymap.setView([40.72397393626433, -8.628129959106444], 13);
-}
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                    });
+                    somarNumero = 0;
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.72397393626433, -8.628129959106444], 13);
+        }
 
         //No clique do marker
 
@@ -4182,10 +4239,15 @@ fetch(url)
     <script type="text/javascript">
 
         var marker_pois;
+        var marker_cais;
         var markerGroup;
+        var markerGrooupCais;
+        var newMarker_Cais;
+        var lat_cais = [], long_cais = [];
 
         async function markersAPI() {
             markerGroup = L.layerGroup().addTo(mymap);
+            markerGrooupCais = L.layerGroup().addTo(mymap);
 
             let url = 'https://sismarbackoffice.herokuapp.com/localizacao';
             const response = await fetch(url);
@@ -4205,6 +4267,15 @@ fetch(url)
                         iconSize: [30, 40, 5],
                         iconAnchor: [10, 30],
                     });
+                    marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
+                        icon: newMarker
+                    }).addTo(markerGroup);
+
+
+
+                    marker_pois.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>' +
+                        '<br><b>Tipologia:</b> ' + tipologiaPOI +
+                        '<br><b>Colocado por :</b> ' + nomeuser);
                 } else if (tipologiaPOI == "Bar") {
                     var imagem = "<i class='fas fa-glass-martini-alt' style='font-size:1.4rem;'></i>";
                     newMarker = L.icon({
@@ -4212,6 +4283,15 @@ fetch(url)
                         iconSize: [30, 40, 5],
                         iconAnchor: [10, 30],
                     });
+                    marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
+                        icon: newMarker
+                    }).addTo(markerGroup);
+
+
+
+                    marker_pois.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>' +
+                        '<br><b>Tipologia:</b> ' + tipologiaPOI +
+                        '<br><b>Colocado por :</b> ' + nomeuser);
                 } else if (tipologiaPOI == "Ilha") {
                     var imagem = "<i class='fas fa-seedling' style='font-size:1.4rem;'></i>";
                     newMarker = L.icon({
@@ -4219,13 +4299,33 @@ fetch(url)
                         iconSize: [30, 40, 5],
                         iconAnchor: [10, 30],
                     });
+                    marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
+                        icon: newMarker
+                    }).addTo(markerGroup);
+
+
+
+                    marker_pois.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>' +
+                        '<br><b>Tipologia:</b> ' + tipologiaPOI +
+                        '<br><b>Colocado por :</b> ' + nomeuser);
                 } else if (tipologiaPOI == "Cais") {
                     var imagem = "<i class='fas fa-anchor' style='font-size:1.4rem;'></i>";
-                    newMarker = L.icon({
+                    newMarker_Cais = L.icon({
                         iconUrl: 'marker_poi/marker_cais.png',
                         iconSize: [35, 45, 5],
                         iconAnchor: [10, 30],
                     });
+
+                    lat_cais.push(parseFloat(lat));
+                    long_cais.push(parseFloat(lon));
+
+                    marker_cais = L.marker([parseFloat(lat), parseFloat(lon)], {
+                        icon: newMarker_Cais
+                    }).addTo(markerGrooupCais);
+
+                    marker_cais.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>' +
+                        '<br><b>Tipologia:</b> ' + tipologiaPOI +
+                        '<br><b>Colocado por :</b> ' + nomeuser);
                 }
 
 
@@ -4234,16 +4334,20 @@ fetch(url)
                 //     icon: newMarker
                 // }).addTo(mymap);
 
-                marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
-                    icon: newMarker
-                }).addTo(markerGroup);
+                // marker_pois = L.marker([parseFloat(lat), parseFloat(lon)], {
+                //     icon: newMarker
+                // }).addTo(markerGroup);
 
 
-                marker_pois.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>' +
-                    '<br><b>Tipologia:</b> ' + tipologiaPOI +
-                    '<br><b>Colocado por :</b> ' + nomeuser);
+
+                // marker_pois.bindPopup(imagem + '<br><span style="font-size:1.2rem;"><b>Nome:</b> ' + nomePo + '</span>' +
+                //     '<br><b>Tipologia:</b> ' + tipologiaPOI +
+                //     '<br><b>Colocado por :</b> ' + nomeuser);
             }
         }
+
+
+
 
 
         document.getElementById('btn_esconderPOIS').onclick = function () {
@@ -4340,8 +4444,8 @@ fetch(url)
 
             if (horasInfo4.getHours() == 0 || horasInfo4.getHours() == 00 || array_hidrografico_simulacao_API[0][3].ALT == null) {
                 if (array_hidrografico_simulacao_API[0][1].ALT > array_hidrografico_simulacao_API[0][2].ALT) {
-
-                    document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                    if(horasInfo.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + "0" + horasInfo.getMinutes()
                         + "&nbsp" + "|" +
                         "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
                     document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
@@ -4351,8 +4455,7 @@ fetch(url)
                         + "&nbsp" + "|" +
                         "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
 
-
-                    document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + "0" + horasInfo.getMinutes()
                         + "&nbsp" + "|" +
                         "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
                     document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
@@ -4362,6 +4465,157 @@ fetch(url)
                         + "&nbsp" + "|" +
                         "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
 
+                    } 
+                    else if (horasInfo2.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":"  + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + "0" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":"  + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + "0" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    }else if (horasInfo3.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":"  + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + "0" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":"  + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + "0" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    }else if (horasInfo2.getMinutes() <= 9 && horasInfo3.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":"  + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + "0" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + "0" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":"  + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + "0" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + "0" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    } else if (horasInfo.getMinutes() <= 9 && horasInfo3.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":"   +  "0" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + "0" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":"   +  "0" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + "0" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    }else if (horasInfo.getMinutes() <= 9 && horasInfo2.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":"   +  "0" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + "0" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" +  horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":"   +  "0" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + "0" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" +  horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    }else if (horasInfo3.getMinutes() <= 9 && horasInfo.getMinutes() <= 9 && horasInfo2.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":"   +  "0" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + "0" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" +  "0" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":"   +  "0" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + "0" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" +  "0" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    }else{
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                        document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    }
+                   
+
+                  
                 } else {
                     document.getElementById('info_mare_2').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
                         + "&nbsp" + "|" +
@@ -4388,10 +4642,71 @@ fetch(url)
 
 
             } else {
-                console.log("elseeee");
+                
                 if (array_hidrografico_simulacao_API[0][1].ALT > array_hidrografico_simulacao_API[0][2].ALT) {
 
-                    document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
+                    if(horasInfo.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + "0"+ horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                    if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                        document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    }
+
+                    document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" + "0"+ horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                        if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                            document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                        }
+                    }else if(horasInfo2.getMinutes() <= 9){
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" +  horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + "0"+ horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                    if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                        document.getElementById('info_mare_4').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    }
+
+                    document.getElementById('info_mare_1_1').innerHTML = horasInfo.getHours() + ":" +  horasInfo.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horasInfo2.getHours() + ":" +"0"+  horasInfo2.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horasInfo3.getHours() + ":" + horasInfo3.getMinutes()
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                        if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                            document.getElementById('info_mare_4_1').innerHTML = horasInfo4.getHours() + ":" + horasInfo4.getMinutes()
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                        }
+                    }else{
+                        document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
                         + "&nbsp" + "|" +
                         "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
                     document.getElementById('info_mare_2').innerHTML = horasInfo2.getHours() + ":" + horasInfo2.getMinutes()
@@ -4420,6 +4735,8 @@ fetch(url)
                             + "&nbsp" + "|" +
                             "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
                     }
+                    }
+                 
 
                 } else {
                     document.getElementById('info_mare_1').innerHTML = horasInfo.getHours() + ":" + horasInfo.getMinutes()
@@ -4996,6 +5313,8 @@ fetch(url)
 
         function changeValue(e) {
 
+            markersAPI();
+
             if (markerAnimado) {
                 mymap.removeLayer(markerAnimado);
             }
@@ -5003,6 +5322,8 @@ fetch(url)
             if (hasLine == false) {
                 pointList = [];
             }
+
+
 
             document.getElementById('simulControll_display').style.display = "none";
             modal_eta = true;
@@ -5164,31 +5485,9 @@ fetch(url)
                 icon: newMarker
             }).addTo(mymap);
 
-            //console.log(coord.lat, coord.lng);
-
-            // newMarker.bindPopup("<h2>PopUp Map</h2>" +
-            //     "<button onclick='clickedPointer(true)'>Quero Rotas</button>" +
-            //     "<button onclick='clickedPointer(false)'>Quero marcar pedras</button>").openPopup();
-
-            //verificaClickCoor(coord);
-            // document.getElementById('btn_legenda2').style.opacity = "1";
-            // document.getElementById('btn_legenda').style.opacity = "1";
 
             verificaClickCoor(arrayCoor[0]);
-            // document.getElementById('btn_legenda2').style.opacity = "0.6";
-            // document.getElementById('btn_legenda').style.opacity = "1";
 
-            // document.getElementById('btn_legenda2').onclick = function () {
-            //     //clickedPointer(true);
-            //     verificaClickCoor(arrayCoor[0]);
-            //     document.getElementById('btn_legenda2').style.opacity = "0.6";
-            //     document.getElementById('btn_legenda').style.opacity = "1";
-            // };
-            // document.getElementById('btn_legenda').onclick = function () {
-            //     clickedPointer(false)
-            //     document.getElementById('btn_legenda2').style.opacity = "1";
-            //     document.getElementById('btn_legenda').style.opacity = "0.6";
-            // };
         });
         var arrayURL = [];
         async function mudarVeloDura() {
@@ -5338,6 +5637,7 @@ fetch(url)
                 mymap.removeLayer(markerAnimado);
             }
 
+
             console.log(arrayClicked);
             var localiz_distan = [], local_Nome_rota = [];
             coordClicadas = arrayClicked;
@@ -5412,18 +5712,6 @@ fetch(url)
             localiz_distan.push(parseInt(distancia5));
             local_Nome_rota.push('getDataGPX_RegressoBico');
 
-            let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
-            const response6 = await fetch(url6);
-            const json6 = await response6.text();
-            parser6 = new DOMParser();
-            xmlDoc6 = parser6.parseFromString(json6, "text/xml");
-            var lat_gpx6 = xmlDoc6.getElementsByTagName("trkpt")[0].getAttribute('lat');
-            var lon_gpx6 = xmlDoc6.getElementsByTagName("trkpt")[0].getAttribute('lon');
-
-            distancia6 = mymap.distance([lat_gpx6, lon_gpx6], [arrayClicked.lat, arrayClicked.lng]);
-
-            localiz_distan.push(parseInt(distancia6));
-            local_Nome_rota.push('getData_IDA10_3_20_GPX');
 
 
             let url7 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx';
@@ -5438,21 +5726,6 @@ fetch(url)
 
             localiz_distan.push(parseInt(distancia7));
             local_Nome_rota.push('getData_Volta10_3_20_GPX');
-
-
-            let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
-            const response8 = await fetch(url8);
-            const json8 = await response8.text();
-            parser8 = new DOMParser();
-            xmlDoc8 = parser8.parseFromString(json8, "text/xml");
-            var lat_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lat');
-            var lon_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lon');
-
-            distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
-
-            localiz_distan.push(distancia8);
-            local_Nome_rota.push('NovaRotaCriada');
-
 
 
 
@@ -5518,33 +5791,8 @@ fetch(url)
             local_Nome_rota.push('getDataGPX_CALEDOURO_TESTADA_3005');
 
 
-            let url13 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx';
 
-            const response13 = await fetch(url13);
-            const json13 = await response13.text();
-            parser13 = new DOMParser();
-            xmlDoc13 = parser13.parseFromString(json13, "text/xml");
-            var lat_gpx13 = xmlDoc13.getElementsByTagName("trkpt")[0].getAttribute('lat');
-            var lon_gpx13 = xmlDoc13.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
-            distancia13 = mymap.distance([lat_gpx13, lon_gpx13], [arrayClicked.lat, arrayClicked.lng]);
-
-            localiz_distan.push(distancia13);
-            local_Nome_rota.push('getDataGPX_ANGE_RioNovo_2006');
-
-            let url14 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
-            const response14 = await fetch(url14);
-            const json14 = await response14.text();
-            parser14 = new DOMParser();
-            xmlDoc14 = parser14.parseFromString(json14, "text/xml");
-            var lat_gpx14 = xmlDoc14.getElementsByTagName("trkpt")[0].getAttribute('lat');
-            var lon_gpx14 = xmlDoc14.getElementsByTagName("trkpt")[0].getAttribute('lon');
-
-            distancia14 = mymap.distance([lat_gpx14, lon_gpx14], [arrayClicked.lat, arrayClicked.lng]);
-
-            localiz_distan.push(distancia14);
-            local_Nome_rota.push('getDataGPX_PonteBarra_Testada');
-            
 
             let url15 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx';
             const response15 = await fetch(url15);
@@ -5703,7 +5951,7 @@ fetch(url)
                         this.openPopup();
                     });
 
-                }else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
+                } else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
                     nomeDestino = [];
                     nomeDestino.push("Salreu");
                     distance_gpx_real = [];
@@ -5757,7 +6005,7 @@ fetch(url)
                         this.openPopup();
                     });
 
-                }  else  if (guardardistancia[0][1] == 'getDataGPX_Salreu_PonteBarra') {
+                } else if (guardardistancia[0][1] == 'getDataGPX_Salreu_PonteBarra') {
                     nomeDestino = [];
                     nomeDestino.push("Ponte da Barra");
                     distance_gpx_real = [];
@@ -5810,8 +6058,8 @@ fetch(url)
                         this.openPopup();
                     });
 
-                }  
-                
+                }
+
                 else if (guardardistancia[0][1] == 'getDataGPX_CALEDOURO_TESTADA_3005') {
                     nomeDestino = [];
                     nomeDestino.push("Cale Douro");
@@ -5873,7 +6121,12 @@ fetch(url)
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
-
+                    if (markerAnimado) {
+                        mymap.removeLayer(markerAnimado);
+                    }
+                    if (newMarker) { // check
+                        mymap.removeLayer(newMarker); // remove
+                    }
 
                     marker_Teste1 = L.marker([40.70749067180911, -8.659404683858158], {
                         icon: issIcon
@@ -5925,13 +6178,82 @@ fetch(url)
                     });
 
                 } else if (guardardistancia[0][1] == 'getCostaNovaGPX' ||
-                    guardardistancia[0][1] == 'getData_IDA10_3_20_GPX') {
+                    guardardistancia[0][1] == 'getData_IDA10_3_20_GPX' ||
+                    guardardistancia[0][1] == 'getTorreiraGPX_Revserse' ||
+                    guardardistancia[0][1] == 'getIdaBicoGPX' ||
+                    guardardistancia[0][1] == 'getDataGPX_ANGE_Torreira_1705' ||
+                    guardardistancia[0][1] == 'getDataGPX_ANGE_RioNovo_2006' ||
+                    guardardistancia[0][1] == 'getDataGPX_PonteBarra_Testada') {
+
+
+                    if (markerAnimado) {
+                        mymap.removeLayer(markerAnimado);
+                    }
+                    if (newMarker) { // check
+                        mymap.removeLayer(newMarker); // remove
+                    }
+
+                    let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
+                    const response6 = await fetch(url6);
+                    const json6 = await response6.text();
+                    parser6 = new DOMParser();
+                    xmlDoc6 = parser6.parseFromString(json6, "text/xml");
+                    var lat_gpx6 = xmlDoc6.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    var lon_gpx6 = xmlDoc6.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+                    distancia6 = mymap.distance([lat_gpx6, lon_gpx6], [arrayClicked.lat, arrayClicked.lng]);
+
+                    localiz_distan.push(parseInt(distancia6));
+                    local_Nome_rota.push('getData_IDA10_3_20_GPX');
+
+                    let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
+                    const response8 = await fetch(url8);
+                    const json8 = await response8.text();
+                    parser8 = new DOMParser();
+                    xmlDoc8 = parser8.parseFromString(json8, "text/xml");
+                    var lat_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    var lon_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+                    distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
+
+                    localiz_distan.push(distancia8);
+                    local_Nome_rota.push('NovaRotaCriada');
+
+
+
+
+                    let url13 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx';
+
+                    const response13 = await fetch(url13);
+                    const json13 = await response13.text();
+                    parser13 = new DOMParser();
+                    xmlDoc13 = parser13.parseFromString(json13, "text/xml");
+                    var lat_gpx13 = xmlDoc13.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    var lon_gpx13 = xmlDoc13.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+                    distancia13 = mymap.distance([lat_gpx13, lon_gpx13], [arrayClicked.lat, arrayClicked.lng]);
+
+                    localiz_distan.push(distancia13);
+                    local_Nome_rota.push('getDataGPX_ANGE_RioNovo_2006');
+
+                    let url14 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
+                    const response14 = await fetch(url14);
+                    const json14 = await response14.text();
+                    parser14 = new DOMParser();
+                    xmlDoc14 = parser14.parseFromString(json14, "text/xml");
+                    var lat_gpx14 = xmlDoc14.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    var lon_gpx14 = xmlDoc14.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+                    distancia14 = mymap.distance([lat_gpx14, lon_gpx14], [arrayClicked.lat, arrayClicked.lng]);
+
+                    localiz_distan.push(distancia14);
+                    local_Nome_rota.push('getDataGPX_PonteBarra_Testada');
 
                     distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
-                    marker_Teste1 = L.marker([40.612488, -8.738059], {
+                    marker_Teste1 = L.marker([40.6135, -8.7388], {
                         icon: issIcon
                     }).addTo(mymap);
 
@@ -6050,7 +6372,7 @@ fetch(url)
                                 "<option value='getData_IDA10_3_20_GPX'>Para Vagueira - " + distance_gpx_real[2].toFixed(2) + "milhas</option>" +
                                 "<option value='getIdaBicoGPX'>Para Bico (debugging) - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_ANGE_Torreira_1705'>Para Torreira 17/05 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
-                                "<option value='getDataGPX_ANGE_RioNovo_2006'>Para Rio Novo - " + distance_gpx_real[6].toFixed(2) + "milhas</option>" +
+                                "<option value='getDataGPX_ANGE_RioNovo_2006'>Para Lota Velha - " + distance_gpx_real[6].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_PonteBarra_Testada'>Para Testada - " + distance_gpx_real[7].toFixed(2) + "milhas</option>" +
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
@@ -6547,14 +6869,14 @@ fetch(url)
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     getDataGPX_ANGE_RioNovo_2006();
                     nomeDestino = [];
-                    nomeDestino.push("ANGE");
+                    nomeDestino.push("Lota Velha");
                     document.getElementById('tutorial03').style.display = "block";
                     document.getElementById('cais_partida').innerHTML = "ANGE";
-                    document.getElementById('cais_chegada').innerHTML = "RIO NOVO";
+                    document.getElementById('cais_chegada').innerHTML = "Lota Velha";
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Partida</b> ANGE</p>" +
-                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> RIO NOVO</p>" +
-                        "<p style='font-size:0.8rem;'><b>Rota</b> ANGE - Rio Novo</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Lota Velha</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> ANGE - Lota Velha</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
                         "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
@@ -6590,7 +6912,7 @@ fetch(url)
                         marker_Teste1.openPopup();
                     });
                     break;
-                    case 'getDataGPX_PonteBarra_Testada':
+                case 'getDataGPX_PonteBarra_Testada':
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx');
                     milesRoute.push(duracaoRotaChoosen[6]);
@@ -6615,7 +6937,7 @@ fetch(url)
                         marker_Teste1.openPopup();
                     });
                     break;
-                    case 'getDataGPX_Testada_Salreu':
+                case 'getDataGPX_Testada_Salreu':
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx');
                     milesRoute.push(duracaoRotaChoosen[0]);
@@ -6640,7 +6962,7 @@ fetch(url)
                         marker_Teste1.openPopup();
                     });
                     break;
-                    case 'getDataGPX_Salreu_PonteBarra':
+                case 'getDataGPX_Salreu_PonteBarra':
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx');
                     milesRoute.push(duracaoRotaChoosen[0]);
@@ -6665,7 +6987,7 @@ fetch(url)
                         marker_Teste1.openPopup();
                     });
                     break;
-                    
+
             }
             setTimeout(function () {
                 document.getElementById('tutorial03').style.display = "none";
@@ -6720,8 +7042,6 @@ fetch(url)
             }
 
             mare_por_minuto2 = [];
-
-
 
 
             input_Vel = document.getElementById("velocidade").value;
@@ -6888,14 +7208,14 @@ fetch(url)
                             let date = new Date(newStr);
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
                             if (input_Vel <= 1 && (date.getSeconds() == 00 || date.getSeconds() == 05 || date.getSeconds() == 10 || date.getSeconds() == 15 || date.getSeconds() == 20
-                            || date.getSeconds() == 20 || date.getSeconds() == 25 || date.getSeconds() == 30 || date.getSeconds() == 35 || date.getSeconds() == 40 || date.getSeconds() == 45
-                            //|| date.getSeconds() == 50 || date.getSeconds() == 55 || date.getSeconds() == 02 || date.getSeconds() == 04 || date.getSeconds() == 06 || date.getSeconds() == 08 || 
-                            || date.getSeconds() == 12 || date.getSeconds() == 14 || date.getSeconds() == 16 || date.getSeconds() == 18 || date.getSeconds() == 22 || date.getSeconds() == 24 ||
-                            date.getSeconds() == 59)){
-                            // || date.getSeconds() == 26 || date.getSeconds() == 28 || date.getSeconds() == 32 || date.getSeconds() == 34 || date.getSeconds() == 36 || date.getSeconds() == 38
-                            // || date.getSeconds() == 42 || date.getSeconds() == 44 || date.getSeconds() == 46 || date.getSeconds() == 48 || date.getSeconds() == 52
-                            // || date.getSeconds() == 54 || date.getSeconds() == 56 || date.getSeconds() == 58 ||
-                            
+                                || date.getSeconds() == 20 || date.getSeconds() == 25 || date.getSeconds() == 30 || date.getSeconds() == 35 || date.getSeconds() == 40 || date.getSeconds() == 45
+                                //|| date.getSeconds() == 50 || date.getSeconds() == 55 || date.getSeconds() == 02 || date.getSeconds() == 04 || date.getSeconds() == 06 || date.getSeconds() == 08 || 
+                                || date.getSeconds() == 12 || date.getSeconds() == 14 || date.getSeconds() == 16 || date.getSeconds() == 18 || date.getSeconds() == 22 || date.getSeconds() == 24 ||
+                                date.getSeconds() == 59)) {
+                                // || date.getSeconds() == 26 || date.getSeconds() == 28 || date.getSeconds() == 32 || date.getSeconds() == 34 || date.getSeconds() == 36 || date.getSeconds() == 38
+                                // || date.getSeconds() == 42 || date.getSeconds() == 44 || date.getSeconds() == 46 || date.getSeconds() == 48 || date.getSeconds() == 52
+                                // || date.getSeconds() == 54 || date.getSeconds() == 56 || date.getSeconds() == 58 ||
+
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
@@ -6904,7 +7224,7 @@ fetch(url)
                                 tempoAPI.push(tempoveri);
                                 coord_lat_API.push(parseFloat(lat_gpx));
                                 coord_long_API.push(parseFloat(lon_gpx));
-                                
+
                                 z_adquirido_rota = parseFloat(z_adquir) + 0.4;
                                 //z_adquirido_rota = parseFloat(z_adquir) + 0;
                                 z1_rota_adquirida.push(z_adquirido_rota)
@@ -6974,8 +7294,8 @@ fetch(url)
 
 
                                 }
-                            }else if (input_Vel > 3 && input_Vel < 7 && (date.getSeconds() == 00 || date.getSeconds() == 30 || date.getSeconds() == 10)) {
-                               
+                            } else if (input_Vel > 3 && input_Vel < 7 && (date.getSeconds() == 00 || date.getSeconds() == 30 || date.getSeconds() == 10)) {
+
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
                                 var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
@@ -7005,36 +7325,36 @@ fetch(url)
 
                                 }
                             } else if ((input_Vel >= 7 && input_Vel <= 9) && (date.getSeconds() == 00)) {
-                               
-                               var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
-                               var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
-                               var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
-                               var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
 
-                               //console.log(tempoveri);
+                                var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
+                                var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
+                                var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
+                                var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
 
-                               tempoAPI.push(tempoveri);
-                               coord_lat_API.push(parseFloat(lat_gpx));
-                               coord_long_API.push(parseFloat(lon_gpx));
+                                //console.log(tempoveri);
 
-                               z_adquirido_rota = parseFloat(z_adquir) + 0.4;
-                               //z_adquirido_rota = parseFloat(z_adquir) + 0;
-                               z1_rota_adquirida.push(z_adquirido_rota)
-                               horasdarota_medida.push(horatempo_GPX)
-                               coordenadas.push([lon_gpx, lat_gpx])
+                                tempoAPI.push(tempoveri);
+                                coord_lat_API.push(parseFloat(lat_gpx));
+                                coord_long_API.push(parseFloat(lon_gpx));
 
-                               if (coordenadas.length > 1) {
-                                   let distanciaPequePontos = mymap.distance([xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lon'),
-                                   xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lat')], [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
-                                   xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
+                                z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                //z_adquirido_rota = parseFloat(z_adquir) + 0;
+                                z1_rota_adquirida.push(z_adquirido_rota)
+                                horasdarota_medida.push(horatempo_GPX)
+                                coordenadas.push([lon_gpx, lat_gpx])
 
-                                   var distNM_Coord = distanciaPequePontos * 0.0005;
+                                if (coordenadas.length > 1) {
+                                    let distanciaPequePontos = mymap.distance([xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lon'),
+                                    xmlDoc.getElementsByTagName("trkpt")[i - 1].getAttribute('lat')], [xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon'),
+                                    xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat')]);
 
-                                   distancePontos.push(distNM_Coord.toFixed(5));
+                                    var distNM_Coord = distanciaPequePontos * 0.0005;
+
+                                    distancePontos.push(distNM_Coord.toFixed(5));
 
 
-                               }
-                           }else if ((input_Vel > 9 && input_Vel <= 14) &&
+                                }
+                            } else if ((input_Vel > 9 && input_Vel <= 14) &&
                                 (date.getSeconds() == 00 || date.getSeconds() == 20) &&
                                 (date.getMinutes() == 02 || date.getMinutes() == 12 ||
                                     date.getMinutes() == 22 ||
@@ -7186,16 +7506,16 @@ fetch(url)
                 splitTime1_tempoAPI = tempo.split(':');
             }
 
-            console.log(splitTime1_tempoAPI);
-            console.log(tempoUser);
-            console.log(tempo);
-            console.log(time_partida_1);
+            // console.log(splitTime1_tempoAPI);
+            // console.log(tempoUser);
+            // console.log(tempo);
+            // console.log(time_partida_1);
 
             UserHoras2 = new Date(nyear, nmonth, nday, splitTime1_tempoAPI[0], splitTime1_tempoAPI[1]);
             //var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
             // console.log(UserHoras2)
-            console.log(UserHoras2.getHours())
-            console.log(UserHoras2.getMinutes())
+            // console.log(UserHoras2.getHours())
+            // console.log(UserHoras2.getMinutes())
 
             //var startDate = Date.now();
             var startDate = new Date();
@@ -7204,8 +7524,8 @@ fetch(url)
             startDate.setHours(UserHoras2.getMinutes());
 
 
-            console.log(startDate)
-            console.log(moment(startDate).toISOString())
+            // console.log(startDate)
+            // console.log(moment(startDate).toISOString())
 
 
             var points = [];
@@ -7219,7 +7539,7 @@ fetch(url)
                 }
             }
 
-            console.log(points)
+            //console.log(points)
 
 
             /*********************************************************************************/
@@ -8280,27 +8600,27 @@ fetch(url)
             let total_min_rota_choose = converMin2Hou_rotaChoose + parseInt(splitTempo_rotaCHoose[1])
             //console.log(total_min_rota_choose)
             //for (let dk = 0; dk < horas_pontos_user.length; dk++) {
-            for (let dk = 0; dk < total_min_rota_choose; dk++) {
-                // if (horas_pontos_user.length > 0) {
-                //     var d = new Date();
-                //     var nday = d.getDay(),
-                //         nmonth = d.getMonth() + 1,
-                //         ndate = d.getDate(),
-                //         nyear = d.getYear();
-                //     if (nyear < 1000) nyear += 1900;
-                //     var splitTime1 = horas_pontos_user[dk].split(':');
+            // for (let dk = 0; dk < total_min_rota_choose; dk++) {
+            //     // if (horas_pontos_user.length > 0) {
+            //     //     var d = new Date();
+            //     //     var nday = d.getDay(),
+            //     //         nmonth = d.getMonth() + 1,
+            //     //         ndate = d.getDate(),
+            //     //         nyear = d.getYear();
+            //     //     if (nyear < 1000) nyear += 1900;
+            //     //     var splitTime1 = horas_pontos_user[dk].split(':');
 
-                //     User_Tempo_cada_coor_Acumula = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+            //     //     User_Tempo_cada_coor_Acumula = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
 
-                // }
-                let velUser = document.getElementById('velocidade').value;
-                let DistTotal = velUser / 60;
-                //let leTotaDIstSimu = DistTotal * User_Tempo_cada_coor_Acumula.getMinutes();
-                let leTotaDIstSimu = DistTotal * dk;
+            //     // }
+            //     let velUser = document.getElementById('velocidade').value;
+            //     let DistTotal = velUser / 60;
+            //     //let leTotaDIstSimu = DistTotal * User_Tempo_cada_coor_Acumula.getMinutes();
+            //     let leTotaDIstSimu = DistTotal * dk;
 
-                distanciaCalculada_RotaSimulada.push(leTotaDIstSimu.toFixed(5));
-            }
-            console.log("Distância Simulada")
+            //     distanciaCalculada_RotaSimulada.push(leTotaDIstSimu.toFixed(5));
+            // }
+            // console.log("Distância Simulada")
             //console.log(distanciaCalculada_RotaSimulada)
 
 
@@ -8361,7 +8681,7 @@ fetch(url)
                     //console.log(mare_por_minuto2[i]);
                     //console.log(mare_por_minuto2[0][i]);
                     //console.log(z2_menos_calado);
-                   
+
 
                     if (horas_pontos_user.length > 0) {
                         var d = new Date();
@@ -8400,41 +8720,41 @@ fetch(url)
                     ]);
                     popup = new L.popup();
 
-                    if (coordenadas[i + 1] != undefined) {
-                        if (parseFloat(distanciaAcumulada[i]) >= parseFloat(distanciaCalculada_RotaSimulada[i]) &&
-                            parseFloat(distanciaCalculada_RotaSimulada[i]) < parseFloat(distanciaAcumulada[i + 1])) {
-                            // console.log("distancia adquirida normal"+distanciaAcumulada[i])
-                            // console.log("distancia adquirida seguinte"+distanciaAcumulada[i+1])
-                            // console.log("distancia rota simulada"+distanciaCalculada_RotaSimulada[i])
-                            markerPoi = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
-                                color: "red",
-                                fillColor: "#000000",
-                                fillOpacity: 0.5,
-                                radius: 100.0
-                            })
-                                .bindPopup(popup)
-                                .addTo(mymap);
-                            // console.log({ coord: [coordenadas[i][1], coordenadas[i][0]] })
-                            // console.log({ distanciAdquirida: distanciaAcumulada[i] })                            
-                            // console.log({ distanciAdquirida: parseFloat(distanciaAcumulada[i]) })
-                            // console.log({ distanSimulada: distanciaCalculada_RotaSimulada[i] })                            
-                            // console.log({ distanSimulada: parseFloat(distanciaCalculada_RotaSimulada[i]) })
-                            // console.log({ distanSimulada: parseFloat(distanciaAcumulada[i + 1])})
+                    // if (coordenadas[i + 1] != undefined) {
+                    //     if (parseFloat(distanciaAcumulada[i]) >= parseFloat(distanciaCalculada_RotaSimulada[i]) &&
+                    //         parseFloat(distanciaCalculada_RotaSimulada[i]) < parseFloat(distanciaAcumulada[i + 1])) {
+                    //         // console.log("distancia adquirida normal"+distanciaAcumulada[i])
+                    //         // console.log("distancia adquirida seguinte"+distanciaAcumulada[i+1])
+                    //         // console.log("distancia rota simulada"+distanciaCalculada_RotaSimulada[i])
+                    //         // markerPoi = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
+                    //         //     color: "red",
+                    //         //     fillColor: "#000000",
+                    //         //     fillOpacity: 0.5,
+                    //         //     radius: 100.0
+                    //         // })
+                    //         //     .bindPopup(popup)
+                    //         //     .addTo(mymap);
+                    //         // console.log({ coord: [coordenadas[i][1], coordenadas[i][0]] })
+                    //         // console.log({ distanciAdquirida: distanciaAcumulada[i] })                            
+                    //         // console.log({ distanciAdquirida: parseFloat(distanciaAcumulada[i]) })
+                    //         // console.log({ distanSimulada: distanciaCalculada_RotaSimulada[i] })                            
+                    //         // console.log({ distanSimulada: parseFloat(distanciaCalculada_RotaSimulada[i]) })
+                    //         // console.log({ distanSimulada: parseFloat(distanciaAcumulada[i + 1])})
 
-                        }
-                        //     else if(parseFloat(distanciaCalculada_RotaSimulada[i]) > parseFloat(distanciaAcumulada[i+1]) 
-                        //     || parseFloat(distanciaCalculada_RotaSimulada[i]) > parseFloat(distanciaAcumulada[i]) ){
-                        //         console.log("valor é maior")
-                        //         markerPoi = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
-                        //     color: "blue",
-                        //     fillColor: "#000000",
-                        //     fillOpacity: 0.5,
-                        //     radius: 100.0
-                        // })
-                        //     .bindPopup(popup)
-                        //     .addTo(mymap);
-                        //     }
-                    }
+                    //     }
+                    //     //     else if(parseFloat(distanciaCalculada_RotaSimulada[i]) > parseFloat(distanciaAcumulada[i+1]) 
+                    //     //     || parseFloat(distanciaCalculada_RotaSimulada[i]) > parseFloat(distanciaAcumulada[i]) ){
+                    //     //         console.log("valor é maior")
+                    //     //         markerPoi = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
+                    //     //     color: "blue",
+                    //     //     fillColor: "#000000",
+                    //     //     fillOpacity: 0.5,
+                    //     //     radius: 100.0
+                    //     // })
+                    //     //     .bindPopup(popup)
+                    //     //     .addTo(mymap);
+                    //     //     }
+                    // }
                     //popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
 
 
@@ -9173,7 +9493,7 @@ fetch(url)
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                } 
+                }
 
 
 
@@ -9204,7 +9524,7 @@ fetch(url)
                 time_partida_1 = true;
                 document.getElementById('btn_pause').style.opacity = '1';
                 document.getElementById('btn_play').style.opacity = "1";
-
+                markersAPI();
 
 
             } else if (somarNumero != 0 && AnimarBarco.length > somarNumero) {
@@ -9318,7 +9638,7 @@ fetch(url)
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
 
-                }else if (input_Vel == 6) {
+                } else if (input_Vel == 6) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             //AnimarBarco[somarNumero - 7],
@@ -9339,8 +9659,8 @@ fetch(url)
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
 
-                } 
-                else if (input_Vel == 7 || input_Vel == 8 ) {
+                }
+                else if (input_Vel == 7 || input_Vel == 8) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             //AnimarBarco[somarNumero - 8],
@@ -9362,9 +9682,9 @@ fetch(url)
                             variavelVelocidadeAnimBarco[somarNumero - 2],
                             variavelVelocidadeAnimBarco[somarNumero - 1]
                         ], { autostart: true }).addTo(mymap);
-                } 
-               
-                
+                }
+
+
                 else if (input_Vel >= 9 && input_Vel <= 15) {
                     markerAnimado = L.Marker.movingMarker(
                         [
@@ -9492,16 +9812,19 @@ fetch(url)
 
                 document.getElementById('parar_Animacao').onclick = function () {
 
+
                     document.getElementById('parar_Animacao').style.opacity = '0.4';
                     document.getElementById('btn_play').style.opacity = "1";
                     document.getElementById('btn_pause').style.opacity = "1";
-
+                    markerAnimado.pause();
+                    markerAnimado.stop();
+                    setTimeout(function () {
+                        markerAnimado.pause();
+                        markerAnimado.stop();
+                    }, 1000);
                     if (markerAnimado) {
                         mymap.removeLayer(markerAnimado);
                     }
-
-                    markerAnimado.stop();
-
 
                     somarNumero = 0;
 
@@ -9509,12 +9832,15 @@ fetch(url)
                     hasLine = false;
                     pointList.shift();
                     pointList.shift();
-                    console.log(pointList);
+                    //console.log(pointList);
                     modal_eta = true;
                     time_partida_1 = true;
 
                     setTimeout(function () {
-                        markerAnimado.start();
+                        markerAnimado.pause();
+                        markerAnimado.stop();
+                        //markerAnimado.start();
+                        //markerAnimado.start();
                     }, 1000);
                     var valorInput = document.getElementById('calado_span').value;
                     var valorInput2 = document.getElementById('calado_sup_span').value;
