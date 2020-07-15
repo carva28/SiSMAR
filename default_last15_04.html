@@ -6257,6 +6257,9 @@
 
         var newMarker;
         var marker_Teste1;
+        var marker_CaisANGE;
+        var marker_CaisANGEVagueira;
+        var marker_CaisTorreira;
 
         var arrayCoor = [];
 
@@ -6721,17 +6724,22 @@
 
                 duracaoRotaChoosen = [];
                 if (guardardistancia[0][1] == 'getTorreiraGPX') {
-                    document.getElementById('load_fetch').style.display = "none";
 
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     distance_gpx_real = [];
-                    if (marker_Teste1) { // check
-                        mymap.removeLayer(marker_Teste1); // remove
+                    // if (marker_Teste1) { // check
+                    //     mymap.removeLayer(marker_Teste1); // remove
+                    // }
+                    if (marker_CaisTorreira) { // check
+                        mymap.removeLayer(marker_CaisTorreira); // remove
                     }
 
 
-                    marker_Teste1 = L.marker([40.754585, -8.696377], {
+
+
+
+                    marker_CaisTorreira = L.marker([40.754585, -8.696377], {
                         icon: issIcon
                     }).addTo(mymap);
 
@@ -6775,7 +6783,7 @@
                             var result2 = n2.toTimeString().slice(0, 5);
 
 
-                            marker_Teste1.bindPopup("<div class='div_bind'>" +
+                            marker_CaisTorreira.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione uma rota</option>" +
@@ -6788,20 +6796,17 @@
                             duracaoRotaChoosen.push(distance_gpx_real[1].toFixed(2))
                         }
 
+                        document.getElementById('load_fetch').style.display = "none";
 
-
-
-
-                    }, 1000);
+                    }, 500);
 
                     //convert_milesnaut[0].toFixed(2)
 
-                    marker_Teste1.on('click', function (e) {
+                    marker_CaisTorreira.on('click', function (e) {
                         this.openPopup();
                     });
 
                 } else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
-                    document.getElementById('load_fetch').style.display = "none";
 
                     nomeDestino = [];
                     nomeDestino.push("Salreu");
@@ -6847,8 +6852,9 @@
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                         }
+                        document.getElementById('load_fetch').style.display = "none";
 
-                    }, 1000);
+                    }, 500);
 
                     //convert_milesnaut[0].toFixed(2)
 
@@ -6857,7 +6863,6 @@
                     });
 
                 } else if (guardardistancia[0][1] == 'getDataGPX_Salreu_PonteBarra') {
-                    document.getElementById('load_fetch').style.display = "none";
 
                     nomeDestino = [];
                     nomeDestino.push("Ponte da Barra");
@@ -6902,8 +6907,9 @@
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                         }
+                        document.getElementById('load_fetch').style.display = "none";
 
-                    }, 1000);
+                    }, 500);
 
                     //convert_milesnaut[0].toFixed(2)
 
@@ -6914,7 +6920,6 @@
                 }
 
                 else if (guardardistancia[0][1] == 'getDataGPX_CALEDOURO_TESTADA_3005') {
-                    document.getElementById('load_fetch').style.display = "none";
 
                     nomeDestino = [];
                     nomeDestino.push("Cale Douro");
@@ -6960,8 +6965,9 @@
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                         }
+                        document.getElementById('load_fetch').style.display = "none";
 
-                    }, 1000);
+                    }, 500);
 
                     //convert_milesnaut[0].toFixed(2)
 
@@ -6970,7 +6976,6 @@
                     });
 
                 } else if (guardardistancia[0][1] == 'getDataGPX_Testada_Torreira_3005') {
-                    document.getElementById('load_fetch').style.display = "none";
 
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
@@ -7023,10 +7028,11 @@
                         }
 
 
+                        document.getElementById('load_fetch').style.display = "none";
 
 
 
-                    }, 1000);
+                    }, 500);
 
                     //convert_milesnaut[0].toFixed(2)
 
@@ -7041,7 +7047,6 @@
                     guardardistancia[0][1] == 'getDataGPX_ANGE_Torreira_1705' ||
                     guardardistancia[0][1] == 'getDataGPX_ANGE_RioNovo_2006' ||
                     guardardistancia[0][1] == 'getDataGPX_PonteBarra_Testada') {
-                    document.getElementById('load_fetch').style.display = "none";
 
 
 
@@ -7051,6 +7056,8 @@
                     if (newMarker) { // check
                         mymap.removeLayer(newMarker); // remove
                     }
+
+
 
                     let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
                     const response6 = await fetch(url6);
@@ -7241,14 +7248,14 @@
                             duracaoRotaChoosen.push(distance_gpx_real[4].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[6].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[7].toFixed(2))
+                            document.getElementById('load_fetch').style.display = "none";
+
                         }
 
 
-                    }, 500);
+                    }, 250);
 
-                    marker_Teste1.on('click', function (e) {
-                        this.openPopup();
-                    });
+
                 } else if (guardardistancia[0][1] == 'getData4GPX') {
                     document.getElementById('load_fetch').style.display = "none";
 
@@ -7291,7 +7298,6 @@
                     });
                 } else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico'
                     || guardardistancia[0][1] == 'NovaRotaCriada') {
-                    document.getElementById('load_fetch').style.display = "none";
 
                     distance_gpx_real = [];
                     if (marker_Teste1) { // check
@@ -7358,13 +7364,13 @@
                             duracaoRotaChoosen.push(0)
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                         }
+                        document.getElementById('load_fetch').style.display = "none";
 
-                    }, 1000);
+                    }, 500);
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
                 } else if (guardardistancia[0][1] == 'getData_Volta10_3_20_GPX') {
-                    document.getElementById('load_fetch').style.display = "none";
 
                     distance_gpx_real = [];
                     if (marker_Teste1) { // check
@@ -7390,7 +7396,9 @@
                             "<option value='getData_Volta10_3_20_GPX'>Para Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
                             "</div>").openPopup();
                         duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
-                    }, 1000);
+                        document.getElementById('load_fetch').style.display = "none";
+
+                    }, 500);
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
@@ -7429,6 +7437,20 @@
             UserHoras_Inicial = new Date(nyear, nmonth, nday, nhour, nmin);
             var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
             document.getElementById('time_partida').value = f;
+            if (nmonth <= 9) {
+                if (ndate <= 9) {
+                    testData = nyear.toString() + "-0" + nmonth.toString() + "-0" + ndate.toString();
+                } else {
+                    testData = nyear.toString() + "-0" + nmonth.toString() + "-" + ndate.toString();
+                }
+            } else if (ndate <= 9) {
+                testData = nyear.toString() + "-" + nmonth.toString() + "-0" + ndate.toString();
+            } else {
+                testData = nyear.toString() + "-" + nmonth.toString() + "-" + ndate.toString();
+            }
+
+            document.getElementById('date').value = testData.toString();
+
 
             switch (value_escolhido) {
                 case 'getTorreiraGPX':
@@ -7859,6 +7881,9 @@
             }, 10000);
         }
 
+        // marker_CaisANGE.on('click', function (e) {
+        //                 this.openPopup();
+        // });
 
         function sendBack() {
             console.log(coordClicadas);
@@ -7902,6 +7927,9 @@
         var dataCalls = true;
 
         function calculo(valor_cal, cal_sup, cal_inf) {
+
+
+
             if (hasLine == false) {
                 pointList = [];
             }
