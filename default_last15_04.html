@@ -384,9 +384,9 @@
             justify-content: center;
             /* display: block; */
             /*background-color: rgb(255, 238, 217);*/
-            background-color: #fff;
+            background-color: #5b70a8;
 
-            color: #5b70a8;
+            color: #fff;
             border: #5b70a8 4px solid;
             border-radius: 20px;
             /* padding: 10%;*/
@@ -10849,11 +10849,9 @@
                         //     mymap.removeLayer(markerAnimado);
                         // }
                         hasLine = false;
-                        document.getElementById('simulControll_display').style.display = "block";
 
                         pointList = [];
                     }, 2000);
-                    document.getElementById('showRouteFInished').style.display = "none";
 
                 });
 
@@ -10861,6 +10859,11 @@
                 time_partida_1 = true;
                 document.getElementById('btn_pause').style.opacity = '1';
                 document.getElementById('btn_play').style.opacity = "1";
+                document.getElementById('showRouteFInished').style.display = "block";
+                setTimeout(function () {
+                    document.getElementById('showRouteFInished').style.display = "none";
+                }, 2000);
+
                 markersAPI();
 
 
