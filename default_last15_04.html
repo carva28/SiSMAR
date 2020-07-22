@@ -4202,6 +4202,194 @@
             mymap.setView([40.72397393626433, -8.628129959106444], 13);
         }
 
+
+
+        async function getDataGPX_RegressoBico() {
+
+mymap.eachLayer(function (layer) {
+    //console.log(layer.options.pane)
+
+    if (layer.options.pane == "overlayPane") {
+
+        mymap.removeLayer(layer);
+
+    }
+});
+let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+fetch(url)
+    .then(function (response) {
+        return response.text();
+    })
+    .then(function (json) {
+        VEri_text_gpx = json;
+
+        var g = new L.GPX(json, {
+            async: true,
+            parseElements: ['track'],
+            polyline_options: {
+                color: '#020202',
+                weight: 10,
+            },
+            marker_options: {
+                // 'startIcon': new L.icon({
+                //     iconUrl: 'marker.png',
+                //     iconSize: [22, 32, 5],
+                //     iconAnchor: [10, 30],
+                // }),
+                'endIcon': new L.icon({
+                    iconUrl: 'fim_icnon.png',
+                    iconSize: [22, 32, 5],
+                    iconAnchor: [10, 30],
+                })
+            }
+
+        });
+
+        g.on('loaded', function (e) {
+            var gpx = e.target,
+                elevation_data = gpx.get_elevation_data();
+            data_hora = gpx.get_start_time();
+            name = gpx.get_name(),
+                distM = gpx.get_distance(),
+                distKm = distM / 1000,
+                distKmRnd = distKm.toFixed(1),
+                eleGain = gpx.get_elevation_gain().toFixed(2),
+                eleLoss = gpx.get_elevation_loss().toFixed(2);
+            var info = "Name: " + name + "</br>" +
+                "Distance: " + distKmRnd + " km </br>" +
+                "Elevation Gain: " + eleGain + " m </br>"
+
+            //document.getElementById('km').innerHTML = info;
+            gpx.getLayers()[0].bindPopup(info)
+
+            let date = new Date(data_hora);
+            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+            //document.getElementById('time').value = hora_min_gpx;
+
+
+
+            var nday = date.getDay(),
+                nmonth = date.getMonth() + 1,
+                ndate = date.getDate(),
+                nyear = date.getYear();
+            if (nyear < 1000) nyear += 1900;
+            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+
+            var arrayhidrografico = [];
+            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
+        });
+        somarNumero = 0;
+        g.on('click', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+            changeValue();
+        });
+        g.on('addpoint', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+        })
+        g.addTo(mymap);
+    });
+mymap.setView([40.678, -8.7166], 13);
+
+
+}
+
+async function getTorreira17_5_5GPX() {
+
+mymap.eachLayer(function (layer) {
+    //console.log(layer.options.pane)
+    if (layer.options.pane == "overlayPane") {
+        mymap.removeLayer(layer);
+    }
+});
+let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20200722041823-25038-data.gpx';
+fetch(url)
+    .then(function (response) {
+        return response.text();
+    })
+    .then(function (json) {
+        VEri_text_gpx = json;
+
+        var g = new L.GPX(json, {
+            async: true,
+            parseElements: ['track'],
+            polyline_options: {
+                color: '#020202',
+                weight: 10,
+            },
+            marker_options: {
+                // 'startIcon': new L.icon({
+                //     iconUrl: 'marker.png',
+                //     iconSize: [22, 32, 5],
+                //     iconAnchor: [10, 30],
+                // }),
+                'endIcon': new L.icon({
+                    iconUrl: 'fim_icnon.png',
+                    iconSize: [22, 32, 5],
+                    iconAnchor: [10, 30],
+                })
+            }
+
+        });
+
+        g.on('loaded', function (e) {
+            var gpx = e.target,
+                elevation_data = gpx.get_elevation_data();
+            data_hora = gpx.get_start_time();
+            name = gpx.get_name(),
+                distM = gpx.get_distance(),
+                distKm = distM / 1000,
+                distKmRnd = distKm.toFixed(1),
+                eleGain = gpx.get_elevation_gain().toFixed(2),
+                eleLoss = gpx.get_elevation_loss().toFixed(2);
+            var info = "Name: " + name + "</br>" +
+                "Distance: " + distKmRnd + " km </br>" +
+                "Elevation Gain: " + eleGain + " m </br>"
+
+            //document.getElementById('km').innerHTML = info;
+            gpx.getLayers()[0].bindPopup(info)
+
+            let date = new Date(data_hora);
+            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+            //document.getElementById('time').value = hora_min_gpx;
+            var nday = date.getDay(),
+                nmonth = date.getMonth() + 1,
+                ndate = date.getDate(),
+                nyear = date.getYear();
+            if (nyear < 1000) nyear += 1900;
+            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+
+            var arrayhidrografico = [];
+            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
+
+        });
+        somarNumero = 0;
+
+        g.on('click', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+            changeValue();
+        });
+        g.on('addpoint', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+        })
+        g.addTo(mymap);
+    });
+mymap.setView([40.61, -8.745], 12.6);
+}
+
+
+
         //No clique do marker
 
         var linesFeatureLayer
@@ -7200,6 +7388,19 @@
                     localiz_distan.push(distancia14);
                     local_Nome_rota.push('getDataGPX_PonteBarra_Testada');
 
+                    // let url17 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20200722041823-25038-data.gpx';
+                    // const response17 = await fetch(url17);
+                    // const json17 = await response17.text();
+                    // parser17 = new DOMParser();
+                    // xmlDoc17 = parser17.parseFromString(json17, "text/xml");
+                    // var lat_gpx17 = xmlDoc17.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    // var lon_gpx17 = xmlDoc17.getElementsByTagName("trkpt")[0].getAttribute('lon');
+                    
+                    // distancia17 = mymap.distance([lat_gpx17, lon_gpx17], [arrayClicked.lat, arrayClicked.lng]);
+
+                    // localiz_distan.push(distancia17);
+                    // local_Nome_rota.push('getTorreira17_5_5GPX');
+
                     distance_gpx_real = [];
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
@@ -7313,6 +7514,9 @@
                             var n7 = new Date(0, 0);
                             n7.setMinutes(+tempo7 * 60);
                             var result7 = n7.toTimeString().slice(0, 5);
+                            
+                            getTorreira17_5_5GPX
+
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
@@ -7325,6 +7529,8 @@
                                 "<option value='getDataGPX_ANGE_Torreira_1705'>Para Torreira 17/05 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_ANGE_RioNovo_2006'>Para Lota Velha - " + distance_gpx_real[6].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_PonteBarra_Testada'>Para Testada - " + distance_gpx_real[7].toFixed(2) + "milhas</option>" +
+                                "<option value='getTorreira17_5_5GPX'>Para Torreira 5 em 5 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
+                                
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[1].toFixed(2))
@@ -7333,6 +7539,7 @@
                             duracaoRotaChoosen.push(distance_gpx_real[4].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[6].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[7].toFixed(2))
+                            duracaoRotaChoosen.push(distance_gpx_real[4].toFixed(2))
                             document.getElementById('load_fetch').style.display = "none";
 
                         }
@@ -7563,6 +7770,33 @@
                         marker_Teste1.openPopup();
                     });
                     break;
+                    case 'getTorreira17_5_5GPX':
+                    nomeDestino = [];
+                    nomeDestino.push("ANGE");
+                    milesRoute.push(duracaoRotaChoosen[7]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    document.getElementById('tutorial03').style.display = "block";
+                    document.getElementById('cais_partida').innerHTML = "ANGE";
+                    document.getElementById('cais_chegada').innerHTML = "Torreira";
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> ANGE</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Torreira</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> para Torreira 5 em 5m</p>" +
+                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
+                        "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 7000);
+                    getTorreira17_5_5GPX();
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/20200722041823-25038-data.gpx');
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+                    
+
                 case 'getDataGPX_Torreira_ANGE_1705':
                     milesRoute.push(duracaoRotaChoosen[1]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
@@ -8027,23 +8261,35 @@
             input_Vel = document.getElementById("velocidade").value;
             if (input_Vel == 1) {
                 //somarNumero = somarNumero + 1;
-                somarNumero = somarNumero + 3;
+                somarNumero = somarNumero + 6;
             } else if (input_Vel == 2) {
                 //somarNumero = somarNumero + 2;
-                somarNumero = somarNumero + 6;
+                somarNumero = somarNumero + 12;
             } else if (input_Vel == 3) {
                 //somarNumero = somarNumero + 3;
-                somarNumero = somarNumero + 9;
+                somarNumero = somarNumero + 19;
             } else if (input_Vel == 4) {
                 //somarNumero = somarNumero + 4;
-                somarNumero = somarNumero + 12;
+                somarNumero = somarNumero + 25;
             } else if (input_Vel == 5) {
                 //somarNumero = somarNumero + 5;
-                somarNumero = somarNumero + 15;
+                somarNumero = somarNumero + 31;
             } else if (input_Vel >= 6) {
                 //somarNumero = somarNumero + 6;
-                somarNumero = somarNumero + 18;
-            } else if (input_Vel >= 10 && input_Vel <= 15) {
+                somarNumero = somarNumero + 37;
+            } else if (input_Vel >= 7) {
+                //somarNumero = somarNumero + 6;
+                somarNumero = somarNumero + 43;
+            }else if (input_Vel >= 8) {
+                //somarNumero = somarNumero + 6;
+                somarNumero = somarNumero + 49;
+            }else if (input_Vel >= 9) {
+                //somarNumero = somarNumero + 6;
+                somarNumero = somarNumero + 56;
+            } else if (input_Vel >= 10) {
+                //somarNumero = somarNumero + 6;
+                somarNumero = somarNumero + 62;
+            }else if (input_Vel >= 11 && input_Vel <= 15) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 9;
             } else if (input_Vel >= 16 && input_Vel <= 24) {
@@ -9496,139 +9742,9 @@
                 document.getElementById('load_fetch').style.display = "block";
             }
 
+            document.getElementById('load_fetch').style.display = "block";
 
-            httpClient = {
-                get: function (url, data, callback) {
-                    var xhr = new XMLHttpRequest();
-
-                    xhr.onreadystatechange = function () {
-                        var readyState = xhr.readyState;
-
-                        if (readyState == 4) {
-                            callback(xhr);
-                        }
-                    };
-
-                    var queryString = '';
-                    if (typeof data === 'object') {
-                        for (var propertyName in data) {
-                            queryString += (queryString.length === 0 ? '' : '&') + propertyName + '=' + encodeURIComponent(data[propertyName]);
-                        }
-                    }
-
-                    if (queryString.length !== 0) {
-                        url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
-                    }
-
-                    xhr.open('GET', url, true);
-                    xhr.send(null);
-                },
-
-                post: function (url, data, callback) {
-                    var xhr = new XMLHttpRequest();
-
-                    xhr.onreadystatechange = function () {
-                        var readyState = xhr.readyState;
-
-                        if (readyState == 4) {
-                            callback(xhr);
-                        }
-                    };
-
-                    var queryString = '';
-                    if (typeof data === 'object') {
-                        queryString = JSON.stringify(data);
-                    }
-
-                    xhr.open('POST', url, true);
-                    xhr.setRequestHeader('content-type', 'application/json');
-                    xhr.send(queryString);
-                },
-
-                delete: function (url, data, callback) {
-                    var xhr = new XMLHttpRequest();
-
-                    xhr.onreadystatechange = function () {
-                        var readyState = xhr.readyState;
-
-                        if (readyState == 4) {
-                            callback(xhr);
-                        }
-                    };
-
-                    var queryString = '';
-                    if (typeof data === 'object') {
-                        for (var propertyName in data) {
-                            queryString += (queryString.length === 0 ? '' : '&') + propertyName + '=' + encodeURIComponent(data[propertyName]);
-                        }
-                    }
-
-                    if (queryString.length !== 0) {
-                        url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
-                    }
-
-                    xhr.open('DELETE', url, true);
-                    xhr.send(queryString);
-                },
-            };
-
-            httpClient.post(`https://service.hidromod.com/valida4dapi/Execution/Start/${initialID}`, points, function (xhr) {
-
-                var resultPost = JSON.parse(xhr.responseText);
-
-                console.log(resultPost);
-
-                var waitForResult = setInterval(getStatus, 1000);
-
-                function getStatus() {
-                    //console.log("-------------");
-                    console.log(resultPost.id);
-
-                    httpClient.get(`https://service.hidromod.com/valida4dapi/Execution/Status/${resultPost.id}`, null, function (xhr) {
-                        var resultStatus = JSON.parse(xhr.responseText);
-
-                        //console.log(resultStatus);
-                        //console.log('loading...');
-
-                        if (resultStatus.status == 2) {
-                            clearInterval(waitForResult);
-                            httpClient.get(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`, null,  function (xhr) {
-
-
-                                var resultData = JSON.parse(xhr.responseText);
-                                console.log(resultData);
-                                //console.log(resultData.values[3]);
-                                //console.log(resultData.values);
-                                mare_por_minuto2 = [];
-                                mare_por_minuto2.push(resultData.values[3])
-                                console.log(mare_por_minuto2)
-                                if (mare_por_minuto2.length > 0) {
-                                    document.getElementById('load_fetch').style.display = "none";
-                                }
-
-                                // try {
-                                //     console.log(await resultData);
-                                //     //v = await baixarDados(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
           
-                                
-                                // } catch (e) {
-                                //     console.log(await resultData);
-                                //     console.log(await e);
-                                //     //v = await baixarDadosReservas(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
-                                // }
-                                
-                            });
-                        } else if (resultStatus.status == 3) {
-                            clearInterval(waitForResult);
-                            console.log('failed');
-
-                            httpClient.delete(`https://service.hidromod.com/valida4dapi/Execution/Delete/${resultPost.id}`, null, function (xhr) {
-                            });
-                        }
-                    });
-                }
-            });
-
 
             var User_Tempo_cada_coor_Acumula;
             let distanciaCalculada_RotaSimulada = [];
@@ -9688,25 +9804,57 @@
             // // guardar a velocidade com base nos pontos
             // var variavelVelocidadeAnimBarco = [];
             variavelVelocidadeAnimBarco = [];
+
+            mare_por_minuto2 = [];
+            let variableTruefromApi = getDATAPIHidromod(initialID,points);
+            
+            setTimeout(function () {
+                console.log(variableTruefromApi);
+                console.log(mare_por_minuto2);
+                console.log(mare_por_minuto2[0])
+                console.log(mare_por_minuto2[0][1])
+                if (mare_por_minuto2.length > 0) {
+                    document.getElementById('load_fetch').style.display = "none";
+                }
+                
+                
+                let mare_2API;
             if (mare_por_minuto2.length > 0) {
 
 
                 for (var i = 0; i < coordenadas.length; i++) {
 
-
                     //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
                     //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
-
-                    if (mare_por_minuto2.length > 0) {
-                        diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i]);
+                    //mare_2API = parseFloat(mare_por_minuto2[i]);
+                    // if (mare_por_minuto2.length > 0) {
+                    //     diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
+                    //     console.log(diferençaAlturaMare)
+                    //     console.log(mare_2API)
+                    //     console.log(mare_por_minuto[i])
+                    //     console.log(mare_por_minuto2[i])
+                    //     console.log(mare_por_minuto2[i][0])
+                    //     //diferençaAlturaMare = parseFloat(mare_por_minuto2[0][i]) - parseFloat(mare_por_minuto[i]);
+                    //     //diferençaAlturaMare = mare_por_minuto[i];
+                    //     //console.log({ array: mare_por_minuto2[i] })
+                    // }
+                    if (mare_por_minuto2[0][i] > 0) {
+                        mare_2API = parseFloat(mare_por_minuto2[0][i]);
+                        diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
                         console.log(diferençaAlturaMare)
+                        console.log(mare_2API)
                         console.log(mare_por_minuto[i])
-                        console.log(mare_por_minuto2[i])
-                        //diferençaAlturaMare = parseFloat(mare_por_minuto2[0][i]) - parseFloat(mare_por_minuto[i]);
-                        //diferençaAlturaMare = mare_por_minuto[i];
-                        //console.log({ array: mare_por_minuto2[i] })
-                    }
+
+                    } 
+                    // else if (mare_por_minuto2[i] > 0)  {
+                    //     mare_2API = parseFloat(mare_por_minuto2[i]);
+                    //     diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
+                    //     console.log(diferençaAlturaMare)
+                    //     console.log(mare_2API)
+                    //     console.log(mare_por_minuto[i])
+                    //     console.log(mare_por_minuto2[i][0])
+                    // }
 
 
                     if (z1_rota_adquirida[i][0] > 0) {
@@ -9745,8 +9893,9 @@
                             nyear = d.getYear();
                         if (nyear < 1000) nyear += 1900;
                         var splitTime1 = horas_pontos_user[i].split(':');
-                        console.log(horas_pontos_user[i]);
+                       
                         User_Tempo_cada_coor = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+                        //console.log(User_Tempo_cada_coor);
                     }
 
                     // console.log(horas_pontos_user);
@@ -9782,7 +9931,7 @@
                         popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
                             '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
                             //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
-                            '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
+                            '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
                             '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
                             // '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                             '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
@@ -9792,7 +9941,7 @@
                         popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
                             '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
                             //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
-                            '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
+                            '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
                             '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
                             // '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                             '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
@@ -10054,283 +10203,284 @@
             } else {
                 console.log('Else_sem_rota')
             }
-
-
             if (modal_eta) {
 
 
-                // console.log(horasdarota_medida[0]);
-                // console.log(horasdarota_medida[horasdarota_medida.length - 1]);
+// console.log(horasdarota_medida[0]);
+// console.log(horasdarota_medida[horasdarota_medida.length - 1]);
 
-                var milesNauticalRoute = parseFloat(milesRoute[0]);
-                var velocidadeUser = document.getElementById('velocidade').value;
+var milesNauticalRoute = parseFloat(milesRoute[0]);
+var velocidadeUser = document.getElementById('velocidade').value;
 
-                var tempo = milesNauticalRoute / velocidadeUser;
-                var n = new Date(0, 0);
-                n.setMinutes(+tempo * 60);
-                var result = n.toTimeString().slice(0, 5);
+var tempo = milesNauticalRoute / velocidadeUser;
+var n = new Date(0, 0);
+n.setMinutes(+tempo * 60);
+var result = n.toTimeString().slice(0, 5);
 
-                //****** Tempo de partida ******//
-                let tempoPrim = document.getElementById('time_partida').value;
-                var splitTimePartida = tempoPrim.split(':');
-                let horasPartida = parseInt(splitTimePartida[0]);
-                let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+//****** Tempo de partida ******//
+let tempoPrim = document.getElementById('time_partida').value;
+var splitTimePartida = tempoPrim.split(':');
+let horasPartida = parseInt(splitTimePartida[0]);
+let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
 
-                //***** Duração da Rota ****//
-                var splitTime_inicio = result.split(':');
+//***** Duração da Rota ****//
+var splitTime_inicio = result.split(':');
 
-                let horas_inicio = parseInt(splitTime_inicio[0]);
-                let minutos_inicio = parseInt(splitTime_inicio[1]);
+let horas_inicio = parseInt(splitTime_inicio[0]);
+let minutos_inicio = parseInt(splitTime_inicio[1]);
 
-                let total_Rota = (horas_inicio * 60) + minutos_inicio;
+let total_Rota = (horas_inicio * 60) + minutos_inicio;
 
-                let total_Partida_Rota = total_Partida + total_Rota;
-
-
-                var mRotaChegada = new Date(0, 0);
-                let hours_ofsumRote = total_Partida_Rota / 60;
-
-                let d2cHours = hours_ofsumRote.toFixed(2);
-                let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+let total_Partida_Rota = total_Partida + total_Rota;
 
 
-                let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+var mRotaChegada = new Date(0, 0);
+let hours_ofsumRote = total_Partida_Rota / 60;
+
+let d2cHours = hours_ofsumRote.toFixed(2);
+let sumRoute_Hours = hours_ofsumRote.toString().split(".");
 
 
-                // let multiple60_minutes = min_SumRoute;
-                // console.log(multiple60_minutes)
+let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
 
 
-                //document.getElementById('eta_1').innerHTML = horas_chegada[0];
+// let multiple60_minutes = min_SumRoute;
+// console.log(multiple60_minutes)
 
 
-                if (sumRoute_Hours[0] == "24" || sumRoute_Hours[0] == 24) {
-                    let minutos_Sum_Root = parseInt(min_SumRoute);
-                    document.getElementById('eta_1').innerHTML = 00 + ":" + minutos_Sum_Root;
-
-                } else if (sumRoute_Hours[0] == "25" || sumRoute_Hours[0] == 25) {
-                    let minutos_Sum_Root = parseInt(min_SumRoute);
-                    document.getElementById('eta_1').innerHTML = 01 + ":" + minutos_Sum_Root;
-
-                } else if (sumRoute_Hours[0] == "26" || sumRoute_Hours[0] == 26) {
-                    let minutos_Sum_Root = parseInt(min_SumRoute);
-                    document.getElementById('eta_1').innerHTML = 02 + ":" + minutos_Sum_Root;
-
-                } else {
-                    let minutos_Sum_Root = parseInt(min_SumRoute);
-                    let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
-                    document.getElementById('eta_1').innerHTML = hours_Sum_Root + ":" + minutos_Sum_Root;
-                    //document.getElementById('eta_1').innerHTML = hours_ofsumRote + ":" + minutos_Sum_Root;
-                }
+//document.getElementById('eta_1').innerHTML = horas_chegada[0];
 
 
-                //console.log(result_Chegada)
-                document.getElementById('duracao_rota').innerHTML = result;
+if (sumRoute_Hours[0] == "24" || sumRoute_Hours[0] == 24) {
+    let minutos_Sum_Root = parseInt(min_SumRoute);
+    document.getElementById('eta_1').innerHTML = 00 + ":" + minutos_Sum_Root;
 
-                // document.getElementById('eta_1').value
-                // if (Math.abs(diferencaMinutosRota) < 10) {
-                //     document.getElementById('duracao_rota').innerHTML = result;
-                // } else {
-                //     document.getElementById('duracao_rota').innerHTML = result;
-                // }
-                let dataInformacion_0 = new Date(sortedData2[0].SDATA);
+} else if (sumRoute_Hours[0] == "25" || sumRoute_Hours[0] == 25) {
+    let minutos_Sum_Root = parseInt(min_SumRoute);
+    document.getElementById('eta_1').innerHTML = 01 + ":" + minutos_Sum_Root;
 
-                let dataInformacion_1 = new Date(sortedData2[1].SDATA);
+} else if (sumRoute_Hours[0] == "26" || sumRoute_Hours[0] == 26) {
+    let minutos_Sum_Root = parseInt(min_SumRoute);
+    document.getElementById('eta_1').innerHTML = 02 + ":" + minutos_Sum_Root;
 
-                let dataInformacion_2 = new Date(sortedData2[2].SDATA);
-
-
-                console.log(User_Tempo_cada_coor)
-
-                let horasChegada = User_Tempo_cada_coor.getHours();
-
-                let dataInformacion_3;
-
-                if (sortedData2[3] != null) {
-                    dataInformacion_3 = new Date(sortedData2[3].SDATA);
-                    console.log(dataInformacion_3)
-
-                }
-                // console.log(infoSeta_Mare_primeiro)
-                // console.log(infoSeta_Mare_ultimo)
+} else {
+    let minutos_Sum_Root = parseInt(min_SumRoute);
+    let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+    document.getElementById('eta_1').innerHTML = hours_Sum_Root + ":" + minutos_Sum_Root;
+    //document.getElementById('eta_1').innerHTML = hours_ofsumRote + ":" + minutos_Sum_Root;
+}
 
 
+//console.log(result_Chegada)
+document.getElementById('duracao_rota').innerHTML = result;
 
-                if (horasChegada <= dataInformacion_0.getHours()) {
-                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    if (sortedData2[0].ALT > sortedData2[1].ALT) {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    } else {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    }
-                } else if (horasChegada <= dataInformacion_1.getHours()) {
-                    if (sortedData2[0].ALT < sortedData2[1].ALT) {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    } else {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    }
-                    //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+// document.getElementById('eta_1').value
+// if (Math.abs(diferencaMinutosRota) < 10) {
+//     document.getElementById('duracao_rota').innerHTML = result;
+// } else {
+//     document.getElementById('duracao_rota').innerHTML = result;
+// }
+let dataInformacion_0 = new Date(sortedData2[0].SDATA);
 
+let dataInformacion_1 = new Date(sortedData2[1].SDATA);
 
-                } else if (horasChegada <= dataInformacion_2.getHours()) {
-                    if (sortedData2[1].ALT < sortedData2[2].ALT) {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    } else {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    }
-                } else if (sortedData2[3] != null) {
-
-                    if (dataInformacion_3.getHours() == 0) {
-                        let novahora = 24;
-                        if (horasChegada < novahora) {
-
-                            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                            //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-
-                        } else {
-                            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                            //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-
-                        }
-                    } else {
-
-                        if (horasChegada < dataInformacion_3.getHours()) {
-                            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                            //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-
-                        } else {
-                            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                            //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-
-                        }
-                    }
-                } else if (sortedData2[3] == null) {
-
-                    if (sortedData2[1].ALT < sortedData2[2].ALT) {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    } else {
-                        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    }
-                    //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-
-                }
+let dataInformacion_2 = new Date(sortedData2[2].SDATA);
 
 
-                //console.log(horasPartida)
+console.log(User_Tempo_cada_coor)
 
+let horasChegada = User_Tempo_cada_coor.getHours();
 
-                if (horasPartida <= dataInformacion_0.getHours()) {
-                    //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    if (sortedData2[0].ALT > sortedData2[1].ALT) {
-                        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    } else {
-                        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    }
-                } else if (horasPartida <= dataInformacion_1.getHours()) {
-                    //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    if (sortedData2[0].ALT < sortedData2[1].ALT) {
-                        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    } else {
-                        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    }
+let dataInformacion_3;
 
-                } else if (horasPartida <= dataInformacion_2.getHours()) {
-                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+if (sortedData2[3] != null) {
+    dataInformacion_3 = new Date(sortedData2[3].SDATA);
+    console.log(dataInformacion_3)
 
-                    if (sortedData2[1].ALT < sortedData2[2].ALT) {
-                        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    } else {
-                        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    }
-                } else if (sortedData2[3] != null) {
-
-                    if (dataInformacion_3.getHours() == 0) {
-                        let novahora = 24;
-                        if (horasPartida < novahora) {
-                            //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-                            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                        } else {
-                            //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-                            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                        }
-                    } else {
-
-                        if (horasPartida < dataInformacion_3.getHours()) {
-                            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                            //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-
-                        } else {
-                            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                            //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-
-                        }
-                    }
-                } else if (sortedData2[3] == null) {
-                    if (sortedData2[1].ALT < sortedData2[2].ALT) {
-                        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                    } else {
-                        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                    }
-                    //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-
-                }
+}
+// console.log(infoSeta_Mare_primeiro)
+// console.log(infoSeta_Mare_ultimo)
 
 
 
-                // if (parseFloat([ultimaMare[0]]).toFixed(2) > 2.00) {
-                //     document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
-                // } else {
-                //     document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
-                // }
-                modal_eta = false;
+if (horasChegada <= dataInformacion_0.getHours()) {
+    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    if (sortedData2[0].ALT > sortedData2[1].ALT) {
+        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    } else {
+        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    }
+} else if (horasChegada <= dataInformacion_1.getHours()) {
+    if (sortedData2[0].ALT < sortedData2[1].ALT) {
+        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    } else {
+        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    }
+    //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
 
 
+} else if (horasChegada <= dataInformacion_2.getHours()) {
+    if (sortedData2[1].ALT < sortedData2[2].ALT) {
+        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    } else {
+        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    }
+} else if (sortedData2[3] != null) {
 
+    if (dataInformacion_3.getHours() == 0) {
+        let novahora = 24;
+        if (horasChegada < novahora) {
+
+            if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+            } else {
+                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
             }
+            //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
-
-            document.getElementById('simulControll_display').style.display = "block";
-
-            //If para barco andar a fazer pedidos
-
-
-            if (comecAnimarfirst) {
-                parar = false;
-                comecaAnimar();
+        } else {
+            if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+            } else {
+                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
             }
+            //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
+        }
+    } else {
+
+        if (horasChegada < dataInformacion_3.getHours()) {
+            if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+            } else {
+                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+            }
+            //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+
+        } else {
+            if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+            } else {
+                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+            }
+            //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+
+        }
+    }
+} else if (sortedData2[3] == null) {
+
+    if (sortedData2[1].ALT < sortedData2[2].ALT) {
+        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    } else {
+        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    }
+    //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
+}
+
+
+//console.log(horasPartida)
+
+
+if (horasPartida <= dataInformacion_0.getHours()) {
+    //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    if (sortedData2[0].ALT > sortedData2[1].ALT) {
+        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    } else {
+        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    }
+} else if (horasPartida <= dataInformacion_1.getHours()) {
+    //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    if (sortedData2[0].ALT < sortedData2[1].ALT) {
+        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    } else {
+        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    }
+
+} else if (horasPartida <= dataInformacion_2.getHours()) {
+    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
+    if (sortedData2[1].ALT < sortedData2[2].ALT) {
+        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    } else {
+        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    }
+} else if (sortedData2[3] != null) {
+
+    if (dataInformacion_3.getHours() == 0) {
+        let novahora = 24;
+        if (horasPartida < novahora) {
+            //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+            if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+            } else {
+                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+            }
+        } else {
+            //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+            if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+            } else {
+                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+            }
+        }
+    } else {
+
+        if (horasPartida < dataInformacion_3.getHours()) {
+            if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+            } else {
+                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+            }
+            //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+
+        } else {
+            if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+            } else {
+                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+            }
+            //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+
+        }
+    }
+} else if (sortedData2[3] == null) {
+    if (sortedData2[1].ALT < sortedData2[2].ALT) {
+        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+    } else {
+        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+    }
+    //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
+}
+
+
+
+// if (parseFloat([ultimaMare[0]]).toFixed(2) > 2.00) {
+//     document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
+// } else {
+//     document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
+// }
+modal_eta = false;
+
+
+
+}
+
+
+document.getElementById('simulControll_display').style.display = "block";
+
+//If para barco andar a fazer pedidos
+
+
+if (comecAnimarfirst) {
+parar = false;
+comecaAnimar();
+}
+
+        }, 10000);
+
+            
 
        
         }
@@ -10352,6 +10502,7 @@
                 if (AnimarBarco[somarNumero - 1]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
+                            AnimarBarco[somarNumero - 6],
                             AnimarBarco[somarNumero - 5],
                             AnimarBarco[somarNumero - 4],
                             AnimarBarco[somarNumero - 3],
@@ -10359,6 +10510,7 @@
                             AnimarBarco[somarNumero - 1]
                         ],
                         [
+                            variavelVelocidadeAnimBarco[somarNumero - 6],
                             variavelVelocidadeAnimBarco[somarNumero - 5],
                             variavelVelocidadeAnimBarco[somarNumero - 4],
                             variavelVelocidadeAnimBarco[somarNumero - 3],
@@ -10369,12 +10521,20 @@
                 } else if (AnimarBarco[somarNumero - 2]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
+                            AnimarBarco[somarNumero - 9],
+                            AnimarBarco[somarNumero - 8],
+                            AnimarBarco[somarNumero - 7],
+                            AnimarBarco[somarNumero - 6],
                             AnimarBarco[somarNumero - 5],
                             AnimarBarco[somarNumero - 4],
                             AnimarBarco[somarNumero - 3],
                             AnimarBarco[somarNumero - 2],
                         ],
                         [
+                            variavelVelocidadeAnimBarco[somarNumero - 9],
+                            variavelVelocidadeAnimBarco[somarNumero - 8],
+                            variavelVelocidadeAnimBarco[somarNumero - 7],
+                            variavelVelocidadeAnimBarco[somarNumero - 6],
                             variavelVelocidadeAnimBarco[somarNumero - 5],
                             variavelVelocidadeAnimBarco[somarNumero - 4],
                             variavelVelocidadeAnimBarco[somarNumero - 3],
@@ -10596,12 +10756,18 @@
                     if (input_Vel == 1) {
                         markerAnimado = L.Marker.movingMarker(
                             [
+     
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
                                 AnimarBarco[somarNumero - 4],
                                 AnimarBarco[somarNumero - 3],
                                 AnimarBarco[somarNumero - 2],
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
+
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
                                 variavelVelocidadeAnimBarco[somarNumero - 4],
                                 variavelVelocidadeAnimBarco[somarNumero - 3],
                                 variavelVelocidadeAnimBarco[somarNumero - 2],
@@ -10610,115 +10776,10 @@
                     } else if (input_Vel == 2) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-                                AnimarBarco[somarNumero - 3],
-                                AnimarBarco[somarNumero - 2],
-                                AnimarBarco[somarNumero - 1]
-                            ],
-                            [
-                                variavelVelocidadeAnimBarco[somarNumero - 3],
-                                variavelVelocidadeAnimBarco[somarNumero - 2],
-                                variavelVelocidadeAnimBarco[somarNumero - 1]
-                            ], { autostart: true }).addTo(mymap);
-                    } else if (input_Vel == 3) {
-                        markerAnimado = L.Marker.movingMarker(
-                            [
-                                AnimarBarco[somarNumero - 4],
-                                AnimarBarco[somarNumero - 3],
-                                AnimarBarco[somarNumero - 2],
-                                AnimarBarco[somarNumero - 1]
-                            ],
-                            [
-                                variavelVelocidadeAnimBarco[somarNumero - 4],
-                                variavelVelocidadeAnimBarco[somarNumero - 3],
-                                variavelVelocidadeAnimBarco[somarNumero - 2],
-                                variavelVelocidadeAnimBarco[somarNumero - 1]
-                            ], { autostart: true }).addTo(mymap);
-                    } else if (input_Vel == 4) {
-                        markerAnimado = L.Marker.movingMarker(
-                            [
-                                AnimarBarco[somarNumero - 5],
-                                AnimarBarco[somarNumero - 4],
-                                AnimarBarco[somarNumero - 3],
-                                AnimarBarco[somarNumero - 2],
-                                AnimarBarco[somarNumero - 1]
-                            ],
-                            [
-                                variavelVelocidadeAnimBarco[somarNumero - 5],
-                                variavelVelocidadeAnimBarco[somarNumero - 4],
-                                variavelVelocidadeAnimBarco[somarNumero - 3],
-                                variavelVelocidadeAnimBarco[somarNumero - 2],
-                                variavelVelocidadeAnimBarco[somarNumero - 1]
-                            ], { autostart: true }).addTo(mymap);
-                    } else if (input_Vel == 5) {
-                        markerAnimado = L.Marker.movingMarker(
-                            [
-                                AnimarBarco[somarNumero - 6],
-                                AnimarBarco[somarNumero - 5],
-                                AnimarBarco[somarNumero - 4],
-                                AnimarBarco[somarNumero - 3],
-                                AnimarBarco[somarNumero - 2],
-                                AnimarBarco[somarNumero - 1]
-                            ],
-                            [
-                                variavelVelocidadeAnimBarco[somarNumero - 6],
-                                variavelVelocidadeAnimBarco[somarNumero - 5],
-                                variavelVelocidadeAnimBarco[somarNumero - 4],
-                                variavelVelocidadeAnimBarco[somarNumero - 3],
-                                variavelVelocidadeAnimBarco[somarNumero - 2],
-                                variavelVelocidadeAnimBarco[somarNumero - 1]
-                            ], { autostart: true }).addTo(mymap);
-
-                    } else if (input_Vel == 6) {
-                        markerAnimado = L.Marker.movingMarker(
-                            [
-                                //AnimarBarco[somarNumero - 7],
-                                AnimarBarco[somarNumero - 6],
-                                AnimarBarco[somarNumero - 5],
-                                AnimarBarco[somarNumero - 4],
-                                AnimarBarco[somarNumero - 3],
-                                AnimarBarco[somarNumero - 2],
-                                AnimarBarco[somarNumero - 1]
-                            ],
-                            [
-                                //variavelVelocidadeAnimBarco[somarNumero - 7],
-                                variavelVelocidadeAnimBarco[somarNumero - 6],
-                                variavelVelocidadeAnimBarco[somarNumero - 5],
-                                variavelVelocidadeAnimBarco[somarNumero - 4],
-                                variavelVelocidadeAnimBarco[somarNumero - 3],
-                                variavelVelocidadeAnimBarco[somarNumero - 2],
-                                variavelVelocidadeAnimBarco[somarNumero - 1]
-                            ], { autostart: true }).addTo(mymap);
-
-                    }
-                    else if (input_Vel == 7 || input_Vel == 8) {
-                        markerAnimado = L.Marker.movingMarker(
-                            [
-                                //AnimarBarco[somarNumero - 8],
-                                AnimarBarco[somarNumero - 7],
-                                AnimarBarco[somarNumero - 6],
-                                AnimarBarco[somarNumero - 5],
-                                AnimarBarco[somarNumero - 4],
-                                AnimarBarco[somarNumero - 3],
-                                AnimarBarco[somarNumero - 2],
-                                AnimarBarco[somarNumero - 1]
-                            ],
-                            [
-                                //variavelVelocidadeAnimBarco[somarNumero - 8],
-                                variavelVelocidadeAnimBarco[somarNumero - 7],
-                                variavelVelocidadeAnimBarco[somarNumero - 6],
-                                variavelVelocidadeAnimBarco[somarNumero - 5],
-                                variavelVelocidadeAnimBarco[somarNumero - 4],
-                                variavelVelocidadeAnimBarco[somarNumero - 3],
-                                variavelVelocidadeAnimBarco[somarNumero - 2],
-                                variavelVelocidadeAnimBarco[somarNumero - 1]
-                            ], { autostart: true }).addTo(mymap);
-                    }
-
-
-                    else if (input_Vel >= 9 && input_Vel <= 15) {
-                        markerAnimado = L.Marker.movingMarker(
-                            [
-                                //AnimarBarco[somarNumero - 10],
+    
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
                                 AnimarBarco[somarNumero - 9],
                                 AnimarBarco[somarNumero - 8],
                                 AnimarBarco[somarNumero - 7],
@@ -10730,7 +10791,10 @@
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                                //variavelVelocidadeAnimBarco[somarNumero - 10],
+                     
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
                                 variavelVelocidadeAnimBarco[somarNumero - 9],
                                 variavelVelocidadeAnimBarco[somarNumero - 8],
                                 variavelVelocidadeAnimBarco[somarNumero - 7],
@@ -10741,7 +10805,709 @@
                                 variavelVelocidadeAnimBarco[somarNumero - 2],
                                 variavelVelocidadeAnimBarco[somarNumero - 1]
                             ], { autostart: true }).addTo(mymap);
-                    } else if (input_Vel >= 16 && input_Vel <= 24) {
+                    } else if (input_Vel == 3) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+      
+                                AnimarBarco[somarNumero - 19],
+                                AnimarBarco[somarNumero - 18],
+                                AnimarBarco[somarNumero - 17],
+                                AnimarBarco[somarNumero - 16],
+                                AnimarBarco[somarNumero - 15],
+                                AnimarBarco[somarNumero - 14],
+                                AnimarBarco[somarNumero - 13],
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
+                                AnimarBarco[somarNumero - 9],
+                                AnimarBarco[somarNumero - 8],
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 18],
+                                variavelVelocidadeAnimBarco[somarNumero - 17],
+                                variavelVelocidadeAnimBarco[somarNumero - 16],
+                                variavelVelocidadeAnimBarco[somarNumero - 15],
+                                variavelVelocidadeAnimBarco[somarNumero - 14],
+                                variavelVelocidadeAnimBarco[somarNumero - 13],
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
+                                variavelVelocidadeAnimBarco[somarNumero - 9],
+                                variavelVelocidadeAnimBarco[somarNumero - 8],
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (input_Vel == 4) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 24],
+                                AnimarBarco[somarNumero - 23],
+                                AnimarBarco[somarNumero - 22],
+                                AnimarBarco[somarNumero - 21],
+                                AnimarBarco[somarNumero - 20],
+                                AnimarBarco[somarNumero - 19],
+                                AnimarBarco[somarNumero - 18],
+                                AnimarBarco[somarNumero - 17],
+                                AnimarBarco[somarNumero - 16],
+                                AnimarBarco[somarNumero - 15],
+                                AnimarBarco[somarNumero - 14],
+                                AnimarBarco[somarNumero - 13],
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
+                                AnimarBarco[somarNumero - 9],
+                                AnimarBarco[somarNumero - 8],
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 24],
+                                variavelVelocidadeAnimBarco[somarNumero - 23],
+                                variavelVelocidadeAnimBarco[somarNumero - 22],
+                                variavelVelocidadeAnimBarco[somarNumero - 21],
+                                variavelVelocidadeAnimBarco[somarNumero - 20],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 18],
+                                variavelVelocidadeAnimBarco[somarNumero - 17],
+                                variavelVelocidadeAnimBarco[somarNumero - 16],
+                                variavelVelocidadeAnimBarco[somarNumero - 15],
+                                variavelVelocidadeAnimBarco[somarNumero - 14],
+                                variavelVelocidadeAnimBarco[somarNumero - 13],
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
+                                variavelVelocidadeAnimBarco[somarNumero - 9],
+                                variavelVelocidadeAnimBarco[somarNumero - 8],
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (input_Vel == 5) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                            AnimarBarco[somarNumero - 31],
+                            AnimarBarco[somarNumero - 30],
+                            AnimarBarco[somarNumero - 29],
+                            AnimarBarco[somarNumero - 28],
+                            AnimarBarco[somarNumero - 27],
+                            AnimarBarco[somarNumero - 26],
+                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 24],
+                                AnimarBarco[somarNumero - 23],
+                                AnimarBarco[somarNumero - 22],
+                                AnimarBarco[somarNumero - 21],
+                                AnimarBarco[somarNumero - 20],
+                                AnimarBarco[somarNumero - 19],
+                                AnimarBarco[somarNumero - 18],
+                                AnimarBarco[somarNumero - 17],
+                                AnimarBarco[somarNumero - 16],
+                                AnimarBarco[somarNumero - 15],
+                                AnimarBarco[somarNumero - 14],
+                                AnimarBarco[somarNumero - 13],
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
+                                AnimarBarco[somarNumero - 9],
+                                AnimarBarco[somarNumero - 8],
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                            variavelVelocidadeAnimBarco[somarNumero - 31],
+                            variavelVelocidadeAnimBarco[somarNumero - 30],
+                            variavelVelocidadeAnimBarco[somarNumero - 29],
+                            variavelVelocidadeAnimBarco[somarNumero - 28],
+                            variavelVelocidadeAnimBarco[somarNumero - 27],
+                            variavelVelocidadeAnimBarco[somarNumero - 26],
+                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 24],
+                                variavelVelocidadeAnimBarco[somarNumero - 23],
+                                variavelVelocidadeAnimBarco[somarNumero - 22],
+                                variavelVelocidadeAnimBarco[somarNumero - 21],
+                                variavelVelocidadeAnimBarco[somarNumero - 20],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 18],
+                                variavelVelocidadeAnimBarco[somarNumero - 17],
+                                variavelVelocidadeAnimBarco[somarNumero - 16],
+                                variavelVelocidadeAnimBarco[somarNumero - 15],
+                                variavelVelocidadeAnimBarco[somarNumero - 14],
+                                variavelVelocidadeAnimBarco[somarNumero - 13],
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
+                                variavelVelocidadeAnimBarco[somarNumero - 9],
+                                variavelVelocidadeAnimBarco[somarNumero - 8],
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+
+                    } else if (input_Vel == 6) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                            AnimarBarco[somarNumero - 37],
+                            AnimarBarco[somarNumero - 36],
+                            AnimarBarco[somarNumero - 35],
+                            AnimarBarco[somarNumero - 34],
+                            AnimarBarco[somarNumero - 33],
+                            AnimarBarco[somarNumero - 32],
+                            AnimarBarco[somarNumero - 31],
+                            AnimarBarco[somarNumero - 30],
+                            AnimarBarco[somarNumero - 29],
+                            AnimarBarco[somarNumero - 28],
+                            AnimarBarco[somarNumero - 27],
+                            AnimarBarco[somarNumero - 26],
+                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 24],
+                                AnimarBarco[somarNumero - 23],
+                                AnimarBarco[somarNumero - 22],
+                                AnimarBarco[somarNumero - 21],
+                                AnimarBarco[somarNumero - 20],
+                                AnimarBarco[somarNumero - 19],
+                                AnimarBarco[somarNumero - 18],
+                                AnimarBarco[somarNumero - 17],
+                                AnimarBarco[somarNumero - 16],
+                                AnimarBarco[somarNumero - 15],
+                                AnimarBarco[somarNumero - 14],
+                                AnimarBarco[somarNumero - 13],
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
+                                AnimarBarco[somarNumero - 9],
+                                AnimarBarco[somarNumero - 8],
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                            variavelVelocidadeAnimBarco[somarNumero - 37],
+                            variavelVelocidadeAnimBarco[somarNumero - 36],
+                            variavelVelocidadeAnimBarco[somarNumero - 35],
+                            variavelVelocidadeAnimBarco[somarNumero - 34],
+                            variavelVelocidadeAnimBarco[somarNumero - 33],
+                            variavelVelocidadeAnimBarco[somarNumero - 32],
+                            variavelVelocidadeAnimBarco[somarNumero - 31],
+                            variavelVelocidadeAnimBarco[somarNumero - 30],
+                            variavelVelocidadeAnimBarco[somarNumero - 29],
+                            variavelVelocidadeAnimBarco[somarNumero - 28],
+                            variavelVelocidadeAnimBarco[somarNumero - 27],
+                            variavelVelocidadeAnimBarco[somarNumero - 26],
+                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 24],
+                                variavelVelocidadeAnimBarco[somarNumero - 23],
+                                variavelVelocidadeAnimBarco[somarNumero - 22],
+                                variavelVelocidadeAnimBarco[somarNumero - 21],
+                                variavelVelocidadeAnimBarco[somarNumero - 20],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 18],
+                                variavelVelocidadeAnimBarco[somarNumero - 17],
+                                variavelVelocidadeAnimBarco[somarNumero - 16],
+                                variavelVelocidadeAnimBarco[somarNumero - 15],
+                                variavelVelocidadeAnimBarco[somarNumero - 14],
+                                variavelVelocidadeAnimBarco[somarNumero - 13],
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
+                                variavelVelocidadeAnimBarco[somarNumero - 9],
+                                variavelVelocidadeAnimBarco[somarNumero - 8],
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+
+                    }
+                    else if (input_Vel == 7 ) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                            AnimarBarco[somarNumero - 43],
+                            AnimarBarco[somarNumero - 42],
+                            AnimarBarco[somarNumero - 41],
+                            AnimarBarco[somarNumero - 40],
+                            AnimarBarco[somarNumero - 39],
+                            AnimarBarco[somarNumero - 38],
+                            AnimarBarco[somarNumero - 37],
+                            AnimarBarco[somarNumero - 36],
+                            AnimarBarco[somarNumero - 35],
+                            AnimarBarco[somarNumero - 34],
+                            AnimarBarco[somarNumero - 33],
+                            AnimarBarco[somarNumero - 32],
+                            AnimarBarco[somarNumero - 31],
+                            AnimarBarco[somarNumero - 30],
+                            AnimarBarco[somarNumero - 29],
+                            AnimarBarco[somarNumero - 28],
+                            AnimarBarco[somarNumero - 27],
+                            AnimarBarco[somarNumero - 26],
+                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 24],
+                                AnimarBarco[somarNumero - 23],
+                                AnimarBarco[somarNumero - 22],
+                                AnimarBarco[somarNumero - 21],
+                                AnimarBarco[somarNumero - 20],
+                                AnimarBarco[somarNumero - 19],
+                                AnimarBarco[somarNumero - 18],
+                                AnimarBarco[somarNumero - 17],
+                                AnimarBarco[somarNumero - 16],
+                                AnimarBarco[somarNumero - 15],
+                                AnimarBarco[somarNumero - 14],
+                                AnimarBarco[somarNumero - 13],
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
+                                AnimarBarco[somarNumero - 9],
+                                AnimarBarco[somarNumero - 8],
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                            variavelVelocidadeAnimBarco[somarNumero - 43],
+                            variavelVelocidadeAnimBarco[somarNumero - 42],
+                            variavelVelocidadeAnimBarco[somarNumero - 41],
+                            variavelVelocidadeAnimBarco[somarNumero - 40],
+                            variavelVelocidadeAnimBarco[somarNumero - 39],
+                            variavelVelocidadeAnimBarco[somarNumero - 38],
+                            variavelVelocidadeAnimBarco[somarNumero - 37],
+                            variavelVelocidadeAnimBarco[somarNumero - 36],
+                            variavelVelocidadeAnimBarco[somarNumero - 35],
+                            variavelVelocidadeAnimBarco[somarNumero - 34],
+                            variavelVelocidadeAnimBarco[somarNumero - 33],
+                            variavelVelocidadeAnimBarco[somarNumero - 32],
+                            variavelVelocidadeAnimBarco[somarNumero - 31],
+                            variavelVelocidadeAnimBarco[somarNumero - 30],
+                            variavelVelocidadeAnimBarco[somarNumero - 29],
+                            variavelVelocidadeAnimBarco[somarNumero - 28],
+                            variavelVelocidadeAnimBarco[somarNumero - 27],
+                            variavelVelocidadeAnimBarco[somarNumero - 26],
+                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 24],
+                                variavelVelocidadeAnimBarco[somarNumero - 23],
+                                variavelVelocidadeAnimBarco[somarNumero - 22],
+                                variavelVelocidadeAnimBarco[somarNumero - 21],
+                                variavelVelocidadeAnimBarco[somarNumero - 20],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 18],
+                                variavelVelocidadeAnimBarco[somarNumero - 17],
+                                variavelVelocidadeAnimBarco[somarNumero - 16],
+                                variavelVelocidadeAnimBarco[somarNumero - 15],
+                                variavelVelocidadeAnimBarco[somarNumero - 14],
+                                variavelVelocidadeAnimBarco[somarNumero - 13],
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
+                                variavelVelocidadeAnimBarco[somarNumero - 9],
+                                variavelVelocidadeAnimBarco[somarNumero - 8],
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    }
+
+
+                    else if (input_Vel == 8) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                            AnimarBarco[somarNumero - 49],
+                            AnimarBarco[somarNumero - 48],
+                            AnimarBarco[somarNumero - 47],
+                            AnimarBarco[somarNumero - 46],
+                            AnimarBarco[somarNumero - 45],
+                            AnimarBarco[somarNumero - 44],
+                            AnimarBarco[somarNumero - 43],
+                            AnimarBarco[somarNumero - 42],
+                            AnimarBarco[somarNumero - 41],
+                            AnimarBarco[somarNumero - 40],
+                            AnimarBarco[somarNumero - 39],
+                            AnimarBarco[somarNumero - 38],
+                            AnimarBarco[somarNumero - 37],
+                            AnimarBarco[somarNumero - 36],
+                            AnimarBarco[somarNumero - 35],
+                            AnimarBarco[somarNumero - 34],
+                            AnimarBarco[somarNumero - 33],
+                            AnimarBarco[somarNumero - 32],
+                            AnimarBarco[somarNumero - 31],
+                            AnimarBarco[somarNumero - 30],
+                            AnimarBarco[somarNumero - 29],
+                            AnimarBarco[somarNumero - 28],
+                            AnimarBarco[somarNumero - 27],
+                            AnimarBarco[somarNumero - 26],
+                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 24],
+                                AnimarBarco[somarNumero - 23],
+                                AnimarBarco[somarNumero - 22],
+                                AnimarBarco[somarNumero - 21],
+                                AnimarBarco[somarNumero - 20],
+                                AnimarBarco[somarNumero - 19],
+                                AnimarBarco[somarNumero - 18],
+                                AnimarBarco[somarNumero - 17],
+                                AnimarBarco[somarNumero - 16],
+                                AnimarBarco[somarNumero - 15],
+                                AnimarBarco[somarNumero - 14],
+                                AnimarBarco[somarNumero - 13],
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
+                                AnimarBarco[somarNumero - 9],
+                                AnimarBarco[somarNumero - 8],
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                            variavelVelocidadeAnimBarco[somarNumero - 49],
+                            variavelVelocidadeAnimBarco[somarNumero - 48],
+                            variavelVelocidadeAnimBarco[somarNumero - 47],
+                            variavelVelocidadeAnimBarco[somarNumero - 46],
+                            variavelVelocidadeAnimBarco[somarNumero - 45],
+                            variavelVelocidadeAnimBarco[somarNumero - 44],
+                            variavelVelocidadeAnimBarco[somarNumero - 43],
+                            variavelVelocidadeAnimBarco[somarNumero - 42],
+                            variavelVelocidadeAnimBarco[somarNumero - 41],
+                            variavelVelocidadeAnimBarco[somarNumero - 40],
+                            variavelVelocidadeAnimBarco[somarNumero - 39],
+                            variavelVelocidadeAnimBarco[somarNumero - 38],
+                            variavelVelocidadeAnimBarco[somarNumero - 37],
+                            variavelVelocidadeAnimBarco[somarNumero - 36],
+                            variavelVelocidadeAnimBarco[somarNumero - 35],
+                            variavelVelocidadeAnimBarco[somarNumero - 34],
+                            variavelVelocidadeAnimBarco[somarNumero - 33],
+                            variavelVelocidadeAnimBarco[somarNumero - 32],
+                            variavelVelocidadeAnimBarco[somarNumero - 31],
+                            variavelVelocidadeAnimBarco[somarNumero - 30],
+                            variavelVelocidadeAnimBarco[somarNumero - 29],
+                            variavelVelocidadeAnimBarco[somarNumero - 28],
+                            variavelVelocidadeAnimBarco[somarNumero - 27],
+                            variavelVelocidadeAnimBarco[somarNumero - 26],
+                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 24],
+                                variavelVelocidadeAnimBarco[somarNumero - 23],
+                                variavelVelocidadeAnimBarco[somarNumero - 22],
+                                variavelVelocidadeAnimBarco[somarNumero - 21],
+                                variavelVelocidadeAnimBarco[somarNumero - 20],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 18],
+                                variavelVelocidadeAnimBarco[somarNumero - 17],
+                                variavelVelocidadeAnimBarco[somarNumero - 16],
+                                variavelVelocidadeAnimBarco[somarNumero - 15],
+                                variavelVelocidadeAnimBarco[somarNumero - 14],
+                                variavelVelocidadeAnimBarco[somarNumero - 13],
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
+                                variavelVelocidadeAnimBarco[somarNumero - 9],
+                                variavelVelocidadeAnimBarco[somarNumero - 8],
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    }
+                    else if (input_Vel == 9) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                            AnimarBarco[somarNumero - 56],
+                            AnimarBarco[somarNumero - 55],
+                            AnimarBarco[somarNumero - 54],
+                            AnimarBarco[somarNumero - 53],
+                            AnimarBarco[somarNumero - 52],
+                            AnimarBarco[somarNumero - 51],
+                            AnimarBarco[somarNumero - 50],
+                            AnimarBarco[somarNumero - 49],
+                            AnimarBarco[somarNumero - 48],
+                            AnimarBarco[somarNumero - 47],
+                            AnimarBarco[somarNumero - 46],
+                            AnimarBarco[somarNumero - 45],
+                            AnimarBarco[somarNumero - 44],
+                            AnimarBarco[somarNumero - 43],
+                            AnimarBarco[somarNumero - 42],
+                            AnimarBarco[somarNumero - 41],
+                            AnimarBarco[somarNumero - 40],
+                            AnimarBarco[somarNumero - 39],
+                            AnimarBarco[somarNumero - 38],
+                            AnimarBarco[somarNumero - 37],
+                            AnimarBarco[somarNumero - 36],
+                            AnimarBarco[somarNumero - 35],
+                            AnimarBarco[somarNumero - 34],
+                            AnimarBarco[somarNumero - 33],
+                            AnimarBarco[somarNumero - 32],
+                            AnimarBarco[somarNumero - 31],
+                            AnimarBarco[somarNumero - 30],
+                            AnimarBarco[somarNumero - 29],
+                            AnimarBarco[somarNumero - 28],
+                            AnimarBarco[somarNumero - 27],
+                            AnimarBarco[somarNumero - 26],
+                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 24],
+                                AnimarBarco[somarNumero - 23],
+                                AnimarBarco[somarNumero - 22],
+                                AnimarBarco[somarNumero - 21],
+                                AnimarBarco[somarNumero - 20],
+                                AnimarBarco[somarNumero - 19],
+                                AnimarBarco[somarNumero - 18],
+                                AnimarBarco[somarNumero - 17],
+                                AnimarBarco[somarNumero - 16],
+                                AnimarBarco[somarNumero - 15],
+                                AnimarBarco[somarNumero - 14],
+                                AnimarBarco[somarNumero - 13],
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
+                                AnimarBarco[somarNumero - 9],
+                                AnimarBarco[somarNumero - 8],
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                            variavelVelocidadeAnimBarco[somarNumero - 56],
+                            variavelVelocidadeAnimBarco[somarNumero - 55],
+                            variavelVelocidadeAnimBarco[somarNumero - 54],
+                            variavelVelocidadeAnimBarco[somarNumero - 53],
+                            variavelVelocidadeAnimBarco[somarNumero - 52],
+                            variavelVelocidadeAnimBarco[somarNumero - 51],
+                            variavelVelocidadeAnimBarco[somarNumero - 50],
+                            variavelVelocidadeAnimBarco[somarNumero - 49],
+                            variavelVelocidadeAnimBarco[somarNumero - 48],
+                            variavelVelocidadeAnimBarco[somarNumero - 47],
+                            variavelVelocidadeAnimBarco[somarNumero - 46],
+                            variavelVelocidadeAnimBarco[somarNumero - 45],
+                            variavelVelocidadeAnimBarco[somarNumero - 44],
+                            variavelVelocidadeAnimBarco[somarNumero - 43],
+                            variavelVelocidadeAnimBarco[somarNumero - 42],
+                            variavelVelocidadeAnimBarco[somarNumero - 41],
+                            variavelVelocidadeAnimBarco[somarNumero - 40],
+                            variavelVelocidadeAnimBarco[somarNumero - 39],
+                            variavelVelocidadeAnimBarco[somarNumero - 38],
+                            variavelVelocidadeAnimBarco[somarNumero - 37],
+                            variavelVelocidadeAnimBarco[somarNumero - 36],
+                            variavelVelocidadeAnimBarco[somarNumero - 35],
+                            variavelVelocidadeAnimBarco[somarNumero - 34],
+                            variavelVelocidadeAnimBarco[somarNumero - 33],
+                            variavelVelocidadeAnimBarco[somarNumero - 32],
+                            variavelVelocidadeAnimBarco[somarNumero - 31],
+                            variavelVelocidadeAnimBarco[somarNumero - 30],
+                            variavelVelocidadeAnimBarco[somarNumero - 29],
+                            variavelVelocidadeAnimBarco[somarNumero - 28],
+                            variavelVelocidadeAnimBarco[somarNumero - 27],
+                            variavelVelocidadeAnimBarco[somarNumero - 26],
+                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 24],
+                                variavelVelocidadeAnimBarco[somarNumero - 23],
+                                variavelVelocidadeAnimBarco[somarNumero - 22],
+                                variavelVelocidadeAnimBarco[somarNumero - 21],
+                                variavelVelocidadeAnimBarco[somarNumero - 20],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 18],
+                                variavelVelocidadeAnimBarco[somarNumero - 17],
+                                variavelVelocidadeAnimBarco[somarNumero - 16],
+                                variavelVelocidadeAnimBarco[somarNumero - 15],
+                                variavelVelocidadeAnimBarco[somarNumero - 14],
+                                variavelVelocidadeAnimBarco[somarNumero - 13],
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
+                                variavelVelocidadeAnimBarco[somarNumero - 9],
+                                variavelVelocidadeAnimBarco[somarNumero - 8],
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    }
+                    else if (input_Vel == 10) {
+                        markerAnimado = L.Marker.movingMarker(
+                            [
+                            AnimarBarco[somarNumero - 62],
+                            AnimarBarco[somarNumero - 61],
+                            AnimarBarco[somarNumero - 60],
+                            AnimarBarco[somarNumero - 59],
+                            AnimarBarco[somarNumero - 58],
+                            AnimarBarco[somarNumero - 57],
+                            AnimarBarco[somarNumero - 56],
+                            AnimarBarco[somarNumero - 55],
+                            AnimarBarco[somarNumero - 54],
+                            AnimarBarco[somarNumero - 53],
+                            AnimarBarco[somarNumero - 52],
+                            AnimarBarco[somarNumero - 51],
+                            AnimarBarco[somarNumero - 50],
+                            AnimarBarco[somarNumero - 49],
+                            AnimarBarco[somarNumero - 48],
+                            AnimarBarco[somarNumero - 47],
+                            AnimarBarco[somarNumero - 46],
+                            AnimarBarco[somarNumero - 45],
+                            AnimarBarco[somarNumero - 44],
+                            AnimarBarco[somarNumero - 43],
+                            AnimarBarco[somarNumero - 42],
+                            AnimarBarco[somarNumero - 41],
+                            AnimarBarco[somarNumero - 40],
+                            AnimarBarco[somarNumero - 39],
+                            AnimarBarco[somarNumero - 38],
+                            AnimarBarco[somarNumero - 37],
+                            AnimarBarco[somarNumero - 36],
+                            AnimarBarco[somarNumero - 35],
+                            AnimarBarco[somarNumero - 34],
+                            AnimarBarco[somarNumero - 33],
+                            AnimarBarco[somarNumero - 32],
+                            AnimarBarco[somarNumero - 31],
+                            AnimarBarco[somarNumero - 30],
+                            AnimarBarco[somarNumero - 29],
+                            AnimarBarco[somarNumero - 28],
+                            AnimarBarco[somarNumero - 27],
+                            AnimarBarco[somarNumero - 26],
+                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 24],
+                                AnimarBarco[somarNumero - 23],
+                                AnimarBarco[somarNumero - 22],
+                                AnimarBarco[somarNumero - 21],
+                                AnimarBarco[somarNumero - 20],
+                                AnimarBarco[somarNumero - 19],
+                                AnimarBarco[somarNumero - 18],
+                                AnimarBarco[somarNumero - 17],
+                                AnimarBarco[somarNumero - 16],
+                                AnimarBarco[somarNumero - 15],
+                                AnimarBarco[somarNumero - 14],
+                                AnimarBarco[somarNumero - 13],
+                                AnimarBarco[somarNumero - 12],
+                                AnimarBarco[somarNumero - 11],
+                                AnimarBarco[somarNumero - 10],
+                                AnimarBarco[somarNumero - 9],
+                                AnimarBarco[somarNumero - 8],
+                                AnimarBarco[somarNumero - 7],
+                                AnimarBarco[somarNumero - 6],
+                                AnimarBarco[somarNumero - 5],
+                                AnimarBarco[somarNumero - 4],
+                                AnimarBarco[somarNumero - 3],
+                                AnimarBarco[somarNumero - 2],
+                                AnimarBarco[somarNumero - 1]
+                            ],
+                            [
+                            variavelVelocidadeAnimBarco[somarNumero - 62],
+                            variavelVelocidadeAnimBarco[somarNumero - 61],
+                            variavelVelocidadeAnimBarco[somarNumero - 60],
+                            variavelVelocidadeAnimBarco[somarNumero - 59],
+                            variavelVelocidadeAnimBarco[somarNumero - 58],
+                            variavelVelocidadeAnimBarco[somarNumero - 57],
+                            variavelVelocidadeAnimBarco[somarNumero - 56],
+                            variavelVelocidadeAnimBarco[somarNumero - 55],
+                            variavelVelocidadeAnimBarco[somarNumero - 54],
+                            variavelVelocidadeAnimBarco[somarNumero - 53],
+                            variavelVelocidadeAnimBarco[somarNumero - 52],
+                            variavelVelocidadeAnimBarco[somarNumero - 51],
+                            variavelVelocidadeAnimBarco[somarNumero - 50],
+                            variavelVelocidadeAnimBarco[somarNumero - 49],
+                            variavelVelocidadeAnimBarco[somarNumero - 48],
+                            variavelVelocidadeAnimBarco[somarNumero - 47],
+                            variavelVelocidadeAnimBarco[somarNumero - 46],
+                            variavelVelocidadeAnimBarco[somarNumero - 45],
+                            variavelVelocidadeAnimBarco[somarNumero - 44],
+                            variavelVelocidadeAnimBarco[somarNumero - 43],
+                            variavelVelocidadeAnimBarco[somarNumero - 42],
+                            variavelVelocidadeAnimBarco[somarNumero - 41],
+                            variavelVelocidadeAnimBarco[somarNumero - 40],
+                            variavelVelocidadeAnimBarco[somarNumero - 39],
+                            variavelVelocidadeAnimBarco[somarNumero - 38],
+                            variavelVelocidadeAnimBarco[somarNumero - 37],
+                            variavelVelocidadeAnimBarco[somarNumero - 36],
+                            variavelVelocidadeAnimBarco[somarNumero - 35],
+                            variavelVelocidadeAnimBarco[somarNumero - 34],
+                            variavelVelocidadeAnimBarco[somarNumero - 33],
+                            variavelVelocidadeAnimBarco[somarNumero - 32],
+                            variavelVelocidadeAnimBarco[somarNumero - 31],
+                            variavelVelocidadeAnimBarco[somarNumero - 30],
+                            variavelVelocidadeAnimBarco[somarNumero - 29],
+                            variavelVelocidadeAnimBarco[somarNumero - 28],
+                            variavelVelocidadeAnimBarco[somarNumero - 27],
+                            variavelVelocidadeAnimBarco[somarNumero - 26],
+                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 24],
+                                variavelVelocidadeAnimBarco[somarNumero - 23],
+                                variavelVelocidadeAnimBarco[somarNumero - 22],
+                                variavelVelocidadeAnimBarco[somarNumero - 21],
+                                variavelVelocidadeAnimBarco[somarNumero - 20],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 18],
+                                variavelVelocidadeAnimBarco[somarNumero - 17],
+                                variavelVelocidadeAnimBarco[somarNumero - 16],
+                                variavelVelocidadeAnimBarco[somarNumero - 15],
+                                variavelVelocidadeAnimBarco[somarNumero - 14],
+                                variavelVelocidadeAnimBarco[somarNumero - 13],
+                                variavelVelocidadeAnimBarco[somarNumero - 12],
+                                variavelVelocidadeAnimBarco[somarNumero - 11],
+                                variavelVelocidadeAnimBarco[somarNumero - 10],
+                                variavelVelocidadeAnimBarco[somarNumero - 9],
+                                variavelVelocidadeAnimBarco[somarNumero - 8],
+                                variavelVelocidadeAnimBarco[somarNumero - 7],
+                                variavelVelocidadeAnimBarco[somarNumero - 6],
+                                variavelVelocidadeAnimBarco[somarNumero - 5],
+                                variavelVelocidadeAnimBarco[somarNumero - 4],
+                                variavelVelocidadeAnimBarco[somarNumero - 3],
+                                variavelVelocidadeAnimBarco[somarNumero - 2],
+                                variavelVelocidadeAnimBarco[somarNumero - 1]
+                            ], { autostart: true }).addTo(mymap);
+                    } else if (input_Vel >= 11 && input_Vel <= 24) {
                         markerAnimado = L.Marker.movingMarker(
                             [
                                 AnimarBarco[somarNumero - 12],
@@ -10969,6 +11735,146 @@
             //document.getElementById('fileUploader').value = "";
             getInfo();
         }
+
+
+        async function  getDATAPIHidromod(initialID,points){
+            httpClient = {
+                get: function (url, data, callback) {
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function () {
+                        var readyState = xhr.readyState;
+
+                        if (readyState == 4) {
+                            callback(xhr);
+                        }
+                    };
+
+                    var queryString = '';
+                    if (typeof data === 'object') {
+                        for (var propertyName in data) {
+                            queryString += (queryString.length === 0 ? '' : '&') + propertyName + '=' + encodeURIComponent(data[propertyName]);
+                        }
+                    }
+
+                    if (queryString.length !== 0) {
+                        url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
+                    }
+
+                    xhr.open('GET', url, true);
+                    xhr.send(null);
+                },
+
+                post: function (url, data, callback) {
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function () {
+                        var readyState = xhr.readyState;
+
+                        if (readyState == 4) {
+                            callback(xhr);
+                        }
+                    };
+
+                    var queryString = '';
+                    if (typeof data === 'object') {
+                        queryString = JSON.stringify(data);
+                    }
+
+                    xhr.open('POST', url, true);
+                    xhr.setRequestHeader('content-type', 'application/json');
+                    xhr.send(queryString);
+                },
+
+                delete: function (url, data, callback) {
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function () {
+                        var readyState = xhr.readyState;
+
+                        if (readyState == 4) {
+                            callback(xhr);
+                        }
+                    };
+
+                    var queryString = '';
+                    if (typeof data === 'object') {
+                        for (var propertyName in data) {
+                            queryString += (queryString.length === 0 ? '' : '&') + propertyName + '=' + encodeURIComponent(data[propertyName]);
+                        }
+                    }
+
+                    if (queryString.length !== 0) {
+                        url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
+                    }
+
+                    xhr.open('DELETE', url, true);
+                    xhr.send(queryString);
+                },
+            };
+
+            httpClient.post(`https://service.hidromod.com/valida4dapi/Execution/Start/${initialID}`, points, function (xhr) {
+
+                var resultPost = JSON.parse(xhr.responseText);
+
+                console.log(resultPost);
+
+                //var waitForResult = setInterval(getStatus, 1000);
+                var waitForResult = setInterval(getStatus, 500);
+
+                function getStatus() {
+                    //console.log("-------------");
+                    console.log(resultPost.id);
+
+                    httpClient.get(`https://service.hidromod.com/valida4dapi/Execution/Status/${resultPost.id}`, null, function (xhr) {
+                        var resultStatus = JSON.parse(xhr.responseText);
+
+                        //console.log(resultStatus);
+                        //console.log('loading...');
+
+                        if (resultStatus.status == 2) {
+                            clearInterval(waitForResult);
+                            httpClient.get(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`, null,  async function (xhr) {
+
+                                var resultData = JSON.parse(xhr.responseText);
+       
+                                //console.log(resultData.values[3]);
+                                //console.log(resultData.values);
+                                // mare_por_minuto2 = [];
+                                // mare_por_minuto2.push(resultData.values[3])
+                                // console.log(mare_por_minuto2)
+                                
+                                
+
+                                try {
+                                   
+                                    console.log(await resultData);
+                                    mare_por_minuto2.push(resultData.values[3]);
+                                    console.log(mare_por_minuto2[0])
+                                    
+                                    //v = await baixarDados(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
+                                          
+                                } catch (e) {
+                                    console.log(await resultData);
+                                    console.log(await e);
+                                    //v = await baixarDadosReservas(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
+                                }
+                                
+                            });
+                        } else if (resultStatus.status == 3) {
+                            clearInterval(waitForResult);
+                            console.log('failed');
+
+                            httpClient.delete(`https://service.hidromod.com/valida4dapi/Execution/Delete/${resultPost.id}`, null, function (xhr) {
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+
+
     </script>
 
 </body>
