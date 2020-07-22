@@ -4206,189 +4206,276 @@
 
         async function getDataGPX_RegressoBico() {
 
-mymap.eachLayer(function (layer) {
-    //console.log(layer.options.pane)
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
 
-    if (layer.options.pane == "overlayPane") {
+                if (layer.options.pane == "overlayPane") {
 
-        mymap.removeLayer(layer);
+                    mymap.removeLayer(layer);
 
-    }
-});
-let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
-fetch(url)
-    .then(function (response) {
-        return response.text();
-    })
-    .then(function (json) {
-        VEri_text_gpx = json;
-
-        var g = new L.GPX(json, {
-            async: true,
-            parseElements: ['track'],
-            polyline_options: {
-                color: '#020202',
-                weight: 10,
-            },
-            marker_options: {
-                // 'startIcon': new L.icon({
-                //     iconUrl: 'marker.png',
-                //     iconSize: [22, 32, 5],
-                //     iconAnchor: [10, 30],
-                // }),
-                'endIcon': new L.icon({
-                    iconUrl: 'fim_icnon.png',
-                    iconSize: [22, 32, 5],
-                    iconAnchor: [10, 30],
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
                 })
-            }
+                .then(function (json) {
+                    VEri_text_gpx = json;
 
-        });
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
 
-        g.on('loaded', function (e) {
-            var gpx = e.target,
-                elevation_data = gpx.get_elevation_data();
-            data_hora = gpx.get_start_time();
-            name = gpx.get_name(),
-                distM = gpx.get_distance(),
-                distKm = distM / 1000,
-                distKmRnd = distKm.toFixed(1),
-                eleGain = gpx.get_elevation_gain().toFixed(2),
-                eleLoss = gpx.get_elevation_loss().toFixed(2);
-            var info = "Name: " + name + "</br>" +
-                "Distance: " + distKmRnd + " km </br>" +
-                "Elevation Gain: " + eleGain + " m </br>"
+                    });
 
-            //document.getElementById('km').innerHTML = info;
-            gpx.getLayers()[0].bindPopup(info)
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
 
-            let date = new Date(data_hora);
-            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
 
-            //document.getElementById('time').value = hora_min_gpx;
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-
-
-            var nday = date.getDay(),
-                nmonth = date.getMonth() + 1,
-                ndate = date.getDate(),
-                nyear = date.getYear();
-            if (nyear < 1000) nyear += 1900;
-            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-
-            var arrayhidrografico = [];
-            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
-        });
-        somarNumero = 0;
-        g.on('click', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-            changeValue();
-        });
-        g.on('addpoint', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-        })
-        g.addTo(mymap);
-    });
-mymap.setView([40.678, -8.7166], 13);
+                        //document.getElementById('time').value = hora_min_gpx;
 
 
-}
 
-async function getTorreira17_5_5GPX() {
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
 
-mymap.eachLayer(function (layer) {
-    //console.log(layer.options.pane)
-    if (layer.options.pane == "overlayPane") {
-        mymap.removeLayer(layer);
-    }
-});
-let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20200722041823-25038-data.gpx';
-fetch(url)
-    .then(function (response) {
-        return response.text();
-    })
-    .then(function (json) {
-        VEri_text_gpx = json;
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
+                    });
+                    somarNumero = 0;
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.678, -8.7166], 13);
 
-        var g = new L.GPX(json, {
-            async: true,
-            parseElements: ['track'],
-            polyline_options: {
-                color: '#020202',
-                weight: 10,
-            },
-            marker_options: {
-                // 'startIcon': new L.icon({
-                //     iconUrl: 'marker.png',
-                //     iconSize: [22, 32, 5],
-                //     iconAnchor: [10, 30],
-                // }),
-                'endIcon': new L.icon({
-                    iconUrl: 'fim_icnon.png',
-                    iconSize: [22, 32, 5],
-                    iconAnchor: [10, 30],
+
+        }
+
+        async function getTorreira17_5_5GPX() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20200722041823-25038-data.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
                 })
-            }
+                .then(function (json) {
+                    VEri_text_gpx = json;
 
-        });
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
 
-        g.on('loaded', function (e) {
-            var gpx = e.target,
-                elevation_data = gpx.get_elevation_data();
-            data_hora = gpx.get_start_time();
-            name = gpx.get_name(),
-                distM = gpx.get_distance(),
-                distKm = distM / 1000,
-                distKmRnd = distKm.toFixed(1),
-                eleGain = gpx.get_elevation_gain().toFixed(2),
-                eleLoss = gpx.get_elevation_loss().toFixed(2);
-            var info = "Name: " + name + "</br>" +
-                "Distance: " + distKmRnd + " km </br>" +
-                "Elevation Gain: " + eleGain + " m </br>"
+                    });
 
-            //document.getElementById('km').innerHTML = info;
-            gpx.getLayers()[0].bindPopup(info)
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
 
-            let date = new Date(data_hora);
-            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
 
-            //document.getElementById('time').value = hora_min_gpx;
-            var nday = date.getDay(),
-                nmonth = date.getMonth() + 1,
-                ndate = date.getDate(),
-                nyear = date.getYear();
-            if (nyear < 1000) nyear += 1900;
-            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-            var arrayhidrografico = [];
-            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
+                        //document.getElementById('time').value = hora_min_gpx;
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
 
-        });
-        somarNumero = 0;
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
 
-        g.on('click', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-            changeValue();
-        });
-        g.on('addpoint', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-        })
-        g.addTo(mymap);
-    });
-mymap.setView([40.61, -8.745], 12.6);
-}
+                    });
+                    somarNumero = 0;
 
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
 
+        async function getRota_10_10GPX() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20200722103503-25038-data_Testada.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
+
+                    });
+                    somarNumero = 0;
+
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
 
         //No clique do marker
 
@@ -7395,7 +7482,7 @@ mymap.setView([40.61, -8.745], 12.6);
                     // xmlDoc17 = parser17.parseFromString(json17, "text/xml");
                     // var lat_gpx17 = xmlDoc17.getElementsByTagName("trkpt")[0].getAttribute('lat');
                     // var lon_gpx17 = xmlDoc17.getElementsByTagName("trkpt")[0].getAttribute('lon');
-                    
+
                     // distancia17 = mymap.distance([lat_gpx17, lon_gpx17], [arrayClicked.lat, arrayClicked.lng]);
 
                     // localiz_distan.push(distancia17);
@@ -7514,8 +7601,8 @@ mymap.setView([40.61, -8.745], 12.6);
                             var n7 = new Date(0, 0);
                             n7.setMinutes(+tempo7 * 60);
                             var result7 = n7.toTimeString().slice(0, 5);
+
                             
-                            getTorreira17_5_5GPX
 
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
@@ -7529,8 +7616,9 @@ mymap.setView([40.61, -8.745], 12.6);
                                 "<option value='getDataGPX_ANGE_Torreira_1705'>Para Torreira 17/05 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_ANGE_RioNovo_2006'>Para Lota Velha - " + distance_gpx_real[6].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_PonteBarra_Testada'>Para Testada - " + distance_gpx_real[7].toFixed(2) + "milhas</option>" +
-                                "<option value='getTorreira17_5_5GPX'>Para Torreira 5 em 5 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
-                                
+                                "<option value='getTorreira17_5_5GPX'>Rota de 5 em 5 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
+                                "<option value='getRota_10_10GPX'>Rota de 10 em105 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
+
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[1].toFixed(2))
@@ -7770,7 +7858,7 @@ mymap.setView([40.61, -8.745], 12.6);
                         marker_Teste1.openPopup();
                     });
                     break;
-                    case 'getTorreira17_5_5GPX':
+                case 'getTorreira17_5_5GPX':
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
                     milesRoute.push(duracaoRotaChoosen[7]);
@@ -7789,13 +7877,40 @@ mymap.setView([40.61, -8.745], 12.6);
                         marker_Teste1.closePopup();
                     }, 7000);
                     getTorreira17_5_5GPX();
+
+
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/20200722103503-25038-data_Testada.gpx');
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+                case 'getRota_10_10GPX':
+                    nomeDestino = [];
+                    nomeDestino.push("ANGE");
+                    milesRoute.push(duracaoRotaChoosen[7]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    document.getElementById('tutorial03').style.display = "block";
+                    document.getElementById('cais_partida').innerHTML = "ANGE";
+                    document.getElementById('cais_chegada').innerHTML = "Torreira";
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> ANGE</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Torreira</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> para  10 em 10m</p>" +
+                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
+                        "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 7000);
+                    getRota_10_10GPX();
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/20200722041823-25038-data.gpx');
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
                     });
                     break;
-                    
+
 
                 case 'getDataGPX_Torreira_ANGE_1705':
                     milesRoute.push(duracaoRotaChoosen[1]);
@@ -8280,16 +8395,16 @@ mymap.setView([40.61, -8.745], 12.6);
             } else if (input_Vel >= 7) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 43;
-            }else if (input_Vel >= 8) {
+            } else if (input_Vel >= 8) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 49;
-            }else if (input_Vel >= 9) {
+            } else if (input_Vel >= 9) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 56;
             } else if (input_Vel >= 10) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 62;
-            }else if (input_Vel >= 11 && input_Vel <= 15) {
+            } else if (input_Vel >= 11 && input_Vel <= 15) {
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 9;
             } else if (input_Vel >= 16 && input_Vel <= 24) {
@@ -8438,7 +8553,7 @@ mymap.setView([40.61, -8.745], 12.6);
                             //     //|| date.getSeconds() == 50 || date.getSeconds() == 55 || date.getSeconds() == 02 || date.getSeconds() == 04 || date.getSeconds() == 06 || date.getSeconds() == 08 || 
                             //     || date.getSeconds() == 12 || date.getSeconds() == 14 || date.getSeconds() == 16 || date.getSeconds() == 18 || date.getSeconds() == 22 || date.getSeconds() == 24 ||
                             //     date.getSeconds() == 59)) {
-                            if (date.getSeconds() == 00 ){
+                            if (date.getSeconds() == 00) {
 
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
@@ -8766,7 +8881,7 @@ mymap.setView([40.61, -8.745], 12.6);
 
             //document.getElementById('load_fetch').style.display = "block";
 
-            
+
 
             /*********************************************************************************/
             /********************************************************************************/
@@ -9744,7 +9859,7 @@ mymap.setView([40.61, -8.745], 12.6);
 
             document.getElementById('load_fetch').style.display = "block";
 
-          
+
 
             var User_Tempo_cada_coor_Acumula;
             let distanciaCalculada_RotaSimulada = [];
@@ -9806,8 +9921,8 @@ mymap.setView([40.61, -8.745], 12.6);
             variavelVelocidadeAnimBarco = [];
 
             mare_por_minuto2 = [];
-            let variableTruefromApi = getDATAPIHidromod(initialID,points);
-            
+            let variableTruefromApi = getDATAPIHidromod(initialID, points);
+
             setTimeout(function () {
                 console.log(variableTruefromApi);
                 console.log(mare_por_minuto2);
@@ -9816,673 +9931,675 @@ mymap.setView([40.61, -8.745], 12.6);
                 if (mare_por_minuto2.length > 0) {
                     document.getElementById('load_fetch').style.display = "none";
                 }
-                
-                
+
+
                 let mare_2API;
-            if (mare_por_minuto2.length > 0) {
+                if (mare_por_minuto2.length > 0) {
 
 
-                for (var i = 0; i < coordenadas.length; i++) {
+                    for (var i = 0; i < coordenadas.length; i++) {
 
-                    //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
+                        //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
 
-                    //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
-                    //mare_2API = parseFloat(mare_por_minuto2[i]);
-                    // if (mare_por_minuto2.length > 0) {
-                    //     diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
-                    //     console.log(diferençaAlturaMare)
-                    //     console.log(mare_2API)
-                    //     console.log(mare_por_minuto[i])
-                    //     console.log(mare_por_minuto2[i])
-                    //     console.log(mare_por_minuto2[i][0])
-                    //     //diferençaAlturaMare = parseFloat(mare_por_minuto2[0][i]) - parseFloat(mare_por_minuto[i]);
-                    //     //diferençaAlturaMare = mare_por_minuto[i];
-                    //     //console.log({ array: mare_por_minuto2[i] })
-                    // }
-                    if (mare_por_minuto2[0][i] > 0) {
-                        mare_2API = parseFloat(mare_por_minuto2[0][i]);
-                        diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
-                        console.log(diferençaAlturaMare)
-                        console.log(mare_2API)
-                        console.log(mare_por_minuto[i])
+                        //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
+                        //mare_2API = parseFloat(mare_por_minuto2[i]);
+                        // if (mare_por_minuto2.length > 0) {
+                        //     diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
+                        //     console.log(diferençaAlturaMare)
+                        //     console.log(mare_2API)
+                        //     console.log(mare_por_minuto[i])
+                        //     console.log(mare_por_minuto2[i])
+                        //     console.log(mare_por_minuto2[i][0])
+                        //     //diferençaAlturaMare = parseFloat(mare_por_minuto2[0][i]) - parseFloat(mare_por_minuto[i]);
+                        //     //diferençaAlturaMare = mare_por_minuto[i];
+                        //     //console.log({ array: mare_por_minuto2[i] })
+                        // }
+                        if (mare_por_minuto2[0][i] > 0) {
+                            mare_2API = parseFloat(mare_por_minuto2[0][i]);
+                            diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
+                            console.log(diferençaAlturaMare)
+                            console.log(mare_2API)
+                            console.log(mare_por_minuto[i])
 
-                    } 
-                    // else if (mare_por_minuto2[i] > 0)  {
-                    //     mare_2API = parseFloat(mare_por_minuto2[i]);
-                    //     diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
-                    //     console.log(diferençaAlturaMare)
-                    //     console.log(mare_2API)
-                    //     console.log(mare_por_minuto[i])
-                    //     console.log(mare_por_minuto2[i][0])
-                    // }
+                        }
+                        // else if (mare_por_minuto2[i] > 0)  {
+                        //     mare_2API = parseFloat(mare_por_minuto2[i]);
+                        //     diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
+                        //     console.log(diferençaAlturaMare)
+                        //     console.log(mare_2API)
+                        //     console.log(mare_por_minuto[i])
+                        //     console.log(mare_por_minuto2[i][0])
+                        // }
 
 
-                    if (z1_rota_adquirida[i][0] > 0) {
-                        Z2_NOvaRota = z1_rota_adquirida[i][0] + diferençaAlturaMare;
+                        if (z1_rota_adquirida[i][0] > 0) {
+                            Z2_NOvaRota = z1_rota_adquirida[i][0] + diferençaAlturaMare;
+
+                        } else {
+                            Z2_NOvaRota = z1_rota_adquirida[i] + diferençaAlturaMare;
+                        }
+                        z2_menos_calado = Z2_NOvaRota - parseFloat(calado);
+                        //z2_menos_calado = parseFloat(mare_por_minuto2[0][i]) - parseFloat(calado);
+                        //z2_menos_calado = parseFloat(mare_por_minuto2[i]) - parseFloat(calado);
+
+                        if (i == 0) {
+                            infoSeta_Mare_primeiro = mare_por_minuto2[i];
+                        }
+
+                        //Info que vem da mare da API da Hidromod
+                        infoSeta_Mare_ultimo = mare_por_minuto2[i];
+
+                        //Info da diferença de mares mais z1 da rota adquirida
+
+
+
+
+                        //console.log(parseFloat(calado));
+                        //console.log(mare_por_minuto2[i]);
+                        //console.log(mare_por_minuto2[0][i]);
+                        //console.log(z2_menos_calado);
+
+
+                        if (horas_pontos_user.length > 0) {
+                            var d = new Date();
+                            var nday = d.getDay(),
+                                nmonth = d.getMonth() + 1,
+                                ndate = d.getDate(),
+                                nyear = d.getYear();
+                            if (nyear < 1000) nyear += 1900;
+                            var splitTime1 = horas_pontos_user[i].split(':');
+
+                            User_Tempo_cada_coor = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+                            //console.log(User_Tempo_cada_coor);
+                        }
+
+                        // console.log(horas_pontos_user);
+                        // console.log(User_Tempo_cada_coor)
+                        // console.log(User_Tempo_cada_coor.getHours())
+                        // console.log(User_Tempo_cada_coor.getMinutes())
+                        //calculo da distancia
+                        // console.log(User_Tempo_cada_coor.getHours())
+                        // console.log(User_Tempo_cada_coor.getMinutes())
+                        // let velUser = document.getElementById('velocidade').value;
+                        // let minutos_DistTotal = 60*User_Tempo_cada_coor.getMinutes()
+                        // distanciaCalculada_RotaSimulada.push(velUser/minutos_DistTotal);
+                        // console.log(distanciaCalculada_RotaSimulada)
+
+                        //AnimarBarco.push([parseFloat(coordenadas[i][1]), parseFloat(coordenadas[i][0]), z2_menos_calado, Z2_NOvaRota]);
+                        AnimarBarco.push([
+                            parseFloat(coordenadas[i][1]),
+                            parseFloat(coordenadas[i][0])
+                        ]);
+
+                        AnimarBarco_ComSLider.push([
+
+                            parseFloat(coordenadas[i][0]),
+                            parseFloat(coordenadas[i][1])
+                        ]);
+                        popup = new L.popup();
+
+
+                        popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                        if (modal_eta) {
+                            arrayHorasUser_Pontos.push(User_Tempo_cada_coor.getHours());
+                            arrayMinutosUser_Pontos.push(User_Tempo_cada_coor.getMinutes());
+                            popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
+                                '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
+                                //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
+                                '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
+                                '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
+                                // '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                                '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
+                                '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' +
+                                '</div>')
+                        } else {
+                            popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
+                                '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
+                                //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
+                                '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
+                                '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
+                                // '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                                '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
+                                '<p> <b>Horas do utilizador: </b>' + arrayHorasUser_Pontos[i] + ' horas e ' + arrayMinutosUser_Pontos[i] + ' minutos ' + '</p>' +
+                                '</div>')
+                        }
+
+
+                        //popup.addTo(mymap);
+
+                        // if (parseFloat([mare_por_minuto2[i]]).toFixed(2) > 2.00) {
+                        //     document.getElementById('mare_atualizada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
+                        // } else {
+                        //     document.getElementById('mare_atualizada').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
+                        // }
+
+                        if (modal_eta) {
+                            document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
+                            //horas_chegada = [User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos '];
+                            horas_chegada = [User_Tempo_cada_coor.getHours() + ':' + User_Tempo_cada_coor.getMinutes()];
+                            horas_chegada.push([User_Tempo_cada_coor.getHours()], [User_Tempo_cada_coor.getMinutes()]);
+
+                        }
+                        //ultimaMare = [mare_por_minuto2[i]];
+                        ultimaMare = [mare_por_minuto2[0][i]];
+
+                        //horas_chegada.push(User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ');
+
+
+                        marker = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
+                            color: "black",
+                            fillColor: "#000000",
+                            fillOpacity: 0.5,
+                            radius: 40.0
+                        })
+                            .bindPopup(popup)
+                            .addTo(mymap);
+
+
+
+                        marker.on('mouseover', function (e) {
+                            var popup = e.target.getPopup();
+                            popup.setLatLng(e.latlng).openOn(mymap);
+                        });
+
+                        marker.on('mouseout', function (e) {
+                            e.target.closePopup();
+                        });
+
+                        marker.on('click', function (e) {
+                            var popup = e.target.getPopup();
+                            popup.setLatLng(e.latlng).openOn(mymap);
+                        });
+
+
+
+                        if (Z2_NOvaRota <= 0) {
+                            if (coordenadas[i + 1] != undefined) {
+
+                                //console.log('verde' + verificarRota)
+                                var myLines4 = [{
+                                    "type": "LineString",
+                                    'coordinates': [
+                                        [coordenadas[i][0], coordenadas[i][1]],
+                                        [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                    ]
+                                }];
+                                distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                                arDistan.push(distancia.toFixed(2));
+
+                                var myStyle4 = {
+                                    radius: 8,
+                                    color: "black",
+                                    weight: 10,
+                                    opacity: 1,
+                                };
+
+                                linesFeatureLayer4 = L.geoJson(myLines4, {
+                                    style: myStyle4
+                                });
+                                linesFeatureLayer4.addTo(mymap);
+
+                                variavelVelocidadeAnimBarco.push(8000);
+                            }
+                        }
+                        else if (z2_menos_calado < margemcaladoInf) {
+                            if (coordenadas[i + 1] != undefined) {
+
+                                var myLines1 = [{
+                                    "type": "LineString",
+                                    'coordinates': [
+                                        [coordenadas[i][0], coordenadas[i][1]],
+                                        [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                    ]
+                                }];
+                                distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                                arDistan.push(distancia.toFixed(2));
+                                var myStyle1 = {
+                                    radius: 8,
+                                    color: "red",
+                                    weight: 10,
+                                    opacity: 1,
+                                };
+
+                                linesFeatureLayer = L.geoJson(myLines1, {
+                                    style: myStyle1
+                                });
+                                warning++;
+
+                                if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
+                                    variavelVelocidadeAnimBarco.push(6000);
+                                } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
+                                    variavelVelocidadeAnimBarco.push(4000);
+                                } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
+                                    variavelVelocidadeAnimBarco.push(3000);
+                                } else if (document.getElementById('velocidade').value >= 7 && document.getElementById('velocidade').value <= 10) {
+                                    variavelVelocidadeAnimBarco.push(3500);
+                                } else if (document.getElementById('velocidade').value >= 11 && document.getElementById('velocidade').value <= 20) {
+                                    variavelVelocidadeAnimBarco.push(2500);
+                                } else if (document.getElementById('velocidade').value >= 21 && document.getElementById('velocidade').value <= 30) {
+                                    variavelVelocidadeAnimBarco.push(2000);
+                                }
+
+
+
+                                linesFeatureLayer.addTo(mymap);
+                                countdangerous++;
+
+                            } else {
+                                //console.log('')
+                            }
+                        } else if (z2_menos_calado >= margemcaladoInf && z2_menos_calado <= margemcaladoSup) {
+
+                            if (coordenadas[i + 1] != undefined) {
+
+
+                                var myLines2 = [{
+                                    "type": "LineString",
+                                    'coordinates': [
+                                        [coordenadas[i][0], coordenadas[i][1]],
+                                        [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                    ]
+                                }];
+                                distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                                arDistan.push(distancia.toFixed(2));
+                                var myStyle2 = {
+                                    radius: 8,
+                                    color: "yellow",
+                                    weight: 10,
+                                    opacity: 1,
+                                };
+
+                                linesFeatureLayer2 = L.geoJson(myLines2, {
+                                    style: myStyle2
+                                });
+                                linesFeatureLayer2.addTo(mymap);
+
+
+
+                                if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
+                                    variavelVelocidadeAnimBarco.push(1999);
+                                } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
+                                    variavelVelocidadeAnimBarco.push(1700);
+                                } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
+                                    variavelVelocidadeAnimBarco.push(1500);
+                                } else if (document.getElementById('velocidade').value >= 7 && document.getElementById('velocidade').value <= 10) {
+                                    variavelVelocidadeAnimBarco.push(1200);
+                                } else if (document.getElementById('velocidade').value >= 11 && document.getElementById('velocidade').value <= 20) {
+                                    variavelVelocidadeAnimBarco.push(1000);
+                                } else if (document.getElementById('velocidade').value >= 21 && document.getElementById('velocidade').value <= 30) {
+                                    variavelVelocidadeAnimBarco.push(800);
+                                }
+
+
+
+                            } else {
+                                console.log('')
+                            }
+                        }
+
+                        else if (z2_menos_calado >= margemcaladoSup) {
+
+                            if (coordenadas[i + 1] != undefined) {
+
+
+                                //console.log('verde' + verificarRota)
+                                var myLines3 = [{
+                                    "type": "LineString",
+                                    'coordinates': [
+                                        [coordenadas[i][0], coordenadas[i][1]],
+                                        [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                    ]
+                                }];
+                                distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                                arDistan.push(distancia.toFixed(2));
+
+
+                                if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
+                                    variavelVelocidadeAnimBarco.push(600);
+                                } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
+                                    variavelVelocidadeAnimBarco.push(500);
+                                } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
+                                    variavelVelocidadeAnimBarco.push(300);
+                                } else if (document.getElementById('velocidade').value >= 7 && document.getElementById('velocidade').value <= 10) {
+                                    variavelVelocidadeAnimBarco.push(200);
+                                } else if (document.getElementById('velocidade').value >= 11 && document.getElementById('velocidade').value <= 20) {
+                                    variavelVelocidadeAnimBarco.push(100);
+                                } else if (document.getElementById('velocidade').value >= 21 && document.getElementById('velocidade').value <= 30) {
+                                    variavelVelocidadeAnimBarco.push(50);
+                                }
+
+                                //variavelVelocidadeAnimBarco.push(500);
+
+
+                                var myStyle3 = {
+                                    radius: 8,
+                                    color: "green",
+                                    weight: 10,
+                                    opacity: 1,
+                                };
+
+                                linesFeatureLayer3 = L.geoJson(myLines3, {
+                                    style: myStyle3
+                                });
+                                linesFeatureLayer3.addTo(mymap);
+
+                                //Colocar objeto por cima do linestring para percorrer a rota
+                                mymap.almostOver.addLayer(linesFeatureLayer3);
+                                // //var circle = L.circleMarker([0, 0], { radius: 5, fillColor: 'white', fillOpacity: 1 });
+
+                                // var circle = L.marker([0, 0], {
+                                //     icon: myboat
+                                // });
+                                // mymap.on('almost:over', function (e) {
+                                //     mymap.addLayer(circle);
+                                //     //mudar cor ao sair do hover
+                                //     //e.layer.setStyle({ color: 'black' });
+                                // });
+
+                                // mymap.on('almost:move', function (e) {
+                                //     circle.setLatLng(e.latlng);
+
+                                // });
+
+                                // mymap.on('almost:out', function (e) {
+                                //     mymap.removeLayer(circle);
+                                //     e.layer.setStyle({ weight: 10, color: '#03f' });
+                                // });
+
+                                mymap.on('almost:click', function (e) {
+                                    e.layer.setStyle({ weight: 10 });
+                                });
+
+                            }
+                        }
+
+
+
+
+                    }
+                } else {
+                    console.log('Else_sem_rota')
+                }
+                if (modal_eta) {
+
+
+                    // console.log(horasdarota_medida[0]);
+                    // console.log(horasdarota_medida[horasdarota_medida.length - 1]);
+
+                    var milesNauticalRoute = parseFloat(milesRoute[0]);
+                    var velocidadeUser = document.getElementById('velocidade').value;
+
+                    var tempo = milesNauticalRoute / velocidadeUser;
+                    var n = new Date(0, 0);
+                    n.setMinutes(+tempo * 60);
+                    var result = n.toTimeString().slice(0, 5);
+
+                    //****** Tempo de partida ******//
+                    let tempoPrim = document.getElementById('time_partida').value;
+                    var splitTimePartida = tempoPrim.split(':');
+                    let horasPartida = parseInt(splitTimePartida[0]);
+                    let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+
+                    //***** Duração da Rota ****//
+                    var splitTime_inicio = result.split(':');
+
+                    let horas_inicio = parseInt(splitTime_inicio[0]);
+                    let minutos_inicio = parseInt(splitTime_inicio[1]);
+
+                    let total_Rota = (horas_inicio * 60) + minutos_inicio;
+
+                    let total_Partida_Rota = total_Partida + total_Rota;
+
+
+                    var mRotaChegada = new Date(0, 0);
+                    let hours_ofsumRote = total_Partida_Rota / 60;
+
+                    let d2cHours = hours_ofsumRote.toFixed(2);
+                    let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+
+
+                    let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+
+
+                    // let multiple60_minutes = min_SumRoute;
+                    // console.log(multiple60_minutes)
+
+
+                    //document.getElementById('eta_1').innerHTML = horas_chegada[0];
+
+
+                    if (sumRoute_Hours[0] == "24" || sumRoute_Hours[0] == 24) {
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        document.getElementById('eta_1').innerHTML = 00 + ":" + minutos_Sum_Root;
+
+                    } else if (sumRoute_Hours[0] == "25" || sumRoute_Hours[0] == 25) {
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        document.getElementById('eta_1').innerHTML = 01 + ":" + minutos_Sum_Root;
+
+                    } else if (sumRoute_Hours[0] == "26" || sumRoute_Hours[0] == 26) {
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        document.getElementById('eta_1').innerHTML = 02 + ":" + minutos_Sum_Root;
 
                     } else {
-                        Z2_NOvaRota = z1_rota_adquirida[i] + diferençaAlturaMare;
-                    }
-                    z2_menos_calado = Z2_NOvaRota - parseFloat(calado);
-                    //z2_menos_calado = parseFloat(mare_por_minuto2[0][i]) - parseFloat(calado);
-                    //z2_menos_calado = parseFloat(mare_por_minuto2[i]) - parseFloat(calado);
-
-                    if (i == 0) {
-                        infoSeta_Mare_primeiro = mare_por_minuto2[i];
-                    }
-
-                    //Info que vem da mare da API da Hidromod
-                    infoSeta_Mare_ultimo = mare_por_minuto2[i];
-
-                    //Info da diferença de mares mais z1 da rota adquirida
-
-
-
-
-                    //console.log(parseFloat(calado));
-                    //console.log(mare_por_minuto2[i]);
-                    //console.log(mare_por_minuto2[0][i]);
-                    //console.log(z2_menos_calado);
-
-
-                    if (horas_pontos_user.length > 0) {
-                        var d = new Date();
-                        var nday = d.getDay(),
-                            nmonth = d.getMonth() + 1,
-                            ndate = d.getDate(),
-                            nyear = d.getYear();
-                        if (nyear < 1000) nyear += 1900;
-                        var splitTime1 = horas_pontos_user[i].split(':');
-                       
-                        User_Tempo_cada_coor = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
-                        //console.log(User_Tempo_cada_coor);
-                    }
-
-                    // console.log(horas_pontos_user);
-                    // console.log(User_Tempo_cada_coor)
-                    // console.log(User_Tempo_cada_coor.getHours())
-                    // console.log(User_Tempo_cada_coor.getMinutes())
-                    //calculo da distancia
-                    // console.log(User_Tempo_cada_coor.getHours())
-                    // console.log(User_Tempo_cada_coor.getMinutes())
-                    // let velUser = document.getElementById('velocidade').value;
-                    // let minutos_DistTotal = 60*User_Tempo_cada_coor.getMinutes()
-                    // distanciaCalculada_RotaSimulada.push(velUser/minutos_DistTotal);
-                    // console.log(distanciaCalculada_RotaSimulada)
-
-                    //AnimarBarco.push([parseFloat(coordenadas[i][1]), parseFloat(coordenadas[i][0]), z2_menos_calado, Z2_NOvaRota]);
-                    AnimarBarco.push([
-                        parseFloat(coordenadas[i][1]),
-                        parseFloat(coordenadas[i][0])
-                    ]);
-
-                    AnimarBarco_ComSLider.push([
-
-                        parseFloat(coordenadas[i][0]),
-                        parseFloat(coordenadas[i][1])
-                    ]);
-                    popup = new L.popup();
-
-
-                    popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
-                    if (modal_eta) {
-                        arrayHorasUser_Pontos.push(User_Tempo_cada_coor.getHours());
-                        arrayMinutosUser_Pontos.push(User_Tempo_cada_coor.getMinutes());
-                        popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
-                            '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
-                            //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
-                            '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
-                            '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
-                            // '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
-                            '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
-                            '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' +
-                            '</div>')
-                    } else {
-                        popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
-                            '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
-                            //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
-                            '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
-                            '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
-                            // '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
-                            '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
-                            '<p> <b>Horas do utilizador: </b>' + arrayHorasUser_Pontos[i] + ' horas e ' + arrayMinutosUser_Pontos[i] + ' minutos ' + '</p>' +
-                            '</div>')
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+                        document.getElementById('eta_1').innerHTML = hours_Sum_Root + ":" + minutos_Sum_Root;
+                        //document.getElementById('eta_1').innerHTML = hours_ofsumRote + ":" + minutos_Sum_Root;
                     }
 
 
-                    //popup.addTo(mymap);
+                    //console.log(result_Chegada)
+                    document.getElementById('duracao_rota').innerHTML = result;
 
-                    // if (parseFloat([mare_por_minuto2[i]]).toFixed(2) > 2.00) {
-                    //     document.getElementById('mare_atualizada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
+                    // document.getElementById('eta_1').value
+                    // if (Math.abs(diferencaMinutosRota) < 10) {
+                    //     document.getElementById('duracao_rota').innerHTML = result;
                     // } else {
-                    //     document.getElementById('mare_atualizada').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[i]]).toFixed(2) + " metros </p>";
+                    //     document.getElementById('duracao_rota').innerHTML = result;
                     // }
+                    let dataInformacion_0 = new Date(sortedData2[0].SDATA);
 
-                    if (modal_eta) {
-                        document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
-                        //horas_chegada = [User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos '];
-                        horas_chegada = [User_Tempo_cada_coor.getHours() + ':' + User_Tempo_cada_coor.getMinutes()];
-                        horas_chegada.push([User_Tempo_cada_coor.getHours()], [User_Tempo_cada_coor.getMinutes()])
+                    let dataInformacion_1 = new Date(sortedData2[1].SDATA);
+
+                    let dataInformacion_2 = new Date(sortedData2[2].SDATA);
+
+
+                    console.log(User_Tempo_cada_coor)
+
+                    let horasChegada = User_Tempo_cada_coor.getHours();
+
+                    let dataInformacion_3;
+
+                    if (sortedData2[3] != null) {
+                        dataInformacion_3 = new Date(sortedData2[3].SDATA);
+                        console.log(dataInformacion_3)
+
                     }
-                    ultimaMare = [mare_por_minuto2[i]];
-                    //horas_chegada.push(User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ');
+                    // console.log(infoSeta_Mare_primeiro)
+                    // console.log(infoSeta_Mare_ultimo)
 
 
 
-                    marker = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
-                        color: "black",
-                        fillColor: "#000000",
-                        fillOpacity: 0.5,
-                        radius: 40.0
-                    })
-                        .bindPopup(popup)
-                        .addTo(mymap);
-
-
-
-                    marker.on('mouseover', function (e) {
-                        var popup = e.target.getPopup();
-                        popup.setLatLng(e.latlng).openOn(mymap);
-                    });
-
-                    marker.on('mouseout', function (e) {
-                        e.target.closePopup();
-                    });
-
-                    marker.on('click', function (e) {
-                        var popup = e.target.getPopup();
-                        popup.setLatLng(e.latlng).openOn(mymap);
-                    });
-
-
-
-                    if (Z2_NOvaRota <= 0) {
-                        if (coordenadas[i + 1] != undefined) {
-
-                            //console.log('verde' + verificarRota)
-                            var myLines4 = [{
-                                "type": "LineString",
-                                'coordinates': [
-                                    [coordenadas[i][0], coordenadas[i][1]],
-                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
-                                ]
-                            }];
-                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
-                            arDistan.push(distancia.toFixed(2));
-
-                            var myStyle4 = {
-                                radius: 8,
-                                color: "black",
-                                weight: 10,
-                                opacity: 1,
-                            };
-
-                            linesFeatureLayer4 = L.geoJson(myLines4, {
-                                style: myStyle4
-                            });
-                            linesFeatureLayer4.addTo(mymap);
-
-                            variavelVelocidadeAnimBarco.push(8000);
-                        }
-                    }
-                    else if (z2_menos_calado < margemcaladoInf) {
-                        if (coordenadas[i + 1] != undefined) {
-
-                            var myLines1 = [{
-                                "type": "LineString",
-                                'coordinates': [
-                                    [coordenadas[i][0], coordenadas[i][1]],
-                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
-                                ]
-                            }];
-                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
-                            arDistan.push(distancia.toFixed(2));
-                            var myStyle1 = {
-                                radius: 8,
-                                color: "red",
-                                weight: 10,
-                                opacity: 1,
-                            };
-
-                            linesFeatureLayer = L.geoJson(myLines1, {
-                                style: myStyle1
-                            });
-                            warning++;
-
-                            if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
-                                variavelVelocidadeAnimBarco.push(6000);
-                            } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
-                                variavelVelocidadeAnimBarco.push(4000);
-                            } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
-                                variavelVelocidadeAnimBarco.push(3000);
-                            } else if (document.getElementById('velocidade').value >= 7 && document.getElementById('velocidade').value <= 10) {
-                                variavelVelocidadeAnimBarco.push(3500);
-                            } else if (document.getElementById('velocidade').value >= 11 && document.getElementById('velocidade').value <= 20) {
-                                variavelVelocidadeAnimBarco.push(2500);
-                            } else if (document.getElementById('velocidade').value >= 21 && document.getElementById('velocidade').value <= 30) {
-                                variavelVelocidadeAnimBarco.push(2000);
-                            }
-
-
-
-                            linesFeatureLayer.addTo(mymap);
-                            countdangerous++;
-
+                    if (horasChegada <= dataInformacion_0.getHours()) {
+                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                        if (sortedData2[0].ALT > sortedData2[1].ALT) {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                         } else {
-                            //console.log('')
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
                         }
-                    } else if (z2_menos_calado >= margemcaladoInf && z2_menos_calado <= margemcaladoSup) {
-
-                        if (coordenadas[i + 1] != undefined) {
-
-
-                            var myLines2 = [{
-                                "type": "LineString",
-                                'coordinates': [
-                                    [coordenadas[i][0], coordenadas[i][1]],
-                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
-                                ]
-                            }];
-                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
-                            arDistan.push(distancia.toFixed(2));
-                            var myStyle2 = {
-                                radius: 8,
-                                color: "yellow",
-                                weight: 10,
-                                opacity: 1,
-                            };
-
-                            linesFeatureLayer2 = L.geoJson(myLines2, {
-                                style: myStyle2
-                            });
-                            linesFeatureLayer2.addTo(mymap);
-
-
-
-                            if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
-                                variavelVelocidadeAnimBarco.push(1999);
-                            } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
-                                variavelVelocidadeAnimBarco.push(1700);
-                            } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
-                                variavelVelocidadeAnimBarco.push(1500);
-                            } else if (document.getElementById('velocidade').value >= 7 && document.getElementById('velocidade').value <= 10) {
-                                variavelVelocidadeAnimBarco.push(1200);
-                            } else if (document.getElementById('velocidade').value >= 11 && document.getElementById('velocidade').value <= 20) {
-                                variavelVelocidadeAnimBarco.push(1000);
-                            } else if (document.getElementById('velocidade').value >= 21 && document.getElementById('velocidade').value <= 30) {
-                                variavelVelocidadeAnimBarco.push(800);
-                            }
-
-
-
+                    } else if (horasChegada <= dataInformacion_1.getHours()) {
+                        if (sortedData2[0].ALT < sortedData2[1].ALT) {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                         } else {
-                            console.log('')
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
                         }
-                    }
-
-                    else if (z2_menos_calado >= margemcaladoSup) {
-
-                        if (coordenadas[i + 1] != undefined) {
+                        //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
 
 
-                            //console.log('verde' + verificarRota)
-                            var myLines3 = [{
-                                "type": "LineString",
-                                'coordinates': [
-                                    [coordenadas[i][0], coordenadas[i][1]],
-                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
-                                ]
-                            }];
-                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
-                            arDistan.push(distancia.toFixed(2));
+                    } else if (horasChegada <= dataInformacion_2.getHours()) {
+                        if (sortedData2[1].ALT < sortedData2[2].ALT) {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                        } else {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                        }
+                    } else if (sortedData2[3] != null) {
 
+                        if (dataInformacion_3.getHours() == 0) {
+                            let novahora = 24;
+                            if (horasChegada < novahora) {
 
-                            if (document.getElementById('velocidade').value >= 0 && document.getElementById('velocidade').value < 2) {
-                                variavelVelocidadeAnimBarco.push(600);
-                            } else if (document.getElementById('velocidade').value >= 2 && document.getElementById('velocidade').value < 4) {
-                                variavelVelocidadeAnimBarco.push(500);
-                            } else if (document.getElementById('velocidade').value >= 4 && document.getElementById('velocidade').value <= 6) {
-                                variavelVelocidadeAnimBarco.push(300);
-                            } else if (document.getElementById('velocidade').value >= 7 && document.getElementById('velocidade').value <= 10) {
-                                variavelVelocidadeAnimBarco.push(200);
-                            } else if (document.getElementById('velocidade').value >= 11 && document.getElementById('velocidade').value <= 20) {
-                                variavelVelocidadeAnimBarco.push(100);
-                            } else if (document.getElementById('velocidade').value >= 21 && document.getElementById('velocidade').value <= 30) {
-                                variavelVelocidadeAnimBarco.push(50);
+                                if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                                //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+
+                            } else {
+                                if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                                //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+
                             }
+                        } else {
 
-                            //variavelVelocidadeAnimBarco.push(500);
+                            if (horasChegada < dataInformacion_3.getHours()) {
+                                if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                                //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
+                            } else {
+                                if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                                //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
-                            var myStyle3 = {
-                                radius: 8,
-                                color: "green",
-                                weight: 10,
-                                opacity: 1,
-                            };
-
-                            linesFeatureLayer3 = L.geoJson(myLines3, {
-                                style: myStyle3
-                            });
-                            linesFeatureLayer3.addTo(mymap);
-
-                            //Colocar objeto por cima do linestring para percorrer a rota
-                            mymap.almostOver.addLayer(linesFeatureLayer3);
-                            // //var circle = L.circleMarker([0, 0], { radius: 5, fillColor: 'white', fillOpacity: 1 });
-
-                            // var circle = L.marker([0, 0], {
-                            //     icon: myboat
-                            // });
-                            // mymap.on('almost:over', function (e) {
-                            //     mymap.addLayer(circle);
-                            //     //mudar cor ao sair do hover
-                            //     //e.layer.setStyle({ color: 'black' });
-                            // });
-
-                            // mymap.on('almost:move', function (e) {
-                            //     circle.setLatLng(e.latlng);
-
-                            // });
-
-                            // mymap.on('almost:out', function (e) {
-                            //     mymap.removeLayer(circle);
-                            //     e.layer.setStyle({ weight: 10, color: '#03f' });
-                            // });
-
-                            mymap.on('almost:click', function (e) {
-                                e.layer.setStyle({ weight: 10 });
-                            });
-
+                            }
                         }
+                    } else if (sortedData2[3] == null) {
+
+                        if (sortedData2[1].ALT < sortedData2[2].ALT) {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                        } else {
+                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                        }
+                        //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
                     }
 
+
+                    //console.log(horasPartida)
+
+
+                    if (horasPartida <= dataInformacion_0.getHours()) {
+                        //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                        if (sortedData2[0].ALT > sortedData2[1].ALT) {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                        } else {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                        }
+                    } else if (horasPartida <= dataInformacion_1.getHours()) {
+                        //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                        if (sortedData2[0].ALT < sortedData2[1].ALT) {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                        } else {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                        }
+
+                    } else if (horasPartida <= dataInformacion_2.getHours()) {
+                        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
+                        if (sortedData2[1].ALT < sortedData2[2].ALT) {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                        } else {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                        }
+                    } else if (sortedData2[3] != null) {
+
+                        if (dataInformacion_3.getHours() == 0) {
+                            let novahora = 24;
+                            if (horasPartida < novahora) {
+                                //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+                                if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                            } else {
+                                //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+                                if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                            }
+                        } else {
+
+                            if (horasPartida < dataInformacion_3.getHours()) {
+                                if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                                //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+
+                            } else {
+                                if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                                //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
+
+                            }
+                        }
+                    } else if (sortedData2[3] == null) {
+                        if (sortedData2[1].ALT < sortedData2[2].ALT) {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                        } else {
+                            document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                        }
+                        //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
+                    }
+
+
+
+                    // if (parseFloat([ultimaMare[0]]).toFixed(2) > 2.00) {
+                    //     document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
+                    // } else {
+                    //     document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
+                    // }
+                    modal_eta = false;
 
 
 
                 }
-            } else {
-                console.log('Else_sem_rota')
-            }
-            if (modal_eta) {
 
 
-// console.log(horasdarota_medida[0]);
-// console.log(horasdarota_medida[horasdarota_medida.length - 1]);
+                document.getElementById('simulControll_display').style.display = "block";
 
-var milesNauticalRoute = parseFloat(milesRoute[0]);
-var velocidadeUser = document.getElementById('velocidade').value;
+                //If para barco andar a fazer pedidos
 
-var tempo = milesNauticalRoute / velocidadeUser;
-var n = new Date(0, 0);
-n.setMinutes(+tempo * 60);
-var result = n.toTimeString().slice(0, 5);
 
-//****** Tempo de partida ******//
-let tempoPrim = document.getElementById('time_partida').value;
-var splitTimePartida = tempoPrim.split(':');
-let horasPartida = parseInt(splitTimePartida[0]);
-let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+                if (comecAnimarfirst) {
+                    parar = false;
+                    comecaAnimar();
+                }
 
-//***** Duração da Rota ****//
-var splitTime_inicio = result.split(':');
+            }, 10000);
 
-let horas_inicio = parseInt(splitTime_inicio[0]);
-let minutos_inicio = parseInt(splitTime_inicio[1]);
 
-let total_Rota = (horas_inicio * 60) + minutos_inicio;
 
-let total_Partida_Rota = total_Partida + total_Rota;
 
-
-var mRotaChegada = new Date(0, 0);
-let hours_ofsumRote = total_Partida_Rota / 60;
-
-let d2cHours = hours_ofsumRote.toFixed(2);
-let sumRoute_Hours = hours_ofsumRote.toString().split(".");
-
-
-let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
-
-
-// let multiple60_minutes = min_SumRoute;
-// console.log(multiple60_minutes)
-
-
-//document.getElementById('eta_1').innerHTML = horas_chegada[0];
-
-
-if (sumRoute_Hours[0] == "24" || sumRoute_Hours[0] == 24) {
-    let minutos_Sum_Root = parseInt(min_SumRoute);
-    document.getElementById('eta_1').innerHTML = 00 + ":" + minutos_Sum_Root;
-
-} else if (sumRoute_Hours[0] == "25" || sumRoute_Hours[0] == 25) {
-    let minutos_Sum_Root = parseInt(min_SumRoute);
-    document.getElementById('eta_1').innerHTML = 01 + ":" + minutos_Sum_Root;
-
-} else if (sumRoute_Hours[0] == "26" || sumRoute_Hours[0] == 26) {
-    let minutos_Sum_Root = parseInt(min_SumRoute);
-    document.getElementById('eta_1').innerHTML = 02 + ":" + minutos_Sum_Root;
-
-} else {
-    let minutos_Sum_Root = parseInt(min_SumRoute);
-    let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
-    document.getElementById('eta_1').innerHTML = hours_Sum_Root + ":" + minutos_Sum_Root;
-    //document.getElementById('eta_1').innerHTML = hours_ofsumRote + ":" + minutos_Sum_Root;
-}
-
-
-//console.log(result_Chegada)
-document.getElementById('duracao_rota').innerHTML = result;
-
-// document.getElementById('eta_1').value
-// if (Math.abs(diferencaMinutosRota) < 10) {
-//     document.getElementById('duracao_rota').innerHTML = result;
-// } else {
-//     document.getElementById('duracao_rota').innerHTML = result;
-// }
-let dataInformacion_0 = new Date(sortedData2[0].SDATA);
-
-let dataInformacion_1 = new Date(sortedData2[1].SDATA);
-
-let dataInformacion_2 = new Date(sortedData2[2].SDATA);
-
-
-console.log(User_Tempo_cada_coor)
-
-let horasChegada = User_Tempo_cada_coor.getHours();
-
-let dataInformacion_3;
-
-if (sortedData2[3] != null) {
-    dataInformacion_3 = new Date(sortedData2[3].SDATA);
-    console.log(dataInformacion_3)
-
-}
-// console.log(infoSeta_Mare_primeiro)
-// console.log(infoSeta_Mare_ultimo)
-
-
-
-if (horasChegada <= dataInformacion_0.getHours()) {
-    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    if (sortedData2[0].ALT > sortedData2[1].ALT) {
-        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    } else {
-        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    }
-} else if (horasChegada <= dataInformacion_1.getHours()) {
-    if (sortedData2[0].ALT < sortedData2[1].ALT) {
-        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    } else {
-        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    }
-    //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-
-
-} else if (horasChegada <= dataInformacion_2.getHours()) {
-    if (sortedData2[1].ALT < sortedData2[2].ALT) {
-        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    } else {
-        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    }
-} else if (sortedData2[3] != null) {
-
-    if (dataInformacion_3.getHours() == 0) {
-        let novahora = 24;
-        if (horasChegada < novahora) {
-
-            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-            } else {
-                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-            }
-            //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-
-        } else {
-            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-            } else {
-                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-            }
-            //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-
-        }
-    } else {
-
-        if (horasChegada < dataInformacion_3.getHours()) {
-            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-            } else {
-                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-            }
-            //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-
-        } else {
-            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-            } else {
-                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-            }
-            //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-
-        }
-    }
-} else if (sortedData2[3] == null) {
-
-    if (sortedData2[1].ALT < sortedData2[2].ALT) {
-        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    } else {
-        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    }
-    //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-
-}
-
-
-//console.log(horasPartida)
-
-
-if (horasPartida <= dataInformacion_0.getHours()) {
-    //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    if (sortedData2[0].ALT > sortedData2[1].ALT) {
-        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    } else {
-        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    }
-} else if (horasPartida <= dataInformacion_1.getHours()) {
-    //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    if (sortedData2[0].ALT < sortedData2[1].ALT) {
-        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    } else {
-        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    }
-
-} else if (horasPartida <= dataInformacion_2.getHours()) {
-    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-
-    if (sortedData2[1].ALT < sortedData2[2].ALT) {
-        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    } else {
-        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    }
-} else if (sortedData2[3] != null) {
-
-    if (dataInformacion_3.getHours() == 0) {
-        let novahora = 24;
-        if (horasPartida < novahora) {
-            //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-            } else {
-                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-            }
-        } else {
-            //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-            } else {
-                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-            }
-        }
-    } else {
-
-        if (horasPartida < dataInformacion_3.getHours()) {
-            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-            } else {
-                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-            }
-            //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-
-        } else {
-            if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-            } else {
-                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-            }
-            //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-
-        }
-    }
-} else if (sortedData2[3] == null) {
-    if (sortedData2[1].ALT < sortedData2[2].ALT) {
-        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-    } else {
-        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-    }
-    //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-
-}
-
-
-
-// if (parseFloat([ultimaMare[0]]).toFixed(2) > 2.00) {
-//     document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
-// } else {
-//     document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " metros </p>";
-// }
-modal_eta = false;
-
-
-
-}
-
-
-document.getElementById('simulControll_display').style.display = "block";
-
-//If para barco andar a fazer pedidos
-
-
-if (comecAnimarfirst) {
-parar = false;
-comecaAnimar();
-}
-
-        }, 10000);
-
-            
-
-       
         }
         var pausa = false;
         var parar = false;
@@ -10756,7 +10873,7 @@ comecaAnimar();
                     if (input_Vel == 1) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-     
+
                                 AnimarBarco[somarNumero - 6],
                                 AnimarBarco[somarNumero - 5],
                                 AnimarBarco[somarNumero - 4],
@@ -10776,7 +10893,7 @@ comecaAnimar();
                     } else if (input_Vel == 2) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-    
+
                                 AnimarBarco[somarNumero - 12],
                                 AnimarBarco[somarNumero - 11],
                                 AnimarBarco[somarNumero - 10],
@@ -10791,7 +10908,7 @@ comecaAnimar();
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                     
+
                                 variavelVelocidadeAnimBarco[somarNumero - 12],
                                 variavelVelocidadeAnimBarco[somarNumero - 11],
                                 variavelVelocidadeAnimBarco[somarNumero - 10],
@@ -10808,7 +10925,7 @@ comecaAnimar();
                     } else if (input_Vel == 3) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-      
+
                                 AnimarBarco[somarNumero - 19],
                                 AnimarBarco[somarNumero - 18],
                                 AnimarBarco[somarNumero - 17],
@@ -10831,7 +10948,7 @@ comecaAnimar();
                             ],
                             [
 
-                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 19],
                                 variavelVelocidadeAnimBarco[somarNumero - 18],
                                 variavelVelocidadeAnimBarco[somarNumero - 17],
                                 variavelVelocidadeAnimBarco[somarNumero - 16],
@@ -10854,7 +10971,7 @@ comecaAnimar();
                     } else if (input_Vel == 4) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 25],
                                 AnimarBarco[somarNumero - 24],
                                 AnimarBarco[somarNumero - 23],
                                 AnimarBarco[somarNumero - 22],
@@ -10881,13 +10998,13 @@ comecaAnimar();
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 25],
                                 variavelVelocidadeAnimBarco[somarNumero - 24],
                                 variavelVelocidadeAnimBarco[somarNumero - 23],
                                 variavelVelocidadeAnimBarco[somarNumero - 22],
                                 variavelVelocidadeAnimBarco[somarNumero - 21],
                                 variavelVelocidadeAnimBarco[somarNumero - 20],
-                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 19],
                                 variavelVelocidadeAnimBarco[somarNumero - 18],
                                 variavelVelocidadeAnimBarco[somarNumero - 17],
                                 variavelVelocidadeAnimBarco[somarNumero - 16],
@@ -10910,13 +11027,13 @@ comecaAnimar();
                     } else if (input_Vel == 5) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-                            AnimarBarco[somarNumero - 31],
-                            AnimarBarco[somarNumero - 30],
-                            AnimarBarco[somarNumero - 29],
-                            AnimarBarco[somarNumero - 28],
-                            AnimarBarco[somarNumero - 27],
-                            AnimarBarco[somarNumero - 26],
-                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 31],
+                                AnimarBarco[somarNumero - 30],
+                                AnimarBarco[somarNumero - 29],
+                                AnimarBarco[somarNumero - 28],
+                                AnimarBarco[somarNumero - 27],
+                                AnimarBarco[somarNumero - 26],
+                                AnimarBarco[somarNumero - 25],
                                 AnimarBarco[somarNumero - 24],
                                 AnimarBarco[somarNumero - 23],
                                 AnimarBarco[somarNumero - 22],
@@ -10943,19 +11060,19 @@ comecaAnimar();
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                            variavelVelocidadeAnimBarco[somarNumero - 31],
-                            variavelVelocidadeAnimBarco[somarNumero - 30],
-                            variavelVelocidadeAnimBarco[somarNumero - 29],
-                            variavelVelocidadeAnimBarco[somarNumero - 28],
-                            variavelVelocidadeAnimBarco[somarNumero - 27],
-                            variavelVelocidadeAnimBarco[somarNumero - 26],
-                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 31],
+                                variavelVelocidadeAnimBarco[somarNumero - 30],
+                                variavelVelocidadeAnimBarco[somarNumero - 29],
+                                variavelVelocidadeAnimBarco[somarNumero - 28],
+                                variavelVelocidadeAnimBarco[somarNumero - 27],
+                                variavelVelocidadeAnimBarco[somarNumero - 26],
+                                variavelVelocidadeAnimBarco[somarNumero - 25],
                                 variavelVelocidadeAnimBarco[somarNumero - 24],
                                 variavelVelocidadeAnimBarco[somarNumero - 23],
                                 variavelVelocidadeAnimBarco[somarNumero - 22],
                                 variavelVelocidadeAnimBarco[somarNumero - 21],
                                 variavelVelocidadeAnimBarco[somarNumero - 20],
-                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 19],
                                 variavelVelocidadeAnimBarco[somarNumero - 18],
                                 variavelVelocidadeAnimBarco[somarNumero - 17],
                                 variavelVelocidadeAnimBarco[somarNumero - 16],
@@ -10979,19 +11096,19 @@ comecaAnimar();
                     } else if (input_Vel == 6) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-                            AnimarBarco[somarNumero - 37],
-                            AnimarBarco[somarNumero - 36],
-                            AnimarBarco[somarNumero - 35],
-                            AnimarBarco[somarNumero - 34],
-                            AnimarBarco[somarNumero - 33],
-                            AnimarBarco[somarNumero - 32],
-                            AnimarBarco[somarNumero - 31],
-                            AnimarBarco[somarNumero - 30],
-                            AnimarBarco[somarNumero - 29],
-                            AnimarBarco[somarNumero - 28],
-                            AnimarBarco[somarNumero - 27],
-                            AnimarBarco[somarNumero - 26],
-                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 37],
+                                AnimarBarco[somarNumero - 36],
+                                AnimarBarco[somarNumero - 35],
+                                AnimarBarco[somarNumero - 34],
+                                AnimarBarco[somarNumero - 33],
+                                AnimarBarco[somarNumero - 32],
+                                AnimarBarco[somarNumero - 31],
+                                AnimarBarco[somarNumero - 30],
+                                AnimarBarco[somarNumero - 29],
+                                AnimarBarco[somarNumero - 28],
+                                AnimarBarco[somarNumero - 27],
+                                AnimarBarco[somarNumero - 26],
+                                AnimarBarco[somarNumero - 25],
                                 AnimarBarco[somarNumero - 24],
                                 AnimarBarco[somarNumero - 23],
                                 AnimarBarco[somarNumero - 22],
@@ -11018,25 +11135,25 @@ comecaAnimar();
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                            variavelVelocidadeAnimBarco[somarNumero - 37],
-                            variavelVelocidadeAnimBarco[somarNumero - 36],
-                            variavelVelocidadeAnimBarco[somarNumero - 35],
-                            variavelVelocidadeAnimBarco[somarNumero - 34],
-                            variavelVelocidadeAnimBarco[somarNumero - 33],
-                            variavelVelocidadeAnimBarco[somarNumero - 32],
-                            variavelVelocidadeAnimBarco[somarNumero - 31],
-                            variavelVelocidadeAnimBarco[somarNumero - 30],
-                            variavelVelocidadeAnimBarco[somarNumero - 29],
-                            variavelVelocidadeAnimBarco[somarNumero - 28],
-                            variavelVelocidadeAnimBarco[somarNumero - 27],
-                            variavelVelocidadeAnimBarco[somarNumero - 26],
-                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 37],
+                                variavelVelocidadeAnimBarco[somarNumero - 36],
+                                variavelVelocidadeAnimBarco[somarNumero - 35],
+                                variavelVelocidadeAnimBarco[somarNumero - 34],
+                                variavelVelocidadeAnimBarco[somarNumero - 33],
+                                variavelVelocidadeAnimBarco[somarNumero - 32],
+                                variavelVelocidadeAnimBarco[somarNumero - 31],
+                                variavelVelocidadeAnimBarco[somarNumero - 30],
+                                variavelVelocidadeAnimBarco[somarNumero - 29],
+                                variavelVelocidadeAnimBarco[somarNumero - 28],
+                                variavelVelocidadeAnimBarco[somarNumero - 27],
+                                variavelVelocidadeAnimBarco[somarNumero - 26],
+                                variavelVelocidadeAnimBarco[somarNumero - 25],
                                 variavelVelocidadeAnimBarco[somarNumero - 24],
                                 variavelVelocidadeAnimBarco[somarNumero - 23],
                                 variavelVelocidadeAnimBarco[somarNumero - 22],
                                 variavelVelocidadeAnimBarco[somarNumero - 21],
                                 variavelVelocidadeAnimBarco[somarNumero - 20],
-                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 19],
                                 variavelVelocidadeAnimBarco[somarNumero - 18],
                                 variavelVelocidadeAnimBarco[somarNumero - 17],
                                 variavelVelocidadeAnimBarco[somarNumero - 16],
@@ -11058,28 +11175,28 @@ comecaAnimar();
                             ], { autostart: true }).addTo(mymap);
 
                     }
-                    else if (input_Vel == 7 ) {
+                    else if (input_Vel == 7) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-                            AnimarBarco[somarNumero - 43],
-                            AnimarBarco[somarNumero - 42],
-                            AnimarBarco[somarNumero - 41],
-                            AnimarBarco[somarNumero - 40],
-                            AnimarBarco[somarNumero - 39],
-                            AnimarBarco[somarNumero - 38],
-                            AnimarBarco[somarNumero - 37],
-                            AnimarBarco[somarNumero - 36],
-                            AnimarBarco[somarNumero - 35],
-                            AnimarBarco[somarNumero - 34],
-                            AnimarBarco[somarNumero - 33],
-                            AnimarBarco[somarNumero - 32],
-                            AnimarBarco[somarNumero - 31],
-                            AnimarBarco[somarNumero - 30],
-                            AnimarBarco[somarNumero - 29],
-                            AnimarBarco[somarNumero - 28],
-                            AnimarBarco[somarNumero - 27],
-                            AnimarBarco[somarNumero - 26],
-                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 43],
+                                AnimarBarco[somarNumero - 42],
+                                AnimarBarco[somarNumero - 41],
+                                AnimarBarco[somarNumero - 40],
+                                AnimarBarco[somarNumero - 39],
+                                AnimarBarco[somarNumero - 38],
+                                AnimarBarco[somarNumero - 37],
+                                AnimarBarco[somarNumero - 36],
+                                AnimarBarco[somarNumero - 35],
+                                AnimarBarco[somarNumero - 34],
+                                AnimarBarco[somarNumero - 33],
+                                AnimarBarco[somarNumero - 32],
+                                AnimarBarco[somarNumero - 31],
+                                AnimarBarco[somarNumero - 30],
+                                AnimarBarco[somarNumero - 29],
+                                AnimarBarco[somarNumero - 28],
+                                AnimarBarco[somarNumero - 27],
+                                AnimarBarco[somarNumero - 26],
+                                AnimarBarco[somarNumero - 25],
                                 AnimarBarco[somarNumero - 24],
                                 AnimarBarco[somarNumero - 23],
                                 AnimarBarco[somarNumero - 22],
@@ -11106,31 +11223,31 @@ comecaAnimar();
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                            variavelVelocidadeAnimBarco[somarNumero - 43],
-                            variavelVelocidadeAnimBarco[somarNumero - 42],
-                            variavelVelocidadeAnimBarco[somarNumero - 41],
-                            variavelVelocidadeAnimBarco[somarNumero - 40],
-                            variavelVelocidadeAnimBarco[somarNumero - 39],
-                            variavelVelocidadeAnimBarco[somarNumero - 38],
-                            variavelVelocidadeAnimBarco[somarNumero - 37],
-                            variavelVelocidadeAnimBarco[somarNumero - 36],
-                            variavelVelocidadeAnimBarco[somarNumero - 35],
-                            variavelVelocidadeAnimBarco[somarNumero - 34],
-                            variavelVelocidadeAnimBarco[somarNumero - 33],
-                            variavelVelocidadeAnimBarco[somarNumero - 32],
-                            variavelVelocidadeAnimBarco[somarNumero - 31],
-                            variavelVelocidadeAnimBarco[somarNumero - 30],
-                            variavelVelocidadeAnimBarco[somarNumero - 29],
-                            variavelVelocidadeAnimBarco[somarNumero - 28],
-                            variavelVelocidadeAnimBarco[somarNumero - 27],
-                            variavelVelocidadeAnimBarco[somarNumero - 26],
-                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 43],
+                                variavelVelocidadeAnimBarco[somarNumero - 42],
+                                variavelVelocidadeAnimBarco[somarNumero - 41],
+                                variavelVelocidadeAnimBarco[somarNumero - 40],
+                                variavelVelocidadeAnimBarco[somarNumero - 39],
+                                variavelVelocidadeAnimBarco[somarNumero - 38],
+                                variavelVelocidadeAnimBarco[somarNumero - 37],
+                                variavelVelocidadeAnimBarco[somarNumero - 36],
+                                variavelVelocidadeAnimBarco[somarNumero - 35],
+                                variavelVelocidadeAnimBarco[somarNumero - 34],
+                                variavelVelocidadeAnimBarco[somarNumero - 33],
+                                variavelVelocidadeAnimBarco[somarNumero - 32],
+                                variavelVelocidadeAnimBarco[somarNumero - 31],
+                                variavelVelocidadeAnimBarco[somarNumero - 30],
+                                variavelVelocidadeAnimBarco[somarNumero - 29],
+                                variavelVelocidadeAnimBarco[somarNumero - 28],
+                                variavelVelocidadeAnimBarco[somarNumero - 27],
+                                variavelVelocidadeAnimBarco[somarNumero - 26],
+                                variavelVelocidadeAnimBarco[somarNumero - 25],
                                 variavelVelocidadeAnimBarco[somarNumero - 24],
                                 variavelVelocidadeAnimBarco[somarNumero - 23],
                                 variavelVelocidadeAnimBarco[somarNumero - 22],
                                 variavelVelocidadeAnimBarco[somarNumero - 21],
                                 variavelVelocidadeAnimBarco[somarNumero - 20],
-                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 19],
                                 variavelVelocidadeAnimBarco[somarNumero - 18],
                                 variavelVelocidadeAnimBarco[somarNumero - 17],
                                 variavelVelocidadeAnimBarco[somarNumero - 16],
@@ -11156,31 +11273,31 @@ comecaAnimar();
                     else if (input_Vel == 8) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-                            AnimarBarco[somarNumero - 49],
-                            AnimarBarco[somarNumero - 48],
-                            AnimarBarco[somarNumero - 47],
-                            AnimarBarco[somarNumero - 46],
-                            AnimarBarco[somarNumero - 45],
-                            AnimarBarco[somarNumero - 44],
-                            AnimarBarco[somarNumero - 43],
-                            AnimarBarco[somarNumero - 42],
-                            AnimarBarco[somarNumero - 41],
-                            AnimarBarco[somarNumero - 40],
-                            AnimarBarco[somarNumero - 39],
-                            AnimarBarco[somarNumero - 38],
-                            AnimarBarco[somarNumero - 37],
-                            AnimarBarco[somarNumero - 36],
-                            AnimarBarco[somarNumero - 35],
-                            AnimarBarco[somarNumero - 34],
-                            AnimarBarco[somarNumero - 33],
-                            AnimarBarco[somarNumero - 32],
-                            AnimarBarco[somarNumero - 31],
-                            AnimarBarco[somarNumero - 30],
-                            AnimarBarco[somarNumero - 29],
-                            AnimarBarco[somarNumero - 28],
-                            AnimarBarco[somarNumero - 27],
-                            AnimarBarco[somarNumero - 26],
-                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 49],
+                                AnimarBarco[somarNumero - 48],
+                                AnimarBarco[somarNumero - 47],
+                                AnimarBarco[somarNumero - 46],
+                                AnimarBarco[somarNumero - 45],
+                                AnimarBarco[somarNumero - 44],
+                                AnimarBarco[somarNumero - 43],
+                                AnimarBarco[somarNumero - 42],
+                                AnimarBarco[somarNumero - 41],
+                                AnimarBarco[somarNumero - 40],
+                                AnimarBarco[somarNumero - 39],
+                                AnimarBarco[somarNumero - 38],
+                                AnimarBarco[somarNumero - 37],
+                                AnimarBarco[somarNumero - 36],
+                                AnimarBarco[somarNumero - 35],
+                                AnimarBarco[somarNumero - 34],
+                                AnimarBarco[somarNumero - 33],
+                                AnimarBarco[somarNumero - 32],
+                                AnimarBarco[somarNumero - 31],
+                                AnimarBarco[somarNumero - 30],
+                                AnimarBarco[somarNumero - 29],
+                                AnimarBarco[somarNumero - 28],
+                                AnimarBarco[somarNumero - 27],
+                                AnimarBarco[somarNumero - 26],
+                                AnimarBarco[somarNumero - 25],
                                 AnimarBarco[somarNumero - 24],
                                 AnimarBarco[somarNumero - 23],
                                 AnimarBarco[somarNumero - 22],
@@ -11207,37 +11324,37 @@ comecaAnimar();
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                            variavelVelocidadeAnimBarco[somarNumero - 49],
-                            variavelVelocidadeAnimBarco[somarNumero - 48],
-                            variavelVelocidadeAnimBarco[somarNumero - 47],
-                            variavelVelocidadeAnimBarco[somarNumero - 46],
-                            variavelVelocidadeAnimBarco[somarNumero - 45],
-                            variavelVelocidadeAnimBarco[somarNumero - 44],
-                            variavelVelocidadeAnimBarco[somarNumero - 43],
-                            variavelVelocidadeAnimBarco[somarNumero - 42],
-                            variavelVelocidadeAnimBarco[somarNumero - 41],
-                            variavelVelocidadeAnimBarco[somarNumero - 40],
-                            variavelVelocidadeAnimBarco[somarNumero - 39],
-                            variavelVelocidadeAnimBarco[somarNumero - 38],
-                            variavelVelocidadeAnimBarco[somarNumero - 37],
-                            variavelVelocidadeAnimBarco[somarNumero - 36],
-                            variavelVelocidadeAnimBarco[somarNumero - 35],
-                            variavelVelocidadeAnimBarco[somarNumero - 34],
-                            variavelVelocidadeAnimBarco[somarNumero - 33],
-                            variavelVelocidadeAnimBarco[somarNumero - 32],
-                            variavelVelocidadeAnimBarco[somarNumero - 31],
-                            variavelVelocidadeAnimBarco[somarNumero - 30],
-                            variavelVelocidadeAnimBarco[somarNumero - 29],
-                            variavelVelocidadeAnimBarco[somarNumero - 28],
-                            variavelVelocidadeAnimBarco[somarNumero - 27],
-                            variavelVelocidadeAnimBarco[somarNumero - 26],
-                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 49],
+                                variavelVelocidadeAnimBarco[somarNumero - 48],
+                                variavelVelocidadeAnimBarco[somarNumero - 47],
+                                variavelVelocidadeAnimBarco[somarNumero - 46],
+                                variavelVelocidadeAnimBarco[somarNumero - 45],
+                                variavelVelocidadeAnimBarco[somarNumero - 44],
+                                variavelVelocidadeAnimBarco[somarNumero - 43],
+                                variavelVelocidadeAnimBarco[somarNumero - 42],
+                                variavelVelocidadeAnimBarco[somarNumero - 41],
+                                variavelVelocidadeAnimBarco[somarNumero - 40],
+                                variavelVelocidadeAnimBarco[somarNumero - 39],
+                                variavelVelocidadeAnimBarco[somarNumero - 38],
+                                variavelVelocidadeAnimBarco[somarNumero - 37],
+                                variavelVelocidadeAnimBarco[somarNumero - 36],
+                                variavelVelocidadeAnimBarco[somarNumero - 35],
+                                variavelVelocidadeAnimBarco[somarNumero - 34],
+                                variavelVelocidadeAnimBarco[somarNumero - 33],
+                                variavelVelocidadeAnimBarco[somarNumero - 32],
+                                variavelVelocidadeAnimBarco[somarNumero - 31],
+                                variavelVelocidadeAnimBarco[somarNumero - 30],
+                                variavelVelocidadeAnimBarco[somarNumero - 29],
+                                variavelVelocidadeAnimBarco[somarNumero - 28],
+                                variavelVelocidadeAnimBarco[somarNumero - 27],
+                                variavelVelocidadeAnimBarco[somarNumero - 26],
+                                variavelVelocidadeAnimBarco[somarNumero - 25],
                                 variavelVelocidadeAnimBarco[somarNumero - 24],
                                 variavelVelocidadeAnimBarco[somarNumero - 23],
                                 variavelVelocidadeAnimBarco[somarNumero - 22],
                                 variavelVelocidadeAnimBarco[somarNumero - 21],
                                 variavelVelocidadeAnimBarco[somarNumero - 20],
-                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 19],
                                 variavelVelocidadeAnimBarco[somarNumero - 18],
                                 variavelVelocidadeAnimBarco[somarNumero - 17],
                                 variavelVelocidadeAnimBarco[somarNumero - 16],
@@ -11261,38 +11378,38 @@ comecaAnimar();
                     else if (input_Vel == 9) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-                            AnimarBarco[somarNumero - 56],
-                            AnimarBarco[somarNumero - 55],
-                            AnimarBarco[somarNumero - 54],
-                            AnimarBarco[somarNumero - 53],
-                            AnimarBarco[somarNumero - 52],
-                            AnimarBarco[somarNumero - 51],
-                            AnimarBarco[somarNumero - 50],
-                            AnimarBarco[somarNumero - 49],
-                            AnimarBarco[somarNumero - 48],
-                            AnimarBarco[somarNumero - 47],
-                            AnimarBarco[somarNumero - 46],
-                            AnimarBarco[somarNumero - 45],
-                            AnimarBarco[somarNumero - 44],
-                            AnimarBarco[somarNumero - 43],
-                            AnimarBarco[somarNumero - 42],
-                            AnimarBarco[somarNumero - 41],
-                            AnimarBarco[somarNumero - 40],
-                            AnimarBarco[somarNumero - 39],
-                            AnimarBarco[somarNumero - 38],
-                            AnimarBarco[somarNumero - 37],
-                            AnimarBarco[somarNumero - 36],
-                            AnimarBarco[somarNumero - 35],
-                            AnimarBarco[somarNumero - 34],
-                            AnimarBarco[somarNumero - 33],
-                            AnimarBarco[somarNumero - 32],
-                            AnimarBarco[somarNumero - 31],
-                            AnimarBarco[somarNumero - 30],
-                            AnimarBarco[somarNumero - 29],
-                            AnimarBarco[somarNumero - 28],
-                            AnimarBarco[somarNumero - 27],
-                            AnimarBarco[somarNumero - 26],
-                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 56],
+                                AnimarBarco[somarNumero - 55],
+                                AnimarBarco[somarNumero - 54],
+                                AnimarBarco[somarNumero - 53],
+                                AnimarBarco[somarNumero - 52],
+                                AnimarBarco[somarNumero - 51],
+                                AnimarBarco[somarNumero - 50],
+                                AnimarBarco[somarNumero - 49],
+                                AnimarBarco[somarNumero - 48],
+                                AnimarBarco[somarNumero - 47],
+                                AnimarBarco[somarNumero - 46],
+                                AnimarBarco[somarNumero - 45],
+                                AnimarBarco[somarNumero - 44],
+                                AnimarBarco[somarNumero - 43],
+                                AnimarBarco[somarNumero - 42],
+                                AnimarBarco[somarNumero - 41],
+                                AnimarBarco[somarNumero - 40],
+                                AnimarBarco[somarNumero - 39],
+                                AnimarBarco[somarNumero - 38],
+                                AnimarBarco[somarNumero - 37],
+                                AnimarBarco[somarNumero - 36],
+                                AnimarBarco[somarNumero - 35],
+                                AnimarBarco[somarNumero - 34],
+                                AnimarBarco[somarNumero - 33],
+                                AnimarBarco[somarNumero - 32],
+                                AnimarBarco[somarNumero - 31],
+                                AnimarBarco[somarNumero - 30],
+                                AnimarBarco[somarNumero - 29],
+                                AnimarBarco[somarNumero - 28],
+                                AnimarBarco[somarNumero - 27],
+                                AnimarBarco[somarNumero - 26],
+                                AnimarBarco[somarNumero - 25],
                                 AnimarBarco[somarNumero - 24],
                                 AnimarBarco[somarNumero - 23],
                                 AnimarBarco[somarNumero - 22],
@@ -11319,44 +11436,44 @@ comecaAnimar();
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                            variavelVelocidadeAnimBarco[somarNumero - 56],
-                            variavelVelocidadeAnimBarco[somarNumero - 55],
-                            variavelVelocidadeAnimBarco[somarNumero - 54],
-                            variavelVelocidadeAnimBarco[somarNumero - 53],
-                            variavelVelocidadeAnimBarco[somarNumero - 52],
-                            variavelVelocidadeAnimBarco[somarNumero - 51],
-                            variavelVelocidadeAnimBarco[somarNumero - 50],
-                            variavelVelocidadeAnimBarco[somarNumero - 49],
-                            variavelVelocidadeAnimBarco[somarNumero - 48],
-                            variavelVelocidadeAnimBarco[somarNumero - 47],
-                            variavelVelocidadeAnimBarco[somarNumero - 46],
-                            variavelVelocidadeAnimBarco[somarNumero - 45],
-                            variavelVelocidadeAnimBarco[somarNumero - 44],
-                            variavelVelocidadeAnimBarco[somarNumero - 43],
-                            variavelVelocidadeAnimBarco[somarNumero - 42],
-                            variavelVelocidadeAnimBarco[somarNumero - 41],
-                            variavelVelocidadeAnimBarco[somarNumero - 40],
-                            variavelVelocidadeAnimBarco[somarNumero - 39],
-                            variavelVelocidadeAnimBarco[somarNumero - 38],
-                            variavelVelocidadeAnimBarco[somarNumero - 37],
-                            variavelVelocidadeAnimBarco[somarNumero - 36],
-                            variavelVelocidadeAnimBarco[somarNumero - 35],
-                            variavelVelocidadeAnimBarco[somarNumero - 34],
-                            variavelVelocidadeAnimBarco[somarNumero - 33],
-                            variavelVelocidadeAnimBarco[somarNumero - 32],
-                            variavelVelocidadeAnimBarco[somarNumero - 31],
-                            variavelVelocidadeAnimBarco[somarNumero - 30],
-                            variavelVelocidadeAnimBarco[somarNumero - 29],
-                            variavelVelocidadeAnimBarco[somarNumero - 28],
-                            variavelVelocidadeAnimBarco[somarNumero - 27],
-                            variavelVelocidadeAnimBarco[somarNumero - 26],
-                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 56],
+                                variavelVelocidadeAnimBarco[somarNumero - 55],
+                                variavelVelocidadeAnimBarco[somarNumero - 54],
+                                variavelVelocidadeAnimBarco[somarNumero - 53],
+                                variavelVelocidadeAnimBarco[somarNumero - 52],
+                                variavelVelocidadeAnimBarco[somarNumero - 51],
+                                variavelVelocidadeAnimBarco[somarNumero - 50],
+                                variavelVelocidadeAnimBarco[somarNumero - 49],
+                                variavelVelocidadeAnimBarco[somarNumero - 48],
+                                variavelVelocidadeAnimBarco[somarNumero - 47],
+                                variavelVelocidadeAnimBarco[somarNumero - 46],
+                                variavelVelocidadeAnimBarco[somarNumero - 45],
+                                variavelVelocidadeAnimBarco[somarNumero - 44],
+                                variavelVelocidadeAnimBarco[somarNumero - 43],
+                                variavelVelocidadeAnimBarco[somarNumero - 42],
+                                variavelVelocidadeAnimBarco[somarNumero - 41],
+                                variavelVelocidadeAnimBarco[somarNumero - 40],
+                                variavelVelocidadeAnimBarco[somarNumero - 39],
+                                variavelVelocidadeAnimBarco[somarNumero - 38],
+                                variavelVelocidadeAnimBarco[somarNumero - 37],
+                                variavelVelocidadeAnimBarco[somarNumero - 36],
+                                variavelVelocidadeAnimBarco[somarNumero - 35],
+                                variavelVelocidadeAnimBarco[somarNumero - 34],
+                                variavelVelocidadeAnimBarco[somarNumero - 33],
+                                variavelVelocidadeAnimBarco[somarNumero - 32],
+                                variavelVelocidadeAnimBarco[somarNumero - 31],
+                                variavelVelocidadeAnimBarco[somarNumero - 30],
+                                variavelVelocidadeAnimBarco[somarNumero - 29],
+                                variavelVelocidadeAnimBarco[somarNumero - 28],
+                                variavelVelocidadeAnimBarco[somarNumero - 27],
+                                variavelVelocidadeAnimBarco[somarNumero - 26],
+                                variavelVelocidadeAnimBarco[somarNumero - 25],
                                 variavelVelocidadeAnimBarco[somarNumero - 24],
                                 variavelVelocidadeAnimBarco[somarNumero - 23],
                                 variavelVelocidadeAnimBarco[somarNumero - 22],
                                 variavelVelocidadeAnimBarco[somarNumero - 21],
                                 variavelVelocidadeAnimBarco[somarNumero - 20],
-                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 19],
                                 variavelVelocidadeAnimBarco[somarNumero - 18],
                                 variavelVelocidadeAnimBarco[somarNumero - 17],
                                 variavelVelocidadeAnimBarco[somarNumero - 16],
@@ -11380,44 +11497,44 @@ comecaAnimar();
                     else if (input_Vel == 10) {
                         markerAnimado = L.Marker.movingMarker(
                             [
-                            AnimarBarco[somarNumero - 62],
-                            AnimarBarco[somarNumero - 61],
-                            AnimarBarco[somarNumero - 60],
-                            AnimarBarco[somarNumero - 59],
-                            AnimarBarco[somarNumero - 58],
-                            AnimarBarco[somarNumero - 57],
-                            AnimarBarco[somarNumero - 56],
-                            AnimarBarco[somarNumero - 55],
-                            AnimarBarco[somarNumero - 54],
-                            AnimarBarco[somarNumero - 53],
-                            AnimarBarco[somarNumero - 52],
-                            AnimarBarco[somarNumero - 51],
-                            AnimarBarco[somarNumero - 50],
-                            AnimarBarco[somarNumero - 49],
-                            AnimarBarco[somarNumero - 48],
-                            AnimarBarco[somarNumero - 47],
-                            AnimarBarco[somarNumero - 46],
-                            AnimarBarco[somarNumero - 45],
-                            AnimarBarco[somarNumero - 44],
-                            AnimarBarco[somarNumero - 43],
-                            AnimarBarco[somarNumero - 42],
-                            AnimarBarco[somarNumero - 41],
-                            AnimarBarco[somarNumero - 40],
-                            AnimarBarco[somarNumero - 39],
-                            AnimarBarco[somarNumero - 38],
-                            AnimarBarco[somarNumero - 37],
-                            AnimarBarco[somarNumero - 36],
-                            AnimarBarco[somarNumero - 35],
-                            AnimarBarco[somarNumero - 34],
-                            AnimarBarco[somarNumero - 33],
-                            AnimarBarco[somarNumero - 32],
-                            AnimarBarco[somarNumero - 31],
-                            AnimarBarco[somarNumero - 30],
-                            AnimarBarco[somarNumero - 29],
-                            AnimarBarco[somarNumero - 28],
-                            AnimarBarco[somarNumero - 27],
-                            AnimarBarco[somarNumero - 26],
-                            AnimarBarco[somarNumero - 25],
+                                AnimarBarco[somarNumero - 62],
+                                AnimarBarco[somarNumero - 61],
+                                AnimarBarco[somarNumero - 60],
+                                AnimarBarco[somarNumero - 59],
+                                AnimarBarco[somarNumero - 58],
+                                AnimarBarco[somarNumero - 57],
+                                AnimarBarco[somarNumero - 56],
+                                AnimarBarco[somarNumero - 55],
+                                AnimarBarco[somarNumero - 54],
+                                AnimarBarco[somarNumero - 53],
+                                AnimarBarco[somarNumero - 52],
+                                AnimarBarco[somarNumero - 51],
+                                AnimarBarco[somarNumero - 50],
+                                AnimarBarco[somarNumero - 49],
+                                AnimarBarco[somarNumero - 48],
+                                AnimarBarco[somarNumero - 47],
+                                AnimarBarco[somarNumero - 46],
+                                AnimarBarco[somarNumero - 45],
+                                AnimarBarco[somarNumero - 44],
+                                AnimarBarco[somarNumero - 43],
+                                AnimarBarco[somarNumero - 42],
+                                AnimarBarco[somarNumero - 41],
+                                AnimarBarco[somarNumero - 40],
+                                AnimarBarco[somarNumero - 39],
+                                AnimarBarco[somarNumero - 38],
+                                AnimarBarco[somarNumero - 37],
+                                AnimarBarco[somarNumero - 36],
+                                AnimarBarco[somarNumero - 35],
+                                AnimarBarco[somarNumero - 34],
+                                AnimarBarco[somarNumero - 33],
+                                AnimarBarco[somarNumero - 32],
+                                AnimarBarco[somarNumero - 31],
+                                AnimarBarco[somarNumero - 30],
+                                AnimarBarco[somarNumero - 29],
+                                AnimarBarco[somarNumero - 28],
+                                AnimarBarco[somarNumero - 27],
+                                AnimarBarco[somarNumero - 26],
+                                AnimarBarco[somarNumero - 25],
                                 AnimarBarco[somarNumero - 24],
                                 AnimarBarco[somarNumero - 23],
                                 AnimarBarco[somarNumero - 22],
@@ -11444,50 +11561,50 @@ comecaAnimar();
                                 AnimarBarco[somarNumero - 1]
                             ],
                             [
-                            variavelVelocidadeAnimBarco[somarNumero - 62],
-                            variavelVelocidadeAnimBarco[somarNumero - 61],
-                            variavelVelocidadeAnimBarco[somarNumero - 60],
-                            variavelVelocidadeAnimBarco[somarNumero - 59],
-                            variavelVelocidadeAnimBarco[somarNumero - 58],
-                            variavelVelocidadeAnimBarco[somarNumero - 57],
-                            variavelVelocidadeAnimBarco[somarNumero - 56],
-                            variavelVelocidadeAnimBarco[somarNumero - 55],
-                            variavelVelocidadeAnimBarco[somarNumero - 54],
-                            variavelVelocidadeAnimBarco[somarNumero - 53],
-                            variavelVelocidadeAnimBarco[somarNumero - 52],
-                            variavelVelocidadeAnimBarco[somarNumero - 51],
-                            variavelVelocidadeAnimBarco[somarNumero - 50],
-                            variavelVelocidadeAnimBarco[somarNumero - 49],
-                            variavelVelocidadeAnimBarco[somarNumero - 48],
-                            variavelVelocidadeAnimBarco[somarNumero - 47],
-                            variavelVelocidadeAnimBarco[somarNumero - 46],
-                            variavelVelocidadeAnimBarco[somarNumero - 45],
-                            variavelVelocidadeAnimBarco[somarNumero - 44],
-                            variavelVelocidadeAnimBarco[somarNumero - 43],
-                            variavelVelocidadeAnimBarco[somarNumero - 42],
-                            variavelVelocidadeAnimBarco[somarNumero - 41],
-                            variavelVelocidadeAnimBarco[somarNumero - 40],
-                            variavelVelocidadeAnimBarco[somarNumero - 39],
-                            variavelVelocidadeAnimBarco[somarNumero - 38],
-                            variavelVelocidadeAnimBarco[somarNumero - 37],
-                            variavelVelocidadeAnimBarco[somarNumero - 36],
-                            variavelVelocidadeAnimBarco[somarNumero - 35],
-                            variavelVelocidadeAnimBarco[somarNumero - 34],
-                            variavelVelocidadeAnimBarco[somarNumero - 33],
-                            variavelVelocidadeAnimBarco[somarNumero - 32],
-                            variavelVelocidadeAnimBarco[somarNumero - 31],
-                            variavelVelocidadeAnimBarco[somarNumero - 30],
-                            variavelVelocidadeAnimBarco[somarNumero - 29],
-                            variavelVelocidadeAnimBarco[somarNumero - 28],
-                            variavelVelocidadeAnimBarco[somarNumero - 27],
-                            variavelVelocidadeAnimBarco[somarNumero - 26],
-                            variavelVelocidadeAnimBarco[somarNumero - 25],
+                                variavelVelocidadeAnimBarco[somarNumero - 62],
+                                variavelVelocidadeAnimBarco[somarNumero - 61],
+                                variavelVelocidadeAnimBarco[somarNumero - 60],
+                                variavelVelocidadeAnimBarco[somarNumero - 59],
+                                variavelVelocidadeAnimBarco[somarNumero - 58],
+                                variavelVelocidadeAnimBarco[somarNumero - 57],
+                                variavelVelocidadeAnimBarco[somarNumero - 56],
+                                variavelVelocidadeAnimBarco[somarNumero - 55],
+                                variavelVelocidadeAnimBarco[somarNumero - 54],
+                                variavelVelocidadeAnimBarco[somarNumero - 53],
+                                variavelVelocidadeAnimBarco[somarNumero - 52],
+                                variavelVelocidadeAnimBarco[somarNumero - 51],
+                                variavelVelocidadeAnimBarco[somarNumero - 50],
+                                variavelVelocidadeAnimBarco[somarNumero - 49],
+                                variavelVelocidadeAnimBarco[somarNumero - 48],
+                                variavelVelocidadeAnimBarco[somarNumero - 47],
+                                variavelVelocidadeAnimBarco[somarNumero - 46],
+                                variavelVelocidadeAnimBarco[somarNumero - 45],
+                                variavelVelocidadeAnimBarco[somarNumero - 44],
+                                variavelVelocidadeAnimBarco[somarNumero - 43],
+                                variavelVelocidadeAnimBarco[somarNumero - 42],
+                                variavelVelocidadeAnimBarco[somarNumero - 41],
+                                variavelVelocidadeAnimBarco[somarNumero - 40],
+                                variavelVelocidadeAnimBarco[somarNumero - 39],
+                                variavelVelocidadeAnimBarco[somarNumero - 38],
+                                variavelVelocidadeAnimBarco[somarNumero - 37],
+                                variavelVelocidadeAnimBarco[somarNumero - 36],
+                                variavelVelocidadeAnimBarco[somarNumero - 35],
+                                variavelVelocidadeAnimBarco[somarNumero - 34],
+                                variavelVelocidadeAnimBarco[somarNumero - 33],
+                                variavelVelocidadeAnimBarco[somarNumero - 32],
+                                variavelVelocidadeAnimBarco[somarNumero - 31],
+                                variavelVelocidadeAnimBarco[somarNumero - 30],
+                                variavelVelocidadeAnimBarco[somarNumero - 29],
+                                variavelVelocidadeAnimBarco[somarNumero - 28],
+                                variavelVelocidadeAnimBarco[somarNumero - 27],
+                                variavelVelocidadeAnimBarco[somarNumero - 26],
+                                variavelVelocidadeAnimBarco[somarNumero - 25],
                                 variavelVelocidadeAnimBarco[somarNumero - 24],
                                 variavelVelocidadeAnimBarco[somarNumero - 23],
                                 variavelVelocidadeAnimBarco[somarNumero - 22],
                                 variavelVelocidadeAnimBarco[somarNumero - 21],
                                 variavelVelocidadeAnimBarco[somarNumero - 20],
-                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                                variavelVelocidadeAnimBarco[somarNumero - 19],
                                 variavelVelocidadeAnimBarco[somarNumero - 18],
                                 variavelVelocidadeAnimBarco[somarNumero - 17],
                                 variavelVelocidadeAnimBarco[somarNumero - 16],
@@ -11737,7 +11854,7 @@ comecaAnimar();
         }
 
 
-        async function  getDATAPIHidromod(initialID,points){
+        async function getDATAPIHidromod(initialID, points) {
             httpClient = {
                 get: function (url, data, callback) {
                     var xhr = new XMLHttpRequest();
@@ -11834,32 +11951,32 @@ comecaAnimar();
 
                         if (resultStatus.status == 2) {
                             clearInterval(waitForResult);
-                            httpClient.get(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`, null,  async function (xhr) {
+                            httpClient.get(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`, null, async function (xhr) {
 
                                 var resultData = JSON.parse(xhr.responseText);
-       
+
                                 //console.log(resultData.values[3]);
                                 //console.log(resultData.values);
                                 // mare_por_minuto2 = [];
                                 // mare_por_minuto2.push(resultData.values[3])
                                 // console.log(mare_por_minuto2)
-                                
-                                
+
+
 
                                 try {
-                                   
+
                                     console.log(await resultData);
                                     mare_por_minuto2.push(resultData.values[3]);
                                     console.log(mare_por_minuto2[0])
-                                    
+
                                     //v = await baixarDados(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
-                                          
+
                                 } catch (e) {
                                     console.log(await resultData);
                                     console.log(await e);
                                     //v = await baixarDadosReservas(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
                                 }
-                                
+
                             });
                         } else if (resultStatus.status == 3) {
                             clearInterval(waitForResult);
