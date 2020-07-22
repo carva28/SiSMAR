@@ -368,7 +368,35 @@
             text-align: center;
             padding: 5%;
         }
+        #showRouteFInished{
+            display: none;
+            z-index: 999999999;
+            position: absolute;
+            font-size: 50px;
+            top: 150px;
+            /* text-align: center; */
+            right: 0;
+            left: 0;
+            width: 50%;
+            margin: auto;
+            /* position: relative; */
+            /* display: flex; */
+            justify-content: center;
+            /* display: block; */
+            /*background-color: rgb(255, 238, 217);*/
+            background-color: #fff;
 
+            color: #5b70a8;
+            border: #5b70a8 4px solid;
+            border-radius: 20px;
+            /* padding: 10%;*/
+        }
+
+        #showRouteFInished h2 {
+            text-align: center;
+            padding: 5%;
+        }
+        
         input[type="range"] {
             background-color: white;
         }
@@ -2339,7 +2367,11 @@
         <div class="spinner-border" style="font-size: 20px;margin: auto;display: block;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
-        <p style="font-size: 1.5rem;text-align: center;">Estamos a preparar-lhe uma viagem com segurança </p>
+        <p style="font-size: 1.5rem;text-align: center;">A processar os dados... </p>
+    </div>
+
+    <div id="showRouteFInished">
+        <h2>Rota realizada com sucesso</h2>
     </div>
 
     <div class="tutorial">
@@ -5981,6 +6013,7 @@
 
         async function getInfo_outraData() {
             document.getElementById('load_fetch').style.display = "block";
+            
             array_hidrografico_simulacao_API = [];
             array_hidrografico_simulacao_API_diapos = [];
             array_hidrografico_simulacao_API_anterior = [];
@@ -10777,10 +10810,7 @@
                 } else if (AnimarBarco[somarNumero - 10]) {
                     markerAnimado = L.Marker.movingMarker(
                         [
-                            AnimarBarco[somarNumero - 10],
-                            AnimarBarco[somarNumero - 9],
-                            AnimarBarco[somarNumero - 8],
-                            AnimarBarco[somarNumero - 7],
+                      
                             AnimarBarco[somarNumero - 6],
                             AnimarBarco[somarNumero - 5],
                             AnimarBarco[somarNumero - 4],
@@ -10789,10 +10819,7 @@
                             AnimarBarco[somarNumero - 1]
                         ],
                         [
-                            variavelVelocidadeAnimBarco[somarNumero - 10],
-                            variavelVelocidadeAnimBarco[somarNumero - 9],
-                            variavelVelocidadeAnimBarco[somarNumero - 8],
-                            variavelVelocidadeAnimBarco[somarNumero - 7],
+                          
                             variavelVelocidadeAnimBarco[somarNumero - 6],
                             variavelVelocidadeAnimBarco[somarNumero - 5],
                             variavelVelocidadeAnimBarco[somarNumero - 4],
@@ -10809,6 +10836,7 @@
 
                 //dataCalls = true;
                 markerAnimado.on('end', function () {
+                    document.getElementById('showRouteFInished').style.display = "block";
 
                     dataCalls = false;
 
@@ -10825,6 +10853,7 @@
 
                         pointList = [];
                     }, 2000);
+                    document.getElementById('showRouteFInished').style.display = "none";
 
                 });
 
