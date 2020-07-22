@@ -8553,7 +8553,8 @@
                             //     //|| date.getSeconds() == 50 || date.getSeconds() == 55 || date.getSeconds() == 02 || date.getSeconds() == 04 || date.getSeconds() == 06 || date.getSeconds() == 08 || 
                             //     || date.getSeconds() == 12 || date.getSeconds() == 14 || date.getSeconds() == 16 || date.getSeconds() == 18 || date.getSeconds() == 22 || date.getSeconds() == 24 ||
                             //     date.getSeconds() == 59)) {
-                            if (date.getSeconds() == 00) {
+
+                            if (date.getSeconds() == 00 ) {
 
                                 var velocidade = xmlDoc.getElementsByTagName("speed")[i].innerHTML;
                                 var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
@@ -8571,6 +8572,7 @@
                                 coordenadas.push([lon_gpx, lat_gpx])
 
                             }
+                            
                             // //if (date.getSeconds() == 00 && input_Vel < 10) {
                             // else if (input_Vel <= 3 && (date.getSeconds() == 00 || date.getSeconds() == 10 || date.getSeconds() == 20 || date.getSeconds() == 30)) {
                             //     // if ((date.getSeconds() == 00) && (date.getMinutes() == 02 || date.getMinutes() == 12
