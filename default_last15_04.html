@@ -9859,6 +9859,8 @@
                 document.getElementById('load_fetch').style.display = "block";
             }
 
+
+            //Mostrar modal
             document.getElementById('load_fetch').style.display = "block";
 
 
@@ -9989,8 +9991,8 @@
                         }
 
                         //Info que vem da mare da API da Hidromod
-                        infoSeta_Mare_ultimo = mare_por_minuto2[i];
-
+                        //infoSeta_Mare_ultimo = mare_por_minuto2[i];
+                        infoSeta_Mare_ultimo = [mare_por_minuto2[0][i-1]];
                         //Info da diferença de mares mais z1 da rota adquirida
 
 
@@ -10083,7 +10085,7 @@
 
                         }
                         //ultimaMare = [mare_por_minuto2[i]];
-                        ultimaMare = [mare_por_minuto2[0][i]];
+                        ultimaMare = [mare_por_minuto2[0][i-1]];
 
                         //horas_chegada.push(User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ');
 
