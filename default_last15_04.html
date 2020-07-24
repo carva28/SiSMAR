@@ -409,6 +409,8 @@
             padding: 5%;
         }
 
+        
+
         #showRouteFInished {
             display: none;
             z-index: 999999999;
@@ -434,6 +436,34 @@
         }
 
         #showRouteFInished h2 {
+            text-align: center;
+            padding: 5%;
+        }
+
+        #error_fetch {
+            display: none;
+            z-index: 999999999;
+            position: absolute;
+            font-size: 50px;
+            top: 150px;
+            /* text-align: center; */
+            right: 0;
+            left: 0;
+            width: 50%;
+            margin: auto;
+            /* position: relative; */
+            /* display: flex; */
+            justify-content: center;
+            /* display: block; */
+            /*background-color: rgb(255, 238, 217);*/
+            background-color: #fff;
+            color: tomato;
+            border: tomato 4px solid;
+            border-radius: 20px;
+            /* padding: 10%;*/
+        }
+
+        #error_fetch h2 {
             text-align: center;
             padding: 5%;
         }
@@ -2411,6 +2441,16 @@
         <p style="font-size: 1.5rem;text-align: center;">A processar os dados... </p>
     </div>
 
+    <div id="error_fetch">
+        <h2>Erro</h2>
+        <div class="spinner-border" style="font-size: 20px;margin: auto;display: block;" role="status">
+            <span class="sr-only">Algo de errado se passou. Pedimos desculpa.</span>
+        </div>
+        <p style="font-size: 1.5rem;text-align: center;">Tente simular de novo, por favor. </p>
+    </div>
+
+
+
     <div id="load_fetch_2">
         <h2>Por favor aguarde</h2>
         <!-- <div class="spinner-border" style="font-size: 20px;margin: auto;display: block;" role="status">
@@ -2823,8 +2863,8 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
-            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/CN_20200723014523-25038-data.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/CN_20200723074522-25038-data.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -3282,7 +3322,8 @@
                 }
                 markersAPI();
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Vagueira_50m_20200724070801-25038-data.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -4121,7 +4162,9 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Veia_da_testada_Salreu.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/10m_Veia_da_testada_Salreu.gpx.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/50m_Veia_da_testada_Salreu.gpx.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -6079,6 +6122,10 @@
 
         async function getInfo_outraData() {
             document.getElementById('load_fetch').style.display = "block";
+            if (markerAnimado) {
+                mymap.removeLayer(markerAnimado);
+            }
+            
 
             array_hidrografico_simulacao_API = [];
             array_hidrografico_simulacao_API_diapos = [];
@@ -6619,6 +6666,7 @@
             if (markerAnimado) {
                 mymap.removeLayer(markerAnimado);
             }
+        
             pointList = [];
             if (hasLine == false) {
                 pointList = [];
@@ -6634,8 +6682,10 @@
             distanciaAcumulada = [];
             //getInfo();
             //sidebar.open('infoRealTime');
-
-            //somarNumero = 0;
+            if(pausa == false){
+                somarNumero = 0;
+            }
+          
             var valorInput = document.getElementById('calado_span').value;
             //document.getElementById('amount').value = valorInput;
             var valorInput2 = document.getElementById('calado_sup_span').value;
@@ -6935,12 +6985,16 @@
         var duracaoRotaChoosen = [];
         var coordClicadas;
         markerAnimado = "";
+
+        var setValor_rota;
+        var AnimacValor_rota;
+
         async function verificaClickCoor(arrayClicked) {
             milesRoute = [];
             if (markerAnimado) {
                 mymap.removeLayer(markerAnimado);
             }
-
+          
 
             setTimeout(function () {
                 document.getElementById('load_fetch').style.display = "block";
@@ -7187,6 +7241,9 @@
 
                 duracaoRotaChoosen = [];
                 if (guardardistancia[0][1] == 'getTorreiraGPX') {
+                    
+                    setValor_rota = 10000;
+                    AnimacValor_rota = 100;
 
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
@@ -7273,7 +7330,8 @@
                     });
 
                 } else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
-
+                    setValor_rota = 60000;
+                    AnimacValor_rota = 600;
                     nomeDestino = [];
                     nomeDestino.push("Salreu");
                     distance_gpx_real = [];
@@ -7525,7 +7583,9 @@
 
 
 
-                    let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
+                    //let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
+                    let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Vagueira_50m_20200724070801-25038-data.gpx';
+                    
                     const response6 = await fetch(url6);
                     const json6 = await response6.text();
                     parser6 = new DOMParser();
@@ -7913,6 +7973,10 @@
 
             sidebar.open('infoRealTime');
 
+            if (newMarker) { // check
+                mymap.removeLayer(newMarker); // remove
+            }
+
             var d = new Date();
             var nday = d.getDay(),
                 nmonth = d.getMonth(),
@@ -7998,6 +8062,8 @@
                     });
                     break;
                 case 'getRota_10_10GPX':
+                    setValor_rota = 10000;
+                    AnimacValor_rota = 100;
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
                     milesRoute.push(duracaoRotaChoosen[7]);
@@ -8107,11 +8173,15 @@
                     });
                     break;
                 case 'getCostaNovaGPX':
+                setValor_rota = 10000;
+                    AnimacValor_rota = 100;
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
-                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/CN_20200723014523-25038-data.gpx');
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/CN_20200723074522-25038-data.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx');
+
+                    
                     getCostaNovaGPX();
                     nomeDestino = [];
                     nomeDestino.push("Costa Nova");
@@ -8221,8 +8291,12 @@
                     });
                     break;
                 case 'getData_IDA10_3_20_GPX':
+                    setValor_rota = 10000;
+                    AnimacValor_rota = 100;
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Vagueira_50m_20200724070801-25038-data.gpx');
+                    
                     milesRoute.push(duracaoRotaChoosen[2]);
                     getData_IDA10_3_20_GPX();
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
@@ -9527,7 +9601,8 @@
                     i = 1;
                     var elem = document.getElementById("myBar");
                     var width = 1;
-                    var id = setInterval(frame, 100);
+                  
+                    var id = setInterval(frame, AnimacValor_rota);
                     function frame() {
                         if (width >= 100) {
                             clearInterval(id);
@@ -10201,11 +10276,11 @@
                         comecaAnimar();
                     }
 
-                    }, 10000);
+                    //}, 10000);
                     //}, 15000);
                     //}, 20000);
                 //}, 40000);
-                //}, 60000);  torreira com 10 em 10
+                }, setValor_rota);  //torreira com 10 em 10
                 //}, 80000);
             } else {
                 console.log(mare_por_minuto2[0][0]);
@@ -10889,183 +10964,389 @@
                 document.getElementById('load_fetch_2').style.display = "none";
 
             }
+         
+           
             if (AnimarBarco.length <= somarNumero) {
-                if (AnimarBarco[somarNumero - 1]) {
+                let diferenceSomAnim = parseInt(somarNumero) - parseInt(AnimarBarco.length);
+                console.log(diferenceSomAnim)
+                if(diferenceSomAnim == 5){
                     markerAnimado = L.Marker.movingMarker(
                         [
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
+                            AnimarBarco[somarNumero - 19],
+                            AnimarBarco[somarNumero - 18],
+                            AnimarBarco[somarNumero - 17],
+                            AnimarBarco[somarNumero - 16],
+                            AnimarBarco[somarNumero - 15]
                         ],
                         [
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                            variavelVelocidadeAnimBarco[somarNumero - 18],
+                            variavelVelocidadeAnimBarco[somarNumero - 17],
+                            variavelVelocidadeAnimBarco[somarNumero - 16],
+                            variavelVelocidadeAnimBarco[somarNumero - 15]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                } else if (AnimarBarco[somarNumero - 2]) {
+                }else if(diferenceSomAnim == 6){
                     markerAnimado = L.Marker.movingMarker(
                         [
-                            AnimarBarco[somarNumero - 9],
-                            AnimarBarco[somarNumero - 8],
-                            AnimarBarco[somarNumero - 7],
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
+                            AnimarBarco[somarNumero - 19],
+                            AnimarBarco[somarNumero - 18],
+                            AnimarBarco[somarNumero - 17],
+                            AnimarBarco[somarNumero - 16],
+                            AnimarBarco[somarNumero - 15],
+                            AnimarBarco[somarNumero - 14]
                         ],
                         [
-                            variavelVelocidadeAnimBarco[somarNumero - 9],
-                            variavelVelocidadeAnimBarco[somarNumero - 8],
-                            variavelVelocidadeAnimBarco[somarNumero - 7],
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                            variavelVelocidadeAnimBarco[somarNumero - 18],
+                            variavelVelocidadeAnimBarco[somarNumero - 17],
+                            variavelVelocidadeAnimBarco[somarNumero - 16],
+                            variavelVelocidadeAnimBarco[somarNumero - 15],
+                            variavelVelocidadeAnimBarco[somarNumero - 14]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                } else if (AnimarBarco[somarNumero - 3]) {
+                }else if(diferenceSomAnim == 7){
                     markerAnimado = L.Marker.movingMarker(
                         [
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
+                            AnimarBarco[somarNumero - 19],
+                            AnimarBarco[somarNumero - 18],
+                            AnimarBarco[somarNumero - 17],
+                            AnimarBarco[somarNumero - 16],
+                            AnimarBarco[somarNumero - 15],
+                            AnimarBarco[somarNumero - 14],
+                            AnimarBarco[somarNumero - 13]
                         ],
                         [
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                            variavelVelocidadeAnimBarco[somarNumero - 18],
+                            variavelVelocidadeAnimBarco[somarNumero - 17],
+                            variavelVelocidadeAnimBarco[somarNumero - 16],
+                            variavelVelocidadeAnimBarco[somarNumero - 15],
+                            variavelVelocidadeAnimBarco[somarNumero - 14],
+                            variavelVelocidadeAnimBarco[somarNumero - 13]
+                        ], { autostart: true }).addTo(mymap);
+                }else if(diferenceSomAnim == 8){
+                    markerAnimado = L.Marker.movingMarker(
+                        [
+                            AnimarBarco[somarNumero - 19],
+                            AnimarBarco[somarNumero - 18],
+                            AnimarBarco[somarNumero - 17],
+                            AnimarBarco[somarNumero - 16],
+                            AnimarBarco[somarNumero - 15],
+                            AnimarBarco[somarNumero - 14],
+                            AnimarBarco[somarNumero - 13],
+                            AnimarBarco[somarNumero - 12]
+                        ],
+                        [
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                            variavelVelocidadeAnimBarco[somarNumero - 18],
+                            variavelVelocidadeAnimBarco[somarNumero - 17],
+                            variavelVelocidadeAnimBarco[somarNumero - 16],
+                            variavelVelocidadeAnimBarco[somarNumero - 15],
+                            variavelVelocidadeAnimBarco[somarNumero - 14],
+                            variavelVelocidadeAnimBarco[somarNumero - 13],
+                            variavelVelocidadeAnimBarco[somarNumero - 12]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                } else if (AnimarBarco[somarNumero - 4]) {
+                }else if(diferenceSomAnim == 9){
                     markerAnimado = L.Marker.movingMarker(
                         [
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
+                            AnimarBarco[somarNumero - 19],
+                            AnimarBarco[somarNumero - 18],
+                            AnimarBarco[somarNumero - 17],
+                            AnimarBarco[somarNumero - 16],
+                            AnimarBarco[somarNumero - 15],
+                            AnimarBarco[somarNumero - 14],
+                            AnimarBarco[somarNumero - 13],
+                            AnimarBarco[somarNumero - 12],
+                            AnimarBarco[somarNumero - 11]
                         ],
                         [
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                            variavelVelocidadeAnimBarco[somarNumero - 18],
+                            variavelVelocidadeAnimBarco[somarNumero - 17],
+                            variavelVelocidadeAnimBarco[somarNumero - 16],
+                            variavelVelocidadeAnimBarco[somarNumero - 15],
+                            variavelVelocidadeAnimBarco[somarNumero - 14],
+                            variavelVelocidadeAnimBarco[somarNumero - 13],
+                            variavelVelocidadeAnimBarco[somarNumero - 12],
+                            variavelVelocidadeAnimBarco[somarNumero - 11]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                } else if (AnimarBarco[somarNumero - 6]) {
+                }else if(diferenceSomAnim == 10){
                     markerAnimado = L.Marker.movingMarker(
                         [
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
+                            AnimarBarco[somarNumero - 19],
+                            AnimarBarco[somarNumero - 18],
+                            AnimarBarco[somarNumero - 17],
+                            AnimarBarco[somarNumero - 16],
+                            AnimarBarco[somarNumero - 15],
+                            AnimarBarco[somarNumero - 14],
+                            AnimarBarco[somarNumero - 13],
+                            AnimarBarco[somarNumero - 12],
+                            AnimarBarco[somarNumero - 11],
+                            AnimarBarco[somarNumero - 10]
                         ],
                         [
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                            variavelVelocidadeAnimBarco[somarNumero - 18],
+                            variavelVelocidadeAnimBarco[somarNumero - 17],
+                            variavelVelocidadeAnimBarco[somarNumero - 16],
+                            variavelVelocidadeAnimBarco[somarNumero - 15],
+                            variavelVelocidadeAnimBarco[somarNumero - 14],
+                            variavelVelocidadeAnimBarco[somarNumero - 13],
+                            variavelVelocidadeAnimBarco[somarNumero - 12],
+                            variavelVelocidadeAnimBarco[somarNumero - 11],
+                            variavelVelocidadeAnimBarco[somarNumero - 10]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                } else if (AnimarBarco[somarNumero - 7]) {
+                }else if(diferenceSomAnim == 11){
                     markerAnimado = L.Marker.movingMarker(
                         [
-                            AnimarBarco[somarNumero - 7],
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
+                            AnimarBarco[somarNumero - 19],
+                            AnimarBarco[somarNumero - 18],
+                            AnimarBarco[somarNumero - 17],
+                            AnimarBarco[somarNumero - 16],
+                            AnimarBarco[somarNumero - 15],
+                            AnimarBarco[somarNumero - 14],
+                            AnimarBarco[somarNumero - 13],
+                            AnimarBarco[somarNumero - 12],
+                            AnimarBarco[somarNumero - 11],
+                            AnimarBarco[somarNumero - 10],
+                            AnimarBarco[somarNumero - 09]
+                            
                         ],
                         [
-                            variavelVelocidadeAnimBarco[somarNumero - 7],
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                    comecAnimarfirst = false;
-                } else if (AnimarBarco[somarNumero - 8]) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 8],
-                            AnimarBarco[somarNumero - 7],
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 8],
-                            variavelVelocidadeAnimBarco[somarNumero - 7],
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                    comecAnimarfirst = false;
-                } else if (AnimarBarco[somarNumero - 9]) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-                            AnimarBarco[somarNumero - 9],
-                            AnimarBarco[somarNumero - 8],
-                            AnimarBarco[somarNumero - 7],
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-                            variavelVelocidadeAnimBarco[somarNumero - 9],
-                            variavelVelocidadeAnimBarco[somarNumero - 8],
-                            variavelVelocidadeAnimBarco[somarNumero - 7],
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
-                        ], { autostart: true }).addTo(mymap);
-                    comecAnimarfirst = false;
-                } else if (AnimarBarco[somarNumero - 10]) {
-                    markerAnimado = L.Marker.movingMarker(
-                        [
-
-                            AnimarBarco[somarNumero - 6],
-                            AnimarBarco[somarNumero - 5],
-                            AnimarBarco[somarNumero - 4],
-                            AnimarBarco[somarNumero - 3],
-                            AnimarBarco[somarNumero - 2],
-                            AnimarBarco[somarNumero - 1]
-                        ],
-                        [
-
-                            variavelVelocidadeAnimBarco[somarNumero - 6],
-                            variavelVelocidadeAnimBarco[somarNumero - 5],
-                            variavelVelocidadeAnimBarco[somarNumero - 4],
-                            variavelVelocidadeAnimBarco[somarNumero - 3],
-                            variavelVelocidadeAnimBarco[somarNumero - 2],
-                            variavelVelocidadeAnimBarco[somarNumero - 1]
+                            variavelVelocidadeAnimBarco[somarNumero - 19],
+                            variavelVelocidadeAnimBarco[somarNumero - 18],
+                            variavelVelocidadeAnimBarco[somarNumero - 17],
+                            variavelVelocidadeAnimBarco[somarNumero - 16],
+                            variavelVelocidadeAnimBarco[somarNumero - 15],
+                            variavelVelocidadeAnimBarco[somarNumero - 14],
+                            variavelVelocidadeAnimBarco[somarNumero - 13],
+                            variavelVelocidadeAnimBarco[somarNumero - 12],
+                            variavelVelocidadeAnimBarco[somarNumero - 11],
+                            variavelVelocidadeAnimBarco[somarNumero - 10],
+                            variavelVelocidadeAnimBarco[somarNumero - 09]
+                            
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
                 }
+
+                // if (AnimarBarco[somarNumero - 6]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 6],
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1]
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 6],
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1]
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // } else if (AnimarBarco[somarNumero - 12]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 12],
+                //             AnimarBarco[somarNumero - 11],
+                //             AnimarBarco[somarNumero - 10],
+                //             AnimarBarco[somarNumero - 9],
+                //             AnimarBarco[somarNumero - 8],
+                //             AnimarBarco[somarNumero - 7],
+                //             AnimarBarco[somarNumero - 6],
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1],
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 12],
+                //             variavelVelocidadeAnimBarco[somarNumero - 11],
+                //             variavelVelocidadeAnimBarco[somarNumero - 10],
+                //             variavelVelocidadeAnimBarco[somarNumero - 9],
+                //             variavelVelocidadeAnimBarco[somarNumero - 8],
+                //             variavelVelocidadeAnimBarco[somarNumero - 7],
+                //             variavelVelocidadeAnimBarco[somarNumero - 6],
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1],
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // } else if (AnimarBarco[somarNumero - 19]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 12],
+                //             AnimarBarco[somarNumero - 11],
+                //             AnimarBarco[somarNumero - 10],
+                //             AnimarBarco[somarNumero - 9],
+                //             AnimarBarco[somarNumero - 8],
+                //             AnimarBarco[somarNumero - 7],
+                //             AnimarBarco[somarNumero - 6],
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1],
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 12],
+                //             variavelVelocidadeAnimBarco[somarNumero - 11],
+                //             variavelVelocidadeAnimBarco[somarNumero - 10],
+                //             variavelVelocidadeAnimBarco[somarNumero - 9],
+                //             variavelVelocidadeAnimBarco[somarNumero - 8],
+                //             variavelVelocidadeAnimBarco[somarNumero - 7],
+                //             variavelVelocidadeAnimBarco[somarNumero - 6],
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1],
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // } else if (AnimarBarco[somarNumero - 4]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1],
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1],
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // } else if (AnimarBarco[somarNumero - 6]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 6],
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1]
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 6],
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1]
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // } else if (AnimarBarco[somarNumero - 7]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 7],
+                //             AnimarBarco[somarNumero - 6],
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1]
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 7],
+                //             variavelVelocidadeAnimBarco[somarNumero - 6],
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1]
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // } else if (AnimarBarco[somarNumero - 8]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 8],
+                //             AnimarBarco[somarNumero - 7],
+                //             AnimarBarco[somarNumero - 6],
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1]
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 8],
+                //             variavelVelocidadeAnimBarco[somarNumero - 7],
+                //             variavelVelocidadeAnimBarco[somarNumero - 6],
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1]
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // } else if (AnimarBarco[somarNumero - 9]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 9],
+                //             AnimarBarco[somarNumero - 8],
+                //             AnimarBarco[somarNumero - 7],
+                //             AnimarBarco[somarNumero - 6],
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1]
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 9],
+                //             variavelVelocidadeAnimBarco[somarNumero - 8],
+                //             variavelVelocidadeAnimBarco[somarNumero - 7],
+                //             variavelVelocidadeAnimBarco[somarNumero - 6],
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1]
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // } else if (AnimarBarco[somarNumero - 10]) {
+                //     markerAnimado = L.Marker.movingMarker(
+                //         [
+                //             AnimarBarco[somarNumero - 10],
+                //             AnimarBarco[somarNumero - 9],
+                //             AnimarBarco[somarNumero - 8],
+                //             AnimarBarco[somarNumero - 7],
+                //             AnimarBarco[somarNumero - 6],
+                //             AnimarBarco[somarNumero - 5],
+                //             AnimarBarco[somarNumero - 4],
+                //             AnimarBarco[somarNumero - 3],
+                //             AnimarBarco[somarNumero - 2],
+                //             AnimarBarco[somarNumero - 1]
+                //         ],
+                //         [
+                //             variavelVelocidadeAnimBarco[somarNumero - 10],
+                //             variavelVelocidadeAnimBarco[somarNumero - 9],
+                //             variavelVelocidadeAnimBarco[somarNumero - 8],
+                //             variavelVelocidadeAnimBarco[somarNumero - 7],
+                //             variavelVelocidadeAnimBarco[somarNumero - 6],
+                //             variavelVelocidadeAnimBarco[somarNumero - 5],
+                //             variavelVelocidadeAnimBarco[somarNumero - 4],
+                //             variavelVelocidadeAnimBarco[somarNumero - 3],
+                //             variavelVelocidadeAnimBarco[somarNumero - 2],
+                //             variavelVelocidadeAnimBarco[somarNumero - 1]
+                //         ], { autostart: true }).addTo(mymap);
+                //     comecAnimarfirst = false;
+                // }
 
 
 
@@ -11073,8 +11354,9 @@
 
                 //dataCalls = true;
                 markerAnimado.on('end', function () {
+                    setTimeout(function () {
                     document.getElementById('showRouteFInished').style.display = "block";
-
+                }, 2000);
                     dataCalls = false;
 
                     markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
@@ -11088,18 +11370,20 @@
                         hasLine = false;
 
                         pointList = [];
-                    }, 2000);
 
+                        
+                    }, 2000);
+                    setTimeout(function () {
+                    document.getElementById('showRouteFInished').style.display = "none";
+                }, 4000);
                 });
 
                 modal_eta = true;
                 time_partida_1 = true;
                 document.getElementById('btn_pause').style.opacity = '1';
                 document.getElementById('btn_play').style.opacity = "1";
-                document.getElementById('showRouteFInished').style.display = "block";
-                setTimeout(function () {
-                    document.getElementById('showRouteFInished').style.display = "none";
-                }, 4000);
+                //document.getElementById('showRouteFInished').style.display = "block";
+                
 
                 markersAPI();
 
@@ -12261,6 +12545,12 @@
                                 } catch (e) {
                                     console.log(await resultData);
                                     console.log(await e);
+                                    document.getElementById('error_fetch').style.display = "block";
+                                    document.getElementById('load_fetch').style.display = "none";
+                                    document.getElementById('load_fetch_2').style.display = "none";
+                                    setTimeout(function () {
+                                            document.getElementById('error_fetch').style.display = "none";
+                                    }, 4000);
                                     //v = await baixarDadosReservas(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
                                 }
 
@@ -12271,6 +12561,12 @@
 
                             httpClient.delete(`https://service.hidromod.com/valida4dapi/Execution/Delete/${resultPost.id}`, null, function (xhr) {
                             });
+                            document.getElementById('error_fetch').style.display = "block";
+                            document.getElementById('load_fetch').style.display = "none";
+                            document.getElementById('load_fetch_2').style.display = "none";
+                            setTimeout(function () {
+                                document.getElementById('error_fetch').style.display = "none";
+                            }, 4000);
                         }
                     });
                 }
