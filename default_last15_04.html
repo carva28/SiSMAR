@@ -9715,6 +9715,23 @@
                             ]);
                             popup = new L.popup();
 
+                            if(i == 5){
+                                // console.log(parseInt(diferençaAlturaMare.toFixed(2)));
+                                // console.log(isNaN(parseInt(diferençaAlturaMare.toFixed(2))));
+                                if(isNaN(parseInt(diferençaAlturaMare.toFixed(2)))){
+                                    document.getElementById('error_fetch').style.display = "block";
+                                    document.getElementById('load_fetch').style.display = "none";
+                                    document.getElementById('load_fetch_2').style.display = "none";
+                                    setTimeout(function () {
+                                            document.getElementById('error_fetch').style.display = "none";
+                                    }, 4000);
+                                }else{
+                                    //console.log("está okay");
+                                    document.getElementById('error_fetch').style.display = "none";
+
+                                }
+                                
+                            }
 
                             popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
                             if (modal_eta) {
