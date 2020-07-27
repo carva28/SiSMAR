@@ -2490,7 +2490,7 @@
             //getIdaBicoGPX();
             markersAPI();
             getInfo();
-
+         
         }
 
 
@@ -7242,7 +7242,7 @@
                 duracaoRotaChoosen = [];
                 if (guardardistancia[0][1] == 'getTorreiraGPX') {
                     
-                    setValor_rota = 10000;
+                    setValor_rota = 12000;
                     AnimacValor_rota = 100;
 
                     nomeDestino = [];
@@ -7977,6 +7977,17 @@
                 mymap.removeLayer(newMarker); // remove
             }
 
+
+            //    //Limitar escolha de datas
+            //    var d_DAY_Choosed = new Date();
+            // d_DAY_Choosed.setDate(d_DAY_Choosed.getDate()-5);
+            // console.log(d_DAY_Choosed);
+            // let mesChoosed = d_DAY_Choosed.getMonth() + 1;
+            // //document.getElementById('date').min =  d_DAY_Choosed.getFullYear()+"-"+ mesChoosed +"-"+ d_DAY_Choosed.getDate();
+            // let dataLimite = d_DAY_Choosed.getDate().toString()+"-"+ mesChoosed.toString() +"-"+  d_DAY_Choosed.getFullYear().toString();
+            // document.getElementById('date').setAttribute("min",dataLimite);
+
+
             var d = new Date();
             var nday = d.getDay(),
                 nmonth = d.getMonth(),
@@ -7984,19 +7995,24 @@
                 nyear = d.getYear();
             if (nyear < 1000) nyear += 1900;
             nhour = d.getHours(), nmin = d.getMinutes();
-            UserHoras_Inicial = new Date(nyear, nmonth, nday, nhour, nmin);
+            let mes_inicial = nmonth+1;
+            UserHoras_Inicial = new Date(nyear, mes_inicial, nday, nhour, nmin);
+            // console.log(nmonth)
+            // console.log(mes_inicial);
+   
+
             var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
             document.getElementById('time_partida').value = f;
-            if (nmonth <= 9) {
+            if (mes_inicial <= 9) {
                 if (ndate <= 9) {
-                    testData = nyear.toString() + "-0" + nmonth.toString() + "-0" + ndate.toString();
+                    testData = nyear.toString() + "-0" + mes_inicial.toString() + "-0" + ndate.toString();
                 } else {
-                    testData = nyear.toString() + "-0" + nmonth.toString() + "-" + ndate.toString();
+                    testData = nyear.toString() + "-0" + mes_inicial.toString() + "-" + ndate.toString();
                 }
             } else if (ndate <= 9) {
-                testData = nyear.toString() + "-" + nmonth.toString() + "-0" + ndate.toString();
+                testData = nyear.toString() + "-" + mes_inicial.toString() + "-0" + ndate.toString();
             } else {
-                testData = nyear.toString() + "-" + nmonth.toString() + "-" + ndate.toString();
+                testData = nyear.toString() + "-" + mes_inicial.toString() + "-" + ndate.toString();
             }
 
             document.getElementById('date').value = testData.toString();
@@ -8062,7 +8078,7 @@
                     });
                     break;
                 case 'getRota_10_10GPX':
-                    setValor_rota = 10000;
+                    setValor_rota = 12000;
                     AnimacValor_rota = 100;
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
@@ -8173,7 +8189,7 @@
                     });
                     break;
                 case 'getCostaNovaGPX':
-                setValor_rota = 10000;
+                setValor_rota = 12000;
                     AnimacValor_rota = 100;
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
@@ -8557,7 +8573,7 @@
         var i = 0;
         function calculo(valor_cal, cal_sup, cal_inf) {
             i = 0;
-
+            //var width = 1;
 
             if (hasLine == false) {
                 pointList = [];
@@ -8747,7 +8763,7 @@
                             // console.log(xmlDoc.getElementsByTagName("trkpt")[i].children[1]);
                             // console.log(xmlDoc.getElementsByTagName("trkpt")[i].children[2]);
 
-                            console.log("ola" + i);
+                            //console.log("ola" + i);
                             //if (date.getSeconds() == 00 ) {
 
 
@@ -8881,6 +8897,16 @@
             //var startDate = Date.now();
             var startDate = new Date();
 
+            horas_escolh = new Date(document.getElementById('date').value);
+            var Escolher_nmonth = horas_escolh.getMonth(),
+            Escolher_ndate = horas_escolh.getDate(),
+            Escolher_nyear = horas_escolh.getYear();
+            if (Escolher_nyear < 1000) Escolher_nyear += 1900;
+            mes = Escolher_nmonth;
+
+            startDate.setYear(Escolher_nyear);
+            startDate.setMonth(mes);
+            startDate.setDate(Escolher_ndate);
             startDate.setHours(UserHoras2.getHours());
             startDate.setMinutes(UserHoras2.getMinutes());
 
@@ -12561,13 +12587,14 @@
 
                                 } catch (e) {
                                     console.log(await resultData);
-                                    console.log(await e);
+                                    
                                     document.getElementById('error_fetch').style.display = "block";
                                     document.getElementById('load_fetch').style.display = "none";
                                     document.getElementById('load_fetch_2').style.display = "none";
                                     setTimeout(function () {
                                             document.getElementById('error_fetch').style.display = "none";
                                     }, 4000);
+                                    console.log(await e);
                                     //v = await baixarDadosReservas(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
                                 }
 
