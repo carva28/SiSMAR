@@ -409,7 +409,7 @@
             padding: 5%;
         }
 
-        
+
 
         #showRouteFInished {
             display: none;
@@ -2490,7 +2490,7 @@
             //getIdaBicoGPX();
             markersAPI();
             getInfo();
-         
+
         }
 
 
@@ -2957,7 +2957,7 @@
             //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
             //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_AngeBico_20200729011637-25038-data.gpx';
             let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_ANGE_BICO_20200729012840-25038-data.gpx';
-            
+
 
             fetch(url3)
                 .then(function (response) {
@@ -3239,7 +3239,9 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Vageira_ANGE_20200729074233-25038-data.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Vagueira_ANGE_20200729075458-25038-data.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -3283,15 +3285,19 @@
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>"
 
-                        //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-                        //document.getElementById('time').value = hora_min_gpx;
-                        let nyear = date.getYear();
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
                         if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
@@ -3419,9 +3425,9 @@
             //let url_Reverse1 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/TorreiraRevserse.gpx';
             //let url_Reverse1 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/10m_TorreiraReverse_20200727094145-25038-data.gpx';
             let url_Reverse1 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/50m_TorreiraReverse_20200727095533-25038-data.gpx';
-            
-            
-            
+
+
+
             fetch(url_Reverse1)
                 .then(function (response) {
                     return response.text();
@@ -4370,7 +4376,7 @@
             //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
             //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Barra_RegressoBico_20200729035852-25038-data.gpx';
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Bico_Barra20200729043012-25038-data.gpx';
-            
+
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -4669,6 +4675,101 @@
 
             }
         }
+
+
+        async function rotaOvar_28_07() {
+
+mymap.eachLayer(function (layer) {
+    //console.log(layer.options.pane)
+    if (layer.options.pane == "overlayPane") {
+        mymap.removeLayer(layer);
+    }
+});
+
+let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Canal_Ovar_28_07_20200729080108-25038-data.gpx';
+
+
+fetch(url)
+    .then(function (response) {
+        return response.text();
+    })
+    .then(function (json) {
+        VEri_text_gpx = json;
+
+        var g = new L.GPX(json, {
+            async: true,
+            parseElements: ['track'],
+            polyline_options: {
+                color: '#020202',
+                weight: 10,
+            },
+            marker_options: {
+                // 'startIcon': new L.icon({
+                //     iconUrl: 'marker.png',
+                //     iconSize: [22, 32, 5],
+                //     iconAnchor: [10, 30],
+                // }),
+                'endIcon': new L.icon({
+                    iconUrl: 'fim_icnon.png',
+                    iconSize: [22, 32, 5],
+                    iconAnchor: [10, 30],
+                })
+            }
+
+        });
+
+        g.on('loaded', function (e) {
+            var gpx = e.target,
+                elevation_data = gpx.get_elevation_data();
+            data_hora = gpx.get_start_time();
+            name = gpx.get_name(),
+                distM = gpx.get_distance(),
+                distKm = distM / 1000,
+                distKmRnd = distKm.toFixed(1),
+                eleGain = gpx.get_elevation_gain().toFixed(2),
+                eleLoss = gpx.get_elevation_loss().toFixed(2);
+            var info = "Name: " + name + "</br>" +
+                "Distance: " + distKmRnd + " km </br>" +
+                "Elevation Gain: " + eleGain + " m </br>"
+
+            //document.getElementById('km').innerHTML = info;
+            gpx.getLayers()[0].bindPopup(info)
+
+            let date = new Date(data_hora);
+
+            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+            //document.getElementById('time').value = hora_min_gpx;
+            var nday = date.getDay(),
+                nmonth = date.getMonth() + 1,
+                ndate = date.getDate(),
+                nyear = date.getYear();
+            if (nyear < 1000) nyear += 1900;
+            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+
+            var arrayhidrografico = [];
+            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
+
+        });
+        somarNumero = 0;
+
+        g.on('click', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+            changeValue();
+        });
+        g.on('addpoint', function (e) {
+            var gpx = e.target;
+            arrayGPX = [];
+            arrayGPX.push(gpx._gpx)
+        })
+        g.addTo(mymap);
+    });
+mymap.setView([40.61, -8.745], 12.6);
+}
+
     </script>
 
     <script type="text/javascript">
@@ -6144,7 +6245,7 @@
             if (markerAnimado) {
                 mymap.removeLayer(markerAnimado);
             }
-            
+
 
             array_hidrografico_simulacao_API = [];
             array_hidrografico_simulacao_API_diapos = [];
@@ -6685,7 +6786,7 @@
             if (markerAnimado) {
                 mymap.removeLayer(markerAnimado);
             }
-        
+
             pointList = [];
             if (hasLine == false) {
                 pointList = [];
@@ -6701,10 +6802,10 @@
             distanciaAcumulada = [];
             //getInfo();
             //sidebar.open('infoRealTime');
-            if(pausa == false){
+            if (pausa == false) {
                 somarNumero = 0;
             }
-          
+
             var valorInput = document.getElementById('calado_span').value;
             //document.getElementById('amount').value = valorInput;
             var valorInput2 = document.getElementById('calado_sup_span').value;
@@ -7013,7 +7114,7 @@
             if (markerAnimado) {
                 mymap.removeLayer(markerAnimado);
             }
-          
+
 
             setTimeout(function () {
                 document.getElementById('load_fetch').style.display = "block";
@@ -7074,7 +7175,7 @@
             //let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
             //let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_AngeBico_20200729011637-25038-data.gpx';
             let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_ANGE_BICO_20200729012840-25038-data.gpx';
-            
+
             const response4 = await fetch(url4);
             const json4 = await response4.text();
             parser4 = new DOMParser();
@@ -7092,7 +7193,7 @@
 
             //let url5 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Barra_RegressoBico_20200729035852-25038-data.gpx';
             let url5 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Bico_Barra20200729043012-25038-data.gpx';
-            
+
             const response5 = await fetch(url5);
             const json5 = await response5.text();
             parser5 = new DOMParser();
@@ -7107,7 +7208,10 @@
 
 
 
-            let url7 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx';
+            //let url7 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx';
+            //let url7 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Vageira_ANGE_20200729074233-25038-data.gpx';
+            let url7 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Vagueira_ANGE_20200729075458-25038-data.gpx';
+
             const response7 = await fetch(url7);
             const json7 = await response7.text();
             parser7 = new DOMParser();
@@ -7124,22 +7228,22 @@
             //let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
             let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_BICO_ANGE_20200729044225-25038-data.gpx';
 
-                    const response8 = await fetch(url8);
-                    const json8 = await response8.text();
-                    parser8 = new DOMParser();
-                    xmlDoc8 = parser8.parseFromString(json8, "text/xml");
-                    var lat_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lat');
-                    var lon_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lon');
+            const response8 = await fetch(url8);
+            const json8 = await response8.text();
+            parser8 = new DOMParser();
+            xmlDoc8 = parser8.parseFromString(json8, "text/xml");
+            var lat_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
-                    distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
+            distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
 
-                    localiz_distan.push(distancia8);
-                    local_Nome_rota.push('NovaRotaCriada');
+            localiz_distan.push(distancia8);
+            local_Nome_rota.push('NovaRotaCriada');
 
             //let url9 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx';
             //let url9 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_AngeTorreira_1705_20200729013506-25038-data.gpx';
             let url9 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_ANGETorreira_1705_20200729014014-25038-data.gpx';
-            
+
             const response9 = await fetch(url9);
             const json9 = await response9.text();
             parser9 = new DOMParser();
@@ -7234,6 +7338,20 @@
             local_Nome_rota.push('getDataGPX_Salreu_PonteBarra');
 
 
+            let url18 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Canal_Ovar_28_07_20200729080108-25038-data.gpx';
+
+            const response18 = await fetch(url18);
+            const json18 = await response18.text();
+            parser18 = new DOMParser();
+            xmlDoc18 = parser18.parseFromString(json18, "text/xml");
+            var lat_gpx18 = xmlDoc18.getElementsByTagName("trkpt")[0].getAttribute('lat');
+            var lon_gpx18 = xmlDoc18.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+            distancia18 = mymap.distance([lat_gpx18, lon_gpx18], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia18);
+            local_Nome_rota.push('rotaOvar_28_07');
+            
 
             // document.getElementById('btn_legenda2').style.opacity = "1";
             // document.getElementById('btn_legenda').style.opacity = "1";
@@ -7268,7 +7386,8 @@
                     'getDataGPX_ANGE_RioNovo_2006',
                     'getDataGPX_PonteBarra_Testada',
                     'getDataGPX_Testada_Salreu',
-                    'getDataGPX_Salreu_PonteBarra'
+                    'getDataGPX_Salreu_PonteBarra',
+                    'rotaOvar_28_07'
                 ];
 
 
@@ -7286,7 +7405,7 @@
 
                 duracaoRotaChoosen = [];
                 if (guardardistancia[0][1] == 'getTorreiraGPX') {
-                    
+
                     setValor_rota = 12000;
                     AnimacValor_rota = 100;
 
@@ -7296,7 +7415,7 @@
                     if (marker_Teste1) { // check
                         mymap.removeLayer(marker_Teste1); // remove
                     }
-                    marker_Teste1 =  L.marker([40.754585, -8.696377], {
+                    marker_Teste1 = L.marker([40.754585, -8.696377], {
                         icon: issIcon
                     }).addTo(mymap);
 
@@ -7351,9 +7470,9 @@
                             n2.setMinutes(+tempo2 * 60);
                             var result2 = n2.toTimeString().slice(0, 5);
 
-                                //"<option value='getTorreiraGPX'>Para ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
+                            //"<option value='getTorreiraGPX'>Para ANGE - " + distance_gpx_real[0].toFixed(2) + " milhas com Duração " + result + "</option>" +
 
-                                marker_Teste1.bindPopup("<div class='div_bind'>" +
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione uma rota</option>" +
@@ -7374,7 +7493,64 @@
                         this.openPopup();
                     });
 
-                } else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
+                } else if (guardardistancia[0][1] == 'rotaOvar_28_07') {
+                    setValor_rota = 60000;
+                    AnimacValor_rota = 600;
+                    nomeDestino = [];
+                    nomeDestino.push("Ovar");
+                    distance_gpx_real = [];
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+
+
+                    marker_Teste1 = L.marker([40.860355, -8.657362], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    // let distance_Ange = mymap.distance([40.754585, -8.696377], [40.612488, -8.738059]);
+                    // let convert_milesnaut = distance_Ange * 0.0005;
+
+
+                    var gpxMAIN = new L.GPX(json18, { async: true }).on('loaded', function (e) {
+                        var gpx = e.target;
+                        distM = gpx.get_distance();
+                        distNM = distM * 0.0005;
+                        distance_gpx_real.push(distNM);
+                    });
+
+                    setTimeout(function () {
+
+                        console.log(distance_gpx_real[0]);
+                        let velocidadeUser = document.getElementById('velocidade').value;
+                        if (!velocidadeUser) {
+                        } else {
+                            let dc2_dist = distance_gpx_real[0].toFixed(2);
+                            let tempo = dc2_dist / velocidadeUser;
+                            var n = new Date(0, 0);
+                            n.setMinutes(+tempo * 60);
+                            var result = n.toTimeString().slice(0, 5);
+
+
+                            marker_Teste1.bindPopup("<div class='div_bind'>" +
+                                "<h5>Da sua atual posição deseja ir até</h5>" +
+                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                                "<option selected disabled>Selecione uma rota</option>" +
+                                "<option value='rotaOvar_28_07'>Para Ovar - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
+                                "</div>").openPopup();
+                            duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
+                        }
+                        document.getElementById('load_fetch').style.display = "none";
+
+                    }, 500);
+
+                    //convert_milesnaut[0].toFixed(2)
+
+                    marker_Teste1.on('click', function (e) {
+                        this.openPopup();
+                    });
+
+                }else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
                     setValor_rota = 60000;
                     AnimacValor_rota = 600;
                     nomeDestino = [];
@@ -7630,7 +7806,7 @@
 
                     //let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
                     let url6 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Vagueira_50m_20200724070801-25038-data.gpx';
-                    
+
                     const response6 = await fetch(url6);
                     const json6 = await response6.text();
                     parser6 = new DOMParser();
@@ -7643,7 +7819,7 @@
                     localiz_distan.push(parseInt(distancia6));
                     local_Nome_rota.push('getData_IDA10_3_20_GPX');
 
-           
+
 
 
 
@@ -7666,7 +7842,7 @@
                     //let url14 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
                     let url14 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_veia_Testada_20200729025133-25038-data.gpx';
 
-                    
+
                     const response14 = await fetch(url14);
                     const json14 = await response14.text();
                     parser14 = new DOMParser();
@@ -8041,11 +8217,11 @@
                 nyear = d.getYear();
             if (nyear < 1000) nyear += 1900;
             nhour = d.getHours(), nmin = d.getMinutes();
-            let mes_inicial = nmonth+1;
+            let mes_inicial = nmonth + 1;
             UserHoras_Inicial = new Date(nyear, mes_inicial, nday, nhour, nmin);
             // console.log(nmonth)
             // console.log(mes_inicial);
-   
+
 
             var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
             document.getElementById('time_partida').value = f;
@@ -8065,11 +8241,11 @@
 
 
 
-            
+
 
             switch (value_escolhido) {
                 case 'getTorreiraGPX':
-                getTorreiraGPX();
+                    getTorreiraGPX();
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
                     milesRoute.push(duracaoRotaChoosen[0]);
@@ -8087,8 +8263,8 @@
                     setTimeout(function () {
                         marker_Teste1.closePopup();
                     }, 7000);
-              
-                    
+
+
                     arrayURL = [];
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx');
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_20200723080230-25038-data.gpx');
@@ -8196,7 +8372,7 @@
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx');
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_AngeTorreira_1705_20200729013506-25038-data.gpx');
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_ANGETorreira_1705_20200729014014-25038-data.gpx');
-                    
+
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
@@ -8227,8 +8403,8 @@
                     AnimacValor_rota = 200;
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/TorreiraRevserse.gpx');
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/10m_TorreiraReverse_20200727094145-25038-data.gpx');
-                    
-                    
+
+
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
@@ -8250,7 +8426,7 @@
                     });
                     break;
                 case 'getCostaNovaGPX':
-                setValor_rota = 12000;
+                    setValor_rota = 12000;
                     AnimacValor_rota = 100;
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
@@ -8258,7 +8434,7 @@
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/CN_20200723074522-25038-data.gpx');
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx');
 
-                    
+
                     getCostaNovaGPX();
                     nomeDestino = [];
                     nomeDestino.push("Costa Nova");
@@ -8343,7 +8519,7 @@
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx');
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_AngeBico_20200729011637-25038-data.gpx');
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_ANGE_BICO_20200729012840-25038-data.gpx');
-                    
+
                     nomeDestino = [];
                     nomeDestino.push("do Bico");
                     document.getElementById('tutorial03').style.display = "block";
@@ -8381,7 +8557,7 @@
                     arrayURL = [];
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx');
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Vagueira_50m_20200724070801-25038-data.gpx');
-                    
+
                     milesRoute.push(duracaoRotaChoosen[2]);
                     getData_IDA10_3_20_GPX();
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
@@ -8405,10 +8581,14 @@
                     });
                     break;
                 case 'getData_Volta10_3_20_GPX':
+                    setValor_rota = 15000;
+                    AnimacValor_rota = 150;
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Vageira_ANGE_20200729074233-25038-data.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Vagueira_ANGE_20200729075458-25038-data.gpx');
 
                     getData_Volta10_3_20_GPX();
                     nomeDestino = [];
@@ -8605,11 +8785,43 @@
                     });
                     break;
 
+   
+            case 'rotaOvar_28_07':
+                    setValor_rota = 20000;
+                    AnimacValor_rota = 200;
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Canal_Ovar_28_07_20200729080108-25038-data.gpx');
+
+
+                    milesRoute.push(duracaoRotaChoosen[0]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    rotaOvar_28_07();
+                    nomeDestino = [];
+                    nomeDestino.push("Ponte Barra");
+                    document.getElementById('tutorial03').style.display = "block";
+                    document.getElementById('cais_partida').innerHTML = "Ovar - Melody";
+                    document.getElementById('cais_chegada').innerHTML = "Ovar - Melody";
+                    marker_Teste1.bindPopup("<div class='div_bind'>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Ovar</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Ovar</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> Ovar - Ovar</p>" +
+                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
+                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
+                        "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 7000);
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+
             }
             setTimeout(function () {
                 document.getElementById('tutorial03').style.display = "none";
             }, 10000);
         }
+        
 
         // marker_CaisANGE.on('click', function (e) {
         //                 this.openPopup();
@@ -8990,8 +9202,8 @@
 
             horas_escolh = new Date(document.getElementById('date').value);
             var Escolher_nmonth = horas_escolh.getMonth(),
-            Escolher_ndate = horas_escolh.getDate(),
-            Escolher_nyear = horas_escolh.getYear();
+                Escolher_ndate = horas_escolh.getDate(),
+                Escolher_nyear = horas_escolh.getYear();
             if (Escolher_nyear < 1000) Escolher_nyear += 1900;
             mes = Escolher_nmonth;
 
@@ -9718,7 +9930,7 @@
                     i = 1;
                     var elem = document.getElementById("myBar");
                     var width = 1;
-                  
+
                     var id = setInterval(frame, AnimacValor_rota);
                     function frame() {
                         if (width >= 100) {
@@ -9731,7 +9943,7 @@
                     }
                 }
                 let variableTruefromApi = getDATAPIHidromod(initialID, points);
-
+                let coordenadasSemMare = [];
                 setTimeout(function () {
 
                     if (mare_por_minuto2.length > 0) {
@@ -9763,9 +9975,19 @@
                             // }
                             if (mare_por_minuto2[0][i] > 0) {
                                 mare_2API = parseFloat(mare_por_minuto2[0][i]);
+
                                 diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
 
+                                
+                            }
 
+                           //Identificar as coordenadas com maré negativa
+                            if( parseFloat(mare_por_minuto2[0][i]) == "-9900000000000000" ||  parseFloat(mare_por_minuto2[0][i]) == -9900000000000000 ){
+                                    coordenadasSemMare.push([
+                                        parseFloat(coordenadas[i][1]),
+                                        parseFloat(coordenadas[i][0])
+                                    ]);
+                                    
                             }
                             // else if (mare_por_minuto2[i] > 0)  {
                             //     mare_2API = parseFloat(mare_por_minuto2[i]);
@@ -9832,22 +10054,22 @@
                             ]);
                             popup = new L.popup();
 
-                            if(i == 5){
+                            if (i == 5) {
                                 // console.log(parseInt(diferençaAlturaMare.toFixed(2)));
                                 // console.log(isNaN(parseInt(diferençaAlturaMare.toFixed(2))));
-                                if(isNaN(parseInt(diferençaAlturaMare.toFixed(2)))){
+                                if (isNaN(parseInt(diferençaAlturaMare.toFixed(2)))) {
                                     document.getElementById('error_fetch').style.display = "block";
                                     document.getElementById('load_fetch').style.display = "none";
                                     document.getElementById('load_fetch_2').style.display = "none";
                                     setTimeout(function () {
-                                            document.getElementById('error_fetch').style.display = "none";
+                                        document.getElementById('error_fetch').style.display = "none";
                                     }, 4000);
-                                }else{
+                                } else {
                                     //console.log("está okay");
                                     document.getElementById('error_fetch').style.display = "none";
 
                                 }
-                                
+
                             }
 
                             popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
@@ -10413,7 +10635,10 @@
                     //}, 10000);
                     //}, 15000);
                     //}, 20000);
-                //}, 40000);
+                    //}, 40000);
+                    console.log({'coordenadas sem informação da maré':coordenadasSemMare});
+                    
+
                 }, setValor_rota);  //torreira com 10 em 10
                 //}, 80000);
             } else {
@@ -11098,12 +11323,12 @@
                 document.getElementById('load_fetch_2').style.display = "none";
 
             }
-         
-           
+
+
             if (AnimarBarco.length <= somarNumero) {
                 let diferenceSomAnim = parseInt(somarNumero) - parseInt(AnimarBarco.length);
                 console.log(diferenceSomAnim)
-                if(diferenceSomAnim == 5){
+                if (diferenceSomAnim == 5) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 19],
@@ -11120,7 +11345,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 15]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                }else if(diferenceSomAnim == 6){
+                } else if (diferenceSomAnim == 6) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 19],
@@ -11139,7 +11364,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 14]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                }else if(diferenceSomAnim == 7){
+                } else if (diferenceSomAnim == 7) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 19],
@@ -11159,7 +11384,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 14],
                             variavelVelocidadeAnimBarco[somarNumero - 13]
                         ], { autostart: true }).addTo(mymap);
-                }else if(diferenceSomAnim == 8){
+                } else if (diferenceSomAnim == 8) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 19],
@@ -11182,7 +11407,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 12]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                }else if(diferenceSomAnim == 9){
+                } else if (diferenceSomAnim == 9) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 19],
@@ -11207,7 +11432,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 11]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                }else if(diferenceSomAnim == 10){
+                } else if (diferenceSomAnim == 10) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 19],
@@ -11234,7 +11459,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 10]
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
-                }else if(diferenceSomAnim == 11){
+                } else if (diferenceSomAnim == 11) {
                     markerAnimado = L.Marker.movingMarker(
                         [
                             AnimarBarco[somarNumero - 19],
@@ -11248,7 +11473,7 @@
                             AnimarBarco[somarNumero - 11],
                             AnimarBarco[somarNumero - 10],
                             AnimarBarco[somarNumero - 09]
-                            
+
                         ],
                         [
                             variavelVelocidadeAnimBarco[somarNumero - 19],
@@ -11262,7 +11487,7 @@
                             variavelVelocidadeAnimBarco[somarNumero - 11],
                             variavelVelocidadeAnimBarco[somarNumero - 10],
                             variavelVelocidadeAnimBarco[somarNumero - 09]
-                            
+
                         ], { autostart: true }).addTo(mymap);
                     comecAnimarfirst = false;
                 }
@@ -11489,8 +11714,8 @@
                 //dataCalls = true;
                 markerAnimado.on('end', function () {
                     setTimeout(function () {
-                    document.getElementById('showRouteFInished').style.display = "block";
-                }, 2000);
+                        document.getElementById('showRouteFInished').style.display = "block";
+                    }, 2000);
                     dataCalls = false;
 
                     markerAnimado.bindPopup('<b>Chegou ao Cais ' + nomeDestino[0] + ' !</b>', { closeOnClick: false })
@@ -11505,11 +11730,11 @@
 
                         pointList = [];
 
-                        
+
                     }, 2000);
                     setTimeout(function () {
-                    document.getElementById('showRouteFInished').style.display = "none";
-                }, 4000);
+                        document.getElementById('showRouteFInished').style.display = "none";
+                    }, 4000);
                 });
 
                 modal_eta = true;
@@ -11517,7 +11742,7 @@
                 document.getElementById('btn_pause').style.opacity = '1';
                 document.getElementById('btn_play').style.opacity = "1";
                 //document.getElementById('showRouteFInished').style.display = "block";
-                
+
 
                 markersAPI();
 
@@ -12678,12 +12903,12 @@
 
                                 } catch (e) {
                                     console.log(await resultData);
-                                    
+
                                     document.getElementById('error_fetch').style.display = "block";
                                     document.getElementById('load_fetch').style.display = "none";
                                     document.getElementById('load_fetch_2').style.display = "none";
                                     setTimeout(function () {
-                                            document.getElementById('error_fetch').style.display = "none";
+                                        document.getElementById('error_fetch').style.display = "none";
                                     }, 4000);
                                     console.log(await e);
                                     //v = await baixarDadosReservas(`https://service.hidromod.com/valida4dapi/Execution/Results/${resultPost.id}`);
