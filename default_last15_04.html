@@ -2760,100 +2760,101 @@
 
         }
 
-        async function getDataGPX_RegressoBico() {
+        // async function getDataGPX_RegressoBico() {
 
-            mymap.eachLayer(function (layer) {
-                //console.log(layer.options.pane)
+        //     mymap.eachLayer(function (layer) {
+        //         //console.log(layer.options.pane)
 
-                if (layer.options.pane == "overlayPane") {
+        //         if (layer.options.pane == "overlayPane") {
 
-                    mymap.removeLayer(layer);
+        //             mymap.removeLayer(layer);
 
-                }
-            });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
-            fetch(url)
-                .then(function (response) {
-                    return response.text();
-                })
-                .then(function (json) {
-                    VEri_text_gpx = json;
+        //         }
+        //     });
+        //     let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+        //     let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+        //     fetch(url)
+        //         .then(function (response) {
+        //             return response.text();
+        //         })
+        //         .then(function (json) {
+        //             VEri_text_gpx = json;
 
-                    var g = new L.GPX(json, {
-                        async: true,
-                        parseElements: ['track'],
-                        polyline_options: {
-                            color: '#020202',
-                            weight: 10,
-                        },
-                        marker_options: {
-                            // 'startIcon': new L.icon({
-                            //     iconUrl: 'marker.png',
-                            //     iconSize: [22, 32, 5],
-                            //     iconAnchor: [10, 30],
-                            // }),
-                            'endIcon': new L.icon({
-                                iconUrl: 'fim_icnon.png',
-                                iconSize: [22, 32, 5],
-                                iconAnchor: [10, 30],
-                            })
-                        }
+        //             var g = new L.GPX(json, {
+        //                 async: true,
+        //                 parseElements: ['track'],
+        //                 polyline_options: {
+        //                     color: '#020202',
+        //                     weight: 10,
+        //                 },
+        //                 marker_options: {
+        //                     // 'startIcon': new L.icon({
+        //                     //     iconUrl: 'marker.png',
+        //                     //     iconSize: [22, 32, 5],
+        //                     //     iconAnchor: [10, 30],
+        //                     // }),
+        //                     'endIcon': new L.icon({
+        //                         iconUrl: 'fim_icnon.png',
+        //                         iconSize: [22, 32, 5],
+        //                         iconAnchor: [10, 30],
+        //                     })
+        //                 }
 
-                    });
+        //             });
 
-                    g.on('loaded', function (e) {
-                        var gpx = e.target,
-                            elevation_data = gpx.get_elevation_data();
-                        data_hora = gpx.get_start_time();
-                        name = gpx.get_name(),
-                            distM = gpx.get_distance(),
-                            distKm = distM / 1000,
-                            distKmRnd = distKm.toFixed(1),
-                            eleGain = gpx.get_elevation_gain().toFixed(2),
-                            eleLoss = gpx.get_elevation_loss().toFixed(2);
-                        var info = "Name: " + name + "</br>" +
-                            "Distance: " + distKmRnd + " km </br>" +
-                            "Elevation Gain: " + eleGain + " m </br>"
+        //             g.on('loaded', function (e) {
+        //                 var gpx = e.target,
+        //                     elevation_data = gpx.get_elevation_data();
+        //                 data_hora = gpx.get_start_time();
+        //                 name = gpx.get_name(),
+        //                     distM = gpx.get_distance(),
+        //                     distKm = distM / 1000,
+        //                     distKmRnd = distKm.toFixed(1),
+        //                     eleGain = gpx.get_elevation_gain().toFixed(2),
+        //                     eleLoss = gpx.get_elevation_loss().toFixed(2);
+        //                 var info = "Name: " + name + "</br>" +
+        //                     "Distance: " + distKmRnd + " km </br>" +
+        //                     "Elevation Gain: " + eleGain + " m </br>"
 
-                        //document.getElementById('km').innerHTML = info;
-                        gpx.getLayers()[0].bindPopup(info)
+        //                 //document.getElementById('km').innerHTML = info;
+        //                 gpx.getLayers()[0].bindPopup(info)
 
-                        let date = new Date(data_hora);
-                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+        //                 let date = new Date(data_hora);
+        //                 let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-                        //document.getElementById('time').value = hora_min_gpx;
-
-
-
-                        var nday = date.getDay(),
-                            nmonth = date.getMonth() + 1,
-                            ndate = date.getDate(),
-                            nyear = date.getYear();
-                        if (nyear < 1000) nyear += 1900;
-                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-
-                        var arrayhidrografico = [];
-                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
-                    });
-                    somarNumero = 0;
-                    g.on('click', function (e) {
-                        var gpx = e.target;
-                        arrayGPX = [];
-                        arrayGPX.push(gpx._gpx)
-                        changeValue();
-                    });
-                    g.on('addpoint', function (e) {
-                        var gpx = e.target;
-                        arrayGPX = [];
-                        arrayGPX.push(gpx._gpx)
-                    })
-                    g.addTo(mymap);
-                });
-            mymap.setView([40.678, -8.7166], 13);
+        //                 //document.getElementById('time').value = hora_min_gpx;
 
 
-        }
+
+        //                 var nday = date.getDay(),
+        //                     nmonth = date.getMonth() + 1,
+        //                     ndate = date.getDate(),
+        //                     nyear = date.getYear();
+        //                 if (nyear < 1000) nyear += 1900;
+        //                 UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+        //                 dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+
+        //                 var arrayhidrografico = [];
+        //                 getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
+        //             });
+        //             somarNumero = 0;
+        //             g.on('click', function (e) {
+        //                 var gpx = e.target;
+        //                 arrayGPX = [];
+        //                 arrayGPX.push(gpx._gpx)
+        //                 changeValue();
+        //             });
+        //             g.on('addpoint', function (e) {
+        //                 var gpx = e.target;
+        //                 arrayGPX = [];
+        //                 arrayGPX.push(gpx._gpx)
+        //             })
+        //             g.addTo(mymap);
+        //         });
+        //     mymap.setView([40.678, -8.7166], 13);
+
+
+        // }
 
         async function getCostaNovaGPX() {
 
@@ -2953,7 +2954,10 @@
                 }
             });
 
-            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_AngeBico_20200729011637-25038-data.gpx';
+            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_ANGE_BICO_20200729012840-25038-data.gpx';
+            
 
             fetch(url3)
                 .then(function (response) {
@@ -3048,7 +3052,8 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
+            //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
+            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_BICO_ANGE_20200729044225-25038-data.gpx';
 
             fetch(url3)
                 .then(function (response) {
@@ -3411,8 +3416,12 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url_Reverse1 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/TorreiraRevserse.gpx';
-
+            //let url_Reverse1 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/TorreiraRevserse.gpx';
+            //let url_Reverse1 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/10m_TorreiraReverse_20200727094145-25038-data.gpx';
+            let url_Reverse1 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/50m_TorreiraReverse_20200727095533-25038-data.gpx';
+            
+            
+            
             fetch(url_Reverse1)
                 .then(function (response) {
                     return response.text();
@@ -3510,7 +3519,9 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_AngeTorreira_1705_20200729013506-25038-data.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_ANGETorreira_1705_20200729014014-25038-data.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -3606,7 +3617,8 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Torreira_ANGE_1705_20200729032107-25038-data.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -3979,7 +3991,8 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_ANGE_LOTA_20200729020722-25038-data.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -4071,7 +4084,8 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_veia_Testada_20200729025133-25038-data.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -4257,7 +4271,9 @@
                     mymap.removeLayer(layer);
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Salreu_PonteBarra_20200729034439-25038-data.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Salreu_PonteBarra_20200729034851-25038-data.gpx';
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -4351,7 +4367,10 @@
 
                 }
             });
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Barra_RegressoBico_20200729035852-25038-data.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Bico_Barra20200729043012-25038-data.gpx';
+            
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -7052,7 +7071,10 @@
             localiz_distan.push(parseInt(distancia3));
             local_Nome_rota.push('getData4GPX')
 
-            let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            //let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            //let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_AngeBico_20200729011637-25038-data.gpx';
+            let url4 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_ANGE_BICO_20200729012840-25038-data.gpx';
+            
             const response4 = await fetch(url4);
             const json4 = await response4.text();
             parser4 = new DOMParser();
@@ -7066,7 +7088,11 @@
             local_Nome_rota.push('getIdaBicoGPX')
 
 
-            let url5 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+            //let url5 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx';
+
+            //let url5 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Barra_RegressoBico_20200729035852-25038-data.gpx';
+            let url5 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Bico_Barra20200729043012-25038-data.gpx';
+            
             const response5 = await fetch(url5);
             const json5 = await response5.text();
             parser5 = new DOMParser();
@@ -7095,10 +7121,25 @@
             local_Nome_rota.push('getData_Volta10_3_20_GPX');
 
 
+            //let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
+            let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_BICO_ANGE_20200729044225-25038-data.gpx';
 
+                    const response8 = await fetch(url8);
+                    const json8 = await response8.text();
+                    parser8 = new DOMParser();
+                    xmlDoc8 = parser8.parseFromString(json8, "text/xml");
+                    var lat_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    var lon_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lon');
 
-            let url9 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx';
+                    distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
 
+                    localiz_distan.push(distancia8);
+                    local_Nome_rota.push('NovaRotaCriada');
+
+            //let url9 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx';
+            //let url9 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_AngeTorreira_1705_20200729013506-25038-data.gpx';
+            let url9 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_ANGETorreira_1705_20200729014014-25038-data.gpx';
+            
             const response9 = await fetch(url9);
             const json9 = await response9.text();
             parser9 = new DOMParser();
@@ -7114,7 +7155,8 @@
 
 
 
-            let url10 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx';
+            //let url10 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx';
+            let url10 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Torreira_ANGE_1705_20200729032107-25038-data.gpx';
 
             const response10 = await fetch(url10);
             const json10 = await response10.text();
@@ -7175,7 +7217,10 @@
             local_Nome_rota.push('getDataGPX_Testada_Salreu');
 
 
-            let url16 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx';
+            //let url16 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx';
+            //let url16 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Salreu_PonteBarra_20200729034439-25038-data.gpx';
+            let url16 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Salreu_PonteBarra_20200729034851-25038-data.gpx';
+
             const response16 = await fetch(url16);
             const json16 = await response16.text();
             parser16 = new DOMParser();
@@ -7598,23 +7643,13 @@
                     localiz_distan.push(parseInt(distancia6));
                     local_Nome_rota.push('getData_IDA10_3_20_GPX');
 
-                    let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
-                    const response8 = await fetch(url8);
-                    const json8 = await response8.text();
-                    parser8 = new DOMParser();
-                    xmlDoc8 = parser8.parseFromString(json8, "text/xml");
-                    var lat_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lat');
-                    var lon_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lon');
-
-                    distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
-
-                    localiz_distan.push(distancia8);
-                    local_Nome_rota.push('NovaRotaCriada');
+           
 
 
 
 
-                    let url13 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx';
+                    //let url13 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx';
+                    let url13 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_ANGE_LOTA_20200729020722-25038-data.gpx';
 
                     const response13 = await fetch(url13);
                     const json13 = await response13.text();
@@ -7628,7 +7663,10 @@
                     localiz_distan.push(distancia13);
                     local_Nome_rota.push('getDataGPX_ANGE_RioNovo_2006');
 
-                    let url14 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
+                    //let url14 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx';
+                    let url14 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_veia_Testada_20200729025133-25038-data.gpx';
+
+                    
                     const response14 = await fetch(url14);
                     const json14 = await response14.text();
                     parser14 = new DOMParser();
@@ -7853,6 +7891,21 @@
                         icon: issIcon
                     }).addTo(mymap);
 
+                    //let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx';
+                    let url8 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_BICO_ANGE_20200729044225-25038-data.gpx';
+
+                    const response8 = await fetch(url8);
+                    const json8 = await response8.text();
+                    parser8 = new DOMParser();
+                    xmlDoc8 = parser8.parseFromString(json8, "text/xml");
+                    var lat_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lat');
+                    var lon_gpx8 = xmlDoc8.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+                    distancia8 = mymap.distance([lat_gpx8, lon_gpx8], [arrayClicked.lat, arrayClicked.lng]);
+
+                    localiz_distan.push(distancia8);
+                    local_Nome_rota.push('NovaRotaCriada');
+
                     var gpxMAIN1 = new L.GPX(json4, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
@@ -7870,6 +7923,7 @@
                     var gpxMAIN2 = new L.GPX(json8, { async: true }).on('loaded', function (e) {
                         var gpx = e.target;
                         distM = gpx.get_distance();
+                        console.log(gpx.get_distance())
                         distNM = distM * 0.0005;
                         distance_gpx_real.push(distNM);
                     });
@@ -7978,14 +8032,6 @@
             }
 
 
-            //    //Limitar escolha de datas
-            //    var d_DAY_Choosed = new Date();
-            // d_DAY_Choosed.setDate(d_DAY_Choosed.getDate()-5);
-            // console.log(d_DAY_Choosed);
-            // let mesChoosed = d_DAY_Choosed.getMonth() + 1;
-            // //document.getElementById('date').min =  d_DAY_Choosed.getFullYear()+"-"+ mesChoosed +"-"+ d_DAY_Choosed.getDate();
-            // let dataLimite = d_DAY_Choosed.getDate().toString()+"-"+ mesChoosed.toString() +"-"+  d_DAY_Choosed.getFullYear().toString();
-            // document.getElementById('date').setAttribute("min",dataLimite);
 
 
             var d = new Date();
@@ -8017,6 +8063,9 @@
 
             document.getElementById('date').value = testData.toString();
 
+
+
+            
 
             switch (value_escolhido) {
                 case 'getTorreiraGPX':
@@ -8109,10 +8158,13 @@
 
 
                 case 'getDataGPX_Torreira_ANGE_1705':
+                    setValor_rota = 35000;
+                    AnimacValor_rota = 350;
                     milesRoute.push(duracaoRotaChoosen[1]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Torreira_ANGE_17_05i-boating39968.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Torreira_ANGE_1705_20200729032107-25038-data.gpx');
 
                     nomeDestino = [];
                     nomeDestino.push("ANGE");
@@ -8139,8 +8191,12 @@
                     milesRoute.push(duracaoRotaChoosen[4]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx');
-
+                    setValor_rota = 19000;
+                    AnimacValor_rota = 190;
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Torreira_17_05_i-boating39969.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_AngeTorreira_1705_20200729013506-25038-data.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_ANGETorreira_1705_20200729014014-25038-data.gpx');
+                    
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
@@ -8167,12 +8223,17 @@
                     milesRoute.push(duracaoRotaChoosen[1]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/TorreiraRevserse.gpx');
+                    setValor_rota = 20000;
+                    AnimacValor_rota = 200;
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/TorreiraRevserse.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/10m_TorreiraReverse_20200727094145-25038-data.gpx');
+                    
+                    
                     nomeDestino = [];
                     nomeDestino.push("Torreira");
                     document.getElementById('tutorial03').style.display = "block";
-                    document.getElementById('cais_partida').innerHTML = "Torreira";
-                    document.getElementById('cais_chegada').innerHTML = "ANGE";
+                    document.getElementById('cais_partida').innerHTML = "ANGE";
+                    document.getElementById('cais_chegada').innerHTML = "Torreira";
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Partida</b> ANGE</p>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Torreira</p>" +
@@ -8219,6 +8280,8 @@
                     });
                     break;
                 case 'getDataGPX_Testada_Torreira_3005':
+                    setValor_rota = 19000;
+                    AnimacValor_rota = 190;
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
@@ -8244,6 +8307,8 @@
                     });
                     break;
                 case 'getDataGPX_CALEDOURO_TESTADA_3005':
+                    setValor_rota = 19000;
+                    AnimacValor_rota = 190;
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
@@ -8270,11 +8335,15 @@
                     });
                     break;
                 case 'getIdaBicoGPX':
+                    setValor_rota = 20000;
+                    AnimacValor_rota = 200;
                     milesRoute.push(duracaoRotaChoosen[3]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx');
-
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_AngeBico_20200729011637-25038-data.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_ANGE_BICO_20200729012840-25038-data.gpx');
+                    
                     nomeDestino = [];
                     nomeDestino.push("do Bico");
                     document.getElementById('tutorial03').style.display = "block";
@@ -8362,10 +8431,16 @@
                     });
                     break;
                 case 'getDataGPX_RegressoBico':
+                    setValor_rota = 16000;
+                    AnimacValor_rota = 160;
+
                     milesRoute.push(duracaoRotaChoosen[1]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso_BICO.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Barra_RegressoBico_20200729035852-25038-data.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Bico_Barra20200729043012-25038-data.gpx');
+
 
                     getDataGPX_RegressoBico();
                     nomeDestino = [];
@@ -8389,8 +8464,12 @@
                     break;
 
                 case 'getDataGPX_ANGE_RioNovo_2006':
+                    setValor_rota = 40000;
+                    AnimacValor_rota = 400;
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_ANGE_LOTA_20200729020722-25038-data.gpx');
+
                     milesRoute.push(duracaoRotaChoosen[5]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     getDataGPX_ANGE_RioNovo_2006();
@@ -8414,6 +8493,8 @@
                     });
                     break;
                 case 'NovaRotaCriada':
+                    setValor_rota = 20000;
+                    AnimacValor_rota = 200;
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx');
                     milesRoute.push(duracaoRotaChoosen[0]);
@@ -8440,7 +8521,11 @@
                     break;
                 case 'getDataGPX_PonteBarra_Testada':
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx');
+                    setValor_rota = 40000;
+                    AnimacValor_rota = 400;
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_veia_Testada_20200729025133-25038-data.gpx');
+
                     milesRoute.push(duracaoRotaChoosen[6]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     getDataGPX_PonteBarra_Testada();
@@ -8489,8 +8574,14 @@
                     });
                     break;
                 case 'getDataGPX_Salreu_PonteBarra':
+                    setValor_rota = 30000;
+                    AnimacValor_rota = 300;
                     arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Salreu_Ponte_Barra.gpx');
+                    //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Salreu_PonteBarra_20200729034439-25038-data.gpx');
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Salreu_PonteBarra_20200729034851-25038-data.gpx');
+
+
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     getDataGPX_Salreu_PonteBarra();
