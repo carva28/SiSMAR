@@ -2490,9 +2490,51 @@
             //getIdaBicoGPX();
             markersAPI();
             getInfo();
+            var d_5Future = new Date();
+            var nday_5f = d_5Future.getDay(),
+                nmonth_5f = d_5Future.getMonth(),
+                ndate_5f = d_5Future.getDate(),
+                nyear_5f = d_5Future.getYear();
+            if (nyear_5f < 1000) nyear_5f += 1900;
+            nhour_5f = d_5Future.getHours(), nmin_5f = d_5Future.getMinutes();
+            let mes_inicial = nmonth_5f + 1;
+            let UserHoras_Inicial_5f = new Date(nyear_5f, mes_inicial, nday_5f, nhour_5f, nmin_5f);
+            console.log('Today is: ' + d_5Future.toLocaleString());
+
+            d_5Future.setDate(d_5Future.getDate() + 5);
+            d_5Future.setMonth(d_5Future.getMonth() + 1);
+
+            let data5D_future;
+            if (mes_inicial <= 9) {
+                if (d_5Future.getDate() <= 9) {
+                    data5D_future = d_5Future.getFullYear().toString() + "-0" + d_5Future.getMonth().toString() + "-0" + d_5Future.getDate().toString();
+
+                } else {
+                    data5D_future = d_5Future.getFullYear().toString() + "-0" + d_5Future.getMonth().toString() + "-" + d_5Future.getDate().toString();
+                }
+            } else if (d_5Future.getDate() <= 9) {
+                data5D_future = d_5Future.getFullYear().toString() + "-" + d_5Future.getMonth().toString() + "-0" + d_5Future.getDate().toString();
+            } else {
+                data5D_future = d_5Future.getFullYear().toString() + "-" + d_5Future.getMonth().toString() + "-" + d_5Future.getDate().toString();
+            }
+      
+
+            console.log(data5D_future);
+
+            $(function () {
+                var d = new Date();
+                //$("#date").attr("min", d_5Future.getFullYear() + "-12-01").attr("max", data5D_future);
+                $("#date").attr("max", data5D_future);
+            });
+
+            //document.getElementById('date').value = testData.toString();
+
+
+
+
+            //document.getElementById("date").setAttribute("max", novadataLimite);
 
         }
-
 
         var calado = 1;
         var tutorial = true;
@@ -4679,96 +4721,96 @@
 
         async function rotaOvar_28_07() {
 
-mymap.eachLayer(function (layer) {
-    //console.log(layer.options.pane)
-    if (layer.options.pane == "overlayPane") {
-        mymap.removeLayer(layer);
-    }
-});
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
 
-let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Canal_Ovar_28_07_20200729080108-25038-data.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Canal_Ovar_28_07_20200729080108-25038-data.gpx';
 
 
-fetch(url)
-    .then(function (response) {
-        return response.text();
-    })
-    .then(function (json) {
-        VEri_text_gpx = json;
-
-        var g = new L.GPX(json, {
-            async: true,
-            parseElements: ['track'],
-            polyline_options: {
-                color: '#020202',
-                weight: 10,
-            },
-            marker_options: {
-                // 'startIcon': new L.icon({
-                //     iconUrl: 'marker.png',
-                //     iconSize: [22, 32, 5],
-                //     iconAnchor: [10, 30],
-                // }),
-                'endIcon': new L.icon({
-                    iconUrl: 'fim_icnon.png',
-                    iconSize: [22, 32, 5],
-                    iconAnchor: [10, 30],
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
                 })
-            }
+                .then(function (json) {
+                    VEri_text_gpx = json;
 
-        });
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
 
-        g.on('loaded', function (e) {
-            var gpx = e.target,
-                elevation_data = gpx.get_elevation_data();
-            data_hora = gpx.get_start_time();
-            name = gpx.get_name(),
-                distM = gpx.get_distance(),
-                distKm = distM / 1000,
-                distKmRnd = distKm.toFixed(1),
-                eleGain = gpx.get_elevation_gain().toFixed(2),
-                eleLoss = gpx.get_elevation_loss().toFixed(2);
-            var info = "Name: " + name + "</br>" +
-                "Distance: " + distKmRnd + " km </br>" +
-                "Elevation Gain: " + eleGain + " m </br>"
+                    });
 
-            //document.getElementById('km').innerHTML = info;
-            gpx.getLayers()[0].bindPopup(info)
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
 
-            let date = new Date(data_hora);
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
 
-            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+                        let date = new Date(data_hora);
 
-            //document.getElementById('time').value = hora_min_gpx;
-            var nday = date.getDay(),
-                nmonth = date.getMonth() + 1,
-                ndate = date.getDate(),
-                nyear = date.getYear();
-            if (nyear < 1000) nyear += 1900;
-            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
-            var arrayhidrografico = [];
-            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
+                        //document.getElementById('time').value = hora_min_gpx;
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
 
-        });
-        somarNumero = 0;
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
 
-        g.on('click', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-            changeValue();
-        });
-        g.on('addpoint', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-        })
-        g.addTo(mymap);
-    });
-mymap.setView([40.61, -8.745], 12.6);
-}
+                    });
+                    somarNumero = 0;
+
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        changeValue();
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
 
     </script>
 
@@ -7057,6 +7099,8 @@ mymap.setView([40.61, -8.745], 12.6);
 
         }
 
+
+
         function clickedPointer(valor) {
 
             if (tutorial) {
@@ -7110,6 +7154,9 @@ mymap.setView([40.61, -8.745], 12.6);
         var AnimacValor_rota;
 
         async function verificaClickCoor(arrayClicked) {
+
+
+
             milesRoute = [];
             if (markerAnimado) {
                 mymap.removeLayer(markerAnimado);
@@ -7351,7 +7398,7 @@ mymap.setView([40.61, -8.745], 12.6);
 
             localiz_distan.push(distancia18);
             local_Nome_rota.push('rotaOvar_28_07');
-            
+
 
             // document.getElementById('btn_legenda2').style.opacity = "1";
             // document.getElementById('btn_legenda').style.opacity = "1";
@@ -7550,7 +7597,7 @@ mymap.setView([40.61, -8.745], 12.6);
                         this.openPopup();
                     });
 
-                }else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
+                } else if (guardardistancia[0][1] == 'getDataGPX_Testada_Salreu') {
                     setValor_rota = 60000;
                     AnimacValor_rota = 600;
                     nomeDestino = [];
@@ -8785,8 +8832,8 @@ mymap.setView([40.61, -8.745], 12.6);
                     });
                     break;
 
-   
-            case 'rotaOvar_28_07':
+
+                case 'rotaOvar_28_07':
                     setValor_rota = 20000;
                     AnimacValor_rota = 200;
                     arrayURL = [];
@@ -8821,7 +8868,7 @@ mymap.setView([40.61, -8.745], 12.6);
                 document.getElementById('tutorial03').style.display = "none";
             }, 10000);
         }
-        
+
 
         // marker_CaisANGE.on('click', function (e) {
         //                 this.openPopup();
@@ -9227,6 +9274,8 @@ mymap.setView([40.61, -8.745], 12.6);
                     points.push({ "date": moment(startDate).add(y, 'm').toDate().toISOString(), "latitude": coord_lat_API[y], "longitude": coord_long_API[y] });
                 }
             }
+
+
 
             //console.log(points)
 
@@ -9978,16 +10027,16 @@ mymap.setView([40.61, -8.745], 12.6);
 
                                 diferençaAlturaMare = mare_2API - parseFloat(mare_por_minuto[i]);
 
-                                
+
                             }
 
-                           //Identificar as coordenadas com maré negativa
-                            if( parseFloat(mare_por_minuto2[0][i]) == "-9900000000000000" ||  parseFloat(mare_por_minuto2[0][i]) == -9900000000000000 ){
-                                    coordenadasSemMare.push([
-                                        parseFloat(coordenadas[i][1]),
-                                        parseFloat(coordenadas[i][0])
-                                    ]);
-                                    
+                            //Identificar as coordenadas com maré negativa
+                            if (parseFloat(mare_por_minuto2[0][i]) == "-9900000000000000" || parseFloat(mare_por_minuto2[0][i]) == -9900000000000000) {
+                                coordenadasSemMare.push([
+                                    parseFloat(coordenadas[i][1]),
+                                    parseFloat(coordenadas[i][0])
+                                ]);
+
                             }
                             // else if (mare_por_minuto2[i] > 0)  {
                             //     mare_2API = parseFloat(mare_por_minuto2[i]);
@@ -10636,8 +10685,8 @@ mymap.setView([40.61, -8.745], 12.6);
                     //}, 15000);
                     //}, 20000);
                     //}, 40000);
-                    console.log({'coordenadas sem informação da maré':coordenadasSemMare});
-                    
+                    console.log({ 'coordenadas sem informação da maré': coordenadasSemMare });
+
 
                 }, setValor_rota);  //torreira com 10 em 10
                 //}, 80000);
