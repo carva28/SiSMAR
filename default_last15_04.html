@@ -2446,6 +2446,7 @@
         <div class="spinner-border" style="font-size: 20px;margin: auto;display: block;" role="status">
             <span class="sr-only">Algo de errado se passou. Pedimos desculpa.</span>
         </div>
+        <p id="texto_error" style="font-size: 1.5rem;text-align: center;"></p>
         <p style="font-size: 1.5rem;text-align: center;">Tente simular de novo, por favor. </p>
     </div>
 
@@ -7583,7 +7584,7 @@
                                 "<h5>Da sua atual posição deseja ir até</h5>" +
                                 "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
                                 "<option selected disabled>Selecione uma rota</option>" +
-                                "<option value='rotaOvar_28_07'>Para Ovar - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
+                                "<option value='rotaOvar_28_07'>Para Areínho - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
                         }
@@ -8030,6 +8031,7 @@
                             var result7 = n7.toTimeString().slice(0, 5);
 
 
+                            document.getElementById('load_fetch').style.display = "none";
 
 
                             marker_Teste1.bindPopup("<div class='div_bind'>" +
@@ -8043,8 +8045,8 @@
                                 "<option value='getDataGPX_ANGE_Torreira_1705'>Para Torreira 17/05 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_ANGE_RioNovo_2006'>Para Lota Velha - " + distance_gpx_real[6].toFixed(2) + "milhas</option>" +
                                 "<option value='getDataGPX_PonteBarra_Testada'>Para Testada - " + distance_gpx_real[7].toFixed(2) + "milhas</option>" +
-                                "<option value='getTorreira17_5_5GPX'>Rota de 5 em 5 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
-                                "<option value='getRota_10_10GPX'>Rota de 10 em105 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
+                                //"<option value='getTorreira17_5_5GPX'>Rota de 5 em 5 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
+                                //"<option value='getRota_10_10GPX'>Rota de 10 em105 - " + distance_gpx_real[4].toFixed(2) + "milhas</option>" +
 
                                 "</div>").openPopup();
                             duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
@@ -8055,7 +8057,6 @@
                             duracaoRotaChoosen.push(distance_gpx_real[6].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[7].toFixed(2))
                             duracaoRotaChoosen.push(distance_gpx_real[4].toFixed(2))
-                            document.getElementById('load_fetch').style.display = "none";
 
                         }
 
@@ -8847,10 +8848,10 @@
                     nomeDestino.push("Ponte Barra");
                     document.getElementById('tutorial03').style.display = "block";
                     document.getElementById('cais_partida').innerHTML = "Ovar - Melody";
-                    document.getElementById('cais_chegada').innerHTML = "Ovar - Melody";
+                    document.getElementById('cais_chegada').innerHTML = "Ovar - Areínho";
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Ovar</p>" +
-                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Ovar</p>" +
+                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Ovar - Areínho</p>" +
                         "<p style='font-size:0.8rem;'><b>Rota</b> Ovar - Ovar</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
                         "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
@@ -10424,6 +10425,7 @@
                         let tempoPrim = document.getElementById('time_partida').value;
                         var splitTimePartida = tempoPrim.split(':');
                         let horasPartida = parseInt(splitTimePartida[0]);
+                        let minutosPartida = parseInt(splitTimePartida[1]);
                         let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
 
                         //***** Duração da Rota ****//
@@ -10493,6 +10495,7 @@
                         // console.log(User_Tempo_cada_coor)
 
                         let horasChegada = User_Tempo_cada_coor.getHours();
+                        let minutosChegada = User_Tempo_cada_coor.getMinutes();
 
                         let dataInformacion_3;
 
@@ -10506,14 +10509,14 @@
 
 
 
-                        if (horasChegada <= dataInformacion_0.getHours()) {
+                        if (horasChegada <= dataInformacion_0.getHours() ) {
                             document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                             if (sortedData2[0].ALT > sortedData2[1].ALT) {
                                 document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                             } else {
                                 document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
                             }
-                        } else if (horasChegada <= dataInformacion_1.getHours()) {
+                        } else if (horasChegada <= dataInformacion_1.getHours() && minutosChegada <= dataInformacion_1.getMinutes()) {
                             if (sortedData2[0].ALT < sortedData2[1].ALT) {
                                 document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                             } else {
@@ -10522,7 +10525,7 @@
                             //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
 
 
-                        } else if (horasChegada <= dataInformacion_2.getHours()) {
+                        } else if (horasChegada <= dataInformacion_2.getHours() && minutosChegada <= dataInformacion_2.getMinutes()) {
                             if (sortedData2[1].ALT < sortedData2[2].ALT) {
                                 document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                             } else {
@@ -10530,11 +10533,11 @@
                             }
                         } else if (sortedData2[3] != null) {
 
-                            if (dataInformacion_3.getHours() == 0) {
+                            if (dataInformacion_3.getHours() == 0 ) {
                                 let novahora = 24;
-                                if (horasChegada < novahora) {
+                                if (horasChegada < novahora && minutosChegada <= dataInformacion_3.getMinutes()) {
 
-                                    if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                                    if (sortedData2[2].ALT < sortedData2[3].ALT ) {
                                         document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                                     } else {
                                         document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
@@ -10552,7 +10555,7 @@
                                 }
                             } else {
 
-                                if (horasChegada < dataInformacion_3.getHours()) {
+                                if (horasChegada < dataInformacion_3.getHours() && minutosChegada <= dataInformacion_3.getMinutes()) {
                                     if (sortedData2[2].ALT < sortedData2[3].ALT) {
                                         document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                                     } else {
@@ -10583,16 +10586,16 @@
 
 
                         //console.log(horasPartida)
-
-
-                        if (horasPartida <= dataInformacion_0.getHours()) {
+                        console.log(minutosPartida);
+                        
+                        if (horasPartida <= dataInformacion_0.getHours() && minutosPartida <= dataInformacion_0.getMinutes()) {
                             //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                             if (sortedData2[0].ALT > sortedData2[1].ALT) {
                                 document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                             } else {
                                 document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
                             }
-                        } else if (horasPartida <= dataInformacion_1.getHours()) {
+                        } else if (horasPartida <= dataInformacion_1.getHours() && minutosPartida <= dataInformacion_1.getMinutes()) {
                             //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
                             if (sortedData2[0].ALT < sortedData2[1].ALT) {
                                 document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
@@ -10600,7 +10603,7 @@
                                 document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
                             }
 
-                        } else if (horasPartida <= dataInformacion_2.getHours()) {
+                        } else if (horasPartida <= dataInformacion_2.getHours() && minutosPartida <= dataInformacion_2.getMinutes()) {
                             document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                             if (sortedData2[1].ALT < sortedData2[2].ALT) {
@@ -10612,7 +10615,7 @@
 
                             if (dataInformacion_3.getHours() == 0) {
                                 let novahora = 24;
-                                if (horasPartida < novahora) {
+                                if (horasPartida < novahora && minutosPartida <= dataInformacion_3.getMinutes()) {
                                     //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
                                     if (sortedData2[2].ALT < sortedData2[3].ALT) {
                                         document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
@@ -10629,7 +10632,7 @@
                                 }
                             } else {
 
-                                if (horasPartida < dataInformacion_3.getHours()) {
+                                if (horasPartida < dataInformacion_3.getHours() && minutosPartida <= dataInformacion_3.getMinutes()) {
                                     if (sortedData2[2].ALT < sortedData2[3].ALT) {
                                         document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                                     } else {
@@ -12956,6 +12959,7 @@
                                     document.getElementById('error_fetch').style.display = "block";
                                     document.getElementById('load_fetch').style.display = "none";
                                     document.getElementById('load_fetch_2').style.display = "none";
+                                    document.getElementById("texto_error").innerHTML = "Erro no pedido à API";
                                     setTimeout(function () {
                                         document.getElementById('error_fetch').style.display = "none";
                                     }, 4000);
@@ -12973,6 +12977,8 @@
                             document.getElementById('error_fetch').style.display = "block";
                             document.getElementById('load_fetch').style.display = "none";
                             document.getElementById('load_fetch_2').style.display = "none";
+                            document.getElementById("texto_error").innerHTML = "a API não devolve valores (pode ser data ou coordenadas) status 3";
+
                             setTimeout(function () {
                                 document.getElementById('error_fetch').style.display = "none";
                             }, 4000);
