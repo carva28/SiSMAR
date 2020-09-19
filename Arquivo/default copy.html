@@ -1,0 +1,3176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin="" />
+
+    <script src="js/jquery.js">
+    </script>
+    <script lang="javascript" src="js/xlsx.full.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/v4-shims.css">
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+        integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+        crossorigin=""></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
+    <style>
+        h2 {
+            text-align: left;
+            font-size: 25px;
+        }
+
+        #issMap {
+            height: 560px;
+        }
+
+        .leaflet-interactive {
+            /* stroke: #00ff6a; */
+            opacity: 0.6;
+        }
+
+        .leaflet-marker-icon {
+            opacity: 1;
+        }
+
+        .btn {
+            text-align: center;
+            margin: auto;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        #calado_span,
+        #calado_span_2,
+        #calado_sup_span,
+        #calado_inf_span,
+        #date {
+            margin: auto;
+            display: block;
+            margin-bottom: 20px;
+            padding: 5px;
+            text-align: center;
+            font-size: 20px;
+            border: 2px solid #ffc10a;
+            border-radius: 20px;
+            width: 150px;
+        }
+
+        #time {
+            margin: auto;
+            display: block;
+            text-align: center;
+            font-size: 25px;
+            border: 2px solid #F0BC33;
+            border-radius: 20px;
+            width: 140px;
+            margin-bottom: 10px;
+        }
+
+        .row,
+        .col-sm p {
+            text-align: center;
+        }
+
+        .col-sm-1:first-of-type {
+            max-width: 10.333333%;
+            flex: 0 0 10.333333%;
+        }
+
+        .container2 {
+            position: fixed;
+            overflow: hidden;
+            background-color: #F0BC33;
+            bottom: 0;
+            width: 100%;
+            z-index: 10000;
+        }
+
+        .container2,
+        .row {
+            text-align: center;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        #clockbox {
+            text-align: center;
+            color: #b2b2b2;
+            margin-bottom: 10px;
+        }
+
+        .custom-file-label {
+            left: 24px;
+            text-align: center;
+        }
+
+
+        .btn_rota {
+            border: none;
+            background-color: rgba(252, 252, 252, 0.808)
+        }
+
+        .btn_rota:hover {
+            border: none;
+            background-color: rgb(218, 218, 218);
+        }
+
+        .img_logo {
+            border: none;
+            text-align: right;
+            width: 120px;
+            height: auto;
+        }
+
+        input[type=number] {
+            height: 40px;
+        }
+
+        input[type=number]:hover::-webkit-inner-spin-button {
+            width: 14px;
+            height: 30px;
+        }
+
+        .btn_color_sim {
+            background-color: #F0BC33;
+            border: none;
+            color: #1F3436;
+            margin-top: 40px;
+            width: 100px;
+        }
+
+        .btn_color_sim:hover {
+            background-color: rgb(209, 163, 46);
+        }
+
+        .btn_color_del {
+            margin-top: 40px;
+            width: 100px;
+        }
+
+        .img_logo2 {
+            display: none;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            background-color: #1f3436;
+            height: 15px;
+            width: 180px;
+            border-radius: 10px;
+            box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #707474;
+            /*background: url('iss200.png');*/
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        @media (min-width: 576px) {
+
+            .col-sm-1 {
+                -ms-flex: 0 0 13.333333%;
+                flex: 0 0 13.333333%;
+                max-width: 13.333333%;
+            }
+        }
+
+        @media only screen and (max-device-width: 500px) {
+
+            #calado_span,
+            #calado_span_2,
+            #calado_sup_span,
+            #calado_inf_span {
+                width: 90%;
+                height: 100px;
+                font-size: 3.2rem;
+
+            }
+
+            input[type="range"] {
+                width: 90% !important;
+                height: 70px !important;
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                width: 90px !important;
+                height: 90px !important;
+            }
+
+            .img_logo {
+                display: none;
+            }
+
+            .img_logo2 {
+                border: none;
+                margin: auto;
+                display: block;
+                width: 50%;
+            }
+
+            #time {
+                font-size: 3.2rem;
+                width: 90%;
+                height: 100px;
+            }
+
+            .btn_color_sim {
+                width: 100%;
+                height: 90px;
+                font-size: 2.7rem;
+                border-radius: 45px;
+            }
+
+            .btn_rota {
+                width: 80%;
+                height: 100px;
+                font-size: 2.7rem;
+                background-color: #1F3436;
+                color: white;
+                border-radius: 45px;
+            }
+
+            .btn_color_del {
+                width: 100%;
+                height: 90px;
+                font-size: 2.7rem;
+                border-radius: 45px;
+            }
+
+            .order-12 {
+                width: 100%;
+            }
+
+            .order-12,
+            .row {
+                width: 100%;
+                margin: auto;
+                display: block;
+            }
+
+            .order-12,
+            .row,
+            img {
+                width: 95%;
+            }
+
+            .order-12,
+            .row,
+            p {
+                margin-top: 20px;
+                font-size: 2.9rem;
+            }
+
+            .col-sm {
+                margin: auto;
+                display: block;
+                text-align: center;
+            }
+
+            .col_file {
+                display: none;
+            }
+
+            .col-sm-1:first-of-type {
+                max-width: 13.333333%;
+                flex: 0 0 13.333333%;
+                -ms-flex: 0 0 13.333333%;
+            }
+
+            .leaflet-touch .leaflet-bar a {
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+                font-size: 50px;
+                background-color: #214198;
+            }
+
+            .leaflet-touch .leaflet-control-layers-toggle {
+                width: 104px;
+                height: 104px;
+                background-color: #214198;
+            }
+
+            #issMap {
+                height: 1500px;
+            }
+
+            .container2 {
+                border: 2px transparent;
+                border-radius: 50px;
+                background-color: white;
+            }
+
+
+        }
+
+        .leaflet-touch .leaflet-bar {
+            top: 400px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+            background-color: transparent;
+            border: none;
+        }
+
+        .leaflet-touch .leaflet-bar a:first-child {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .leaflet-touch .leaflet-bar a:last-child {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        .leaflet-touch .leaflet-bar a {
+            width: 40px;
+            height: 40px;
+            /*line-height: 100px;*/
+            font-size: 35px;
+            background-color: #214198;
+            color: white;
+
+
+        }
+
+        #load_fetch {
+            display: none;
+            z-index: 999999999;
+            position: absolute;
+            font-size: 50px;
+            top: 250px;
+            /* text-align: center; */
+            right: 0;
+            left: 0;
+            width: 50%;
+            margin: auto;
+            border-radius: 20px;
+            /* position: relative; */
+            /* display: flex; */
+            justify-content: center;
+            /* display: block; */
+            /*background-color: rgb(255, 238, 217);*/
+            background-color: #1F3436;
+            color: white;
+            /* padding: 10%;*/
+        }
+
+        #load_fetch h2 {
+            text-align: center;
+            padding: 5%;
+        }
+
+        #btn_legenda {
+            background-color: #214198;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 45px;
+            position: fixed;
+            z-index: 20;
+            top: 360px;
+            left: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        #btn_legenda2 {
+            background-color: #214198;
+            font-size: 20px;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 45px;
+            position: fixed;
+            z-index: 20;
+            top: 310px;
+            left: 10px;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        #legenda {
+            position: absolute;
+            top: 400px;
+            left: 10px;
+            background-color: white;
+            z-index: 999999999;
+        }
+
+        #legenda h2 {
+            font-size: 20px;
+        }
+
+
+        a#abreDefinicoes {
+            background-color: #214198;
+            border: #1f1f1f;
+            color: #ffffff;
+            width: 200px;
+            position: absolute;
+            z-index: 20;
+            top: 15px;
+            left: calc(50% - 100px);
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        a#fechaDefinicoes {
+            background-color: tomato;
+            color: white;
+            border: inherit;
+            padding: 8px 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        a#fechaDefinicoes i {
+            font-size: 30px;
+        }
+
+        div#navbarToggleExternalContent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            z-index: 20;
+            background-color: white;
+            box-shadow: 5px 5px 8px 2px rgba(55, 55, 55, 0.4);
+        }
+
+        .container2,
+        .row {
+            text-align: center;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        #issMap {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        #date {
+            margin: auto;
+            display: block;
+            margin-bottom: 20px;
+            padding: 5px;
+            text-align: left;
+            font-size: 1rem;
+            border: 2px solid #ffc10a;
+            border-radius: 20px;
+            float: left;
+            padding: 6px 20px;
+        }
+
+        #time {
+            margin: auto;
+            display: block;
+            text-align: center;
+            font-size: 1rem;
+            border: 2px solid #F0BC33;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            float: left;
+            padding: 6px 20px;
+        }
+
+        .col-sm-3 {
+            flex: 0 0 26%;
+            max-width: 37%;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+
+    <title>SiSMAR</title>
+</head>
+
+<body>
+    <a class="btn btn-primary" data-toggle="collapse" href="#navbarToggleExternalContent" role="button"
+        aria-expanded="false" aria-controls="navbarToggleExternalContent" id="abreDefinicoes">Definições</a>
+
+    <button type="button" id="btn_legenda" class="btn btn-dark" data-toggle="modal" data-target="#myModal2">
+        <i class="fas fa-info-circle"></i>
+    </button>
+
+    <!-- Button to Open the Modal -->
+    <button type="button" id="btn_legenda2" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <i class="fas fa-water"></i>
+    </button>
+    <div class="collapse show" id="navbarToggleExternalContent" style="display: none;">
+        <div class="col order-12">
+            <div class="row ">
+
+                <div class="col-sm-1">
+                    <img src="SiSMAR.png" class="img_logo img-thumbnail float-left">
+                    <img src="SiSMAR.png" class="img_logo2 img-thumbnail">
+
+                    <!-- <input type="range" id="calado_span" name="calado_span" min="0" max="5" step="0.01"
+                        oninput="amount.value=calado_span.value">
+                    <output name="amount" id="amount" for="calado_span">2.5</output> -->
+
+                </div>
+                <div class="col-sm-1">
+
+                    <p>Calado metro(s)</p>
+                    <input type="number" id="calado_span" min="1" max="5" value="1" step="0.01">
+
+                </div>
+                <div class="col-sm-1">
+                    <p>Limite Superior</p>
+                    <input type="number" id="calado_sup_span" value="0.2" min="0.1" max="0.9" step="0.1">
+
+                </div>
+                <div class="col-sm-1">
+                    <p>Limite Inferior</p>
+                    <input type="number" id="calado_inf_span" value="0.1" min="0.1" max="0.9" step="0.1">
+
+                </div>
+                <div class="col-sm-3">
+                    <p>TIR</p>
+                    <input type="time" id="time">
+                    <input id="date" type="date" style="margin-left: 5px;" onchange="getInfo_outraData()">
+
+                </div>
+                <div class="col-sm-1">
+                    <p>ETA</p>
+                    <output name="eta" id="eta"></output>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <button type="button" class="btn btn-dark btn_color_sim" onclick="changeValue()">Simular</button>
+            <button type="button" class="btn btn-danger btn_color_del" onclick="clearmap()">Apagar</button>
+
+            <a class="btn btn-primary" data-toggle="collapse" href="#navbarToggleExternalContent" role="button"
+                aria-expanded="true" aria-controls="navbarToggleExternalContent" id="fechaDefinicoes">
+                <i class="fas fa-times-circle"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('fechaDefinicoes').onclick = function () {
+            document.getElementById('navbarToggleExternalContent').style.display = 'none';
+        }
+
+        document.getElementById('abreDefinicoes').onclick = function () {
+            document.getElementById('navbarToggleExternalContent').style.display = 'block';
+        }
+
+    </script>
+    <!-- <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <div id="clockbox" class="text-center"></div>
+            </div>
+        </div>
+    </div> -->
+    <div class="container2">
+        <div class="row">
+            <!-- <div class="col-sm col_file">
+                <input type="file" id="fileUploader" class="custom-file-input" name="fileUploader"
+                    accept=".xls, .xlsx" />
+                <label class="custom-file-label" for="inputGroupFile02">Ficheiro</label>
+
+            </div> -->
+            <!-- <div class="col-sm">
+                <button type="button" class="btn btn-info" onclick="localBtn()">
+                    <i class="fas fa-location-arrow"></i>
+                     <i class="fa fa-ship"></i>
+                </button>
+            </div> -->
+
+            <script>
+                function selecionarRota() {
+                    var value_escolhido = document.getElementById("sel1").value;
+
+
+                    switch (value_escolhido) {
+                        case 'rota1':
+                            getDataGPX();
+                            break;
+                        case 'rota2':
+                            getData2GPX();
+                            break;
+                        case 'rota3':
+                            getData3GPX();
+                            break;
+                        case 'rota4':
+                            getData_IDA10_3_20_GPX();
+                            break;
+                        case 'rota5':
+                            getData_Volta10_3_20_GPX();
+                            break;
+                        default: getData3GPX();
+                            break;
+                    }
+
+                }
+            </script>
+
+            <div class="col-sm">
+                <select class="form-control" id="sel1" onchange="selecionarRota()">
+                    <option value="rota1">Rota Torreira</option>
+                    <option value="rota2">Costa Nova</option>
+                    <option value="rota3" selected>Cais do Bico</option>
+                    <option value="rota4">Rota 10/03/20 IDA</option>
+                    <option value="rota5">Rota 10/03/20 Regresso</option>
+
+                </select>
+                <!-- <button type="button" class="btn btn_rota" onclick="getData3GPX()">Cais do Bico</button> -->
+            </div>
+            <!-- <div class="col-sm">
+                <button type="button" class="btn btn_rota" onclick="getDataGPX()">Rota Torreira</button>
+            </div>
+            <div class="col-sm">
+                <button type="button" class="btn btn_rota" onclick="getData2GPX()">Costa Nova</button>
+            </div> 
+            <div class="col-sm">
+                <button type="button" id="btn_rota_Ida" class="btn btn_rota" onclick="getData_IDA10_3_20_GPX()">Rota
+                    10/03/20 IDA</button>
+            </div>
+            <div class="col-sm">
+                <button type="button" id="btn_rota_Volta" class="btn btn_rota" onclick="getData_Volta10_3_20_GPX()">Rota
+                    10/03/20 Volta</button>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <!-- ********************************************************************************************
+   ********************************************************************************************
+   ************************************* Modal ******************************************
+   ********************************************************************************************
+   ********************************************************************************************  -->
+    <div class="modal" id="myModal2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Legenda</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <p style="font-size:15px">Fs >= Limite Superior</p>
+                            </div>
+                            <div class="col-sm">
+                                <hr style="border: 3px solid green;border-radius: 10px;">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <p style="font-size:15px"> Limite Inferior <= Fs <=Limite Superior</p>
+                            </div>
+                            <div class="col-sm">
+                                <hr style="border: 3px solid yellow;border-radius: 10px;">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <p style="font-size:15px">Fs <= Limite Inferior</p>
+                            </div>
+                            <div class="col-sm">
+                                <hr style="border: 3px solid red;border-radius: 10px;">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <p style="font-size:15px">Zs <= 0 metros</p>
+                            </div>
+                            <div class="col-sm">
+                                <hr style="border: 3px solid black;border-radius: 10px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Data Instituto Hidrográfico</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row ">
+                        <button class="btn btn-dark" style="opacity: 0.8;" onclick="onclick_modal_data_ondia15()">Dia
+                            15/08/2019</button>
+                        <button class="btn btn-dark" onclick="onclick_modal_data_ondia16()">Dia
+                            16/08/2019</button>
+                        <button class="btn btn-dark" style="opacity: 0.8;" onclick="onclick_modal_data_ondia17()">Dia
+                            17/08/2019</button>
+                    </div>
+                    <div class="row ">
+                        <button class="btn btn-dark" style="opacity: 0.8;" onclick="onclick_modal_data_ontem()">Dia
+                            Anterior</button>
+                        <button class="btn btn-dark" onclick="onclick_modal_data_hoje()">Dia
+                            Partida</button>
+                        <button class="btn btn-dark" style="opacity: 0.8;" onclick="onclick_modal_data_amanha()">Dia
+                            Seguinte</button>
+                    </div>
+                    <!-- <div id="escrever_data_ant"></div>
+                    <div id="escrever_data_hoje"></div>
+                    <div id="escrever_data_amanha"></div> -->
+                    <div id="escrever_data"></div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    <div id="issMap"></div>
+    <div id="load_fetch">
+        <h2>Carregando...</h2>
+    </div>
+
+    <script>
+
+
+        var calado = 1;
+        var velocidademedia;
+        // Making a map and tiles
+        const mymap = L.map('issMap').setView([40.70, -8.69], 11);
+        const attribution =
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+        const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const tiles = L.tileLayer(tileUrl, {
+            attribution
+        });
+
+
+        var NauticalMap = L.tileLayer('https://viewer.flytomap.com/noaatiles/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
+            subdomains: 'abcd',
+            maxZoom: 19,
+        });
+
+
+        NauticalMap.addTo(mymap);
+
+        var NauticalMap_2 = L.tileLayer('https://viewer.flytomap.com/ftm_tiles/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://viewer.flytomap.com/#">Flytomap</a> contributors &copy;',
+            subdomains: 'abcd',
+            maxZoom: 19,
+        });
+
+
+        var OpenStreetMap_HOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+        });
+
+        var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        });
+
+        var Thunderforest_TransportDark = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
+            attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            apikey: 'a83d355c78244eb8b0c7530eb3a8e481',
+            maxZoom: 22
+        });
+
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+        var CartoDB_DarkMatterNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        });
+
+        // var NauticalMap = L.tileLayer.wms("http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs", {
+        //     layers: 'RAS_RIDGE_NEXRAD',
+        //     transparent: true,
+        //     subdomains: 'abcd',
+        //     attribution: "NOAA/NWS"
+        // });
+
+
+
+        baseMaps = {
+            "NOAA": NauticalMap,
+            "Normal": tiles,
+            "FlyToMap": NauticalMap_2,
+            "Satélite": Esri_WorldImagery,
+            "OpenStreetMap_HOT": OpenStreetMap_HOT,
+            "OpenTopoMap": OpenTopoMap,
+            "Dark": CartoDB_DarkMatterNoLabels,
+            "Thunderforest_TransportDark": Thunderforest_TransportDark,
+        };
+
+        ControlLayer = L.control.layers(baseMaps).addTo(mymap);
+
+
+        // Making a marker with a custom icon
+        const issIcon = L.icon({
+            iconUrl: 'marker.png',
+            iconSize: [22, 32, 5],
+            iconAnchor: [10, 30],
+        });
+
+        //Aveiro centro
+
+        let marker = L.marker([40.64138528006924, -8.654335141181946], {
+            icon: issIcon
+        }).addTo(mymap).on('click', getData4GPX);
+
+        //torreira
+
+        let marker2 = L.marker([40.754585, -8.696377], {
+            icon: issIcon
+        }).addTo(mymap).on('click', getDataGPX);
+
+        //gafanha
+
+        let marker3 = L.marker([40.612488, -8.738059], {
+            icon: issIcon
+        }).addTo(mymap).on('click', getData2GPX);
+
+        //Bico
+
+        let marker4 = L.marker([40.727508, -8.648118], {
+            icon: issIcon
+        }).addTo(mymap).on('click', getData3GPX);
+
+
+        mymap.on('zoomend', function () {
+            const zoom = mymap.getZoom() + 1;
+            // const w = 11 * zoom;
+            // const h = 16 * zoom;
+            // issIcon.options.iconSize = [44, 65];
+            // issIcon.options.iconAnchor = [w / 2, h / 2];
+            mymap.removeLayer(marker);
+            let latlng = marker.getLatLng();
+            marker = L.marker([40.727291289709356, -8.652763366699219], {
+                icon: issIcon
+            }).addTo(mymap).on('click', onClick);;
+            marker.setLatLng(latlng);
+        });
+
+        L.control.scale().addTo(mymap);
+
+        //Localização do Utilizador
+        // mymap.locate({
+        //     setView: true,
+        //     maxZoom: 14
+        // });
+
+        // var localiz_distan = [];
+        // var local_Nome_rota = [];
+
+        // async function onLocationFound(e) {
+        //     var radius = e.accuracy;
+
+        //     let funcname = [];
+
+        //     L.marker(e.latlng).addTo(mymap)
+        //         .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+        //     L.circle(e.latlng, radius).addTo(mymap);
+
+        //     let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
+        //     const response = await fetch(url);
+        //     const json = await response.text();
+
+        //     VEri_text_gpx = json;
+        //     parser = new DOMParser();
+        //     xmlDoc = parser.parseFromString(json, "text/xml");
+        //     funcname.push('getDataGPX')
+        //     var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lat');
+        //     var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+        //     distancia = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx, lon_gpx]);
+
+        //     localiz_distan.push(distancia);
+        //     local_Nome_rota.push('rota1')
+
+        //     let url2 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
+        //     const response2 = await fetch(url2);
+        //     const json2 = await response2.text();
+
+        //     VEri_text_gpx2 = json2;
+        //     parser2 = new DOMParser();
+        //     xmlDoc2 = parser2.parseFromString(json2, "text/xml");
+        //     funcname.push('getDataGPX')
+        //     var lat_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lat');
+        //     var lon_gpx2 = xmlDoc2.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+        //     distancia2 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx2, lon_gpx2]);
+        //     localiz_distan.push(distancia2);
+        //     local_Nome_rota.push('rota2')
+
+        //     let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
+        //     const response3 = await fetch(url3);
+        //     const json3 = await response3.text();
+
+        //     VEri_text_gpx3 = json3;
+        //     parser3 = new DOMParser();
+        //     xmlDoc3 = parser3.parseFromString(json3, "text/xml");
+        //     funcname.push('getDataGPX')
+        //     var lat_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lat');
+        //     var lon_gpx3 = xmlDoc3.getElementsByTagName("trkpt")[0].getAttribute('lon');
+
+        //     distancia3 = mymap.distance([e.latlng.lat, e.latlng.lng], [lat_gpx3, lon_gpx3]);
+        //     localiz_distan.push(distancia3);
+        //     local_Nome_rota.push('rota3')
+
+        //     let menor_dist;
+        //     let menor_rota;
+        //     if (localiz_distan != null) {
+        //         for (let k = 0; k < localiz_distan.length; k++) {
+        //             if (menor_dist == null) {
+        //                 menor_dist = localiz_distan[k];
+        //             } else {
+        //                 if (menor_dist > localiz_distan[k]) {
+        //                     menor_dist = localiz_distan[k];
+        //                     menor_rota = local_Nome_rota[k];
+        //                 }
+        //             }
+
+        //         }
+        //     }
+
+        //     switch (menor_rota) {
+        //         case 'rota1':
+        //             getDataGPX();
+        //             break;
+        //         case 'rota2':
+        //             getData2GPX();
+        //             break;
+        //         case 'rota3':
+        //             getData4GPX();
+        //             break;
+        //     }
+        // }
+
+
+
+        // mymap.on('locationfound', onLocationFound);
+
+        // function localBtn() {
+        //     // create control and add to map
+        //     var lc = L.control.locate().addTo(mymap);
+
+        //     // request location update and set location
+        //     lc.start();
+        // }
+
+
+        //getDataGPX();
+
+        let text_gpx, arrayGPX = [];
+        var VEri_text_gpx;
+        async function getDataGPX() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_regresso.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.678, -8.7166], 11);
+
+        }
+
+        async function getData2GPX() {
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_2_08.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
+        async function getData3GPX() {
+            let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
+            fetch(url3)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        moving_speed = gpx.get_moving_speed().toFixed(2);
+                        moving_pace = gpx.get_moving_pace().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>" +
+                            "moving_speed: " + moving_speed + "</br>" +
+                            "moving_pace: " + moving_pace + "</br>"
+                        console.log(info)
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate(),
+                            nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+                        //document.getElementById('time').value = hora_min_gpx;
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.712, -8.68,], 14);
+        }
+
+        async function getData4GPX() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/aveiro_centro.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                    //console.log(response.text())
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+
+        }
+
+
+        async function getData_Volta10_3_20_GPX() {
+            // document.getElementById('btn_rota_Volta').style.backgroundColor = "#00000087";
+            // document.getElementById('btn_rota_Ida').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_mytracks_volta.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
+
+        async function getData_IDA10_3_20_GPX() {
+            // document.getElementById('btn_rota_Volta').style.backgroundColor = "rgba(252, 252, 252, 0.808)";
+            // document.getElementById('btn_rota_Ida').style.backgroundColor = "#00000087";
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#020202'
+                        },
+                        marker_options: {
+                            'startIcon': new L.icon({
+                                iconUrl: 'marker.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            }),
+                            'endIcon': new L.icon({
+                                iconUrl: 'marker_chegada.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM = gpx.get_distance(),
+                            distKm = distM / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
+
+
+        //No clique do marker
+
+        var linesFeatureLayer
+
+        function onClick(e) {
+            if (e.latlng.lat == 40.727291289709356 && e.latlng.lng == -8.652763366699219) {
+                mymap.eachLayer(function (layer) {
+                    //console.log(layer)
+                    //console.log(layer.options.pane)
+                    if (layer.options.pane == "overlayPane") {
+                        mymap.removeLayer(layer);
+                    }
+                });
+                var valorInput = document.getElementById('calado_span').value;
+                var valorInput2 = document.getElementById('calado_sup_span').value;
+                var valorInput3 = document.getElementById('calado_inf_span').value;
+                if (valorInput != "" && valorInput2 != "" && valorInput3 != "") {
+                    if (array_hidrografico_simulacao_API.length > 0) {
+                        calculo(valorInput, valorInput2, valorInput3);
+                    }
+                } else {
+                    if (array_hidrografico_simulacao_API.length > 0) {
+
+                        calado = 1;
+                        margemcaladoSup = 0.2;
+                        margemcaladoInf = 0.1;
+                        calculo(1, 0.2, 0.1);
+                    }
+                }
+
+            }
+        }
+    </script>
+
+    <script>
+        var arrayhidrografico = [];
+        var array_hidrografico_simulacao_API = [],
+            array_hidrografico_simulacao_API_diapos = [],
+            array_hidrografico_simulacao_API_anterior = [];
+        var arrayUser = [];
+        $(document).ready(function () {
+            $("#fileUploader").change(function (evt) {
+                var selectedFile = evt.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var data = event.target.result;
+                    var workbook = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                    workbook.SheetNames.forEach(function (sheetName) {
+
+                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                        var json_object = JSON.stringify(XL_row_object);
+
+                        let jsonparse = JSON.parse(json_object);
+                        arrayUser.push(jsonparse);
+                        let tempoveri = arrayUser[0][1].T;
+                        var newStr = tempoveri.replace(/T/g, " ");
+                        let date = new Date(newStr);
+                        let horatempoAPI = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+
+                        document.getElementById('time').value = horatempoAPI;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+
+                    })
+                };
+
+                reader.onerror = function (event) {
+                    console.error("File could not be read! Code " + event.target.error.code);
+                };
+
+                reader.readAsBinaryString(selectedFile);
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        tday = new Array("Domingo", "Segunda-Feira",
+            "Terça-Feira", "Quarta-Feira",
+            "Quinta-Feira", "Sexta-Feira", "Sábado");
+        tmonth = new Array("Janeiro", "Fevereiro", "Março",
+            "Abril", "Maio", "Junho", "Julho",
+            "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro");
+
+        function GetClock() {
+            var d = new Date();
+            var nday = d.getDay(),
+                nmonth = d.getMonth(),
+                ndate = d.getDate(),
+                nyear = d.getYear(),
+                nhour = d.getHours(),
+                nmin = d.getMinutes(),
+                nsec = d.getSeconds(),
+                ap;
+
+            if (nhour == 0) {
+                ap = " AM";
+                nhour = 12;
+            } else if (nhour < 12) {
+                ap = " AM";
+            } else if (nhour == 12) {
+                ap = " PM";
+            } else if (nhour > 12) {
+                ap = " PM";
+                nhour -= 12;
+            }
+
+            if (nyear < 1000) nyear += 1900;
+            if (nmin <= 9) nmin = "0" + nmin;
+            if (nsec <= 9) nsec = "0" + nsec;
+
+            //document.getElementById('clockbox').innerHTML = "" + tday[nday] + ", " + tmonth[nmonth] + " " + ndate + ", " + nyear + " " + nhour + ":" + nmin + ":" + nsec + ap + "";
+        }
+
+        window.onload = function () {
+            getData3GPX();
+            getInfo();
+            GetClock();
+            setInterval(GetClock, 1000);
+
+        }
+
+
+        async function getInfo() {
+            arrayhidrografico = [];
+            array_hidrografico_simulacao_API = [];
+            array_hidrografico_simulacao_API_diapos = [];
+            array_hidrografico_simulacao_API_anterior = [];
+            //arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            mare_por_minuto = [];
+            var d = new Date();
+            var nday = d.getDay(),
+                nmonth = d.getMonth(),
+                ndate = d.getDate(),
+                nyear = d.getYear();
+            if (nyear < 1000) nyear += 1900;
+            let mescerto = nmonth + 1;
+
+            let dia_pos = ndate + 1;
+            let dia_ant = ndate - 1;
+
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
+            const url_tes = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url_tes) // https://cors-anywhere.herokuapp.com/https://example.com
+                .then(response => response.json())
+                .then(contents => array_hidrografico_simulacao_API.push(contents))
+                .then(contents => arrayhidrografico.push(contents))
+                .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
+
+            //const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            // const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
+            // const response = await fetch(proxyurl + url);
+            // const json = await response.json();
+            // array_hidrografico_simulacao_API.push(json)
+
+
+            const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
+            const response2 = await fetch(proxyurl + url_posterior);
+            const json2 = await response2.json();
+            array_hidrografico_simulacao_API_diapos.push(json2)
+
+            const url_anterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + dia_ant + '&nd=0'; // site that doesn’t send Access-Control-*
+            const response3 = await fetch(proxyurl + url_anterior);
+            const json3 = await response3.json();
+            array_hidrografico_simulacao_API_anterior.push(json3)
+        }
+
+
+        async function getInfo_outraData() {
+            array_hidrografico_simulacao_API = [];
+            array_hidrografico_simulacao_API_diapos = [];
+            array_hidrografico_simulacao_API_anterior = [];
+
+            console.log(array_hidrografico_simulacao_API)
+            console.log(array_hidrografico_simulacao_API_diapos)
+            console.log(array_hidrografico_simulacao_API_anterior)
+            //arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            mare_por_minuto = [];
+            horas_escolh = new Date(document.getElementById('date').value);
+            var nday = horas_escolh.getDay(),
+                nmonth = horas_escolh.getMonth(),
+                ndate = horas_escolh.getDate(),
+                nyear = horas_escolh.getYear();
+            if (nyear < 1000) nyear += 1900;
+            mes = nmonth + 1;
+
+            let dia_pos = ndate + 1;
+            let dia_ant = ndate - 1;
+
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
+            const url_tes = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url_tes) // https://cors-anywhere.herokuapp.com/https://example.com
+                .then(response => response.json())
+                .then(contents => array_hidrografico_simulacao_API.push(contents))
+                .catch(() => console.log("Can’t access " + url_tes + " response. Blocked by browser?"))
+
+
+            const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
+            const response2 = await fetch(proxyurl + url_posterior);
+            const json2 = await response2.json();
+            array_hidrografico_simulacao_API_diapos.push(json2)
+
+            const url_anterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mes + '-' + dia_ant + '&nd=0'; // site that doesn’t send Access-Control-*
+            const response3 = await fetch(proxyurl + url_anterior);
+            const json3 = await response3.json();
+            array_hidrografico_simulacao_API_anterior.push(json3)
+
+            console.log(array_hidrografico_simulacao_API_anterior)
+        }
+
+        function onclick_modal_data_amanha() {
+            if (array_hidrografico_simulacao_API_diapos.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][0].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][1].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][2].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][3].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_diapos[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+
+        function onclick_modal_data_ontem() {
+            if (array_hidrografico_simulacao_API_anterior.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][0].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][1].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][2].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][3].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+        function onclick_modal_data_hoje() {
+            if (array_hidrografico_simulacao_API.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][0].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][1].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][2].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][3].SDATA + "</td>" +
+                    "<td>" + array_hidrografico_simulacao_API[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+
+
+        var arrayhidrografico_posdia = [], arrayhidrografico_anteriordia = [];
+
+        async function getInfo2(ano, mes, dia) {
+
+            console.log(ano + "---" + mes + "---" + dia);
+
+            arrayhidrografico = [];
+
+            //arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            mare_por_minuto = [];
+            arrayhidrografico = [];
+            arrayhidrografico_posdia = [];
+            arrayhidrografico_anteriordia = [];
+
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            const url = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + ano + '-' + mes + '-' + dia + '&nd=0'; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
+                .then(response => response.json())
+                .then(contents => arrayhidrografico.push(contents))
+                .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+            let dia_pos = dia + 1;
+            let dia_ant = dia - 1;
+
+            const url_posterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + ano + '-' + mes + '-' + dia_pos + '&nd=0'; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url_posterior) // https://cors-anywhere.herokuapp.com/https://example.com
+                .then(response => response.json())
+                .then(contents => arrayhidrografico_posdia.push(contents))
+                .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+
+            const url_anterior = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + ano + '-' + mes + '-' + dia_ant + '&nd=0'; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url_anterior) // https://cors-anywhere.herokuapp.com/https://example.com
+                .then(response => response.json())
+                .then(contents => arrayhidrografico_anteriordia.push(contents))
+                .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+        }
+
+
+
+        function onclick_modal_data_ondia15() {
+            if (arrayhidrografico_anteriordia.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][0].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][1].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][2].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][3].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_anteriordia[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+
+        function onclick_modal_data_ondia16() {
+            console.log(arrayhidrografico)
+
+            if (arrayhidrografico.length > 0) {
+                if (arrayhidrografico[0][0] != null) {
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + arrayhidrografico[0][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[0][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + arrayhidrografico[0][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[0][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + arrayhidrografico[0][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[0][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + arrayhidrografico[0][3].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[0][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                }
+                if (arrayhidrografico[2] != null) {
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + arrayhidrografico[2][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[2][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + arrayhidrografico[2][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[2][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + arrayhidrografico[2][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[2][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + arrayhidrografico[2][3].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[2][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                } else {
+                    document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                        "<th scope='col'>Data</th>" +
+                        "<th scope='col'>Altura Maré</th>" +
+                        "</tr></thead>" +
+                        "<tbody>" +
+                        "<tr>" +
+                        "<th scope='row'>1</th>" +
+                        "<td>" + arrayhidrografico[1][0].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[1][0].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>2</th>" +
+                        "<td>" + arrayhidrografico[1][1].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[1][1].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>3</th>" +
+                        "<td>" + arrayhidrografico[1][2].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[1][2].ALT + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<th scope='row'>4</th>" +
+                        "<td>" + arrayhidrografico[1][3].SDATA + "</td>" +
+                        "<td>" + arrayhidrografico[1][3].ALT + "</td>" +
+                        "</tr>" +
+                        "</tbody></table>";
+                }
+
+            }
+        }
+
+        function onclick_modal_data_ondia17() {
+            if (arrayhidrografico_posdia.length > 0) {
+                document.getElementById('escrever_data').innerHTML = "<table class='table'><thead><tr><th scope='col'>#</th>" +
+                    "<th scope='col'>Data</th>" +
+                    "<th scope='col'>Altura Maré</th>" +
+                    "</tr></thead>" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th scope='row'>1</th>" +
+                    "<td>" + arrayhidrografico_posdia[0][0].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_posdia[0][0].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>2</th>" +
+                    "<td>" + arrayhidrografico_posdia[0][1].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_posdia[0][1].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>3</th>" +
+                    "<td>" + arrayhidrografico_posdia[0][2].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_posdia[0][2].ALT + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<th scope='row'>4</th>" +
+                    "<td>" + arrayhidrografico_posdia[0][3].SDATA + "</td>" +
+                    "<td>" + arrayhidrografico_posdia[0][3].ALT + "</td>" +
+                    "</tr>" +
+                    "</tbody></table>";
+            }
+        }
+
+
+
+        function changeValue(e) {
+
+            var valorInput = document.getElementById('calado_span').value;
+            //document.getElementById('amount').value = valorInput;
+            var valorInput2 = document.getElementById('calado_sup_span').value;
+            var valorInput3 = document.getElementById('calado_inf_span').value;
+
+            //inserir data
+            var data_insert = document.getElementById('date').value;
+
+            if (data_insert == "") {
+                document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Dever inserir uma data</h4>";
+                var d = new Date();
+                var nday = d.getDay(),
+                    nmonth = d.getMonth() + 1,
+                    ndate = d.getDate(),
+                    nyear = d.getYear();
+                if (nyear < 1000) nyear += 1900;
+                document.getElementById('date').value = nday + "-" + nmonth + "-" + nyear;
+                console.log(document.getElementById('date').value)
+            }
+
+            if (valorInput != "" && valorInput2 != "" && valorInput3 != "") {
+                if (array_hidrografico_simulacao_API.length > 0) {
+                    document.getElementById('load_fetch').style.display = "none";
+                    calculo(valorInput, valorInput2, valorInput3);
+
+                } else {
+                    document.getElementById('load_fetch').style.display = "block";
+                    document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Carregando</h4>" +
+                        "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
+                }
+            } else {
+                if (array_hidrografico_simulacao_API.length > 0) {
+                    calado = 1;
+                    margemcaladoSup = 0.2;
+                    margemcaladoInf = 0.1;
+                    calculo(1, 0.2, 0.1);
+                    document.getElementById('amount').value = calado;
+
+                } else {
+                    document.getElementById('load_fetch').style.display = "block";
+                    document.getElementById('load_fetch').innerHTML = "<h4 style='text-align:center'>Carregando</h4>" +
+                        "<button type='button' class='btn btn-dark btn_color_sim' onclick='changeValue()'>Recarregar</button>";
+                }
+            }
+
+        }
+
+        function leadZero(_something) {
+            if (parseInt(_something) < 10) return "0" + _something;
+            return _something; //else    
+        }
+
+
+
+        //Realiza o calculo com base no excel
+        function calculo(valor_cal, cal_sup, cal_inf) {
+
+
+
+
+
+            //remover a rota realizada e atualizar
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            document.getElementById('calado_span').value = valor_cal;
+            document.getElementById('calado_sup_span').value = cal_sup;
+            document.getElementById('calado_inf_span').value = cal_inf;
+
+            //atribuir um calado à rota
+            var valorInput = document.getElementById('calado_span').value;
+            if (valorInput != "") {
+                calado = valorInput
+            } else {
+                calado = 1;
+            }
+            //selecionar um tempo HH:MM
+            var tempo = document.getElementById('time').value;
+
+            let UserHoras2;
+            if (tempo != "") {
+                var d = new Date();
+                var nday = d.getDay(),
+                    nmonth = d.getMonth() + 1,
+                    ndate = d.getDate(),
+                    nyear = d.getYear();
+                if (nyear < 1000) nyear += 1900;
+                var splitTime1 = tempo.split(':');
+                UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+            } else {
+                var d = new Date();
+                var nday = d.getDay(),
+                    nmonth = d.getMonth(),
+                    ndate = d.getDate(),
+                    nyear = d.getYear();
+                if (nyear < 1000) nyear += 1900;
+                nhour = d.getHours(), nmin = d.getMinutes();
+                // let hora = "20";
+                // let min = "00";
+                UserHoras2 = new Date(nyear, nmonth, nday, nhour, nmin);
+                var now = new Date(Date.now());
+                var f = leadZero(now.getHours()) + ":" + leadZero(now.getMinutes());
+                document.getElementById('time').value = f;
+            }
+
+
+
+
+            var z1_rota_adquirida = [];
+            var coordenadas = [];
+            let ar_CoordExcel = [],
+                horasdarota_medida = [];
+            var dataViajaUser = [];
+
+            parser = new DOMParser();
+            xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
+            if (arrayGPX.length != 0 || arrayUser.length != 0) {
+                if (arrayUser.length > 0) {
+                    for (let m = 0; m < arrayUser.length; m++) {
+                        for (let n = 0; n < arrayUser[m].length; n++) {
+                            //console.log(arrayUser[m][n])
+                            if (arrayUser[m][n].X != "Coordenadas" ||
+                                arrayUser[m][n].X != "</trkseg" ||
+                                arrayUser[m][n].X != "</trk" ||
+                                arrayUser[m][n].X != "</gpx") {
+
+                                if (arrayUser[m][n].T != null || arrayUser[m][n].T != undefined) {
+                                    let tempoveri = arrayUser[m][n].T;
+                                    var newStr = tempoveri.replace(/T/g, " ");
+                                    let date = new Date(newStr);
+                                    let horatempo_excel = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+                                    if (date.getSeconds() == 00 || date.getSeconds() == 11) {
+                                        //Guardar Coordenadas do Excel e Z
+                                        ar_CoordExcel.push(arrayUser[m][n])
+                                        horasdarota_medida.push(horatempo_excel)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (arrayGPX[0].length > 0) {
+                    for (let i = 0; i < xmlDoc.getElementsByTagName("trkpt").length; i++) {
+                        if (xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != null ||
+                            xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML != undefined) {
+                            let tempoveri = xmlDoc.getElementsByTagName("trkpt")[i].children[2].innerHTML;
+                            var newStr = tempoveri.replace(/T/g, " ");
+                            let date = new Date(newStr);
+                            let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+                            if (date.getSeconds() == 00) {
+                                //Guardar Coordenadas do GPX e Z
+
+                                var lat_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lat');
+                                var lon_gpx = xmlDoc.getElementsByTagName("trkpt")[i].getAttribute('lon');
+                                var z_adquir = xmlDoc.getElementsByTagName("trkpt")[i].children[1].innerHTML;
+                                z_adquirido_rota = parseFloat(z_adquir) + 0.4;
+                                //z_adquirido_rota = parseFloat(z_adquir) + 0;
+                                z1_rota_adquirida.push(z_adquirido_rota)
+                                coordenadas.push([lon_gpx, lat_gpx])
+                                horasdarota_medida.push(horatempo_GPX)
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            let latit, longitu, zadquirido = [];
+
+            if (ar_CoordExcel.length > 0) {
+
+                for (let coord = 0; coord < ar_CoordExcel.length; coord++) {
+
+                    var newlat = ar_CoordExcel[coord].X.replace(/""/g, "");
+                    var newlat2 = newlat.replace(/lat=/g, "");
+                    var newlat3 = newlat2.replace(/\"/g, "");
+                    let newlat4 = parseFloat(newlat3);
+
+                    var newlong5 = ar_CoordExcel[coord].Y.replace(/""/g, "");
+                    var newlong6 = newlong5.replace(/lon=/g, "");
+                    var newlong7 = newlong6.replace(/\"/g, "");
+                    let newlong8 = parseFloat(newlong7);
+                    coordenadas.push([newlong8, newlat4])
+                    z1_rota_adquirida.push([ar_CoordExcel[coord].Z_offset]);
+
+                }
+
+            } else {
+                if (coordenadas.length == 0) {
+                    coordenadas = [
+                        [-8.762712478637695, 40.64196329226261],
+                        [-8.752756118774414, 40.644828856258954],
+                        [-8.742284774780273, 40.64593597303585],
+                        [-8.73464584350586, 40.65016889724004],
+                        [-8.727693557739258, 40.655703854536746],
+                        [-8.725204467773438, 40.66117324360654],
+                        [-8.72288703918457, 40.66826975856376],
+                        [-8.716878890991211, 40.675495708799446],
+                        [-8.715934753417969, 40.68363210267408],
+                        [-8.717050552368164, 40.692548449646836],
+                        [-8.714303970336914, 40.702569780377935],
+                        [-8.707437515258789, 40.71102817184792],
+                        [-8.696279525756834, 40.71642796756138],
+                        [-8.681774139404297, 40.72104672237615],
+                        [-8.667354583740234, 40.72481955186487],
+                        [-8.652763366699219, 40.727291289709356],
+                    ];
+
+                    z1_rota_adquirida = [
+                        [3.5],
+                        [3.30],
+                        [3.4],
+                        [3.4],
+                        [3.70],
+                        [4],
+                        [4.5],
+                        [3],
+                        [3.4],
+                        [4],
+                        [3.9],
+                        [3.20],
+                        [3.0],
+                        [3.4],
+                        [3.5],
+                        [3],
+                    ];
+                }
+            }
+
+
+
+
+            /*********************************************************************************/
+            /********************************************************************************/
+            /************************** ROTA Adquirida ******************************************/
+            /********************************************************************************/
+            /********************************************************************************/
+
+            var guardarHoras = [], guardarHoras_anterior = [];
+            let sortedData;
+            var mare_por_minuto = [];
+            let count = 0,
+                mare_max, mare_min, variacaomare, variaca;
+            let soma = 0,
+                somamare2 = 0;
+            var arrayMares = [];
+            var mareUser = [];
+
+            if (arrayhidrografico.length > 0 && arrayhidrografico_anteriordia.length > 0) {
+                //Ordenar as informação por ordem
+                for (let i = 0; i < arrayhidrografico.length; i++) {
+
+                    let UserHorasMin = UserHoras.getHours() + ":" + UserHoras.getMinutes();
+
+                    let datefrente;
+                    for (let j = 0; j < arrayhidrografico[i].length; j++) {
+                        console.log(arrayhidrografico[i][j])
+                        let date = new Date(arrayhidrografico[i][j].SDATA);
+                        let horatempoAPI = date.getHours() + ":" + date.getMinutes();
+                        guardarHoras.push(arrayhidrografico[i][j])
+
+                    }
+                    sortedData = guardarHoras.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
+                }
+
+                //------------ ARRAY dia anterior --------------------------
+
+                for (let i = 0; i < arrayhidrografico_anteriordia.length; i++) {
+
+                    for (let j = 0; j < arrayhidrografico_anteriordia[i].length; j++) {
+                        console.log(arrayhidrografico_anteriordia[i][j])
+                        let date = new Date(arrayhidrografico_anteriordia[i][j].SDATA);
+                        guardarHoras_anterior.push(arrayhidrografico_anteriordia[i][j])
+
+                    }
+                    sortedData_anterior = guardarHoras_anterior.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
+                }
+
+                //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
+                // for (let k = 0; k < sortedData.length; k++) {
+
+                //     let date = new Date(sortedData[k].SDATA);
+                //     let dataSDATA = date.getHours() + ":" + date.getMinutes();
+
+                //     if (sortedData[k + 1] != undefined) {
+                //         datefrente = new Date(sortedData[k + 1].SDATA);
+                //     } else {
+                //         console.log('')
+                //     }
+
+
+                let data1 = new Date(sortedData[0].SDATA);
+                let data2 = new Date(sortedData[1].SDATA);
+                let data3 = new Date(sortedData[2].SDATA);
+                let data4 = new Date(sortedData[3].SDATA);
+
+
+
+                //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
+
+                // arrayMares.push(sortedData[k].ALT)
+                // let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
+
+                //Verificação com base nas horas do utilizador qual a maré 
+
+                // if (UserHoras.getHours() >= date.getHours() && UserHoras.getHours() < datefrente.getHours()) {
+
+                //     mareUser.push(sortedData[k].ALT)
+                //     console.log(sortedData[k].ALT)
+                // } else {
+                //     console.log('')
+                // }
+                //arrayhidrografico_posdia
+
+                if (UserHoras.getHours() <= 5) {
+                    if (sortedData_anterior[3].SDATA != null) {
+                        let horas_min_anterior = new Date(sortedData_anterior[3].SDATA);
+                        let delta_mare = sortedData_anterior[3].ALT - sortedData[0].ALT;
+
+                        let usershr_min = UserHoras.getHours() * 60;
+                        let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                        let count = (UserHoras.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                        let total = delta_mare * (count / 375) + sortedData_anterior[3].ALT;
+
+                        mareUser.push(total)
+                    } else {
+                        let horas_min_anterior = new Date(sortedData_anterior[2].SDATA);
+                        let delta_mare = sortedData_anterior[2].ALT - sortedData[0].ALT;
+
+                        let usershr_min = UserHoras.getHours() * 60;
+                        let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                        let count = (UserHoras.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                        let total = delta_mare * (count / 375) + sortedData_anterior[2].ALT;
+
+                        mareUser.push(total)
+                    }
+
+                    for (let p = 1; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto == null) {
+                            mare_por_minuto.push(mareUser[0])
+                        } else {
+                            console.log(horasdarota_medida[p]) //horas da rota
+                            //let user_adqui_horas_min = new Date(horasdarota_medida[p]);
+                            if (sortedData_anterior[3].SDATA != null) {
+                                let horas_min_anterior = new Date(sortedData_anterior[3].SDATA);
+                                let delta_mare = sortedData_anterior[3].ALT - sortedData[k].ALT;
+
+                                var d = new Date();
+                                var nday = d.getDay(),
+                                    nmonth = d.getMonth() + 1,
+                                    ndate = d.getDate(),
+                                    nyear = d.getYear();
+                                if (nyear < 1000) nyear += 1900;
+                                var splitTime1 = horasdarota_medida[p].split(':');
+
+                                UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                                let usershr_min = UserHor_Min.getHours() * 60;
+                                let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                                let count = (UserHor_Min.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                                let total = delta_mare * (count / 375) + sortedData_anterior[3].ALT;
+                                mare_por_minuto.push(total)
+                            } else {
+                                let horas_min_anterior = new Date(sortedData_anterior[2].SDATA);
+                                let delta_mare = sortedData_anterior[2].ALT - sortedData[k].ALT;
+
+                                var d = new Date();
+                                var nday = d.getDay(),
+                                    nmonth = d.getMonth() + 1,
+                                    ndate = d.getDate(),
+                                    nyear = d.getYear();
+                                if (nyear < 1000) nyear += 1900;
+                                var splitTime1 = horasdarota_medida[p].split(':');
+
+                                UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                                let usershr_min = UserHor_Min.getHours() * 60;
+                                let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                                let count = (UserHor_Min.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                                let total = delta_mare * (count / 375) + sortedData_anterior[2].ALT;
+                                mare_por_minuto.push(total)
+
+                            }
+
+                        }
+                        //mare_por_minuto.push();
+                    }
+
+
+                } else if (UserHoras.getHours() >= data1.getHours() && UserHoras.getHours() < data2.getHours()) {
+
+
+                    let delta_mare = sortedData[1].ALT - sortedData[0].ALT;
+                    let usershr_min = UserHoras.getHours() * 60;
+                    let dateshr_min = data1.getHours() * 60;
+
+                    let count = (UserHoras.getMinutes() + usershr_min) - (data1.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData[0].ALT;
+
+                    mareUser.push(total)
+                    for (let p = 1; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto == null) {
+                            mare_por_minuto.push(mareUser[0])
+                        } else {
+                            var d = new Date();
+                            var nday = d.getDay(),
+                                nmonth = d.getMonth() + 1,
+                                ndate = d.getDate(),
+                                nyear = d.getYear();
+                            if (nyear < 1000) nyear += 1900;
+                            var splitTime1 = horasdarota_medida[p].split(':');
+                            UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                            let delta_mare = sortedData[1].ALT - sortedData[0].ALT;
+
+                            let usershr_min = UserHor_Min.getHours() * 60;
+                            let dateshr_min = data1.getHours() * 60;
+
+                            let count = (UserHor_Min.getMinutes() + usershr_min) - (data1.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData[0].ALT;
+                            mare_por_minuto.push(total)
+                        }
+                    }
+                } else if (UserHoras.getHours() >= data2.getHours() && UserHoras.getHours() < data3.getHours()) {
+
+
+                    let delta_mare = sortedData[2].ALT - sortedData[1].ALT;
+                    let usershr_min = UserHoras.getHours() * 60;
+                    let dateshr_min = data2.getHours() * 60;
+
+                    let count = (UserHoras.getMinutes() + usershr_min) - (data2.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData[1].ALT;
+
+                    mareUser.push(total)
+                    for (let p = 1; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto == null) {
+                            mare_por_minuto.push(mareUser[0])
+                        } else {
+                            var d = new Date();
+                            var nday = d.getDay(),
+                                nmonth = d.getMonth() + 1,
+                                ndate = d.getDate(),
+                                nyear = d.getYear();
+                            if (nyear < 1000) nyear += 1900;
+                            var splitTime1 = horasdarota_medida[p].split(':');
+                            UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                            let delta_mare = sortedData[2].ALT - sortedData[1].ALT;
+
+                            let usershr_min = UserHor_Min.getHours() * 60;
+                            let dateshr_min = data2.getHours() * 60;
+
+                            let count = (UserHor_Min.getMinutes() + usershr_min) - (data2.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData[1].ALT;
+                            mare_por_minuto.push(total)
+                        }
+                    }
+                } else if (UserHoras.getHours() >= data3.getHours() && UserHoras.getHours() < data4.getHours()) {
+
+
+                    let delta_mare = sortedData[3].ALT - sortedData[2].ALT;
+                    let usershr_min = UserHoras.getHours() * 60;
+                    let dateshr_min = data3.getHours() * 60;
+
+                    let count = (UserHoras.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData[2].ALT;
+
+                    mareUser.push(total)
+                    for (let p = 1; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto == null) {
+                            mare_por_minuto.push(mareUser[0])
+                        } else {
+                            var d = new Date();
+                            var nday = d.getDay(),
+                                nmonth = d.getMonth() + 1,
+                                ndate = d.getDate(),
+                                nyear = d.getYear();
+                            if (nyear < 1000) nyear += 1900;
+                            var splitTime1 = horasdarota_medida[p].split(':');
+                            UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                            let delta_mare = sortedData[3].ALT - sortedData[2].ALT;
+
+                            let usershr_min = UserHor_Min.getHours() * 60;
+                            let dateshr_min = data3.getHours() * 60;
+
+                            let count = (UserHor_Min.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData[2].ALT;
+                            mare_por_minuto.push(total)
+                        }
+                    }
+                } else if (UserHoras.getHours() >= data4.getHours()) {
+
+                    console.log("if 05")
+
+                    let horas_min_seguinte = new Date(sortedData_seguinte[0].SDATA);
+                    let delta_mare;
+
+                    delta_mare = sortedData_seguinte[0].ALT - sortedData[3].ALT;
+                    //console.log(sortedData[3].ALT)
+                    //console.log(sortedData_seguinte[0].ALT)
+
+                    let usershr_min = UserHoras.getHours() * 60;
+                    let dateshr_min = horas_min_seguinte.getHours() * 60;
+
+                    let count = (UserHoras.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
+                    let total = delta_mare * (count / 375) + sortedData[3].ALT;
+
+                    mareUser.push(total)
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto == null) {
+                            mare_por_minuto.push(mareUser[0])
+                        } else {
+                            delta_mare = sortedData_seguinte[0].ALT - sortedData[3].ALT;
+
+                            let usershr_min = UserHoras.getHours() * 60;
+                            let dateshr_min = data4.getHours() * 60;
+
+                            let count = ((UserHoras.getMinutes() + p) + usershr_min) - (data4.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData[3].ALT;
+                            mare_por_minuto.push(total)
+                        }
+                    }
+                }
+                else {
+                    console.log('')
+                }
+
+            }
+            /*********************************************************************************/
+            /********************************************************************************/
+            /************************** ROTA SIMULADA ******************************************/
+            /********************************************************************************/
+            /********************************************************************************/
+
+            var margemcaladoSup, margemcaladoInf;
+            var diferençaTempo, Z2_NOvaRota, z2_menos_calado;
+            var linesFeatureLayer, linesFeatureLayer2, linesFeatureLayer3;
+            margemcaladoSup = cal_sup;
+            margemcaladoInf = cal_inf;
+            let sortedData2, sortedData2_anterior, sortedData2_seguinte
+            guardarHoras2_seguinte = [], mare_por_minuto2 = [], mareUser2 = [], horas_pontos_user = [];
+
+            //setTimeout(fetchDataRota2, 1000);
+
+            //percorrerRota_Simular();
+            var arrayMares2 = [];
+            var guardarHoras2 = [], guardarHoras2_anterior = [];
+
+
+            if (array_hidrografico_simulacao_API.length > 0 && array_hidrografico_simulacao_API_anterior.length > 0) {
+
+                document.getElementById('load_fetch').style.display = "none";
+
+
+                //Ordenar as informação por ordem
+                for (let i = 0; i < array_hidrografico_simulacao_API.length; i++) {
+
+                    let datefrente;
+                    for (let j = 0; j < array_hidrografico_simulacao_API[i].length; j++) {
+                        console.log(array_hidrografico_simulacao_API[i][j])
+                        //Informação da maré do site hidrografico
+                        let date = new Date(array_hidrografico_simulacao_API[i][j].SDATA);
+                        let horatempoAPI = date.getHours() + ":" + date.getMinutes();
+                        guardarHoras2.push(array_hidrografico_simulacao_API[i][j])
+                        //console.log(array_hidrografico_simulacao_API[i][j])
+                    }
+                    sortedData2 = guardarHoras2.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
+
+                }
+
+                /*------------------- Dia anterior NOVA ROTA -----------*/
+                for (let i = 0; i < array_hidrografico_simulacao_API_anterior.length; i++) {
+
+                    let datefrente;
+                    for (let j = 0; j < array_hidrografico_simulacao_API_anterior[i].length; j++) {
+
+                        //Informação da maré do site hidrografico
+                        let date = new Date(array_hidrografico_simulacao_API_anterior[i][j].SDATA);
+                        guardarHoras2_anterior.push(array_hidrografico_simulacao_API_anterior[i][j])
+                        //console.log(array_hidrografico_simulacao_API_anterior[i][j])
+                    }
+                    sortedData2_anterior = guardarHoras2_anterior.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
+
+                }
+
+                /*------------------- Dia seguinte NOVA ROTA -----------*/
+                for (let i = 0; i < array_hidrografico_simulacao_API_diapos.length; i++) {
+
+                    let datefrente;
+                    for (let j = 0; j < array_hidrografico_simulacao_API_diapos[i].length; j++) {
+
+                        //Informação da maré do site hidrografico
+                        let date = new Date(array_hidrografico_simulacao_API_diapos[i][j].SDATA);
+                        guardarHoras2_seguinte.push(array_hidrografico_simulacao_API_diapos[i][j])
+                        //console.log(array_hidrografico_simulacao_API_diapos[i][j])
+                    }
+                    sortedData2_seguinte = guardarHoras2_seguinte.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
+
+                }
+
+                let mare_combase_tempo_2 = [];
+                //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
+                // for (let k = 0; k < sortedData2.length; k++) {
+
+                //     let date = new Date(sortedData2[k].SDATA);
+                //     let dataSDATA = date.getHours() + ":" + date.getMinutes();
+
+                //     if (sortedData2[k + 1] != undefined) {
+                //         datefrente = new Date(sortedData2[k + 1].SDATA);
+                //     } else {
+                //         console.log('')
+                //     }
+
+                let data1 = new Date(sortedData2[0].SDATA);
+                let data2 = new Date(sortedData2[1].SDATA);
+                let data3 = new Date(sortedData2[2].SDATA);
+
+
+                //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
+                //arrayMares2.push(sortedData2[k].ALT)
+                //let dataSDATAFrente = datefrente.getHours() + ":" + datefrente.getMinutes();
+                if (UserHoras2.getHours() <= data1.getHours()) {
+                    console.log("if 01")
+                    console.log(sortedData2_anterior[3])
+                    console.log(sortedData2[0].ALT)
+                    console.log(data1)
+                    if (sortedData2_anterior[3] != null) {
+                        let horas_min_anterior = new Date(sortedData2_anterior[3].SDATA);
+                        let delta_mare = sortedData2_anterior[3].ALT - sortedData2[0].ALT;
+
+                        let usershr_min = UserHoras2.getHours() * 60;
+                        let dateshr_min = horas_min_anterior.getHours() * 60;
+                        console.log(usershr_min)
+                        console.log(dateshr_min)
+
+                        let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                        console.log(count)
+                        let total = delta_mare * (count / 375) + sortedData2_anterior[3].ALT;
+                        console.log(total)
+                        mareUser2.push(total)
+                        horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
+
+                    } else {
+                        let horas_min_anterior = new Date(sortedData2_anterior[2].SDATA);
+                        let delta_mare = sortedData2_anterior[2].ALT - sortedData2[0].ALT;
+
+                        let usershr_min = UserHoras2.getHours() * 60;
+                        let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                        let dia_ant = (24 * 60) - (horas_min_anterior.getMinutes() + dateshr_min);
+                        let count = (UserHoras2.getMinutes() + usershr_min) + dia_ant;
+
+                        let total = delta_mare * (count / 375) + sortedData2_anterior[2].ALT;
+                        mareUser2.push(total)
+                        horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
+
+                    }
+                    mare_por_minuto2.push(mareUser2[0])
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto2 == null) {
+                            mare_por_minuto2.push(mareUser2[0])
+                        } else {
+                            //let user_adqui_horas_min = new Date(horasdarota_medida[p]);
+                            var d = new Date();
+                            var nday = d.getDay(),
+                                nmonth = d.getMonth() + 1,
+                                ndate = d.getDate(),
+                                nyear = d.getYear();
+                            if (nyear < 1000) nyear += 1900;
+                            var splitTime1 = horasdarota_medida[p].split(':');
+
+                            //UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                            if (sortedData2_anterior[3] != null) {
+                                let horas_min_anterior = new Date(sortedData2_anterior[3].SDATA);
+                                let delta_mare = sortedData2_anterior[3].ALT - sortedData2[0].ALT;
+
+                                let usershr_min = UserHoras2.getHours() * 60;
+                                let dateshr_min = horas_min_anterior.getHours() * 60;
+                                //console.log(UserHor_Min.getHours())
+                                let sum_p_hour = UserHoras2.getMinutes() + p;
+
+                                let count = (sum_p_hour + usershr_min) + (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+                                //let total = delta_mare * (count / 375) + sortedData2_anterior[3].ALT; ANTES
+
+                                let total = Math.abs(delta_mare * (count / 375) - sortedData2_anterior[3].ALT);
+                                console.log(total)
+                                mare_por_minuto2.push(total)
+
+                                horas_pontos_user.push(UserHor_Min.getHours() + ":" + UserHoras2.getMinutes() + p)
+                                let min_incr_user = UserHor_Min.getMinutes() + p;
+                                horas_pontos_user.push(UserHor_Min.getHours() + ":" + min_incr_user)
+
+                            } else {
+                                let horas_min_anterior = new Date(sortedData2_anterior[2].SDATA);
+                                let delta_mare = sortedData2_anterior[2].ALT - sortedData2[k].ALT;
+
+                                let usershr_min = UserHoras2.getHours() * 60;
+                                let dateshr_min = horas_min_anterior.getHours() * 60;
+
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (24 * 60 - (horas_min_anterior.getMinutes() + dateshr_min));
+
+                                let total = delta_mare * (count / 375) - sortedData2_anterior[2].ALT;
+                                mare_por_minuto2.push(total)
+                                let min_incr_user = UserHor_Min.getMinutes() + p;
+                                horas_pontos_user.push(UserHor_Min.getHours() + ":" + min_incr_user)
+
+                            }
+
+                        }
+                        console.log(mare_por_minuto2);
+                    }
+
+
+                }
+                //else if (UserHoras2.getHours() >= date.getHours() && UserHoras2.getHours() < datefrente.getHours()) {
+                else if (UserHoras2.getHours() >= data1.getHours() && UserHoras2.getHours() < data2.getHours()) {
+                    console.log("if 02")
+                    let delta_mare = sortedData2[1].ALT - sortedData2[0].ALT;
+                    let usershr_min = UserHoras2.getHours() * 60;
+                    let dateshr_min = data1.getHours() * 60;
+
+                    let count = (UserHoras2.getMinutes() + usershr_min) - (data1.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData2[0].ALT;
+
+                    mareUser2.push(total)
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto2 == null) {
+                            mare_por_minuto2.push(mareUser2[0])
+                            horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
+                        } else {
+                            let delta_mare = sortedData2[1].ALT - sortedData2[0].ALT;
+
+                            let usershr_min = UserHoras2.getHours() * 60;
+                            let dateshr_min = data1.getHours() * 60;
+
+                            let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data1.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData2[0].ALT;
+                            mare_por_minuto2.push(total)
+
+                            let min_incr_user = UserHoras2.getMinutes() + p;
+                            horas_pontos_user.push(UserHoras2.getHours() + ":" + min_incr_user)
+                        }
+                    }
+
+                }
+                else if (UserHoras2.getHours() >= data2.getHours() && UserHoras2.getHours() < data3.getHours()) {
+                    console.log("if 03")
+                    let delta_mare = sortedData2[2].ALT - sortedData2[1].ALT;
+                    let usershr_min = UserHoras2.getHours() * 60;
+                    let dateshr_min = data2.getHours() * 60;
+
+                    let count = (UserHoras2.getMinutes() + usershr_min) - (data2.getMinutes() + dateshr_min);
+                    let total = delta_mare * (count / 375) + sortedData2[1].ALT;
+
+                    mareUser2.push(total)
+                    for (let p = 0; p < horasdarota_medida.length; p++) {
+                        if (mare_por_minuto2 == null) {
+                            mare_por_minuto2.push(mareUser2[0])
+                            horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
+
+                        } else {
+                            let delta_mare = sortedData2[2].ALT - sortedData2[1].ALT;
+
+                            let usershr_min = UserHoras2.getHours() * 60;
+                            let dateshr_min = data2.getHours() * 60;
+
+                            let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data2.getMinutes() + dateshr_min);
+                            let total = delta_mare * (count / 375) + sortedData2[1].ALT;
+                            mare_por_minuto2.push(total)
+                            let min_incr_user = UserHoras2.getMinutes() + p;
+                            horas_pontos_user.push(UserHoras2.getHours() + ":" + min_incr_user)
+                        }
+                    }
+
+                }
+                else if (sortedData2[3] != undefined) {
+                    let data4 = new Date(sortedData2[3].SDATA);
+
+                    if (UserHoras2.getHours() >= data3.getHours() && UserHoras2.getHours() < data4.getHours()) {
+                        console.log("if 04")
+
+                        let delta_mare = sortedData2[3].ALT - sortedData2[2].ALT;
+                        let usershr_min = UserHoras2.getHours() * 60;
+                        let dateshr_min = data3.getHours() * 60;
+
+                        let count = (UserHoras2.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
+                        let total = delta_mare * (count / 375) + sortedData2[2].ALT;
+
+                        mareUser2.push(total)
+                        for (let p = 0; p < horasdarota_medida.length; p++) {
+                            if (mare_por_minuto2 == null) {
+                                mare_por_minuto2.push(mareUser2[0])
+                                horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
+
+                            } else {
+                                let delta_mare = sortedData2[3].ALT - sortedData2[2].ALT;
+
+                                let usershr_min = UserHoras2.getHours() * 60;
+                                let dateshr_min = data3.getHours() * 60;
+
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data3.getMinutes() + dateshr_min);
+                                let total = delta_mare * (count / 375) + sortedData2[2].ALT;
+                                mare_por_minuto2.push(total)
+                                let min_incr_user = UserHoras2.getMinutes() + p;
+                                horas_pontos_user.push(UserHoras2.getHours() + ":" + min_incr_user)
+                            }
+                        }
+
+                    }
+
+                    else if (UserHoras2.getHours() >= data4.getHours()) {
+
+                        console.log("if 05")
+
+
+                        let horas_min_seguinte = new Date(sortedData2_seguinte[0].SDATA);
+                        let delta_mare;
+
+                        delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
+
+                        let usershr_min = UserHoras2.getHours() * 60;
+                        let dateshr_min = horas_min_seguinte.getHours() * 60;
+
+                        let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
+                        let total = delta_mare * (count / 375) + sortedData2[3].ALT;
+
+                        mareUser2.push(total)
+                        for (let p = 0; p < horasdarota_medida.length; p++) {
+                            if (mare_por_minuto2 == null) {
+                                mare_por_minuto2.push(mareUser2[0])
+                                horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
+
+                            } else {
+                                delta_mare = sortedData2_seguinte[0].ALT - sortedData2[3].ALT;
+
+                                let usershr_min = UserHoras2.getHours() * 60;
+                                let dateshr_min = data4.getHours() * 60;
+
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data4.getMinutes() + dateshr_min);
+                                let total = delta_mare * (count / 375) + sortedData2[3].ALT;
+                                mare_por_minuto2.push(total)
+                                let min_incr_user = UserHoras2.getMinutes() + p;
+                                horas_pontos_user.push(UserHoras2.getHours() + ":" + min_incr_user)
+                            }
+                        }
+                    }
+
+                } else if (sortedData2[3] == undefined) {
+
+                    if (UserHoras2.getHours() >= data3.getHours()) {
+
+                        console.log("if 07")
+
+
+                        let horas_min_seguinte = new Date(sortedData2_seguinte[0].SDATA);
+                        let delta_mare;
+
+                        delta_mare = sortedData2_seguinte[0].ALT - sortedData2[2].ALT;
+
+                        let usershr_min = UserHoras2.getHours() * 60;
+                        let dateshr_min = horas_min_seguinte.getHours() * 60;
+
+                        let count = (UserHoras2.getMinutes() + usershr_min) + (24 * 60 - (horas_min_seguinte.getMinutes() + dateshr_min));
+                        let total = delta_mare * (count / 375) + sortedData2[2].ALT;
+
+                        mareUser2.push(total)
+                        for (let p = 0; p < horasdarota_medida.length; p++) {
+                            if (mare_por_minuto2 == null) {
+                                mare_por_minuto2.push(mareUser2[0])
+                                horas_pontos_user.push(UserHoras2.getHours() + ":" + UserHoras2.getMinutes())
+
+                            } else {
+                                delta_mare = sortedData2_seguinte[0].ALT - sortedData2[2].ALT;
+
+                                let usershr_min = UserHoras2.getHours() * 60;
+                                let dateshr_min = data3.getHours() * 60;
+
+                                let count = ((UserHoras2.getMinutes() + p) + usershr_min) - (data3.getMinutes() + dateshr_min);
+                                let total = delta_mare * (count / 375) + sortedData2[2].ALT;
+                                mare_por_minuto2.push(total)
+                                let min_incr_user = UserHoras2.getMinutes() + p;
+                                horas_pontos_user.push(UserHoras2.getHours() + ":" + min_incr_user)
+                            }
+                        }
+                    }
+                }
+                else {
+                    console.log('')
+                }
+
+
+            } else {
+                console.log('second if arrayhidro nao tem data')
+                document.getElementById('load_fetch').style.display = "block";
+            }
+
+
+
+
+
+            let distancia;
+            let arDistan = [];
+            let countdangerous = 0;
+            let warning = 0;
+            let diferençaAlturaMare = 0;
+            let User_Tempo_cada_coor = [];
+
+            if (mare_por_minuto.length > 0) {
+
+                for (var i = 0; i < coordenadas.length; i++) {
+                    //diferençaAlturaMare = nivel_mare[i][0] - nivel_mareNOVA[i][0];
+
+                    //diferençaAlturaMare = z2_cal_rota_nova[i][0] - mare_por_minuto[i];
+
+                    if (mare_por_minuto2.length > 0) {
+                        diferençaAlturaMare = parseFloat(mare_por_minuto2[i]) - parseFloat(mare_por_minuto[i]);
+                        //diferençaAlturaMare = mare_por_minuto[i];
+                        //console.log({ array: mare_por_minuto2[i] })
+                    }
+
+                    if (z1_rota_adquirida[i][0] > 0) {
+                        Z2_NOvaRota = z1_rota_adquirida[i][0] + diferençaAlturaMare;
+
+                    } else {
+                        Z2_NOvaRota = z1_rota_adquirida[i] + diferençaAlturaMare;
+                    }
+                    z2_menos_calado = Z2_NOvaRota - parseFloat(calado);
+
+                    //console.log(horas_pontos_user);
+                    if (horas_pontos_user.length > 0) {
+                        var d = new Date();
+                        var nday = d.getDay(),
+                            nmonth = d.getMonth() + 1,
+                            ndate = d.getDate(),
+                            nyear = d.getYear();
+                        if (nyear < 1000) nyear += 1900;
+                        var splitTime1 = horas_pontos_user[i].split(':');
+
+                        User_Tempo_cada_coor = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+
+                    }
+
+                    // popup2 = L.popup()
+                    //     .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                    //     .setContent('<div>' + '<p> Z1:' + z1_rota_adquirida[i] + '</p>' + '<p> Z2' + Z2_NOvaRota + '</p>' +
+                    //         '</div>')
+                    // popup2.addTo(mymap)
+
+                    popup = new L.popup();
+                    popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                    popup.setContent('<div>' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
+                        '<p> <b>AM<sub>R</sub>: </b>' + [mare_por_minuto[i]] + '</p>' +
+                        '<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
+                        '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
+                        '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                        '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
+                        '<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' + '</div>')
+                    //popup.addTo(mymap);
+
+                    document.getElementById('eta').value = User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ';
+                    marker = new L.circle([coordenadas[i][1], coordenadas[i][0]], {
+                        color: "black",
+                        fillColor: "#000000",
+                        fillOpacity: 0.5,
+                        radius: 30.0
+                    })
+                        .bindPopup(popup)
+                        .addTo(mymap);
+
+
+
+                    marker.on('mouseover', function (e) {
+                        var popup = e.target.getPopup();
+                        popup.setLatLng(e.latlng).openOn(mymap);
+                    });
+
+                    marker.on('mouseout', function (e) {
+                        e.target.closePopup();
+                    });
+
+                    marker.on('click', function (e) {
+                        var popup = e.target.getPopup();
+                        popup.setLatLng(e.latlng).openOn(mymap);
+                    });
+
+
+
+                    if (Z2_NOvaRota <= 0) {
+                        if (coordenadas[i + 1] != undefined) {
+                            //console.log('verde' + verificarRota)
+                            var myLines4 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
+
+                            var myStyle4 = {
+                                radius: 8,
+                                color: "black",
+                                weight: 5,
+                                opacity: 1,
+                            };
+
+                            linesFeatureLayer4 = L.geoJson(myLines4, {
+                                style: myStyle4
+                            });
+                            linesFeatureLayer4.addTo(mymap);
+                        }
+                    }
+                    else if (z2_menos_calado < margemcaladoInf) {
+                        if (coordenadas[i + 1] != undefined) {
+                            var myLines1 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
+                            var myStyle1 = {
+                                radius: 8,
+                                color: "red",
+                                weight: 5,
+                                opacity: 1,
+                            };
+
+                            linesFeatureLayer = L.geoJson(myLines1, {
+                                style: myStyle1
+                            });
+
+
+
+                            linesFeatureLayer.addTo(mymap);
+                            countdangerous++;
+
+                        } else {
+                            //console.log('')
+                        }
+                    } else if (z2_menos_calado >= margemcaladoInf && z2_menos_calado <= margemcaladoSup) {
+
+                        if (coordenadas[i + 1] != undefined) {
+
+                            var myLines2 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
+                            var myStyle2 = {
+                                radius: 8,
+                                color: "yellow",
+                                weight: 5,
+                                opacity: 1,
+                            };
+
+                            linesFeatureLayer2 = L.geoJson(myLines2, {
+                                style: myStyle2
+                            });
+                            linesFeatureLayer2.addTo(mymap);
+                            warning++;
+
+                        } else {
+                            console.log('')
+                        }
+                    }
+
+                    else if (z2_menos_calado >= margemcaladoSup) {
+
+                        if (coordenadas[i + 1] != undefined) {
+                            //console.log('verde' + verificarRota)
+                            var myLines3 = [{
+                                "type": "LineString",
+                                'coordinates': [
+                                    [coordenadas[i][0], coordenadas[i][1]],
+                                    [coordenadas[i + 1][0], coordenadas[i + 1][1]],
+                                ]
+                            }];
+                            distancia = mymap.distance([coordenadas[i][0], coordenadas[i][1]], [coordenadas[i + 1][0], coordenadas[i + 1][1]]);
+                            arDistan.push(distancia.toFixed(2));
+
+                            var myStyle3 = {
+                                radius: 8,
+                                color: "green",
+                                weight: 5,
+                                opacity: 1,
+                            };
+
+
+
+
+                            linesFeatureLayer3 = L.geoJson(myLines3, {
+                                style: myStyle3
+                            });
+                            linesFeatureLayer3.addTo(mymap);
+                            // if (countdangerous < warning) {
+                            //     popup = L.popup()
+                            //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                            //         .setContent('<p>Pode encanlhar em alguns pontos</p>')
+                            //         .openOn(mymap);
+                            // } else if (warning > 0) {
+                            //     popup = L.popup()
+                            //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                            //         .setContent('<p>Possibilidade de encanlhar</p>')
+                            //         .openOn(mymap);
+                            // } else if (countdangerous > 0) {
+                            //     popup = L.popup()
+                            //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                            //         .setContent('<p>Pode encanlhar em alguns pontos</p>')
+                            //         .openOn(mymap);
+                            // } else {
+                            //     popup = L.popup()
+                            //         .setLatLng([coordenadas[i][1], coordenadas[i][0]])
+                            //         .setContent('<p>Pode navegar com segurança</p>')
+                            //         .openOn(mymap);
+                            // }
+                        }
+                    }
+
+                }
+            } else {
+                console.log('Else_sem_rota')
+                //getInfo();
+                //calculo(valor_cal, cal_sup, cal_inf)
+            }
+
+
+            let sum = 0;
+            for (let u = 0; u < arDistan.length; u++) {
+                sum += parseFloat(arDistan[u]);
+            }
+            let totavelkm2kn, tempovm;
+            let minutesfinal, minutes2deci, dc2tempovm;
+            let newsum = sum / 1000;
+            //document.getElementById('km').innerHTML = "<p>" + newsum.toFixed(2) + " KM </p>";
+            velocidademedia = 5;
+            totavelkm2kn = newsum / 1.852;
+            tempovm = totavelkm2kn / velocidademedia;
+            dc2tempovm = tempovm.toFixed(2);
+            dc2tempovm = dc2tempovm.split('.');
+            let knowminutes = 0 + '.' + dc2tempovm[1];
+
+            minutesfinal = parseFloat(knowminutes) * 60;
+            let min = minutesfinal.toFixed(1);
+            let spantempo = dc2tempovm[0] + 'h' + parseInt(min) + 'm';
+            //document.getElementById('tempoestimado').innerHTML = "<p>" + spantempo + "</p>";
+        }
+
+
+
+
+        function clearmap() {
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+            document.getElementById('date').value = "";
+            document.getElementById('calado_span').value = "";
+            document.getElementById('calado_sup_span').value = "";
+            document.getElementById('calado_inf_span').value = "";
+            document.getElementById('time').value = 0;
+            arrayhidrografico = [];
+            arrayUser = [];
+            sortedData = 0;
+            mareUser = [];
+            mare_por_minuto = [];
+            document.getElementById('fileUploader').value = "";
+            getInfo();
+        }
+    </script>
+
+</body>
+
+</html>

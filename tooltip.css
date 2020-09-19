@@ -1,0 +1,157 @@
+[data-tooltip] {
+    position: absolute;
+    z-index: 10;
+    z-index: 99999999;
+}
+
+[data-tooltip]:before, [data-tooltip]:after {
+    position: absolute;
+    visibility: visible;
+    opacity: 0;
+    left: 50%;
+    bottom: calc(100% + 5px);
+    pointer-events: none;
+    transition: 0.2s;
+    will-change: transform;
+}
+
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    padding: 10px 18px;
+    min-width: 50px;
+    max-width: 300px;
+    width: max-content;
+    width: -moz-max-content;
+    border-radius: 6px;
+    font-size: 14px;
+    /*   font-size: 0.73rem; */
+    background-color: #214198;
+    background-image: linear-gradient(30deg, rgba(59, 72, 80, 0.44), rgba(59, 68, 75, 0.44), rgba(60, 82, 88, 0.44));
+    box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: center;
+    white-space: pre-wrap;
+    transform: translate(-50%, -5px) scale(0.5);
+}
+
+/* Tooltip arrow */
+
+[data-tooltip]:after {
+    content: '';
+    border-style: solid;
+    border-width: 5px 5px 0px 5px;
+    border-color: #214198 transparent transparent transparent;
+    transition-duration: 0s;
+    transform-origin: top;
+    transform: translateX(-50%) scaleY(0);
+}
+
+/* Tooltip becomes visible at hover */
+
+[data-tooltip]:hover:before, [data-tooltip]:hover:after {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Scales from 0.5 to 1 -> grow effect */
+
+[data-tooltip]:hover:before {
+    transition-delay: 0.3s;
+    transform: translate(-50%, -5px) scale(1);
+}
+
+/* Slide down effect only on mouseenter (NOT on mouseleave) */
+
+[data-tooltip]:hover:after {
+    transition-delay: 0.5s;
+    /* Starting after the grow effect */
+    transition-duration: 0.2s;
+    transform: translateX(-50%) scaleY(1);
+}
+
+
+[data-tooltip-location="right"]:before, [data-tooltip-location="right"]:after {
+    left: calc(100% + 5px);
+    bottom: 50%;
+}
+
+[data-tooltip-location="right"]:before {
+    transform: translate(5px, 50%) scale(0.5);
+}
+
+[data-tooltip-location="right"]:hover:before {
+    transform: translate(5px, 50%) scale(1);
+}
+
+[data-tooltip-location="right"]:after {
+    border-width: 5px 5px 5px 0px;
+    border-color: transparent rgba(55, 64, 70, 0.9) transparent transparent;
+    transform-origin: right;
+    transform: translateY(50%) scaleX(0);
+}
+
+[data-tooltip-location="right"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+
+#hrA:hover {
+    margin-bottom: calc(5% + 9px);
+    /*border-bottom: 1px solid #76daff;*/
+}
+
+/* #div_first{
+    position: absolute;
+    top:20px;
+    z-index:99999999999;
+    background-color: transparent;
+} */
+
+#div_fir,
+#div_second,
+#div_third,
+#div_four,
+#div_five,
+#div_six,
+#div_seven{
+    position: absolute;
+    top:10px;
+    left: 60px;
+    z-index:99999999999;
+    background-color: #214198;
+    border-radius: 10px;
+    color:white;
+    display:none;
+}
+#div_second{
+    top:55px;
+    left: 60px;
+    z-index:99999999999;
+}
+
+#div_third{
+    top:95px;
+}
+
+#div_four{
+    top:136px;
+}
+#div_five{
+    top:175px;
+}
+
+#div_six{
+    top:515px;
+    
+}
+#div_seven{
+    top:550px;
+}
+
+#div_fir p,#div_second p,#div_third p,
+#div_four p,
+#div_five p,#div_six p,#div_seven p{
+    margin:auto;
+    text-align: center;
+    padding:10px 15px;
+}
+
