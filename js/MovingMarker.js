@@ -409,6 +409,9 @@ L.Marker.MovingMarker = L.Marker.extend({
                     document.getElementById('simulControll_display').style.display = "none";
                     dataCalls = false;
                     markersAPI();
+                    limitesRotas();
+                    clearInterval(waitForResult);
+                    
                 setTimeout(function () {
 
                     if (markerAnimado) {

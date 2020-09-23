@@ -2451,7 +2451,7 @@
     <div id="load_fetch">
         <h2>Por favor aguarde</h2>
         <div class="spinner-border" style="font-size: 20px;margin: auto;display: block;" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only" >Loading...</span>
         </div>
         <span id="api_ih_message" style="font-size: 1.0rem;text-align: center;"></span>
         <p style="font-size: 1.5rem;text-align: center;">A processar os dados... </p>
@@ -2728,14 +2728,14 @@
                 entrocamento_gafanhaquem = L.marker([40.61136, -8.67993], {
                     icon: entroca_image
                 }).bindPopup('Entrocamento Gafanha de Aquém.');
-            entrocamento_terminalNorte = L.marker([40.65992, -8.70331], {
-                icon: entroca_image
-            }).bindPopup('Entrocamento Terminal Norte.');
-            entrocamento_ANGE = L.marker([40.61313, -8.74731], {
-                icon: entroca_image
-            }).bindPopup('Entrocamento ANGE.');
+                entrocamento_terminalNorte = L.marker([40.65992, -8.70331], {
+                    icon: entroca_image
+                }).bindPopup('Entrocamento Terminal Norte.');
+                entrocamento_ANGE = L.marker([40.61313, -8.74731], {
+                    icon: entroca_image
+                }).bindPopup('Entrocamento ANGE.');
 
-            var entrocamentosRia = L.layerGroup([entrocamento_varela, entrocamento_moranzel, entrocamento_sjacinto, entrocamento_terminalSul, entrocamento_apara, entrocamento_gafanhaquem, entrocamento_terminalNorte, entrocamento_ANGE]);
+            var entrocamentosRia = L.layerGroup([entrocamento_varela, entrocamento_moranzel, entrocamento_sjacinto, entrocamento_terminalSul, entrocamento_apara, entrocamento_gafanhaquem,entrocamento_terminalNorte,entrocamento_ANGE]);
             entrocamentosRia.addTo(mymap);
         }
 
@@ -2889,103 +2889,6 @@
         }
 
 
-        async function getCostaNova_SaoJacinto_Torreira_GPX() {
-
-mymap.eachLayer(function (layer) {
-    //console.log(layer.options.pane)
-    if (layer.options.pane == "overlayPane") {
-        mymap.removeLayer(layer);
-    }
-});
-
-let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_Torreira_Ange.gpx';
-
-
-fetch(url)
-    .then(function (response) {
-        return response.text();
-    })
-    .then(function (json) {
-        VEri_text_gpx = json;
-        arrayClickGPX.push(json);
-        var g = new L.GPX(json, {
-            async: true,
-            parseElements: ['track'],
-            polyline_options: {
-                color: '#020202',
-                weight: 10,
-            },
-            marker_options: {
-                // 'startIcon': new L.icon({
-                //     iconUrl: 'marker.png',
-                //     iconSize: [22, 32, 5],
-                //     iconAnchor: [10, 30],
-                // }),
-                startIconUrl: null,
-
-                'endIcon': new L.icon({
-                    iconUrl: 'fim_icnon.png',
-                    iconSize: [22, 32, 5],
-                    iconAnchor: [10, 30],
-                })
-            }
-
-        });
-
-        g.on('loaded', function (e) {
-            var gpx = e.target,
-                elevation_data = gpx.get_elevation_data();
-            data_hora = gpx.get_start_time();
-            name = gpx.get_name(),
-                distM = gpx.get_distance(),
-                distKm = distM / 1000,
-                distKmRnd = distKm.toFixed(1),
-                eleGain = gpx.get_elevation_gain().toFixed(2),
-                eleLoss = gpx.get_elevation_loss().toFixed(2);
-            var info = "Name: " + name + "</br>" +
-                "Distance: " + distKmRnd + " km </br>" +
-                "Elevation Gain: " + eleGain + " m </br>"
-
-            //document.getElementById('km').innerHTML = info;
-            gpx.getLayers()[0].bindPopup(info)
-
-
-            let date = new Date(data_hora);
-            let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
-
-            //document.getElementById('time').value = hora_min_gpx;
-            let nyear = date.getYear();
-            if (nyear < 1000) nyear += 1900;
-
-            var nday = date.getDay(),
-                nmonth = date.getMonth() + 1,
-                ndate = date.getDate();
-            UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-
-            dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-            var arrayhidrografico = [];
-            getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
-        });
-        somarNumero = 0;
-
-        g.on('click', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-            changeValue();
-        })
-        g.on('addpoint', function (e) {
-            var gpx = e.target;
-            arrayGPX = [];
-            arrayGPX.push(gpx._gpx)
-        })
-        g.addTo(mymap);
-
-    });
-mymap.setView([40.678, -8.7166], 11);
-
-}
-
         async function getTorreiraGPX_completa() {
 
             mymap.eachLayer(function (layer) {
@@ -2995,7 +2898,7 @@ mymap.setView([40.678, -8.7166], 11);
                 }
             });
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas_certas/v30_2_Torreira_ANGE.gpx';
-
+           
 
             fetch(url)
                 .then(function (response) {
@@ -3845,7 +3748,7 @@ mymap.setView([40.678, -8.7166], 11);
             mymap.setView([40.61, -8.745], 12.6);
         }
 
-
+        
 
 
         async function getTorreiraGPX_Revserse_completa() {
@@ -4705,7 +4608,7 @@ mymap.setView([40.678, -8.7166], 11);
         }
 
 
-
+      
 
         async function getDataGPX_Salreu_PonteBarra() {
 
@@ -7730,7 +7633,7 @@ mymap.setView([40.678, -8.7166], 11);
             distancia2 = mymap.distance([lat_gpx2, lon_gpx2], [arrayClicked.lat, arrayClicked.lng]);
 
             localiz_distan.push(parseInt(distancia2));
-            local_Nome_rota.push('getCostaNovaGPX');
+            local_Nome_rota.push('getCostaNovaGPX')
 
             //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/CN_20200723014523-25038-data.gpx';
 
@@ -7927,15 +7830,6 @@ mymap.setView([40.678, -8.7166], 11);
             local_Nome_rota.push('rotaOvar_28_07');
 
 
-            var lat_gpx23 = 40.6202033551212;
-            var lon_gpx23 = -8.748680648859592;
-
-            distancia23 = mymap.distance([lat_gpx23, lon_gpx23], [arrayClicked.lat, arrayClicked.lng]);
-
-            localiz_distan.push(distancia23);
-            local_Nome_rota.push('caisCostaNova');
-
-
             // document.getElementById('btn_legenda2').style.opacity = "1";
             // document.getElementById('btn_legenda').style.opacity = "1";
 
@@ -7971,7 +7865,7 @@ mymap.setView([40.678, -8.7166], 11);
                     'getDataGPX_Testada_Salreu',
                     'getDataGPX_Salreu_PonteBarra',
                     'rotaOvar_28_07',
-                    'caisCostaNova',
+
 
                 ];
 
@@ -8082,36 +7976,6 @@ mymap.setView([40.678, -8.7166], 11);
                         this.openPopup();
                     });
 
-                } else if (guardardistancia[0][1] == 'caisCostaNova') {
-
-                    setValor_rota = 12000;
-                    AnimacValor_rota = 100;
-
-                    nomeDestino = [];
-
-                    distance_gpx_real = [];
-                    if (marker_Teste1) { // check
-                        mymap.removeLayer(marker_Teste1); // remove
-                    }
-                    marker_Teste1 = L.marker([40.6202033551212,-8.748680648859592], {
-                        icon: issIcon
-                    }).addTo(mymap);
-                    setTimeout(function () {
-
-                        marker_Teste1.bindPopup("<div class='div_bind'>" +
-                                "<h5>Da sua atual posição deseja ir até</h5>" +
-                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                                "<option selected disabled>Selecione uma rota</option>" +
-                                "<option value='costaNova_Torreira'>Para Torreira</option>" +
-                                "</div>").openPopup();
-                    }, 500);
-
-                    //convert_milesnaut[0].toFixed(2)
-
-                    marker_Teste1.on('click', function (e) {
-                        this.openPopup();
-                    });
-
                 } else if (guardardistancia[0][1] == 'rotaOvar_28_07') {
                     setValor_rota = 60000;
                     AnimacValor_rota = 600;
@@ -8139,7 +8003,7 @@ mymap.setView([40.678, -8.7166], 11);
                     });
 
 
-
+                    
 
                     let url_21 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/v30_rota_ovar_vagueira.gpx';
 
@@ -8220,8 +8084,8 @@ mymap.setView([40.678, -8.7166], 11);
                         distance_gpx_real.push(distNM);
                     });
 
-
-
+                
+                  
 
                     // let url_22 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/30m_Veia_da_testada_Salreu.gpx';
 
@@ -8958,42 +8822,10 @@ mymap.setView([40.678, -8.7166], 11);
                         marker_Teste1.openPopup();
                     });
                     break;
-                    
-                    case 'costaNova_Torreira':
-                    getTorreiraGPX();
-                    nomeDestino = [];
-                    nomeDestino.push("Torreira");
-                    milesRoute.push(duracaoRotaChoosen[0]);
-                    document.getElementById('duracao_rota').innerHTML = "Selecione o percurso que deseja simular";
-                    document.getElementById('tutorial03').style.display = "block";
-                    document.getElementById('cais_partida').innerHTML = "Costa Nova";
-                    document.getElementById('cais_chegada').innerHTML = "Torreira";
-                    marker_Teste1.bindPopup("<div class='div_bind'>" +
-                        "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Costa Nova</p>" +
-                        "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> Torreira</p>" +
-                        "<p style='font-size:0.8rem;'><b>Rota</b> da Torreira</p>" +
-                        "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
-                        "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
-                        "</div>").openPopup();
-                    setTimeout(function () {
-                        marker_Teste1.closePopup();
-                    }, 7000);
-
-                    distanciaCerto = 30;
-                    setValor_rota = 40000;
-                    AnimacValor_rota = 400;
-
-                    arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_Torreira_Ange.gpx');
-
-                    marker_Teste1.on('click', function (e) {
-                        marker_Teste1.openPopup();
-                    });
-                    break;
                 case 'getTorreiraGPX_Revserse_completa':
                     getTorreiraGPX_Revserse_completa();
-
-
+                    
+                    
                     distanciaCerto = 30;
                     setValor_rota = 40000;
                     AnimacValor_rota = 400;
@@ -9026,7 +8858,7 @@ mymap.setView([40.678, -8.7166], 11);
                     break;
 
                 case 'getTorreira17_5_5GPX':
-
+                    
 
 
                     distanciaCerto = 30;
@@ -9051,7 +8883,7 @@ mymap.setView([40.678, -8.7166], 11);
                     setTimeout(function () {
                         marker_Teste1.closePopup();
                     }, 7000);
-
+                 
 
 
                     arrayURL = [];
@@ -9095,7 +8927,7 @@ mymap.setView([40.678, -8.7166], 11);
                     distanciaCerto = 30;
                     setValor_rota = 40000;
                     AnimacValor_rota = 400;
-
+                    
                     milesRoute.push(duracaoRotaChoosen[1]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
@@ -9158,7 +8990,7 @@ mymap.setView([40.678, -8.7166], 11);
                     break;
 
 
-
+               
 
                 case 'getTorreiraGPX_completa':
                     getTorreiraGPX_completa();
@@ -9500,8 +9332,8 @@ mymap.setView([40.678, -8.7166], 11);
                         marker_Teste1.openPopup();
                     });
                     break;
-
-
+            
+                
                 case 'getDataGPX_Testada_Salreu_30':
                     distanciaCerto = 30;
                     arrayURL = [];
@@ -9530,7 +9362,7 @@ mymap.setView([40.678, -8.7166], 11);
                         marker_Teste1.openPopup();
                     });
                     break;
-
+                
                 case 'getDataGPX_Salreu_PonteBarra':
                     setValor_rota = 30000;
                     AnimacValor_rota = 300;
@@ -9628,9 +9460,9 @@ mymap.setView([40.678, -8.7166], 11);
                         marker_Teste1.openPopup();
                     });
                     break;
-
-
-
+       
+              
+                
                 case 'getRioNovoGPX_completa_30':
                     getRioNovoGPX_completa_30();
                     setValor_rota = 30000;
@@ -9663,7 +9495,7 @@ mymap.setView([40.678, -8.7166], 11);
                         marker_Teste1.openPopup();
                     });
                     break;
-
+               
 
 
             }
@@ -10794,8 +10626,8 @@ mymap.setView([40.678, -8.7166], 11);
                 document.getElementById('api_ih_message').innerHTML = "API do Hidrográfico com problemas" + "<button>Simular de novo</button>"
                 setTimeout(function () {
                     document.getElementById('load_fetch').style.display = "none";
-
-                }, 5000);
+                    
+                },5000);
 
             }
 
@@ -11025,7 +10857,7 @@ mymap.setView([40.678, -8.7166], 11);
                                     //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
                                     '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
                                     '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
-                                    '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                                     '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                     '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                                     //'<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' +
                                     '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
@@ -11037,7 +10869,7 @@ mymap.setView([40.678, -8.7166], 11);
                                     //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
                                     '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
                                     '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
-                                    '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                                     '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                     '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                                     '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
                                     //'<p> <b>Horas do utilizador: </b>' + arrayHorasUser_Pontos[i] + ' horas e ' + arrayMinutosUser_Pontos[i] + ' minutos ' + '</p>' +
@@ -11706,7 +11538,7 @@ mymap.setView([40.678, -8.7166], 11);
                                 //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
                                 '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
                                 '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
-                                '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                                 '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                 '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                                 '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
 
@@ -11718,7 +11550,7 @@ mymap.setView([40.678, -8.7166], 11);
                                 //'<p> <b>AM<sub>S</sub>: </b>' + [mare_por_minuto2[i]] + '</p>' +
                                 '<p> <b>AM<sub>S</sub>: </b>' + mare_2API + '</p>' +
                                 '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
-                                '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
+                                 '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                 '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                                 '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
 
@@ -13891,9 +13723,9 @@ mymap.setView([40.678, -8.7166], 11);
                                 } catch (e) {
                                     console.log(await resultData);
                                     let varia_com_data;
-                                    if (mare_por_minuto2.length > 0) {
+                                    if(mare_por_minuto2.length>0){
                                         varia_com_data = true;
-                                    } else {
+                                    }else{
                                         varia_com_data = false;
                                         //getDATAPIHidromod(initialID, points)
                                         //calculo(valorInput, valorInput2, valorInput3);
