@@ -2701,6 +2701,11 @@
             iconAnchor: [10, 30],
         });
 
+        const issIcon_2 = L.icon({
+            iconUrl: 'marker_chegada.png',
+            iconSize: [22, 32, 5],
+            iconAnchor: [10, 30],
+        });
 
         const myboat = L.icon({
             iconUrl: 'user_marker.png',
@@ -2969,7 +2974,7 @@
                     g.on('loaded', function (e) {
                         var gpx = e.target,
                             elevation_data = gpx.get_elevation_data();
-                            data_hora = gpx.get_start_time();
+                        data_hora = gpx.get_start_time();
                         name = gpx.get_name(),
                             distM_2 = gpx.get_distance(),
                             distKm = distM_2 / 1000,
@@ -3069,7 +3074,8 @@
                         let popup = L.popup().setContent("<b>Pelo canal São Jacinto</b>" + "</br>"
                             + milesNauticalRoute + " nm" + "</br>" +
                             "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
-                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root);
+                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
+                            + " <br> Clique na rota que pretende simular");
 
                         market_BindRoute = L.marker([lat_gpx_GPX, lon_gpx_GPX]);
                         popup.setLatLng(market_BindRoute.getLatLng());
@@ -3248,7 +3254,8 @@
                         let popup = L.popup().setContent("<b>Veia da Testada</b>" + "</br>"
                             + milesNauticalRoute + " nm" + "</br>" +
                             "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
-                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root);
+                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
+                            + " <br> Clique na rota que pretende simular");
 
                         market_BindRoute = L.marker([lat_gpx_GPX, lon_gpx_GPX]);
                         popup.setLatLng(market_BindRoute.getLatLng());
@@ -3593,7 +3600,7 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#020202',
+                            color: '#1b2f66',
                             weight: 10,
                         },
                         marker_options: {
@@ -3617,11 +3624,12 @@
                             elevation_data = gpx.get_elevation_data();
                         data_hora = gpx.get_start_time();
                         name = gpx.get_name(),
-                            distM = gpx.get_distance(),
-                            distKm = distM / 1000,
+                            distM_5 = gpx.get_distance(),
+                            distKm = distM_5 / 1000,
                             distKmRnd = distKm.toFixed(1),
                             eleGain = gpx.get_elevation_gain().toFixed(2),
-                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                            tempoTotal = gpx.get_total_time();
+                        eleLoss = gpx.get_elevation_loss().toFixed(2);
                         var info = "Name: " + name + "</br>" +
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>"
@@ -3629,21 +3637,24 @@
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
+
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
                         //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+
                         var nday = date.getDay(),
                             nmonth = date.getMonth() + 1,
-                            ndate = date.getDate(),
-                            nyear = date.getYear();
-                        if (nyear < 1000) nyear += 1900;
+                            ndate = date.getDate();
                         UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
-
                         var arrayhidrografico = [];
-                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2]);
-
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                        arrayGPX_5 = [];
+                        arrayGPX_5.push(gpx._gpx)
                     });
                     somarNumero = 0;
 
@@ -3651,7 +3662,85 @@
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
+                        simularRota = true;
                         changeValue();
+                        //sidebar.open('infoRealTime');
+                        clicadoPrimeiroCais = false;
+                        clicadoSegundoCais = false;
+                    })
+                    g.on('mouseover', function (e) {
+
+                        xmlDoc = parser.parseFromString(arrayGPX_5[0], "text/xml")
+                        let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
+
+                        var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
+                        var lon_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lon');
+
+
+                        //Calcular distância para NM
+
+                        let distNM_5 = distM_5 * 0.0005;
+
+                        let nm_5casasdeci = distNM_5.toFixed(2);
+                        var milesNauticalRoute = parseFloat(nm_5casasdeci);
+
+                        let velocidadeUser = document.getElementById('velocidade').value;
+
+                        var tempo = milesNauticalRoute / velocidadeUser;
+                        var n = new Date(0, 0);
+                        n.setMinutes(+tempo * 60);
+                        var result = n.toTimeString().slice(0, 5);
+
+                        var splitTime_inicio = result.split(':');
+
+                        let horas_inicio = parseInt(splitTime_inicio[0]);
+                        let minutos_inicio = parseInt(splitTime_inicio[1]);
+
+                        let total_Rota = (horas_inicio * 60) + minutos_inicio;
+
+                        //****** Tempo de partida ******//
+                        let tempoPrim = document.getElementById('time_partida').value;
+                        var splitTimePartida = tempoPrim.split(':');
+                        let horasPartida = parseInt(splitTimePartida[0]);
+                        let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+
+                        let total_Partida_Rota = total_Partida + total_Rota;
+
+
+                        var mRotaChegada = new Date(0, 0);
+                        let hours_ofsumRote = total_Partida_Rota / 60;
+
+                        let d2cHours = hours_ofsumRote.toFixed(2);
+                        let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+
+
+                        let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+
+                        //Colocar popup apenas sem marker
+
+                        let popup = L.popup().setContent("<b>Pelo canal São Jacinto</b>" + "</br>"
+                            + milesNauticalRoute + " nm" + "</br>" +
+                            "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
+                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
+                            + " <br> Clique na rota que pretende simular");
+
+                        market_BindRoute = L.marker([lat_gpx_GPX, lon_gpx_GPX]);
+                        popup.setLatLng(market_BindRoute.getLatLng());
+                        mymap.openPopup(popup);
+                        // market_BindRoute = new L.marker([lat_gpx_GPX, lon_gpx_GPX]).addTo(mymap)
+                        //     .bindPopup("Veia da Testada").openPopup();
+                    });
+
+                    g.on('mouseout', function (e) {
+
+                        if (market_BindRoute) {
+                            setTimeout(function () {
+                                mymap.removeLayer(market_BindRoute);
+                            }, 2000);
+                        }
+
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -3659,7 +3748,11 @@
                         arrayGPX.push(gpx._gpx)
                     })
                     g.addTo(mymap);
+
                 });
+
+
+
             mymap.setView([40.61, -8.745], 12.6);
         }
 
@@ -3671,8 +3764,6 @@
                 }
             });
 
-            //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/mytracks_ida_bico.gpx';
-            //let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_AngeBico_20200729011637-25038-data.gpx';
             let url3 = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_ANGE_BICO_20200729012840-25038-data.gpx';
 
 
@@ -4055,7 +4146,9 @@
                 markersAPI();
             });
             //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx';
-            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Vagueira_50m_20200724070801-25038-data.gpx';
+            //let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Vagueira_50m_20200724070801-25038-data.gpx';
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_ANGE_Vagueira.gpx';
+
             fetch(url)
                 .then(function (response) {
                     return response.text();
@@ -4067,7 +4160,7 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#020202',
+                            color: '#1b2f66',
                             weight: 10,
                         },
                         marker_options: {
@@ -4091,11 +4184,12 @@
                             elevation_data = gpx.get_elevation_data();
                         data_hora = gpx.get_start_time();
                         name = gpx.get_name(),
-                            distM = gpx.get_distance(),
-                            distKm = distM / 1000,
+                            distM_3 = gpx.get_distance(),
+                            distKm = distM_3 / 1000,
                             distKmRnd = distKm.toFixed(1),
                             eleGain = gpx.get_elevation_gain().toFixed(2),
-                            eleLoss = gpx.get_elevation_loss().toFixed(2);
+                            tempoTotal = gpx.get_total_time();
+                        eleLoss = gpx.get_elevation_loss().toFixed(2);
                         var info = "Name: " + name + "</br>" +
                             "Distance: " + distKmRnd + " km </br>" +
                             "Elevation Gain: " + eleGain + " m </br>"
@@ -4103,29 +4197,284 @@
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
+
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
 
                         //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+
                         var nday = date.getDay(),
                             nmonth = date.getMonth() + 1,
-                            ndate = date.getDate(),
-                            nyear = date.getYear();
-                        if (nyear < 1000) nyear += 1900;
+                            ndate = date.getDate();
                         UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
-                        //document.getElementById('time').value = hora_min_gpx;
 
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
                         var arrayhidrografico = [];
-
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
-
+                        arrayGPX_3 = [];
+                        arrayGPX_3.push(gpx._gpx)
                     });
+                    somarNumero = 0;
+
                     g.on('click', function (e) {
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
+                        simularRota = true;
                         changeValue();
+                        //sidebar.open('infoRealTime');
+
+                    })
+                    g.on('mouseover', function (e) {
+
+                        xmlDoc = parser.parseFromString(arrayGPX_3[0], "text/xml")
+                        let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
+
+                        var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
+                        var lon_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lon');
+
+
+                        //Calcular distância para NM
+
+                        let distNM_3 = distM_3 * 0.0005;
+
+                        let nm_3casasdeci = distNM_3.toFixed(2);
+                        var milesNauticalRoute = parseFloat(nm_3casasdeci);
+
+                        let velocidadeUser = document.getElementById('velocidade').value;
+
+                        var tempo = milesNauticalRoute / velocidadeUser;
+                        var n = new Date(0, 0);
+                        n.setMinutes(+tempo * 60);
+                        var result = n.toTimeString().slice(0, 5);
+
+                        var splitTime_inicio = result.split(':');
+
+                        let horas_inicio = parseInt(splitTime_inicio[0]);
+                        let minutos_inicio = parseInt(splitTime_inicio[1]);
+
+                        let total_Rota = (horas_inicio * 60) + minutos_inicio;
+
+                        //****** Tempo de partida ******//
+                        let tempoPrim = document.getElementById('time_partida').value;
+                        var splitTimePartida = tempoPrim.split(':');
+                        let horasPartida = parseInt(splitTimePartida[0]);
+                        let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+
+                        let total_Partida_Rota = total_Partida + total_Rota;
+
+
+                        var mRotaChegada = new Date(0, 0);
+                        let hours_ofsumRote = total_Partida_Rota / 60;
+
+                        let d2cHours = hours_ofsumRote.toFixed(2);
+                        let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+
+
+                        let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+
+                        //Colocar popup apenas sem marker
+
+                        let popup = L.popup().setContent("<b>Pelo canal de Mira</b>" + "</br>"
+                            + milesNauticalRoute + " nm" + "</br>" +
+                            "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
+                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
+                            + " <br> Clique na rota que pretende simular");
+
+                        market_BindRoute = L.marker([lat_gpx_GPX, lon_gpx_GPX]);
+                        popup.setLatLng(market_BindRoute.getLatLng());
+                        mymap.openPopup(popup);
+                        // market_BindRoute = new L.marker([lat_gpx_GPX, lon_gpx_GPX]).addTo(mymap)
+                        //     .bindPopup("Veia da Testada").openPopup();
+                    });
+
+                    g.on('mouseout', function (e) {
+
+                        if (market_BindRoute) {
+                            setTimeout(function () {
+                                mymap.removeLayer(market_BindRoute);
+                            }, 2000);
+                        }
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
+
+        async function getData_IDA10_3_20_ReverseGPX() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+
+                }
+                markersAPI();
+            });
+
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_ANGE_Vagueira_Reverse.gpx';
+
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#3064f3',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            startIconUrl: null,
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM_4 = gpx.get_distance(),
+                            distKm = distM_4 / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            tempoTotal = gpx.get_total_time();
+                        eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate();
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                        arrayGPX_4 = [];
+                        arrayGPX_4.push(gpx._gpx)
+                    });
+                    somarNumero = 0;
+
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        simularRota = true;
+                        changeValue();
+                        //sidebar.open('infoRealTime');
+
+                    })
+                    g.on('mouseover', function (e) {
+
+                        xmlDoc = parser.parseFromString(arrayGPX_4[0], "text/xml")
+                        let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
+
+                        var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
+                        var lon_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lon');
+
+
+                        //Calcular distância para NM
+
+                        let distNM_4 = distM_4 * 0.0005;
+
+                        let nm_4casasdeci = distNM_4.toFixed(2);
+                        var milesNauticalRoute = parseFloat(nm_4casasdeci);
+
+                        let velocidadeUser = document.getElementById('velocidade').value;
+
+                        var tempo = milesNauticalRoute / velocidadeUser;
+                        var n = new Date(0, 0);
+                        n.setMinutes(+tempo * 60);
+                        var result = n.toTimeString().slice(0, 5);
+
+                        var splitTime_inicio = result.split(':');
+
+                        let horas_inicio = parseInt(splitTime_inicio[0]);
+                        let minutos_inicio = parseInt(splitTime_inicio[1]);
+
+                        let total_Rota = (horas_inicio * 60) + minutos_inicio;
+
+                        //****** Tempo de partida ******//
+                        let tempoPrim = document.getElementById('time_partida').value;
+                        var splitTimePartida = tempoPrim.split(':');
+                        let horasPartida = parseInt(splitTimePartida[0]);
+                        let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+
+                        let total_Partida_Rota = total_Partida + total_Rota;
+
+
+                        var mRotaChegada = new Date(0, 0);
+                        let hours_ofsumRote = total_Partida_Rota / 60;
+
+                        let d2cHours = hours_ofsumRote.toFixed(2);
+                        let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+
+
+                        let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+
+                        //Colocar popup apenas sem marker
+
+                        let popup = L.popup().setContent("<b>Pelo canal de Mira por cima do sequeiro</b>" + "</br>"
+                            + milesNauticalRoute + " nm" + "</br>" +
+                            "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
+                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
+                            + " <br> Clique na rota que pretende simular");
+
+                        market_BindRoute = L.marker([lat_gpx_GPX, lon_gpx_GPX]);
+                        popup.setLatLng(market_BindRoute.getLatLng());
+                        mymap.openPopup(popup);
+                        // market_BindRoute = new L.marker([lat_gpx_GPX, lon_gpx_GPX]).addTo(mymap)
+                        //     .bindPopup("Veia da Testada").openPopup();
+                    });
+
+                    g.on('mouseout', function (e) {
+
+                        if (market_BindRoute) {
+                            setTimeout(function () {
+                                mymap.removeLayer(market_BindRoute);
+                            }, 2000);
+                        }
+
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -7738,7 +8087,7 @@
         var arrayclicado = [];
 
         var newMarker;
-        var marker_Teste1;
+        var marker_Teste1, marker_Chegada;
         var marker_CaisANGE;
         var marker_CaisANGEVagueira;
         var marker_CaisTorreira;
@@ -7779,6 +8128,8 @@
             document.getElementById(elem).style.display = "none";
         }
 
+        var clicadoPrimeiroCais = false, clicadoSegundoCais = false;
+        var arrayCoordenadasPartida = [], arrayCoordenadasChegada = [];
 
         mymap.on('click', function (e) {
 
@@ -7812,10 +8163,19 @@
                 icon: newMarker
             }).addTo(mymap);
 
+            if (clicadoPrimeiroCais) {
+                console.log("primeiro Cais escolhido");
+                escolherCaisChegada(arrayCoor[0]);
+            } else if (clicadoSegundoCais) {
 
-            verificaClickCoor(arrayCoor[0]);
+            } else {
+                verificaClickCoor(arrayCoor[0]);
+            }
 
         });
+
+
+
         var arrayURL = [];
         async function mudarVeloDura() {
 
@@ -7824,7 +8184,7 @@
                 document.getElementById('escolher_rota').style.display = "block";
                 setTimeout(function () {
                     document.getElementById('escolher_rota').style.display = "none";
-                },5000);
+                }, 5000);
             } else {
                 document.getElementById('escolher_rota').style.display = "none";
 
@@ -7993,9 +8353,116 @@
         var setValor_rota;
         var AnimacValor_rota;
 
+
+        async function escolherCaisChegada(arrayClicado) {
+
+            
+            var localiz_distan = [], local_Nome_rota = [];
+            coordClicadas = arrayClicado;
+            milesRoute = [];
+            if (markerAnimado) {
+                mymap.removeLayer(markerAnimado);
+            }
+
+            var lat_gpx23 = 40.6202033551212;
+            var lon_gpx23 = -8.748680648859592;
+
+            distancia23 = mymap.distance([lat_gpx23, lon_gpx23], [arrayClicado.lat, arrayClicado.lng]);
+
+            localiz_distan.push(distancia23);
+            local_Nome_rota.push('caisCostaNova');
+            let dataOrdenada, guardardistancia2 = [];
+            let primeira_pos;
+            if (localiz_distan != null) {
+
+                for (let j = 0; j < localiz_distan.length; j++) {
+                    guardardistancia2.push([localiz_distan[j], local_Nome_rota[j]])
+                }
+                dataOrdenada = guardardistancia2.sort(function (a, b) {
+                    return a[0] - b[0]
+                });
+
+                let arrayFuncoesGpx = [
+                    'caisCostaNova',
+                    'caisANGE'
+
+                ];
+
+
+                duracaoRotaChoosen = [];
+
+                document.getElementById('load_fetch').style.display = "none";
+
+                comecAnimarfirst = false;
+
+            $('#simuPlay').removeAttr("disabled");
+
+            sidebar.open('infoRealTime');
+
+            if (newMarker) { // check
+                mymap.removeLayer(newMarker); // remove
+            }
+
+
+            var d = new Date();
+            var nday = d.getDay(),
+                nmonth = d.getMonth(),
+                ndate = d.getDate(),
+                nyear = d.getYear();
+            if (nyear < 1000) nyear += 1900;
+            nhour = d.getHours(), nmin = d.getMinutes();
+            let mes_inicial = nmonth + 1;
+            UserHoras_Inicial = new Date(nyear, mes_inicial, nday, nhour, nmin);
+            // console.log(nmonth)
+            // console.log(mes_inicial);
+
+
+            var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
+            document.getElementById('time_partida').value = f;
+            if (mes_inicial <= 9) {
+                if (ndate <= 9) {
+                    testData = nyear.toString() + "-0" + mes_inicial.toString() + "-0" + ndate.toString();
+                } else {
+                    testData = nyear.toString() + "-0" + mes_inicial.toString() + "-" + ndate.toString();
+                }
+            } else if (ndate <= 9) {
+                testData = nyear.toString() + "-" + mes_inicial.toString() + "-0" + ndate.toString();
+            } else {
+                testData = nyear.toString() + "-" + mes_inicial.toString() + "-" + ndate.toString();
+            }
+
+            document.getElementById('date').value = testData.toString();
+
+                if (guardardistancia2[0][1] == 'caisCostaNova') {
+                    if (arrayCoordenadasPartida[0] == 'caisANGE')
+                        if (marker_Chegada) { // check
+                            mymap.removeLayer(marker_Chegada); // remove
+                        }
+
+                    marker_Chegada = L.marker([40.6202033551212, -8.748680648859592], {
+                        icon: issIcon_2
+                    }).addTo(mymap);
+
+                    getCostaNovaGPX();
+
+                    distanciaCerto = 30;
+                    setValor_rota = 40000;
+                    AnimacValor_rota = 400;
+                    milesRoute.push(duracaoRotaChoosen[0]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_CostaNova.gpx');
+                    clicadoPrimeiroCais = false;
+                    clicadoSegundoCais = false;
+                }
+            }
+
+
+        }
+
         async function verificaClickCoor(arrayClicked) {
 
-
+            clicadoPrimeiroCais = true;
 
             milesRoute = [];
             if (markerAnimado) {
@@ -8248,6 +8715,16 @@
             local_Nome_rota.push('caisCostaNova');
 
 
+            var lat_gpx24 = 40.61362666449645;
+            var lon_gpx24 = -8.738894462585451;
+
+            distancia24 = mymap.distance([lat_gpx24, lon_gpx24], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia24);
+            local_Nome_rota.push('caisANGE');
+
+
+
             // document.getElementById('btn_legenda2').style.opacity = "1";
             // document.getElementById('btn_legenda').style.opacity = "1";
 
@@ -8284,6 +8761,7 @@
                     'getDataGPX_Salreu_PonteBarra',
                     'rotaOvar_28_07',
                     'caisCostaNova',
+                    'caisANGE'
 
                 ];
 
@@ -8394,9 +8872,23 @@
                         this.openPopup();
                     });
 
+                } else if (guardardistancia[0][1] == 'caisANGE') {
+
+
+
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+
+                    marker_Teste1 = L.marker([40.61362666449645, -8.738894462585451], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    arrayCoordenadasPartida.push('caisANGE');
+
                 } else if (guardardistancia[0][1] == 'caisCostaNova') {
 
-                    
+
 
                     setValor_rota = 12000;
                     AnimacValor_rota = 100;
@@ -8411,7 +8903,7 @@
                         icon: issIcon
                     }).addTo(mymap);
                     setTimeout(function () {
-                    document.getElementById('load_fetch').style.display = "none";
+                        document.getElementById('load_fetch').style.display = "none";
 
                         marker_Teste1.bindPopup("<div class='div_bind'>" +
                             "<h5>Da sua atual posição deseja ir até</h5>" +
@@ -9645,16 +10137,18 @@
                 case 'getData_IDA10_3_20_GPX':
                     setValor_rota = 10000;
                     AnimacValor_rota = 100;
+                    distanciaCerto = 30;
                     arrayURL = [];
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rota_Prof_ida_mytracks(1.gpx');
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/ANGE_Vagueira_50m_20200724070801-25038-data.gpx');
 
                     milesRoute.push(duracaoRotaChoosen[2]);
+                    getData_IDA10_3_20_ReverseGPX();
                     getData_IDA10_3_20_GPX();
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     nomeDestino = [];
                     nomeDestino.push("Vagueira");
-                    document.getElementById('tutorial03').style.display = "block";
+                    /*document.getElementById('tutorial03').style.display = "block";
                     document.getElementById('cais_partida').innerHTML = "ANGE";
                     document.getElementById('cais_chegada').innerHTML = "Vagueira";
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
@@ -9670,6 +10164,7 @@
                     marker_Teste1.on('click', function (e) {
                         marker_Teste1.openPopup();
                     });
+                    */
                     break;
                 case 'getData_Volta10_3_20_GPX':
                     setValor_rota = 15000;
@@ -10492,7 +10987,7 @@
             /********************************************************************************/
             /********************************************************************************/
 
-            var guardarHoras = [], guardarHoras_anterior = [];
+            var guardarHoras = [], guardarHoras_anterior = [], guardarHoras_posdia = [];
             let sortedData;
             var mare_por_minuto = [];
             let count = 0,
@@ -10531,6 +11026,20 @@
                     }
                     sortedData_anterior = guardarHoras_anterior.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
                 }
+
+                for (let i = 0; i < arrayhidrografico_posdia.length; i++) {
+
+                    for (let j = 0; j < arrayhidrografico_posdia[i].length; j++) {
+                        //console.log(arrayhidrografico_anteriordia[i][j])
+                        let date = new Date(arrayhidrografico_posdia[i][j].SDATA);
+                        guardarHoras_posdia.push(arrayhidrografico_posdia[i][j])
+
+                    }
+                    sortedData_seguinte = guardarHoras_posdia.sort((a, b) => new Date(a.SDATA) - new Date(b.SDATA))
+                }
+
+
+
 
                 //Percorrer o array da informação da maré, com base das horas ordenadas crescente da API Hidrográfico
                 // for (let k = 0; k < sortedData.length; k++) {
@@ -10782,6 +11291,7 @@
                 } else if (UserHoras.getHours() >= data4.getHours()) {
 
                     console.log("if 05")
+
 
                     let horas_min_seguinte = new Date(sortedData_seguinte[0].SDATA);
                     let delta_mare;
