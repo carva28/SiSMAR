@@ -8356,7 +8356,7 @@
 
         async function escolherCaisChegada(arrayClicado) {
 
-            
+
             var localiz_distan = [], local_Nome_rota = [];
             coordClicadas = arrayClicado;
             milesRoute = [];
@@ -8395,65 +8395,68 @@
 
                 comecAnimarfirst = false;
 
-            $('#simuPlay').removeAttr("disabled");
+                $('#simuPlay').removeAttr("disabled");
 
-            sidebar.open('infoRealTime');
+                sidebar.open('infoRealTime');
 
-            if (newMarker) { // check
-                mymap.removeLayer(newMarker); // remove
-            }
-
-
-            var d = new Date();
-            var nday = d.getDay(),
-                nmonth = d.getMonth(),
-                ndate = d.getDate(),
-                nyear = d.getYear();
-            if (nyear < 1000) nyear += 1900;
-            nhour = d.getHours(), nmin = d.getMinutes();
-            let mes_inicial = nmonth + 1;
-            UserHoras_Inicial = new Date(nyear, mes_inicial, nday, nhour, nmin);
-            // console.log(nmonth)
-            // console.log(mes_inicial);
-
-
-            var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
-            document.getElementById('time_partida').value = f;
-            if (mes_inicial <= 9) {
-                if (ndate <= 9) {
-                    testData = nyear.toString() + "-0" + mes_inicial.toString() + "-0" + ndate.toString();
-                } else {
-                    testData = nyear.toString() + "-0" + mes_inicial.toString() + "-" + ndate.toString();
+                if (newMarker) { // check
+                    mymap.removeLayer(newMarker); // remove
                 }
-            } else if (ndate <= 9) {
-                testData = nyear.toString() + "-" + mes_inicial.toString() + "-0" + ndate.toString();
-            } else {
-                testData = nyear.toString() + "-" + mes_inicial.toString() + "-" + ndate.toString();
-            }
 
-            document.getElementById('date').value = testData.toString();
+
+                var d = new Date();
+                var nday = d.getDay(),
+                    nmonth = d.getMonth(),
+                    ndate = d.getDate(),
+                    nyear = d.getYear();
+                if (nyear < 1000) nyear += 1900;
+                nhour = d.getHours(), nmin = d.getMinutes();
+                let mes_inicial = nmonth + 1;
+                UserHoras_Inicial = new Date(nyear, mes_inicial, nday, nhour, nmin);
+                // console.log(nmonth)
+                // console.log(mes_inicial);
+
+
+                var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
+                document.getElementById('time_partida').value = f;
+                if (mes_inicial <= 9) {
+                    if (ndate <= 9) {
+                        testData = nyear.toString() + "-0" + mes_inicial.toString() + "-0" + ndate.toString();
+                    } else {
+                        testData = nyear.toString() + "-0" + mes_inicial.toString() + "-" + ndate.toString();
+                    }
+                } else if (ndate <= 9) {
+                    testData = nyear.toString() + "-" + mes_inicial.toString() + "-0" + ndate.toString();
+                } else {
+                    testData = nyear.toString() + "-" + mes_inicial.toString() + "-" + ndate.toString();
+                }
+
+                document.getElementById('date').value = testData.toString();
 
                 if (guardardistancia2[0][1] == 'caisCostaNova') {
-                    if (arrayCoordenadasPartida[0] == 'caisANGE')
+                    if (arrayCoordenadasPartida[0] == 'caisANGE') {
+
+
                         if (marker_Chegada) { // check
                             mymap.removeLayer(marker_Chegada); // remove
                         }
 
-                    marker_Chegada = L.marker([40.6202033551212, -8.748680648859592], {
-                        icon: issIcon_2
-                    }).addTo(mymap);
+                        marker_Chegada = L.marker([40.6202033551212, -8.748680648859592], {
+                            icon: issIcon_2
+                        }).addTo(mymap);
 
-                    getCostaNovaGPX();
+                        getCostaNovaGPX();
 
-                    distanciaCerto = 30;
-                    setValor_rota = 40000;
-                    AnimacValor_rota = 400;
-                    milesRoute.push(duracaoRotaChoosen[0]);
-                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
-                    arrayURL = [];
-                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_CostaNova.gpx');
-                    clicadoPrimeiroCais = false;
-                    clicadoSegundoCais = false;
+                        distanciaCerto = 30;
+                        setValor_rota = 40000;
+                        AnimacValor_rota = 400;
+                        milesRoute.push(duracaoRotaChoosen[0]);
+                        document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                        arrayURL = [];
+                        arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_CostaNova.gpx');
+                        clicadoPrimeiroCais = false;
+                        clicadoSegundoCais = false;
+                    }
                 }
             }
 
