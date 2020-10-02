@@ -693,6 +693,7 @@
             color: red !important;
             font-size: 30px !important;
             margin-right: 14px !important;
+            padding: 8px 4px 0 0 !important;
         }
 
         #th_styles {
@@ -1178,6 +1179,27 @@
             margin-bottom: 0 !important;
         }
 
+        /***** POP-UP temperatura ***********/
+        .pop_temperatura {
+            background-color: transparent;
+        }
+
+        .pop_temperatura .leaflet-popup-content-wrapper {
+            background-color: #1f1f1f;
+            border-radius: 5px;
+            padding: 15px 20px;
+            color: white;
+            font-weight: 700;
+        }
+
+        .pop_temperatura .leaflet-popup-content-wrapper,
+        .leaflet-popup-tip {
+            background-color: rgb(31 31 31 / 0.75);
+        }
+
+        p.popup_p_temperatura {
+            margin: 0 0 8px 0 !important;
+        }
 
         /***** MEDIA QUERIES ***********/
 
@@ -2621,6 +2643,7 @@
         var velocidademedia;
         // Making a map and tiles
         const mymap = L.map('issMap').setView([40.6126, -8.7383], 16);
+
         //const mymap = L.map('issMap').setView([40.7288, -8.6467], 16);
         //const mymap = L.map('issMap').setView([40.70, -8.69], 11);
         const attribution =
@@ -2941,6 +2964,78 @@
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
                         arrayGPX_7 = [];
                         arrayGPX_7.push(gpx._gpx)
+
+
+
+                        xmlDoc = parser.parseFromString(arrayGPX_7[0], "text/xml")
+
+                        var lat_gpx_GPX_inicio = xmlDoc.getElementsByTagName("trkpt")[parseInt(0)].getAttribute('lat');
+                        var lon_gpx_GPX_inicio = xmlDoc.getElementsByTagName("trkpt")[parseInt(0)].getAttribute('lon');
+
+                        let valorfim = xmlDoc.getElementsByTagName("trkpt").length - 1;
+
+                        var lat_gpx_GPX_fim = xmlDoc.getElementsByTagName("trkpt")[parseInt(valorfim)].getAttribute('lat');
+                        var lon_gpx_GPX_fim = xmlDoc.getElementsByTagName("trkpt")[parseInt(valorfim)].getAttribute('lon');
+
+                        let data_APIMETOC = func_METEO(lat_gpx_GPX_inicio, lon_gpx_GPX_inicio);
+                        let data_APIMETOC_fim = func_METEO(lat_gpx_GPX_fim, lon_gpx_GPX_fim);
+
+                        data_APIMETOC.then(function (result_inicio) {
+                            // here you can use the result of promiseB
+                            data_APIMETOC_fim.then(function (result_fim) {
+
+                                // data_APIMETOC = result_inicio;
+                                // data_APIMETOC_fim = result_fim;
+
+                                let temperaturaInicio = result_inicio.main.temp;
+                                let imagem_inicio = result_inicio.weather[0].icon;
+                                let vento_veloc_Inicio = result_inicio.wind.speed;
+                                let vento_inclinação_Inicio = result_inicio.wind.deg;
+                                let nebulosidade_inicio = result_inicio.clouds.all;
+                                let visibilidade_inicio =result_inicio.visibility;
+
+
+
+                                let temperaturafim = result_fim.main.temp;
+                                let imagem_fim = result_fim.weather[0].icon;
+                                let vento_veloc_fim = result_fim.wind.speed;
+                                let vento_inclinação_fim = result_fim.wind.deg;
+                                let nebulosidade_fim = result_fim.clouds.all;
+                                let visibilidade_fim =result_fim.visibility;
+                                // let tempoAPI = data_APIMETOC.weather[0];
+                                // let GrausMetoc = data_APIMETOC.main;
+                                // console.log(GrausMetoc);
+                                // console.log(tempoAPI);
+
+                                //ADICIONAR MARKER INICIO
+
+                                let popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img src=http://openweathermap.org/img/w/" + imagem_inicio + ".png>" +
+                                    "<p class='popup_p_temperatura'>Temperatura " + temperaturaInicio + "ºC</p>" +
+                                    "<span>Vento " + vento_veloc_Inicio + "m/s</span></br>" +
+                                    "<span>Direção do Vento " + vento_inclinação_Inicio + "º </span></br>" +
+                                    "<span>Visibilidade " + visibilidade_inicio + " metros </span></br>" +
+                                    "<span>Nebulosidade " + nebulosidade_inicio + "<b>%</b> </span>" +
+                                    "</div>");
+                                //let popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
+                                let market_incio_meteo = L.marker([lat_gpx_GPX_inicio, lon_gpx_GPX_inicio]);
+                                popup_tempo_inicio.setLatLng(market_incio_meteo.getLatLng());
+                                mymap.openPopup(popup_tempo_inicio);
+
+                                //ADICIONAR MARKER FIM
+
+                                let popup_tempo_fim = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img src=http://openweathermap.org/img/w/" + imagem_fim + ".png>" +
+                                    "<p class='popup_p_temperatura'>Temperatura " + temperaturafim + "ºC</p>" +
+                                    "<span>Vento " + vento_veloc_fim + "m/s</span></br>" +
+                                    "<span>Direção do Vento " + vento_inclinação_fim + "º </span></br>" +
+                                    "<span>Visibilidade " + visibilidade_inicio + " metros </span></br>" +
+                                    "<span>Nebulosidade " + nebulosidade_fim + "<b>%</b> </span>" +
+                                    "</div>");
+                                //let popup_tempo_fim = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
+                                let market_fim_meteo = L.marker([lat_gpx_GPX_fim, lon_gpx_GPX_fim]);
+                                popup_tempo_fim.setLatLng(market_fim_meteo.getLatLng());
+                                mymap.openPopup(popup_tempo_fim);
+                            });
+                        });
                     });
                     somarNumero = 0;
 
@@ -3711,6 +3806,9 @@
 
             markersAPI();
 
+            let popup_tempo_inicio, popup_tempo_fim;
+            var market_incio_meteo, market_fim_meteo;
+
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
@@ -3785,7 +3883,79 @@
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
                         arrayGPX_5 = [];
-                        arrayGPX_5.push(gpx._gpx)
+                        arrayGPX_5.push(gpx._gpx);
+
+
+
+                        xmlDoc = parser.parseFromString(arrayGPX_5[0], "text/xml")
+
+                        var lat_gpx_GPX_inicio = xmlDoc.getElementsByTagName("trkpt")[parseInt(0)].getAttribute('lat');
+                        var lon_gpx_GPX_inicio = xmlDoc.getElementsByTagName("trkpt")[parseInt(0)].getAttribute('lon');
+
+                        let valorfim = xmlDoc.getElementsByTagName("trkpt").length - 1;
+
+                        var lat_gpx_GPX_fim = xmlDoc.getElementsByTagName("trkpt")[parseInt(valorfim)].getAttribute('lat');
+                        var lon_gpx_GPX_fim = xmlDoc.getElementsByTagName("trkpt")[parseInt(valorfim)].getAttribute('lon');
+
+                        let data_APIMETOC = func_METEO(lat_gpx_GPX_inicio, lon_gpx_GPX_inicio);
+                        let data_APIMETOC_fim = func_METEO(lat_gpx_GPX_fim, lon_gpx_GPX_fim);
+
+                        data_APIMETOC.then(function (result_inicio) {
+                            // here you can use the result of promiseB
+                            data_APIMETOC_fim.then(function (result_fim) {
+
+                                // data_APIMETOC = result_inicio;
+                                // data_APIMETOC_fim = result_fim;
+
+                                let temperaturaInicio = result_inicio.main.temp;
+                                let imagem_inicio = result_inicio.weather[0].icon;
+                                let vento_veloc_Inicio = result_inicio.wind.speed;
+                                let vento_inclinação_Inicio = result_inicio.wind.deg;
+                                let nebulosidade_inicio = result_inicio.clouds.all;
+                                let visibilidade_inicio =result_inicio.visibility;
+
+
+
+                                let temperaturafim = result_fim.main.temp;
+                                let imagem_fim = result_fim.weather[0].icon;
+                                let vento_veloc_fim = result_fim.wind.speed;
+                                let vento_inclinação_fim = result_fim.wind.deg;
+                                let nebulosidade_fim = result_fim.clouds.all;
+                                let visibilidade_fim =result_fim.visibility;
+                                // let tempoAPI = data_APIMETOC.weather[0];
+                                // let GrausMetoc = data_APIMETOC.main;
+                                // console.log(GrausMetoc);
+                                // console.log(tempoAPI);
+
+                                //ADICIONAR MARKER INICIO
+
+                                let popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img src=http://openweathermap.org/img/w/" + imagem_inicio + ".png>" +
+                                    "<p class='popup_p_temperatura'>Temperatura " + temperaturaInicio + "ºC</p>" +
+                                    "<span>Vento " + vento_veloc_Inicio + "m/s</span></br>" +
+                                    "<span>Direção do Vento " + vento_inclinação_Inicio + "º </span></br>" +
+                                    "<span>Visibilidade " + visibilidade_inicio + " metros </span></br>" +
+                                    "<span>Nebulosidade " + nebulosidade_inicio + "<b>%</b> </span>" +
+                                    "</div>");
+                                //let popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
+                                let market_incio_meteo = L.marker([lat_gpx_GPX_inicio, lon_gpx_GPX_inicio]);
+                                popup_tempo_inicio.setLatLng(market_incio_meteo.getLatLng());
+                                mymap.openPopup(popup_tempo_inicio);
+
+                                //ADICIONAR MARKER FIM
+
+                                let popup_tempo_fim = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img src=http://openweathermap.org/img/w/" + imagem_fim + ".png>" +
+                                    "<p class='popup_p_temperatura'>Temperatura " + temperaturafim + "ºC</p>" +
+                                    "<span>Vento " + vento_veloc_fim + "m/s</span></br>" +
+                                    "<span>Direção do Vento " + vento_inclinação_fim + "º </span></br>" +
+                                    "<span>Visibilidade " + visibilidade_inicio + " metros </span></br>" +
+                                    "<span>Nebulosidade " + nebulosidade_fim + "<b>%</b> </span>" +
+                                    "</div>");
+                                //let popup_tempo_fim = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
+                                let market_fim_meteo = L.marker([lat_gpx_GPX_fim, lon_gpx_GPX_fim]);
+                                popup_tempo_fim.setLatLng(market_fim_meteo.getLatLng());
+                                mymap.openPopup(popup_tempo_fim);
+                            });
+                        });
                     });
                     somarNumero = 0;
 
@@ -3801,6 +3971,9 @@
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
                     })
+
+
+
                     g.on('mouseover', function (e) {
 
                         xmlDoc = parser.parseFromString(arrayGPX_5[0], "text/xml")
@@ -3808,6 +3981,7 @@
 
                         var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
                         var lon_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lon');
+
 
 
                         //Calcular distância para NM
@@ -3887,6 +4061,18 @@
 
 
             mymap.setView([40.61, -8.745], 12.6);
+        }
+
+
+        async function func_METEO(lat_gpx_GPX_fim, lon_gpx_GPX_fim) {
+
+
+            let url_meteo = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat_gpx_GPX_fim + '&lon=' + lon_gpx_GPX_fim + '&units=metric&appid=b15cd657afda6a10028f295d36398b1a';
+
+            const response2 = await fetch(url_meteo);
+            const json2 = await response2.json();
+            return json2;
+
         }
 
         async function getIdaBicoGPX() {
@@ -9265,7 +9451,7 @@
                             mymap.removeLayer(marker_Chegada); // remove
                         }
 
-                        marker_Chegada = L.marker([40.728883,-8.646376], {
+                        marker_Chegada = L.marker([40.728883, -8.646376], {
                             icon: issIcon_2
                         }).addTo(mymap);
 
@@ -9283,7 +9469,7 @@
                         clicadoSegundoCais = false;
 
                     }
-                }else if (guardardistancia2[0][1] == 'caisVagueira') {
+                } else if (guardardistancia2[0][1] == 'caisVagueira') {
                     if (arrayCoordenadasPartida[0] == 'caisANGE') {
 
                         if (marker_Chegada) { // check
@@ -11484,6 +11670,12 @@
         var initialID;
         var points;
         var i = 0;
+        var tempoAPI = [];
+        var coord_lat_API = [];
+        var coord_long_API = [];
+        var somaVelociUser;
+        var distanciaPontosRota;
+
         function calculo(valor_cal, cal_sup, cal_inf) {
             i = 0;
             //var width = 1;
@@ -11541,6 +11733,8 @@
                 //somarNumero = somarNumero + 6;
                 somarNumero = somarNumero + 15;
             }
+
+
 
 
 
@@ -11659,9 +11853,9 @@
             parser = new DOMParser();
 
             //variaveis API
-            var tempoAPI = [];
-            var coord_lat_API = [];
-            var coord_long_API = [];
+            tempoAPI = [];
+            coord_lat_API = [];
+            coord_long_API = [];
 
             xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml");
             if (arrayGPX.length != 0 || arrayUser.length != 0) {
@@ -11719,9 +11913,7 @@
                 }
 
             }
-            //console.log(distancePontos);
-            // console.log("Distância adquirida");
-            // console.log(distanciaAcumulada);
+
             let latit, longitu, zadquirido = [];
 
             if (ar_CoordExcel.length > 0) {
@@ -11801,10 +11993,6 @@
                 splitTime1_tempoAPI = tempo.split(':');
             }
 
-            // console.log(splitTime1_tempoAPI);
-            // console.log(tempoUser);
-            // console.log(tempo);
-            // console.log(time_partida_1);
 
             UserHoras2 = new Date(nyear, nmonth, nday, splitTime1_tempoAPI[0], splitTime1_tempoAPI[1]);
             //var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
@@ -11834,11 +12022,11 @@
 
             points = [];
 
-            let somaVelociUser;
+            somaVelociUser = 0;
 
             let veloutilizadorInput = document.getElementById('velocidade').value;
 
-            let distanciaPontosRota;
+            distanciaPontosRota = 0;
 
 
             if (distanciaCerto > 0) {
@@ -11850,8 +12038,8 @@
 
             var totalDistPoin = distanciaPontosRota * 3600;
             var totalDi2 = 1852 * veloutilizadorInput;
-            console.log(totalDistPoin);
-            console.log(totalDi2);
+            // console.log(totalDistPoin);
+            // console.log(totalDi2);
 
             somaVelociUser = totalDistPoin / totalDi2;
             //console.log(somaVelociUser);
@@ -11874,9 +12062,7 @@
 
                     }
 
-                    //console.log(segundosAPI.toFixed(2))
                     let converInt = parseInt(segundosAPI);
-                    //console.log(converInt);
                     arrayTempoApi.push(moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString());
 
                     //tempoISO_API.push({  date: moment(startDate).add(y, 'm').toDate().toISOString() } );
@@ -11888,13 +12074,12 @@
 
             //console.log(points)
 
-
             var startTime = moment(arrayTempoApi[0], "YYYY-MM-DD HH:mm:ss a");
             var endTime = moment(arrayTempoApi[arrayTempoApi.length - 1], "YYYY-MM-DD HH:mm:ss a");
             var duration = moment.duration(endTime.diff(startTime));
             var hours = parseInt(duration.asHours());
             var minutes = parseInt(duration.asMinutes()) - hours * 60;
-            console.log(hours + ' hour and ' + minutes + ' minutes.')
+            //console.log(hours + ' hour and ' + minutes + ' minutes.')
 
             if (hours == 1) {
                 document.getElementById('duracao_rota').innerHTML = hours + ' hora e ' + minutes + " minutos";
@@ -12364,7 +12549,8 @@
                 //     let data3 = new Date(sortedData2[2].SDATA);
                 // }
 
-                console.log(array_hidrografico_simulacao_API);
+                //console.log(array_hidrografico_simulacao_API);
+
                 document.getElementById('info_mare_1').innerHTML = "&nbsp";
                 document.getElementById('info_mare_2').innerHTML = "&nbsp";
                 document.getElementById('info_mare_3').innerHTML = "&nbsp";
@@ -14542,10 +14728,12 @@
                     primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
                 } else {
                     var minutos = parseInt(splitTime1[1]) + 1; //antes estava 10
+                    //var minutos = parseInt(splitTime1[1]) + 60; //antes estava 10
                     UserHoras2 = new Date(nyear, nmonth, nday, splitTime1[0], minutos);
                     primeiroHorMin.push([UserHoras2.getHours(), UserHoras2.getMinutes()])
 
                 }
+
 
 
                 var f = leadZero(UserHoras2.getHours()) + ":" + leadZero(UserHoras2.getMinutes());
