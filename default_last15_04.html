@@ -4066,8 +4066,8 @@
 
         async function func_METEO(lat_gpx_GPX_fim, lon_gpx_GPX_fim) {
 
-
-            let url_meteo = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat_gpx_GPX_fim + '&lon=' + lon_gpx_GPX_fim + '&units=metric&appid=b15cd657afda6a10028f295d36398b1a';
+            //https://api.darksky.net/forecast/f6c3bc5b369a4cc7be0092c239646a9f/40.860002,-8.656656,1601671800
+            let url_meteo = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat_gpx_GPX_fim + '&lon=' + lon_gpx_GPX_fim + '&units=metric&appid=b15cd657afda6a10028f295d36398b1a';
 
             const response2 = await fetch(url_meteo);
             const json2 = await response2.json();
