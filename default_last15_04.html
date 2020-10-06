@@ -2992,7 +2992,7 @@
                                 let vento_veloc_Inicio = result_inicio.wind.speed;
                                 let vento_inclinação_Inicio = result_inicio.wind.deg;
                                 let nebulosidade_inicio = result_inicio.clouds.all;
-                                let visibilidade_inicio =result_inicio.visibility;
+                                let visibilidade_inicio = result_inicio.visibility;
 
 
 
@@ -3001,7 +3001,7 @@
                                 let vento_veloc_fim = result_fim.wind.speed;
                                 let vento_inclinação_fim = result_fim.wind.deg;
                                 let nebulosidade_fim = result_fim.clouds.all;
-                                let visibilidade_fim =result_fim.visibility;
+                                let visibilidade_fim = result_fim.visibility;
                                 // let tempoAPI = data_APIMETOC.weather[0];
                                 // let GrausMetoc = data_APIMETOC.main;
                                 // console.log(GrausMetoc);
@@ -3912,7 +3912,7 @@
                                 let vento_veloc_Inicio = result_inicio.wind.speed;
                                 let vento_inclinação_Inicio = result_inicio.wind.deg;
                                 let nebulosidade_inicio = result_inicio.clouds.all;
-                                let visibilidade_inicio =result_inicio.visibility;
+                                let visibilidade_inicio = result_inicio.visibility;
 
 
 
@@ -3921,7 +3921,7 @@
                                 let vento_veloc_fim = result_fim.wind.speed;
                                 let vento_inclinação_fim = result_fim.wind.deg;
                                 let nebulosidade_fim = result_fim.clouds.all;
-                                let visibilidade_fim =result_fim.visibility;
+                                let visibilidade_fim = result_fim.visibility;
                                 // let tempoAPI = data_APIMETOC.weather[0];
                                 // let GrausMetoc = data_APIMETOC.main;
                                 // console.log(GrausMetoc);
@@ -8897,7 +8897,7 @@
                 arrayTempoApi = [];
 
             } else {
-                alert("não pode")
+
             }
         }
 
@@ -13330,6 +13330,7 @@
                         var horasChegada_Array = new Date(arrayTempoApi[arrayTempoApi.length - 1]);
 
                         document.getElementById('eta_1').innerHTML = horasChegada_Array.getHours() + ":" + horasChegada_Array.getMinutes();
+
                         //console.log(result_Chegada)
                         //document.getElementById('duracao_rota').innerHTML = result;
 
@@ -13346,12 +13347,8 @@
                         let dataInformacion_2 = new Date(sortedData2[2].SDATA);
 
 
-                        // console.log(User_Tempo_cada_coor)
-
-
-
-                        let horasChegada = User_Tempo_cada_coor.getHours();
-                        let minutosChegada = User_Tempo_cada_coor.getMinutes();
+                        let horasChegada = horasChegada_Array.getHours();
+                        let minutosChegada = horasChegada_Array.getMinutes();
 
                         let dataInformacion_3;
 
@@ -13363,58 +13360,91 @@
 
 
                         if (horasChegada <= dataInformacion_0.getHours()) {
-                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            if (sortedData2[0].ALT > sortedData2[1].ALT) {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                        } else if (horasChegada <= dataInformacion_1.getHours() && minutosChegada <= dataInformacion_1.getMinutes()) {
-                            if (sortedData2[0].ALT < sortedData2[1].ALT) {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            }
-                            //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+
+                            //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
 
-                        } else if (horasChegada <= dataInformacion_2.getHours() && minutosChegada <= dataInformacion_2.getMinutes()) {
-                            if (sortedData2[1].ALT < sortedData2[2].ALT) {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            } else {
-                                document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                            if (horasChegada == dataInformacion_0.getHours()) {
+                                if (sortedData2[0].ALT > sortedData2[1].ALT && minutosChegada >= dataInformacion_0.getMinutes()) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else if (sortedData2[0].ALT > sortedData2[1].ALT && minutosChegada <= dataInformacion_0.getMinutes()) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else if (sortedData2[0].ALT < sortedData2[1].ALT && minutosChegada >= dataInformacion_0.getMinutes()) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+
                             }
+                            else {
+                                if (sortedData2[0].ALT > sortedData2[1].ALT) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                }
+                            }
+                        } else if (horasChegada <= dataInformacion_1.getHours()) {
+
+
+                            if (horasChegada == dataInformacion_1.getHours()) {
+                                if (sortedData2[0].ALT > sortedData2[1].ALT && minutosChegada >= dataInformacion_1.getMinutes()) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else if (sortedData2[0].ALT > sortedData2[1].ALT && minutosChegada <= dataInformacion_1.getMinutes()) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else if (sortedData2[0].ALT < sortedData2[1].ALT && minutosChegada >= dataInformacion_1.getMinutes()) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                            } else {
+                                if (sortedData2[0].ALT > sortedData2[1].ALT) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                }
+                            }
+
+                        } else if (horasChegada <= dataInformacion_2.getHours()) {
+                            if (horasChegada == dataInformacion_2.getHours()) {
+                                if (sortedData2[1].ALT < sortedData2[2].ALT && minutosChegada >= dataInformacion_2.getMinutes()) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else if (sortedData2[1].ALT < sortedData2[2].ALT && minutosChegada <= dataInformacion_2.getMinutes()) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                }
+                            } else {
+                                if (sortedData2[1].ALT < sortedData2[2].ALT) {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+                            }
+
                         } else if (sortedData2[3] != null) {
 
-                            if (dataInformacion_3.getHours() == 0) {
-                                let novahora = 24;
-                                if (horasChegada < novahora && minutosChegada <= dataInformacion_3.getMinutes()) {
 
-                                    if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                                    } else {
-                                        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                                    }
-                                    //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
+                            let novahora;
 
-                                } else {
-                                    if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                                    } else {
-                                        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                                    }
-                                    //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-
-                                }
+                            if (dataInformacion_3.getHours() == 0 || dataInformacion_3.getHours() == 1) {
+                                novahora = 24;
                             } else {
+                                novahora = dataInformacion_3.getHours();
+                            }
 
-                                if (horasChegada < dataInformacion_3.getHours() && minutosChegada <= dataInformacion_3.getMinutes()) {
-                                    if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                        document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                                    } else {
-                                        document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                            if (horasPartida <= novahora) {
+
+                                if (horasPartida == dataInformacion_3.getHours() || horasPartida == 00 || horasPartida == 0) {
+
+                                    if (horasChegada == novahora || horasChegada == 0 || horasChegada == 00) {
+                                        if (sortedData2[2].ALT < sortedData2[3].ALT && minutosChegada >= dataInformacion_3.getMinutes()) {
+                                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                        } else if (sortedData2[2].ALT < sortedData2[3].ALT && minutosChegada <= dataInformacion_3.getMinutes()) {
+                                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                        } else if (sortedData2[2].ALT > sortedData2[3].ALT && minutosChegada >= dataInformacion_3.getMinutes()) {
+                                            document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                        } else {
+                                            document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                        }
                                     }
-                                    //document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
 
                                 } else {
                                     if (sortedData2[2].ALT < sortedData2[3].ALT) {
@@ -13422,10 +13452,9 @@
                                     } else {
                                         document.getElementById('mare_chegada').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_ultimo).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
                                     }
-                                    //document.getElementById('mare_chegada').innerHTML = "<p style='color:green;'>" + parseFloat([ultimaMare[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                                 }
-                            }
+                            } 
                         } else if (sortedData2[3] == null) {
 
                             if (sortedData2[1].ALT < sortedData2[2].ALT) {
@@ -13438,74 +13467,146 @@
                         }
 
 
-                        if (horasPartida <= dataInformacion_0.getHours() && minutosPartida <= dataInformacion_0.getMinutes()) {
+                        if (horasPartida <= dataInformacion_0.getHours()) {
                             //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                            if (sortedData2[0].ALT > sortedData2[1].ALT) {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                            // if (sortedData2[0].ALT > sortedData2[1].ALT) {
+                            //     document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                            // } else {
+                            //     document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                            // }
+
+                            if (horasPartida == dataInformacion_0.getHours()) {
+                                if (sortedData2[0].ALT > sortedData2[1].ALT && minutosPartida >= dataInformacion_0.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else if (sortedData2[0].ALT > sortedData2[1].ALT && minutosPartida <= dataInformacion_0.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else if (sortedData2[0].ALT < sortedData2[1].ALT && minutosPartida >= dataInformacion_0.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
                             } else {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                if (sortedData2[0].ALT > sortedData2[1].ALT && minutosPartida >= dataInformacion_0.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else if (sortedData2[0].ALT > sortedData2[1].ALT && minutosPartida <= dataInformacion_0.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
                             }
-                        } else if (horasPartida <= dataInformacion_1.getHours() && minutosPartida <= dataInformacion_1.getMinutes()) {
+                        } else if (horasPartida <= dataInformacion_1.getHours()) {
+
                             //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                            if (sortedData2[0].ALT < sortedData2[1].ALT) {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                            if (horasPartida == dataInformacion_1.getHours()) {
+                                if (sortedData2[0].ALT > sortedData2[1].ALT && minutosPartida >= dataInformacion_1.getMinutes()) {
+
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else if (sortedData2[0].ALT > sortedData2[1].ALT && minutosPartida <= dataInformacion_1.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else if (sortedData2[0].ALT < sortedData2[1].ALT && minutosPartida >= dataInformacion_1.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
                             } else {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                if (sortedData2[0].ALT > sortedData2[1].ALT) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                }
+
                             }
 
-                        } else if (horasPartida <= dataInformacion_2.getHours() && minutosPartida <= dataInformacion_2.getMinutes()) {
-                            document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
-                            if (sortedData2[1].ALT < sortedData2[2].ALT) {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
+                        } else if (horasPartida <= dataInformacion_2.getHours()) {
+
+                            //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
+                            if (horasPartida == dataInformacion_2.getHours()) {
+                                if (sortedData2[1].ALT < sortedData2[2].ALT && minutosPartida >= dataInformacion_2.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else if (sortedData2[1].ALT < sortedData2[2].ALT && minutosPartida <= dataInformacion_2.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else if (sortedData2[1].ALT > sortedData2[2].ALT && minutosPartida >= dataInformacion_2.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                }
                             } else {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                if (sortedData2[1].ALT < sortedData2[2].ALT) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+
                             }
+
+
                         } else if (sortedData2[3] != null) {
 
-                            if (dataInformacion_3.getHours() == 0) {
-                                let novahora = 24;
-                                if (horasPartida < novahora && minutosPartida <= dataInformacion_3.getMinutes()) {
-                                    //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-                                    if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                                    } else {
-                                        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                                    }
-                                } else {
-                                    //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
-                                    if (sortedData2[2].ALT < sortedData2[3].ALT) {
-                                        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
-                                    } else {
-                                        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
-                                    }
-                                }
+                            //if (dataInformacion_3.getHours() == 0) {
+
+                            let novahora;
+
+                            if (dataInformacion_3.getHours() == 0 || dataInformacion_3.getHours() == 1) {
+                                novahora = 24;
                             } else {
+                                novahora = dataInformacion_3.getHours();
+                            }
 
-                                if (horasPartida < dataInformacion_3.getHours() && minutosPartida <= dataInformacion_3.getMinutes()) {
-                                    if (sortedData2[2].ALT < sortedData2[3].ALT) {
+                            if (horasPartida <= novahora) {
+
+                                if (horasPartida == dataInformacion_3.getHours() || horasPartida == 00 || horasPartida == 0) {
+
+                                    if (sortedData2[2].ALT < sortedData2[3].ALT && minutosPartida >= dataInformacion_3.getMinutes()) {
+                                        document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                    } else if (sortedData2[2].ALT < sortedData2[3].ALT && minutosPartida <= dataInformacion_3.getMinutes()) {
+                                        document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                    } else if (sortedData2[2].ALT > sortedData2[3].ALT && minutosPartida >= dataInformacion_3.getMinutes()) {
                                         document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
                                     } else {
                                         document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
                                     }
-                                    //document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i></p>";
-
                                 } else {
                                     if (sortedData2[2].ALT < sortedData2[3].ALT) {
                                         document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
                                     } else {
                                         document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+
                                     }
-                                    //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m  <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i></p>";
 
                                 }
+
                             }
+                      
                         } else if (sortedData2[3] == null) {
-                            if (sortedData2[1].ALT < sortedData2[2].ALT) {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+
+                            if (horasPartida == dataInformacion_2.getHours()) {
+                                if (sortedData2[1].ALT < sortedData2[2].ALT && minutosPartida >= dataInformacion_2.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else if (sortedData2[1].ALT < sortedData2[2].ALT && minutosPartida <= dataInformacion_2.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else if (sortedData2[1].ALT > sortedData2[2].ALT && minutosPartida >= dataInformacion_2.getMinutes()) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                }
                             } else {
-                                document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                if (sortedData2[1].ALT < sortedData2[2].ALT) {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                                } else {
+                                    document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                                }
+
                             }
+
+                            // if (sortedData2[1].ALT < sortedData2[2].ALT) {
+                            //     document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
+                            // } else {
+                            //     document.getElementById('mare_partida').innerHTML = "<p style='color:red;'>" + Math.abs(parseFloat(infoSeta_Mare_primeiro).toFixed(2)) + " m <i style='color:red;font-size: 1.1rem;' class='fas fa-arrow-circle-down'></i> </p>";
+                            // }
                             //document.getElementById('mare_partida').innerHTML = "<p style='color:green;'>" + parseFloat([mare_por_minuto2[0]]).toFixed(2) + " m <i style='color:green;font-size: 1.1rem;' class='fas fa-arrow-circle-up'></i> </p>";
 
                         }
