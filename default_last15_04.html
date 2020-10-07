@@ -1201,6 +1201,12 @@
             margin: 0 0 8px 0 !important;
         }
 
+        .icon_metoc {
+            width: 60px;
+            margin: auto;
+            display: block;
+        }
+
         /***** MEDIA QUERIES ***********/
 
         @media (min-width: 576px) {
@@ -2200,6 +2206,13 @@
                             <hr style="border: 3px solid black;border-radius: 10px;">
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <p style="font-size:15px"><b>Nebulosidade</b> são valores que variam entre 0-1</p>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
@@ -2796,6 +2809,12 @@
         // }).addTo(mymap);
 
 
+
+        var popup_tempo_inicio,
+            popup_tempo_intermedio,
+            popup_tempo_fim;
+
+
         function entrocamentosMarkers() {
             var entroca_image = L.icon({
                 iconUrl: 'marker_poi/marker_entrocamentos.png',
@@ -3055,6 +3074,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_7[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -3120,6 +3143,10 @@
 
                     g.on('mouseout', function (e) {
 
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
                         if (market_BindRoute) {
                             setTimeout(function () {
                                 mymap.removeLayer(market_BindRoute);
@@ -3166,7 +3193,7 @@
                         parseElements: ['track'],
                         polyline_options: {
                             //color: '#020202',
-                            color: '#1b2f66',
+                            color: '#616980',
                             weight: 10,
                         },
                         marker_options: {
@@ -3240,6 +3267,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_2[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -3305,6 +3336,10 @@
 
                     g.on('mouseout', function (e) {
 
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
                         if (market_BindRoute) {
                             setTimeout(function () {
                                 mymap.removeLayer(market_BindRoute);
@@ -3350,7 +3385,7 @@
                         parseElements: ['track'],
                         polyline_options: {
                             //color: '#3b3b3b',
-                            color: '#3064f3',
+                            color: '#51586e',
                             weight: 10,
                             opacity: 1,
                         },
@@ -3424,6 +3459,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
 
                         xmlDoc = parser.parseFromString(arrayGPX[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
@@ -3489,6 +3528,10 @@
                     });
 
                     g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#51586e'
+                        });
 
                         if (market_BindRoute) {
                             setTimeout(function () {
@@ -3806,7 +3849,7 @@
 
             markersAPI();
 
-            let popup_tempo_inicio, popup_tempo_fim;
+            //let popup_tempo_inicio, popup_tempo_fim;
             var market_incio_meteo, market_fim_meteo;
 
             mymap.eachLayer(function (layer) {
@@ -3817,6 +3860,7 @@
             });
 
             let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_CostaNova.gpx';
+
 
             fetch(url)
                 .then(function (response) {
@@ -3829,7 +3873,8 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#1b2f66',
+                            //color: '#1b2f66',
+                            color: "#616980",
                             weight: 10,
                         },
                         marker_options: {
@@ -3897,65 +3942,54 @@
                         var lat_gpx_GPX_fim = xmlDoc.getElementsByTagName("trkpt")[parseInt(valorfim)].getAttribute('lat');
                         var lon_gpx_GPX_fim = xmlDoc.getElementsByTagName("trkpt")[parseInt(valorfim)].getAttribute('lon');
 
-                        let data_APIMETOC = func_METEO(lat_gpx_GPX_inicio, lon_gpx_GPX_inicio);
+                        let valorIntermedio = xmlDoc.getElementsByTagName("trkpt").length / 2;
+
+                        var lat_gpx_GPX_intermedio = xmlDoc.getElementsByTagName("trkpt")[parseInt(valorIntermedio)].getAttribute('lat');
+                        var lon_gpx_GPX_intermedio = xmlDoc.getElementsByTagName("trkpt")[parseInt(valorIntermedio)].getAttribute('lon');
+
+                        distanciaNM_RotaEscolhida = distM_5;
+
+                        func_METEO(distanciaNM_RotaEscolhida, lat_gpx_GPX_inicio, lon_gpx_GPX_inicio, lat_gpx_GPX_intermedio, lon_gpx_GPX_intermedio, lat_gpx_GPX_fim, lon_gpx_GPX_fim);
+
+                        /*let data_APIMETOC = func_METEO(lat_gpx_GPX_inicio, lon_gpx_GPX_inicio);
                         let data_APIMETOC_fim = func_METEO(lat_gpx_GPX_fim, lon_gpx_GPX_fim);
-
-                        data_APIMETOC.then(function (result_inicio) {
-                            // here you can use the result of promiseB
-                            data_APIMETOC_fim.then(function (result_fim) {
-
-                                // data_APIMETOC = result_inicio;
-                                // data_APIMETOC_fim = result_fim;
-
-                                let temperaturaInicio = result_inicio.main.temp;
-                                let imagem_inicio = result_inicio.weather[0].icon;
-                                let vento_veloc_Inicio = result_inicio.wind.speed;
-                                let vento_inclinação_Inicio = result_inicio.wind.deg;
-                                let nebulosidade_inicio = result_inicio.clouds.all;
-                                let visibilidade_inicio = result_inicio.visibility;
+                        let data_APIMETOC_intermedio = func_METEO(lat_gpx_GPX_intermedio, lon_gpx_GPX_intermedio);*/
 
 
 
-                                let temperaturafim = result_fim.main.temp;
-                                let imagem_fim = result_fim.weather[0].icon;
-                                let vento_veloc_fim = result_fim.wind.speed;
-                                let vento_inclinação_fim = result_fim.wind.deg;
-                                let nebulosidade_fim = result_fim.clouds.all;
-                                let visibilidade_fim = result_fim.visibility;
-                                // let tempoAPI = data_APIMETOC.weather[0];
-                                // let GrausMetoc = data_APIMETOC.main;
-                                // console.log(GrausMetoc);
-                                // console.log(tempoAPI);
+                        if (simularRota == false) {
+                            document.getElementById("time_partida").onchange = function () {
 
-                                //ADICIONAR MARKER INICIO
+                                if (popup_tempo_inicio) {
+                                    mymap.removeLayer(popup_tempo_inicio);
+                                }
+                                if (popup_tempo_fim) {
+                                    mymap.removeLayer(popup_tempo_fim);
+                                }
 
-                                let popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img src=http://openweathermap.org/img/w/" + imagem_inicio + ".png>" +
-                                    "<p class='popup_p_temperatura'>Temperatura " + temperaturaInicio + "ºC</p>" +
-                                    "<span>Vento " + vento_veloc_Inicio + "m/s</span></br>" +
-                                    "<span>Direção do Vento " + vento_inclinação_Inicio + "º </span></br>" +
-                                    "<span>Visibilidade " + visibilidade_inicio + " metros </span></br>" +
-                                    "<span>Nebulosidade " + nebulosidade_inicio + "<b>%</b> </span>" +
-                                    "</div>");
-                                //let popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
-                                let market_incio_meteo = L.marker([lat_gpx_GPX_inicio, lon_gpx_GPX_inicio]);
-                                popup_tempo_inicio.setLatLng(market_incio_meteo.getLatLng());
-                                mymap.openPopup(popup_tempo_inicio);
+                                if (popup_tempo_intermedio) {
+                                    mymap.removeLayer(popup_tempo_intermedio);
+                                }
+                                func_METEO(distanciaNM_RotaEscolhida, lat_gpx_GPX_inicio, lon_gpx_GPX_inicio, lat_gpx_GPX_intermedio, lon_gpx_GPX_intermedio, lat_gpx_GPX_fim, lon_gpx_GPX_fim);
 
-                                //ADICIONAR MARKER FIM
+                            };
+                            document.getElementById("velocidade").onchange = function () {
 
-                                let popup_tempo_fim = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img src=http://openweathermap.org/img/w/" + imagem_fim + ".png>" +
-                                    "<p class='popup_p_temperatura'>Temperatura " + temperaturafim + "ºC</p>" +
-                                    "<span>Vento " + vento_veloc_fim + "m/s</span></br>" +
-                                    "<span>Direção do Vento " + vento_inclinação_fim + "º </span></br>" +
-                                    "<span>Visibilidade " + visibilidade_inicio + " metros </span></br>" +
-                                    "<span>Nebulosidade " + nebulosidade_fim + "<b>%</b> </span>" +
-                                    "</div>");
-                                //let popup_tempo_fim = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
-                                let market_fim_meteo = L.marker([lat_gpx_GPX_fim, lon_gpx_GPX_fim]);
-                                popup_tempo_fim.setLatLng(market_fim_meteo.getLatLng());
-                                mymap.openPopup(popup_tempo_fim);
-                            });
-                        });
+                                if (popup_tempo_inicio) {
+                                    mymap.removeLayer(popup_tempo_inicio);
+                                }
+                                if (popup_tempo_fim) {
+                                    mymap.removeLayer(popup_tempo_fim);
+                                }
+
+                                if (popup_tempo_intermedio) {
+                                    mymap.removeLayer(popup_tempo_intermedio);
+                                }
+                                func_METEO(distanciaNM_RotaEscolhida, lat_gpx_GPX_inicio, lon_gpx_GPX_inicio, lat_gpx_GPX_intermedio, lon_gpx_GPX_intermedio, lat_gpx_GPX_fim, lon_gpx_GPX_fim);
+
+                            };
+                        }
+
                     });
                     somarNumero = 0;
 
@@ -3975,6 +4009,10 @@
 
 
                     g.on('mouseover', function (e) {
+
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
 
                         xmlDoc = parser.parseFromString(arrayGPX_5[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
@@ -4041,6 +4079,10 @@
                     });
 
                     g.on('mouseout', function (e) {
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
 
                         if (market_BindRoute) {
                             setTimeout(function () {
@@ -4064,14 +4106,349 @@
         }
 
 
-        async function func_METEO(lat_gpx_GPX_fim, lon_gpx_GPX_fim) {
+
+        //async function func_METEO(lat_gpx_GPX_fim, lon_gpx_GPX_fim) {
+        async function func_METEO(distanciaNM_RotaEscolhida, lat1, long1, lat2, long2, lat3, long3) {
+
+
+
+
+            let lat_inicio = lat1, lng_inicio = long1;
+            let lat_interm = lat2, lng_interm = long2;
+            let lat_fim = lat3, lng_fim = long3;
+            // myDate = myDate.split("-");
+
+            // var newDate = new Date(myDate[0], myDate[1] - 1, myDate[2], nhour_api, nmin_api);
+
+            // let timeStamp_user = newDate.getTime();
 
             //https://api.darksky.net/forecast/f6c3bc5b369a4cc7be0092c239646a9f/40.860002,-8.656656,1601671800
-            let url_meteo = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat_gpx_GPX_fim + '&lon=' + lon_gpx_GPX_fim + '&units=metric&appid=b15cd657afda6a10028f295d36398b1a';
+            //let url_meteo = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat_gpx_GPX_fim + '&lon=' + lon_gpx_GPX_fim + '&units=metric&appid=b15cd657afda6a10028f295d36398b1a';
+            //let url_meteo = 'https://api.darksky.net/forecast/f6c3bc5b369a4cc7be0092c239646a9f/' + lat_gpx_GPX_fim + ',' + lon_gpx_GPX_fim + ',' + timeStamp_user;
 
-            const response2 = await fetch(url_meteo);
+            //*************ANTERIOR *******//
+
+            /*let url_meteo = 'https://api.darksky.net/forecast/f6c3bc5b369a4cc7be0092c239646a9f/' + lat_gpx_GPX_fim + ',' + lon_gpx_GPX_fim + '?units=si';
+
+            const response2 = await fetch("https://cors-anywhere.herokuapp.com/" + url_meteo);
             const json2 = await response2.json();
-            return json2;
+            console.log(json2)
+
+
+            return json2;*/
+
+
+            let url_meteo = 'https://api.darksky.net/forecast/f6c3bc5b369a4cc7be0092c239646a9f/' + lat_inicio + ',' + lng_inicio + '?units=si';
+
+            const response_inicio = await fetch("https://cors-anywhere.herokuapp.com/" + url_meteo);
+            const json1_inicio = await response_inicio.json();
+            console.log(json1_inicio);
+
+            let url_meteo2 = 'https://api.darksky.net/forecast/f6c3bc5b369a4cc7be0092c239646a9f/' + lat_interm + ',' + lng_interm + '?units=si';
+
+            const response_interm = await fetch("https://cors-anywhere.herokuapp.com/" + url_meteo2);
+            const json1_interm = await response_interm.json();
+            console.log(json1_interm);
+
+
+            let url_meteo3 = 'https://api.darksky.net/forecast/f6c3bc5b369a4cc7be0092c239646a9f/' + lat_fim + ',' + lng_fim + '?units=si';
+
+            const response_fim = await fetch("https://cors-anywhere.herokuapp.com/" + url_meteo3);
+            const json1_fim = await response_fim.json();
+            console.log(json1_fim);
+
+            let result_inicio = json1_inicio;
+            let result_intermedio = json1_interm;
+            let result_fim = json1_fim;
+
+
+
+            // data_APIMETOC = result_inicio;
+            // data_APIMETOC_fim = result_fim;
+
+            //******Cálculo de horas para API ****//
+
+            let nhour_api, nmin_api;
+            var myDate = document.getElementById("date").value;
+            var myTime = document.getElementById("time_partida").value;
+            var dataAPI = new Date();
+
+            let distM_RotaEscolhida = distanciaNM_RotaEscolhida;
+
+            let distNM_5 = distM_RotaEscolhida * 0.0005;
+
+            let nm_5casasdeci = distNM_5.toFixed(2);
+            var milesNauticalRoute = parseFloat(nm_5casasdeci);
+
+            let velocidadeUser = document.getElementById('velocidade').value;
+
+            var tempo = milesNauticalRoute / velocidadeUser;
+            var n = new Date(0, 0);
+            n.setMinutes(+tempo * 60);
+            var result = n.toTimeString().slice(0, 5);
+
+            var splitTime_inicio = result.split(':');
+
+            let horas_inicio = parseInt(splitTime_inicio[0]);
+            let minutos_inicio = parseInt(splitTime_inicio[1]);
+
+            let total_Rota = (horas_inicio * 60) + minutos_inicio;
+
+
+            //****** Tempo de partida ******//
+            let tempoPrim = document.getElementById('time_partida').value;
+            var splitTimePartida = tempoPrim.split(':');
+            let horasPartida = parseInt(splitTimePartida[0]);
+            let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+
+            let total_Partida_Rota = total_Partida + total_Rota;
+
+
+            var mRotaChegada = new Date(0, 0);
+            let hours_ofsumRote = total_Partida_Rota / 60;
+
+            let d2cHours = hours_ofsumRote.toFixed(2);
+            let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+
+
+            let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+            let minutos_Sum_Root = parseInt(min_SumRoute);
+            let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+
+            /*********Tempo intermedio*****/
+
+            let distNM_intermedio = distNM_5 / 2;
+            let nm_5casasdeci_interm = distNM_intermedio.toFixed(2);
+            var milesNauticalRoute_interm = parseFloat(nm_5casasdeci_interm);
+
+            var tempo_2 = milesNauticalRoute_interm / velocidadeUser;
+            var n_inter = new Date(0, 0);
+            n_inter.setMinutes(+tempo_2 * 60);
+            var result_inter = n_inter.toTimeString().slice(0, 5);
+
+            var splitTime_intermed = result_inter.split(':');
+
+            let horas_interme = parseInt(splitTime_intermed[0]);
+            let minutos_interme = parseInt(splitTime_intermed[1]);
+
+            let total_Rota_interm = (horas_interme * 60) + minutos_interme;
+
+
+
+            let tempoPrim_inter = document.getElementById('time_partida').value;
+            var splitTimePartida_int = tempoPrim_inter.split(':');
+            let horasIntermedia = parseInt(splitTimePartida_int[0]);
+            let total_Intermedio = (horasIntermedia * 60) + parseInt(splitTimePartida[1]);
+
+            let total_Partida_Rota_int = total_Intermedio + total_Rota_interm;
+
+
+            var mRotaChegada = new Date(0, 0);
+            let horasRote_interme = total_Partida_Rota_int / 60;
+
+            let d2cHours_int = horasRote_interme.toFixed(2);
+            let sumRoute_Hours_int = horasRote_interme.toString().split(".");
+
+
+            let min_SumRoute_int = (horasRote_interme - sumRoute_Hours_int[0]) * 60;
+            let minutos_Sum_Root_int = parseInt(min_SumRoute_int);
+            let hours_Sum_Root_int = parseInt(sumRoute_Hours_int[0]);
+
+
+            console.log(hours_Sum_Root_int + ":" + minutos_Sum_Root_int)
+            /****Arrays com informação da API****/
+            var infoMetocHoraEscolhida = [];
+            var infoMetocHoraEscolhida2 = [];
+            var infoMetocHoraEscolhida_intermedio = [];
+
+
+            /*****Verificação se o utilizador escolheu alguma hora***/
+            if (myTime != "") {
+
+                var splitTime1 = myTime.split(':');
+                nhour_api = splitTime1[0];
+                nmin_api = splitTime1[1];
+
+                let pesoAr = [];
+                pesoAr.push(result_fim.hourly.data);
+
+                let dia_Apos = [];
+                dia_Apos.push(result_fim.daily.data);
+                let count = 0, count2 = 0;
+                for (let yi = 0; yi < pesoAr[0].length; yi++) {
+
+                    var currentTime = new Date(pesoAr[0][yi].time * 1000).toLocaleTimeString("en-GB", { timeZone: result_inicio.timezone, hour12: false });
+                    var nextTime = new Date(dia_Apos[0][2].time * 1000).toLocaleTimeString("en-GB", { timeZone: result_inicio.timezone, hour12: false });
+
+                    let divi_currentTime = currentTime.split(':');
+                    let divi_nextTime = nextTime.split(':');
+
+                    if (divi_currentTime[0] == hours_Sum_Root) {
+
+                        infoMetocHoraEscolhida2.push({
+                            Temperatura: pesoAr[0][yi].temperature,
+                            icon: pesoAr[0][yi].icon,
+                            visibilidade: pesoAr[0][yi].visibility,
+                            inclinacao_vento: pesoAr[0][yi].windBearing,
+                            velocidadeVento: pesoAr[0][yi].windSpeed,
+                            cloudCover: pesoAr[0][yi].cloudCover,
+                            horasMinutos: divi_currentTime[0] + ":" + divi_currentTime[1]
+                        });
+
+                    } else if (hours_Sum_Root >= 24) {
+
+                        if (count == divi_nextTime[0]) {
+                            count++;
+                            infoMetocHoraEscolhida2.push({
+                                Temperatura: dia_Apos[0][2].temperatureMax,
+                                icon: dia_Apos[0][2].icon,
+                                visibilidade: dia_Apos[0][2].visibility,
+                                inclinacao_vento: dia_Apos[0][2].windBearing,
+                                velocidadeVento: dia_Apos[0][2].windSpeed,
+                                cloudCover: dia_Apos[0][2].cloudCover,
+                                horasMinutos: divi_nextTime[0] + ":" + divi_nextTime[1]
+                            });
+                        }
+                    }
+                    if (divi_currentTime[0] == hours_Sum_Root_int) {
+
+                        infoMetocHoraEscolhida_intermedio.push({
+                            Temperatura: pesoAr[0][yi].temperature,
+                            icon: pesoAr[0][yi].icon,
+                            visibilidade: pesoAr[0][yi].visibility,
+                            inclinacao_vento: pesoAr[0][yi].windBearing,
+                            velocidadeVento: pesoAr[0][yi].windSpeed,
+                            cloudCover: pesoAr[0][yi].cloudCover,
+                            horasMinutos: divi_currentTime[0] + ":" + divi_currentTime[1]
+                        });
+
+                    } else if (hours_Sum_Root_int >= 24) {
+                        if (count2 == divi_nextTime[0]) {
+                            count2++;
+                            infoMetocHoraEscolhida2.push({
+                                Temperatura: dia_Apos[0][2].temperatureMax,
+                                icon: dia_Apos[0][2].icon,
+                                visibilidade: dia_Apos[0][2].visibility,
+                                inclinacao_vento: dia_Apos[0][2].windBearing,
+                                velocidadeVento: dia_Apos[0][2].windSpeed,
+                                cloudCover: dia_Apos[0][2].cloudCover,
+                                horasMinutos: divi_nextTime[0] + ":" + divi_nextTime[1]
+                            });
+                        }
+                    }
+
+                    if (divi_currentTime[0] == nhour_api) {
+
+                        infoMetocHoraEscolhida.push({
+                            Temperatura: pesoAr[0][yi].temperature,
+                            icon: pesoAr[0][yi].icon,
+                            visibilidade: pesoAr[0][yi].visibility,
+                            inclinacao_vento: pesoAr[0][yi].windBearing,
+                            velocidadeVento: pesoAr[0][yi].windSpeed,
+                            cloudCover: pesoAr[0][yi].cloudCover,
+                            horasMinutos: divi_currentTime[0] + ":" + divi_currentTime[1]
+                        });
+
+                    }
+
+                }
+
+
+            } else {
+                nhour_api = dataAPI.getHours();
+                nmin_api = dataAPI.getMinutes();
+
+                var currentTime = new Date(result_inicio.currently.time * 1000).toLocaleTimeString("pt-PT", { timeZone: result_inicio.timezone, hour12: false });
+
+
+            }
+
+
+            console.log(infoMetocHoraEscolhida)
+            console.log(infoMetocHoraEscolhida2)
+            console.log(infoMetocHoraEscolhida_intermedio)
+
+
+            let temperaturaInicio = infoMetocHoraEscolhida[0].Temperatura;
+            let imagem_inicio = infoMetocHoraEscolhida[0].icon;
+            let vento_veloc_Inicio = infoMetocHoraEscolhida[0].velocidadeVento;
+            let vento_inclinação_Inicio = infoMetocHoraEscolhida[0].inclinacao_vento;
+            let nebulosidade_inicio = infoMetocHoraEscolhida[0].cloudCover;
+            let visibilidade_inicio = infoMetocHoraEscolhida[0].visibilidade;
+
+
+            let temperaturaintermedios = infoMetocHoraEscolhida_intermedio[0].Temperatura;
+            let imagem_intermedios = infoMetocHoraEscolhida_intermedio[0].icon;
+            let vento_veloc_intermedios = infoMetocHoraEscolhida_intermedio[0].velocidadeVento;
+            let vento_inclinação_intermedios = infoMetocHoraEscolhida_intermedio[0].inclinacao_vento;
+            let nebulosidade_intermedios = infoMetocHoraEscolhida_intermedio[0].cloudCover;
+            let visibilidade_intermedios = infoMetocHoraEscolhida_intermedio[0].visibilidade;
+
+
+            let temperaturafim = infoMetocHoraEscolhida2[0].Temperatura;
+            let imagem_fim = infoMetocHoraEscolhida2[0].icon;
+            let vento_veloc_fim = infoMetocHoraEscolhida2[0].velocidadeVento;
+            let vento_inclinação_fim = infoMetocHoraEscolhida2[0].inclinacao_vento;
+            let nebulosidade_fim = infoMetocHoraEscolhida2[0].cloudCover;
+            let visibilidade_fim = infoMetocHoraEscolhida2[0].visibilidade;
+
+            // let temperaturafim = result_fim.main.temp;
+            // let imagem_fim = result_fim.weather[0].icon;
+            // let vento_veloc_fim = result_fim.wind.speed;
+            // let vento_inclinação_fim = result_fim.wind.deg;
+            // let nebulosidade_fim = result_fim.clouds.all;
+            // let visibilidade_fim = result_fim.visibility;
+            // let tempoAPI = data_APIMETOC.weather[0];
+            // let GrausMetoc = data_APIMETOC.main;
+            // console.log(GrausMetoc);
+            // console.log(tempoAPI);
+
+            //ADICIONAR MARKER INICIO
+
+            popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img class='icon_metoc' src=https://darksky.net/images/weather-icons/" + imagem_inicio + ".png>" +
+                "<p class='popup_p_temperatura'>Temperatura " + temperaturaInicio.toFixed(1) + "ºC</p>" +
+                "<span>Hora: " + infoMetocHoraEscolhida[0].horasMinutos + "</span></br>" +
+                "<span>Vento " + vento_veloc_Inicio + "m/s</span></br>" +
+                "<span>Direção do Vento " + vento_inclinação_Inicio + "º </span></br>" +
+                "<span>Visibilidade " + visibilidade_inicio + " metros </span></br>" +
+                "<span>Nebulosidade " + nebulosidade_inicio + "  </span>" +
+                "</div>");
+            //let popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
+            let market_incio_meteo = L.marker([lat1, long1]);
+            popup_tempo_inicio.setLatLng(market_incio_meteo.getLatLng());
+            mymap.openPopup(popup_tempo_inicio);
+
+            //ADICIONA MARKER INTERMEDIO
+
+            popup_tempo_intermedio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img class='icon_metoc' src=https://darksky.net/images/weather-icons/" + imagem_intermedios + ".png>" +
+                "<p class='popup_p_temperatura'>Temperatura " + temperaturaintermedios.toFixed(1) + "ºC</p>" +
+                "<span>Hora: " + infoMetocHoraEscolhida_intermedio[0].horasMinutos + "</span></br>" +
+                "<span>Vento " + vento_veloc_intermedios + "m/s</span></br>" +
+                "<span>Direção do Vento " + vento_inclinação_intermedios + "º </span></br>" +
+                "<span>Visibilidade " + visibilidade_intermedios + " metros </span></br>" +
+                "<span>Nebulosidade " + nebulosidade_intermedios + "  </span>" +
+                "</div>");
+            //let popup_tempo_inicio = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
+            let market_intermedio_meteo = L.marker([lat2, long2]);
+            popup_tempo_intermedio.setLatLng(market_intermedio_meteo.getLatLng());
+            mymap.openPopup(popup_tempo_intermedio);
+
+
+            //ADICIONAR MARKER FIM
+
+            popup_tempo_fim = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><img class='icon_metoc' src=https://darksky.net/images/weather-icons/" + imagem_fim + ".png>" +
+                "<p class='popup_p_temperatura'>Temperatura " + temperaturafim.toFixed(1) + "ºC</p>" +
+                "<span>Hora: " + infoMetocHoraEscolhida2[0].horasMinutos + "</span></br>" +
+                "<span>Vento " + vento_veloc_fim + "m/s</span></br>" +
+                "<span>Direção do Vento " + vento_inclinação_fim + "º </span></br>" +
+                "<span>Visibilidade " + visibilidade_inicio + " metros </span></br>" +
+                "<span>Nebulosidade " + nebulosidade_fim + "</span>" +
+                "</div>");
+            //let popup_tempo_fim = L.popup({ autoClose: false, closeButton: false, className: 'pop_temperatura' }).setContent("<div><p>Metereologia 15ºC</p></div>");
+            let market_fim_meteo = L.marker([lat3, long3]);
+            popup_tempo_fim.setLatLng(market_fim_meteo.getLatLng());
+            mymap.openPopup(popup_tempo_fim);
+
 
         }
 
@@ -4099,7 +4476,7 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#1b2f66',
+                            color: '#616980',
                             weight: 10,
                         },
                         marker_options: {
@@ -4171,6 +4548,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_12[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -4236,6 +4617,10 @@
 
                     g.on('mouseout', function (e) {
 
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
                         if (market_BindRoute) {
                             setTimeout(function () {
                                 mymap.removeLayer(market_BindRoute);
@@ -4276,7 +4661,7 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#1b2f66',
+                            color: '#616980',
                             weight: 10,
                         },
                         marker_options: {
@@ -4348,6 +4733,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_10[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -4412,6 +4801,10 @@
                     });
 
                     g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#616980'
+                        });
 
                         if (market_BindRoute) {
                             setTimeout(function () {
@@ -4545,7 +4938,7 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#1b2f66',
+                            color: '#616980',
                             weight: 10,
                         },
                         marker_options: {
@@ -4617,6 +5010,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_11[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -4682,6 +5079,10 @@
 
                     g.on('mouseout', function (e) {
 
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
                         if (market_BindRoute) {
                             setTimeout(function () {
                                 mymap.removeLayer(market_BindRoute);
@@ -4726,7 +5127,7 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#1b2f66',
+                            color: '#616980',
                             weight: 10,
                         },
                         marker_options: {
@@ -4798,6 +5199,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_3[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -4862,6 +5267,10 @@
                     });
 
                     g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#616980'
+                        });
 
                         if (market_BindRoute) {
                             setTimeout(function () {
@@ -4979,6 +5388,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_4[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -5044,6 +5457,10 @@
 
                     g.on('mouseout', function (e) {
 
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
                         if (market_BindRoute) {
                             setTimeout(function () {
                                 mymap.removeLayer(market_BindRoute);
@@ -5088,7 +5505,7 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#1b2f66',
+                            color: '#616980',
                             weight: 10,
                         },
                         marker_options: {
@@ -5162,6 +5579,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_6[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -5226,6 +5647,10 @@
                     });
 
                     g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#616980'
+                        });
 
                         if (market_BindRoute) {
                             setTimeout(function () {
@@ -5369,7 +5794,7 @@
                         async: true,
                         parseElements: ['track'],
                         polyline_options: {
-                            color: '#1b2F66',
+                            color: '#51586e',
                             weight: 10,
                         },
                         marker_options: {
@@ -5443,6 +5868,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_8[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -5507,6 +5936,10 @@
                     });
 
                     g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#51586e'
+                        });
 
                         if (market_BindRoute) {
                             setTimeout(function () {
@@ -6281,6 +6714,10 @@
                     })
                     g.on('mouseover', function (e) {
 
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
                         xmlDoc = parser.parseFromString(arrayGPX_9[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
@@ -6345,6 +6782,10 @@
                     });
 
                     g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#616980'
+                        });
 
                         if (market_BindRoute) {
                             setTimeout(function () {
@@ -9273,6 +9714,8 @@
                 }
 
 
+
+
                 var d = new Date();
                 var nday = d.getDay(),
                     nmonth = d.getMonth(),
@@ -9284,10 +9727,10 @@
                 UserHoras_Inicial = new Date(nyear, mes_inicial, nday, nhour, nmin);
                 // console.log(nmonth)
                 // console.log(mes_inicial);
-
-
-                var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
-                document.getElementById('time_partida').value = f;
+                if (document.getElementById('time_partida').value == "") {
+                    var f = leadZero(UserHoras_Inicial.getHours()) + ":" + leadZero(UserHoras_Inicial.getMinutes());
+                    document.getElementById('time_partida').value = f;
+                }
                 if (mes_inicial <= 9) {
                     if (ndate <= 9) {
                         testData = nyear.toString() + "-0" + mes_inicial.toString() + "-0" + ndate.toString();
@@ -9300,8 +9743,9 @@
                     testData = nyear.toString() + "-" + mes_inicial.toString() + "-" + ndate.toString();
                 }
 
-                document.getElementById('date').value = testData.toString();
-
+                if (document.getElementById('date').value == "") {
+                    document.getElementById('date').value = testData.toString();
+                }
 
 
                 console.log("Partida: " + arrayCoordenadasPartida[0]);
@@ -13454,7 +13898,7 @@
                                     }
 
                                 }
-                            } 
+                            }
                         } else if (sortedData2[3] == null) {
 
                             if (sortedData2[1].ALT < sortedData2[2].ALT) {
@@ -13580,7 +14024,7 @@
                                 }
 
                             }
-                      
+
                         } else if (sortedData2[3] == null) {
 
                             if (horasPartida == dataInformacion_2.getHours()) {
