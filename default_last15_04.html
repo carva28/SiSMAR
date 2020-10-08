@@ -4312,6 +4312,13 @@
                     }
                     if (divi_currentTime[0] == hours_Sum_Root_int) {
 
+                        let correcao_min;
+                        if(minutos_Sum_Root_int <=9){
+                            correcao_min = "0"+minutos_Sum_Root_int;
+                        }else{
+                            correcao_min = minutos_Sum_Root_int;
+                        }
+
                         infoMetocHoraEscolhida_intermedio.push({
                             Temperatura: pesoAr[0][yi].temperature,
                             icon: pesoAr[0][yi].icon,
@@ -4319,7 +4326,8 @@
                             inclinacao_vento: pesoAr[0][yi].windBearing,
                             velocidadeVento: pesoAr[0][yi].windSpeed,
                             cloudCover: pesoAr[0][yi].cloudCover,
-                            horasMinutos: divi_currentTime[0] + ":" + divi_currentTime[1]
+                            horasMinutos: hours_Sum_Root_int + ":" + correcao_min
+                            //horasMinutos: divi_currentTime[0] + ":" + divi_currentTime[1]
                         });
 
                     } else if (hours_Sum_Root_int >= 24) {
