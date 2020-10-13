@@ -3855,10 +3855,13 @@
 
                         distanciaNM_RotaEscolhida = distM_5;
 
-                        func_METEO(distanciaNM_RotaEscolhida, lat_gpx_GPX_inicio, lon_gpx_GPX_inicio, lat_gpx_GPX_intermedio, lon_gpx_GPX_intermedio, lat_gpx_GPX_fim, lon_gpx_GPX_fim);
+
+                        //Abrir modais no inicio
+                        //func_METEO(distanciaNM_RotaEscolhida, lat_gpx_GPX_inicio, lon_gpx_GPX_inicio, lat_gpx_GPX_intermedio, lon_gpx_GPX_intermedio, lat_gpx_GPX_fim, lon_gpx_GPX_fim);
 
 
                     });
+
                     somarNumero = 0;
 
                     g.on('click', function (e) {
@@ -3892,7 +3895,7 @@
                         var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
                         var lon_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lon');
 
-                       
+
                         var lat_gpx_GPX_inicio = xmlDoc.getElementsByTagName("trkpt")[parseInt(0)].getAttribute('lat');
                         var lon_gpx_GPX_inicio = xmlDoc.getElementsByTagName("trkpt")[parseInt(0)].getAttribute('lon');
 
@@ -4020,17 +4023,24 @@
         //async function func_METEO(lat_gpx_GPX_fim, lon_gpx_GPX_fim) {
         async function func_METEO(distanciaNM_RotaEscolhida, lat1, long1, lat2, long2, lat3, long3) {
 
+            if (popup_tempo_inicio) {
+                mymap.removeLayer(popup_tempo_inicio);
 
+            }
 
+            if (popup_tempo_intermedio) {
+                mymap.removeLayer(popup_tempo_intermedio);
 
+            }
 
+            if (popup_tempo_fim) {
+                mymap.removeLayer(popup_tempo_fim);
+
+            }
 
             let lat_inicio = lat1, lng_inicio = long1;
             let lat_interm = lat2, lng_interm = long2;
             let lat_fim = lat3, lng_fim = long3;
-
-
-
 
 
             let url_meteo = 'https://api.darksky.net/forecast/f6c3bc5b369a4cc7be0092c239646a9f/' + lat_inicio + ',' + lng_inicio + '?units=si';
@@ -4241,14 +4251,14 @@
                 }
             }
 
-            if(hover == false){
+            if (hover == false) {
                 let variableTruefromApi = getDATAPIHidromod(initialID, points);
                 segundosEspera = 5000;
-            }else{
+            } else {
                 segundosEspera = 500;
             }
-                
-          
+
+
 
             /****Arrays com informação da API****/
             var infoMetocHoraEscolhida = [];
@@ -8827,6 +8837,8 @@
 
 
         async function getInfo_outraData() {
+
+            hover = false;
             //document.getElementById('load_fetch').style.display = "block";
             if (markerAnimado) {
                 mymap.removeLayer(markerAnimado);
@@ -12209,7 +12221,7 @@
             modal_eta = true;
             arrayHorasUser_Pontos = [];
             arrayMinutosUser_Pontos = [];
-
+            hover = false;
             changeValue();
         }
 
@@ -12774,7 +12786,7 @@
                         data3 = new Date(sortedData[2].SDATA);;
                     }
 
-                }else{
+                } else {
                     if (sortedData.length > 3) {
                         data1 = new Date(sortedData[0].SDATA);
                         data2 = new Date(sortedData[1].SDATA);
@@ -12805,10 +12817,11 @@
                 // }
                 //arrayhidrografico_posdia
 
-                    console.log({
-                        USERHORAS:UserHoras.getHours(),
-                        DATA1Horas:data1.getHours(), 
-                        Data2HOras: data2.getHours()});
+                console.log({
+                    USERHORAS: UserHoras.getHours(),
+                    DATA1Horas: data1.getHours(),
+                    Data2HOras: data2.getHours()
+                });
 
                 if (UserHoras.getHours() <= 5) {
                     if (sortedData_anterior[3].SDATA != null) {
@@ -16512,12 +16525,17 @@
 
                 var resultPost = JSON.parse(xhr.responseText);
 
-                //console.log(resultPost);
-
                 //var waitForResult = setInterval(getStatus, 1000);
                 //var waitForResult = setInterval(getStatus, 90);
                 //var waitForResult = setInterval(getStatus, 150);
-                var waitForResult = setInterval(getStatus, 170);
+
+                var waitForResult;
+                if (simularRota == false) {
+                    waitForResult = setInterval(getStatus, 90);
+
+                } else {
+                    waitForResult = setInterval(getStatus, 170);
+                }
 
                 function getStatus() {
                     //console.log("-------------");
