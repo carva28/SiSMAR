@@ -12768,14 +12768,26 @@
                         data3 = new Date(sortedData[2].SDATA);
                         data4 = new Date(sortedData[3].SDATA);
                     } else {
-                        data1 = new Date(arrayhidrografico_anteriordia[0][3].SDATA);
-                        data2 = new Date(sortedData[0].SDATA);
-                        data3 = new Date(sortedData[1].SDATA);
-                        data4 = new Date(sortedData[2].SDATA);;
+                        //data1 = new Date(arrayhidrografico_anteriordia[0][3].SDATA);
+                        data1 = new Date(sortedData[0].SDATA);
+                        data2 = new Date(sortedData[1].SDATA);
+                        data3 = new Date(sortedData[2].SDATA);;
                     }
 
+                }else{
+                    if (sortedData.length > 3) {
+                        data1 = new Date(sortedData[0].SDATA);
+                        data2 = new Date(sortedData[1].SDATA);
+                        data3 = new Date(sortedData[2].SDATA);
+                        data4 = new Date(sortedData[3].SDATA);
+                    } else {
+                        data1 = new Date(sortedData[0].SDATA);
+                        data2 = new Date(sortedData[1].SDATA);
+                        data3 = new Date(sortedData[2].SDATA);;
+                    }
                 }
 
+                console.log(sortedData[0].SDATA);
 
                 //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
 
@@ -12793,7 +12805,10 @@
                 // }
                 //arrayhidrografico_posdia
 
-
+                    console.log({
+                        USERHORAS:UserHoras.getHours(),
+                        DATA1Horas:data1.getHours(), 
+                        Data2HOras: data2.getHours()});
 
                 if (UserHoras.getHours() <= 5) {
                     if (sortedData_anterior[3].SDATA != null) {
