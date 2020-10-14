@@ -401,7 +401,7 @@
             position: relative;
             box-shadow: inset 0 0 30px 0 rgba(0, 0, 0, .5), 0 4px 10px 0 rgba(0, 0, 0, .5);
             overflow: hidden;
-            margin:auto;
+            margin: auto;
             padding-bottom: 30px;
         }
 
@@ -2596,7 +2596,7 @@
     <div id="load_DataModal">
         <h2>Aguarde</h2>
         <div class="water"></div>
-   
+
     </div>
 
     <div id="error_fetch">
@@ -3922,7 +3922,7 @@
                     g.on('click', function (e) {
 
                         document.getElementById('btn_refreshData').style.display = "none";
-                        
+
                         if (popup_tempo_inicio) {
                             mymap.removeLayer(popup_tempo_inicio);
                         }
@@ -4454,7 +4454,7 @@
                 }
 
                 document.getElementById('load_DataModal').style.display = "none";
-                
+
 
                 if (mareInicio[0][0] == -9900000000000000) {
                     mareInicio[0][0] = 0;
@@ -7448,6 +7448,8 @@
             let dia_pos = ndate + 1;
             let dia_ant = ndate - 1;
 
+
+
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
             const url_tes = 'https://www.hidrografico.pt/json/mare.graph.val.php?po=13&dd=' + nyear + '-' + mescerto + '-' + ndate + '&nd=0'; // site that doesn’t send Access-Control-*
@@ -9115,6 +9117,7 @@
             console.log(ano + "---" + mes + "---" + dia);
 
             arrayhidrografico = [];
+
 
             //arrayUser = [];
             sortedData = 0;
@@ -12703,7 +12706,7 @@
             }
 
 
-            //console.log(points)
+            //console.log(points);
 
             var startTime = moment(arrayTempoApi[0], "YYYY-MM-DD HH:mm:ss a");
             var endTime = moment(arrayTempoApi[arrayTempoApi.length - 1], "YYYY-MM-DD HH:mm:ss a");
@@ -12828,7 +12831,7 @@
                         data3 = new Date(sortedData[2].SDATA);
                         data4 = new Date(sortedData[3].SDATA);
                     } else {
-                        //data1 = new Date(arrayhidrografico_anteriordia[0][3].SDATA);
+                        data1 = new Date(arrayhidrografico_anteriordia[0][3].SDATA);
                         data1 = new Date(sortedData[0].SDATA);
                         data2 = new Date(sortedData[1].SDATA);
                         data3 = new Date(sortedData[2].SDATA);;
@@ -12836,18 +12839,33 @@
 
                 } else {
                     if (sortedData.length > 3) {
-                        data1 = new Date(sortedData[0].SDATA);
-                        data2 = new Date(sortedData[1].SDATA);
-                        data3 = new Date(sortedData[2].SDATA);
-                        data4 = new Date(sortedData[3].SDATA);
+
+                        if (sortedData.length == 8) {
+                            data1 = new Date(sortedData[0].SDATA);
+                            data2 = new Date(sortedData[2].SDATA);
+                            data3 = new Date(sortedData[4].SDATA);
+                            data4 = new Date(sortedData[6].SDATA);
+                        } else {
+                            data1 = new Date(sortedData[0].SDATA);
+                            data2 = new Date(sortedData[1].SDATA);
+                            data3 = new Date(sortedData[2].SDATA);
+                            data4 = new Date(sortedData[3].SDATA);
+                        }
+
                     } else {
-                        data1 = new Date(sortedData[0].SDATA);
-                        data2 = new Date(sortedData[1].SDATA);
-                        data3 = new Date(sortedData[2].SDATA);;
+
+                        if (sortedData.length == 8) {
+                            data1 = new Date(sortedData[0].SDATA);
+                            data2 = new Date(sortedData[2].SDATA);
+                            data3 = new Date(sortedData[4].SDATA);
+                        } else {
+                            data1 = new Date(sortedData[0].SDATA);
+                            data2 = new Date(sortedData[1].SDATA);
+                            data3 = new Date(sortedData[2].SDATA);
+                        }
+
                     }
                 }
-
-                console.log(sortedData[0].SDATA);
 
                 //adicionar a altitude da maré ao arrayMares de forma ordenada com base no tempo
 
@@ -12864,6 +12882,24 @@
                 //     console.log('')
                 // }
                 //arrayhidrografico_posdia
+
+
+                console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
+                console.log({
+                    userHoras: UserHoras.getHours(),
+                    IH_1_com_User: UserHoras.getHours() >= data1.getHours(),
+                    IH_2_com_User: UserHoras.getHours() >= data2.getHours(),
+                    IH_3_com_User: UserHoras.getHours() >= data3.getHours(),
+                    IH_4_com_User: UserHoras.getHours() >= data4.getHours()
+                })
+
+                console.log({
+                    userHoras: UserHoras.getHours(),
+                    IH_1_com_User: UserHoras.getHours() < data1.getHours(),
+                    IH_2_com_User: UserHoras.getHours() < data2.getHours(),
+                    IH_3_com_User: UserHoras.getHours() < data3.getHours(),
+                    IH_4_com_User: UserHoras.getHours() < data4.getHours()
+                })
 
 
                 if (UserHoras.getHours() <= 5) {
@@ -12950,6 +12986,7 @@
 
                 } else if (UserHoras.getHours() >= data1.getHours() && UserHoras.getHours() < data2.getHours()) {
 
+                    
 
                     let delta_mare = sortedData[1].ALT - sortedData[0].ALT;
 
@@ -12983,8 +13020,9 @@
                             mare_por_minuto.push(total)
                         }
                     }
-                } else if (UserHoras.getHours() >= data2.getHours() && UserHoras.getHours() < data3.getHours()) {
 
+
+                } else if (UserHoras.getHours() >= data2.getHours() && UserHoras.getHours() < data3.getHours()) {
 
                     let delta_mare = sortedData[2].ALT - sortedData[1].ALT;
 
@@ -13020,6 +13058,7 @@
                     }
                 } else if (UserHoras.getHours() >= data3.getHours() && UserHoras.getHours() < data4.getHours()) {
 
+                    console.log("entrou neste?")
 
                     let delta_mare = sortedData[3].ALT - sortedData[2].ALT;
 
@@ -13624,7 +13663,7 @@
                                     '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                                     //'<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' +
                                     '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
-
+                                    '<p> <b>Horas adquirida: </b>' + tempoAPI[i] + '</p>' +
                                     '</div>')
                             } else {
                                 popup.setContent('<div class="point_info">' + '<p> <b>Z<sub>R</sub>: </b>' + z1_rota_adquirida[i] + '</p>' +
@@ -13636,6 +13675,8 @@
                                     '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                                     '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
                                     //'<p> <b>Horas do utilizador: </b>' + arrayHorasUser_Pontos[i] + ' horas e ' + arrayMinutosUser_Pontos[i] + ' minutos ' + '</p>' +
+                                    '<p> <b>Horas adquirida: </b>' + tempoAPI[i] + '</p>' +
+
                                     '</div>')
                             }
 
@@ -13674,21 +13715,26 @@
                                 .bindPopup(popup)
                                 .addTo(mymap);
 
-
-
-                            marker.on('mouseover', function (e) {
-                                var popup = e.target.getPopup();
-                                popup.setLatLng(e.latlng).openOn(mymap);
-                            });
-
-                            marker.on('mouseout', function (e) {
-                                e.target.closePopup();
-                            });
-
                             marker.on('click', function (e) {
                                 var popup = e.target.getPopup();
                                 popup.setLatLng(e.latlng).openOn(mymap);
                             });
+
+                            // marker.on('mouseover', function (e) {
+                            //     var popup = e.target.getPopup();
+                            //     popup.setLatLng(e.latlng).openOn(mymap);
+                            // });
+
+                            // marker.on('mouseout', function (e) {
+                            //     setTimeout(function () {
+                            //         e.target.closePopup();
+                            //     }, 5000);
+                            // });
+
+                            // marker.on('click', function (e) {
+                            //     var popup = e.target.getPopup();
+                            //     popup.setLatLng(e.latlng).openOn(mymap);
+                            // });
 
 
 
@@ -16596,13 +16642,10 @@
 
                                 var resultData = JSON.parse(xhr.responseText);
 
-                                //console.log(resultData.values[3]);
                                 //console.log(resultData.values);
                                 // mare_por_minuto2 = [];
                                 // mare_por_minuto2.push(resultData.values[3])
                                 // console.log(mare_por_minuto2)
-
-
 
                                 try {
 
@@ -16626,6 +16669,7 @@
                                         }
                                     }
                                     console.log(await resultData);
+
 
 
 
