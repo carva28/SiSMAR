@@ -9431,7 +9431,7 @@
 
             if (simularRota) {
 
-                markersAPI();   
+                markersAPI();
 
                 if (markerAnimado) {
                     mymap.removeLayer(markerAnimado);
@@ -10123,8 +10123,8 @@
                         getData_IDA10_3_20_ReverseGPX();
 
                         distanciaCerto = 30;
-                        setValor_rota = 40000;
-                        AnimacValor_rota = 400;
+                        setValor_rota = 10000;
+                        AnimacValor_rota = 120;
                         milesRoute.push(duracaoRotaChoosen[0]);
                         document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                         arrayURL = [];
@@ -12488,7 +12488,7 @@
             var z1_rota_adquirida = [];
             var coordenadas = [];
             let ar_CoordExcel = [],
-                horasdarota_medida = [], distancePontos = [], distanciaAcumulada = [];
+                horasdarota_medida = [], distancePontos = [], distanciaAcumulada = [], horas_rota_segundos = [];
             var dataViajaUser = [];
             var TempoParaANimar = [];
             parser = new DOMParser();
@@ -12510,6 +12510,7 @@
                             TempoParaANimar.push(newStr);
                             let date = new Date(newStr);
                             let horatempo_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes());
+                            let horatempo_withSeconds_GPX = leadZero(date.getHours()) + ":" + leadZero(date.getMinutes()) + ":" + leadZero(date.getSeconds());
                             // console.log(tempoveri);
                             // console.log(xmlDoc.getElementsByTagName("trkpt")[i]);
                             // console.log(xmlDoc.getElementsByTagName("trkpt")[i].children[0]);
@@ -12534,7 +12535,8 @@
                             z_adquirido_rota = parseFloat(z_adquir) + 0.4;
                             //z_adquirido_rota = parseFloat(z_adquir) + 0;
                             z1_rota_adquirida.push(z_adquirido_rota)
-                            horasdarota_medida.push(horatempo_GPX)
+                            horasdarota_medida.push(horatempo_GPX);
+                            horas_rota_segundos.push(horatempo_withSeconds_GPX);
                             coordenadas.push([lon_gpx, lat_gpx])
 
                             //}
@@ -13041,17 +13043,27 @@
 
 
                     mare_por_minuto = [];
-                    let delta_mare;
-                    let soma_ALT_Mare;
+                    let delta_mare, soma_ALT_Mare, h_mais_H, h_menos_H, h_mais_H_for, h_menos_H_for;
+                    var h, H, h_for, H_for;
+
 
                     if (eightMore == true) {
                         delta_mare = sortedData[4].ALT - sortedData[2].ALT;
                         soma_ALT_Mare = sortedData[2].ALT;
-
+                        h = sortedData[2].ALT;
+                        H = sortedData[4].ALT;
                     } else {
                         delta_mare = sortedData[2].ALT - sortedData[1].ALT;
                         soma_ALT_Mare = sortedData[1].ALT;
+                        h = sortedData[1].ALT;
+                        H = sortedData[2].ALT;
                     }
+
+                    console.log({ H: H, h: h });
+
+                    h_mais_H = h + H;
+                    h_menos_H = h - H;
+
 
                     //let delta_mare = sortedData[2].ALT - sortedData[1].ALT;
 
@@ -13061,8 +13073,26 @@
                     let count = (UserHoras.getMinutes() + usershr_min) - (data2.getMinutes() + dateshr_min);
                     let total = delta_mare * (count / 375) + soma_ALT_Mare;
 
-                    mareUser.push(total)
-                    for (let p = 1; p < horasdarota_medida.length; p++) {
+
+                    //let t1 = (UserHoras.getMinutes() + usershr_min) - (data2.getMinutes() + dateshr_min);
+                    let t1 = (UserHoras.getMinutes() + usershr_min) - (data2.getMinutes() + dateshr_min);
+
+                    let tempoPM = (data3.getHours() * 60) + data3.getMinutes();
+                    let tempoBM = (data2.getHours() * 60) + data2.getMinutes();
+
+                    let T1 = tempoPM - tempoBM;
+
+                    let contaFinal = (parseFloat(h_mais_H)) / 2 + (parseFloat(h_menos_H) / 2) * (Math.cos((3.14 * t1) / T1));
+
+                    horas_segundo = horas_rota_segundos.sort();
+
+                    //horas_correctas = horasdarota_medida.sort();
+
+                    console.log(contaFinal)
+                    mareUser.push(contaFinal)
+
+
+                    for (let p = 1; p < horas_segundo.length; p++) {
                         if (mare_por_minuto == null) {
                             mare_por_minuto.push(mareUser[0])
                         } else {
@@ -13072,22 +13102,53 @@
                                 ndate = d.getDate(),
                                 nyear = d.getYear();
                             if (nyear < 1000) nyear += 1900;
-                            var splitTime1 = horasdarota_medida[p].split(':');
-                            UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
+                            var splitTime1 = horas_segundo[p].split(':');
+                            UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1], splitTime1[2]);
                             let delta_mare;
                             if (eightMore == true) {
                                 delta_mare = sortedData[4].ALT - sortedData[2].ALT;
+                                h_for = sortedData[2].ALT;
+                                H_for = sortedData[4].ALT;
                             } else {
                                 delta_mare = sortedData[2].ALT - sortedData[1].ALT;
+                                h_for = sortedData[1].ALT;
+                                H_for = sortedData[2].ALT;
                             }
 
-                            let usershr_min = UserHor_Min.getHours() * 60;
-                            let dateshr_min = data2.getHours() * 60;
 
-                            let count = (UserHor_Min.getMinutes() + usershr_min) - (data2.getMinutes() + dateshr_min);
+
+                            h_mais_H_for = h_for + H_for;
+                            h_menos_H_for = h_for - H_for;
+
+                            let usershr_min_for = UserHor_Min.getHours() * 60;
+                            let dateshr_min_2 = data2.getHours() * 60;
+                            let userSeconds = UserHor_Min.getSeconds() / 60;
+
+
+                            let count = (UserHor_Min.getMinutes() + usershr_min_for + userSeconds) - (data2.getMinutes() + dateshr_min_2);
                             let total = delta_mare * (count / 375) + soma_ALT_Mare;
 
-                            mare_por_minuto.push(total)
+                            let tempoPM_for = (data3.getHours() * 60) + data3.getMinutes();
+                            let tempoBM_for = (data2.getHours() * 60) + data2.getMinutes();
+
+                            let T1_for = tempoPM_for - tempoBM_for;
+
+                            let t1_for = (UserHor_Min.getMinutes() + usershr_min_for + userSeconds) - (data2.getMinutes() + dateshr_min_2);
+
+                            let contaFinal_for = (parseFloat(h_mais_H_for)) / 2 + (parseFloat(h_menos_H_for) / 2) * (Math.cos((3.14 * t1_for) / T1_for));
+
+                            console.log({contaFinal: contaFinal_for});
+                            // console.log({
+                            //     t1: t1_for,
+                            //     UserHoras: UserHor_Min.getHours(),
+                            //     UserMinutos: UserHor_Min.getMinutes(),
+                            //     UserSeconds: UserHor_Min.getSeconds(),
+                            //     Contas: contaFinal_for
+                            // });
+
+                            //mare_por_minuto.push(total)
+                            mare_por_minuto.push(contaFinal_for)
+
                         }
                     }
                 } else if (UserHoras.getHours() >= data3.getHours() && UserHoras.getHours() < data4.getHours()) {
@@ -13095,8 +13156,8 @@
                     console.log("Entras no >=data3 e <data4")
 
                     mare_por_minuto = [];
-                    let delta_mare, soma_ALT_Mare,h_mais_H,h_menos_H;
-                    var h,H;
+                    let delta_mare, soma_ALT_Mare, h_mais_H, h_menos_H;
+                    var h, H;
 
                     //let delta_mare = sortedData[3].ALT - sortedData[2].ALT;
                     if (eightMore == true) {
@@ -13104,7 +13165,7 @@
                         soma_ALT_Mare = sortedData[4].ALT;
                         h = sortedData[4].ALT;
                         H = sortedData[6].ALT;
-                        
+
                     } else {
                         delta_mare = sortedData[3].ALT - sortedData[2].ALT;
                         soma_ALT_Mare = sortedData[2].ALT;
@@ -13114,14 +13175,6 @@
                     }
 
 
-                    console.log(sortedData);
-
-                    console.log({H:H,h:h});
-
-                    h_mais_H = h + H;
-                    h_menos_H = h - H;
-
-                    let conta = (h_mais_H/2) + (h_menos_H/2);
 
                     let usershr_min = UserHoras.getHours() * 60;
                     let dateshr_min = data3.getHours() * 60;
@@ -13129,16 +13182,6 @@
                     let count = (UserHoras.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
                     //let total = delta_mare * (count / 375) + soma_ALT_Mare;
 
-                    let t1 = (UserHoras.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
-
-                    let tempoBM = (data4.getHours()*60) + data4.getMinutes();
-                    let tempoPM = (data3.getHours()*60) + data3.getMinutes();
-                    
-                    let T1 = tempoPM - tempoBM;
-
-                    let contaFinal = conta * Math.cos(3,14 * t1 / T1);
-
-                    console.log(contaFinal);
 
                     mareUser.push(total)
 
