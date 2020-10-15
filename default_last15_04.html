@@ -12883,22 +12883,22 @@
                 //arrayhidrografico_posdia
 
 
-                console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
-                console.log({
-                    userHoras: UserHoras.getHours(),
-                    IH_1_com_User: UserHoras.getHours() >= data1.getHours(),
-                    IH_2_com_User: UserHoras.getHours() >= data2.getHours(),
-                    IH_3_com_User: UserHoras.getHours() >= data3.getHours(),
-                    IH_4_com_User: UserHoras.getHours() >= data4.getHours()
-                })
+                // console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
+                // console.log({
+                //     userHoras: UserHoras.getHours(),
+                //     IH_1_com_User: UserHoras.getHours() >= data1.getHours(),
+                //     IH_2_com_User: UserHoras.getHours() >= data2.getHours(),
+                //     IH_3_com_User: UserHoras.getHours() >= data3.getHours(),
+                //     IH_4_com_User: UserHoras.getHours() >= data4.getHours()
+                // })
 
-                console.log({
-                    userHoras: UserHoras.getHours(),
-                    IH_1_com_User: UserHoras.getHours() < data1.getHours(),
-                    IH_2_com_User: UserHoras.getHours() < data2.getHours(),
-                    IH_3_com_User: UserHoras.getHours() < data3.getHours(),
-                    IH_4_com_User: UserHoras.getHours() < data4.getHours()
-                })
+                // console.log({
+                //     userHoras: UserHoras.getHours(),
+                //     IH_1_com_User: UserHoras.getHours() < data1.getHours(),
+                //     IH_2_com_User: UserHoras.getHours() < data2.getHours(),
+                //     IH_3_com_User: UserHoras.getHours() < data3.getHours(),
+                //     IH_4_com_User: UserHoras.getHours() < data4.getHours()
+                // })
 
 
                 if (UserHoras.getHours() <= 5) {
@@ -13039,8 +13039,6 @@
 
                 } else if (UserHoras.getHours() >= data2.getHours() && UserHoras.getHours() < data3.getHours()) {
 
-                    console.log("Entras no >=data2 e <data3")
-
 
                     mare_por_minuto = [];
                     let delta_mare, soma_ALT_Mare, h_mais_H, h_menos_H, h_mais_H_for, h_menos_H_for;
@@ -13059,7 +13057,7 @@
                         H = sortedData[2].ALT;
                     }
 
-                    console.log({ H: H, h: h });
+                    //console.log({ H: H, h: h });
 
                     h_mais_H = h + H;
                     h_menos_H = h - H;
@@ -13088,7 +13086,7 @@
 
                     //horas_correctas = horasdarota_medida.sort();
 
-                    console.log(contaFinal)
+                    //console.log(contaFinal)
                     mareUser.push(contaFinal)
 
 
@@ -13137,7 +13135,7 @@
 
                             let contaFinal_for = (parseFloat(h_mais_H_for)) / 2 + (parseFloat(h_menos_H_for) / 2) * (Math.cos((3.14 * t1_for) / T1_for));
 
-                            console.log({contaFinal: contaFinal_for});
+                            //console.log({contaFinal: contaFinal_for});
                             // console.log({
                             //     t1: t1_for,
                             //     UserHoras: UserHor_Min.getHours(),
