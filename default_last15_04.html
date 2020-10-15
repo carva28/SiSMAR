@@ -13037,6 +13037,9 @@
 
                 } else if (UserHoras.getHours() >= data2.getHours() && UserHoras.getHours() < data3.getHours()) {
 
+                    console.log("Entras no >=data2 e <data3")
+
+
                     mare_por_minuto = [];
                     let delta_mare;
                     let soma_ALT_Mare;
@@ -13089,24 +13092,53 @@
                     }
                 } else if (UserHoras.getHours() >= data3.getHours() && UserHoras.getHours() < data4.getHours()) {
 
+                    console.log("Entras no >=data3 e <data4")
+
                     mare_por_minuto = [];
-                    let delta_mare;
-                    let soma_ALT_Mare;
+                    let delta_mare, soma_ALT_Mare,h_mais_H,h_menos_H;
+                    var h,H;
+
                     //let delta_mare = sortedData[3].ALT - sortedData[2].ALT;
                     if (eightMore == true) {
                         delta_mare = sortedData[6].ALT - sortedData[4].ALT;
                         soma_ALT_Mare = sortedData[4].ALT;
-
+                        h = sortedData[4].ALT;
+                        H = sortedData[6].ALT;
+                        
                     } else {
                         delta_mare = sortedData[3].ALT - sortedData[2].ALT;
                         soma_ALT_Mare = sortedData[2].ALT;
+
+                        h = sortedData[2].ALT;
+                        H = sortedData[3].ALT;
                     }
+
+
+                    console.log(sortedData);
+
+                    console.log({H:H,h:h});
+
+                    h_mais_H = h + H;
+                    h_menos_H = h - H;
+
+                    let conta = (h_mais_H/2) + (h_menos_H/2);
 
                     let usershr_min = UserHoras.getHours() * 60;
                     let dateshr_min = data3.getHours() * 60;
 
                     let count = (UserHoras.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
-                    let total = delta_mare * (count / 375) + soma_ALT_Mare;
+                    //let total = delta_mare * (count / 375) + soma_ALT_Mare;
+
+                    let t1 = (UserHoras.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
+
+                    let tempoBM = (data4.getHours()*60) + data4.getMinutes();
+                    let tempoPM = (data3.getHours()*60) + data3.getMinutes();
+                    
+                    let T1 = tempoPM - tempoBM;
+
+                    let contaFinal = conta * Math.cos(3,14 * t1 / T1);
+
+                    console.log(contaFinal);
 
                     mareUser.push(total)
 
