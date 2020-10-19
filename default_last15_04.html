@@ -766,6 +766,16 @@
             padding: 8px 4px 0 0 !important;
         }
 
+        /*********  SELECIONAR DESTINO na tabela ***********/
+        .selectionModal {
+            width: 95px;
+            height: 40px;
+            background-color: #f0bc33;
+            border: none;
+            border-radius: 10px;
+            padding: 0px 2px;
+        }
+
         #th_styles {
             width: 14% !important;
         }
@@ -3943,6 +3953,8 @@
                         changeValue();
                         document.getElementById('cais_partida').innerHTML = "Costa Nova";
                         document.getElementById('cais_chegada').innerHTML = "ANGE";
+
+
                         //sidebar.open('infoRealTime');
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
@@ -5444,7 +5456,22 @@
                         changeValue();
 
                         document.getElementById('cais_partida').innerHTML = "ANGE";
-                        document.getElementById('cais_chegada').innerHTML = "Vagueira";
+                        //document.getElementById('cais_chegada').innerHTML = "Vagueira";
+
+                        document.getElementById('cais_chegada').innerHTML = "<select class='selectionModal' id='sel1' style='width: 85px;' onchange='selecioneLocal()'>" +
+                            "<option selected disabled>Selecione uma rota</option>" +
+                            "<option value='getCostaNovaGPX'>Costa Nova </option>" +
+                            "<option value='getTorreiraGPX_Revserse'>Para Torreira 10 em 10</option>" +
+                            "<option value='getTorreiraGPX_completa'>Torreira Completa 13_08</option>" +
+                            "<option value='getRioNovoGPX_completa_30'>Rio Novo - ANGE  3</option>" +
+                            "<option value='getData_IDA10_3_20_GPX' selected>Vagueira </option>" +
+                            "<option value='getIdaBicoGPX'>Bico (debugging) </option>" +
+                            "<option value='getDataGPX_ANGE_Torreira_1705'>Torreira 17/05 </option>" +
+                            "<option value='getDataGPX_ANGE_RioNovo_2006'>Lota Velha </option>" +
+                            "<option value='getDataGPX_PonteBarra_Testada'>Testada </option>"
+                        "</select>";
+
+
                         //sidebar.open('infoRealTime');
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
@@ -10123,8 +10150,10 @@
                         getData_IDA10_3_20_ReverseGPX();
 
                         distanciaCerto = 30;
-                        setValor_rota = 10000;
-                        AnimacValor_rota = 120;
+                        //setValor_rota = 10000;
+                        setValor_rota = 12000;
+                        //AnimacValor_rota = 120;
+                        AnimacValor_rota = 170;
                         milesRoute.push(duracaoRotaChoosen[0]);
                         document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                         arrayURL = [];
@@ -12883,7 +12912,8 @@
                 //arrayhidrografico_posdia
 
 
-                // console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
+                console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
+                console.log({ IH_data1: sortedData[0].ALT, IH_data2: sortedData[1].ALT, IH_data3: sortedData[2].ALT, IH_data4: sortedData[3].ALT })
                 // console.log({
                 //     userHoras: UserHoras.getHours(),
                 //     IH_1_com_User: UserHoras.getHours() >= data1.getHours(),
@@ -12902,6 +12932,7 @@
 
 
                 if (UserHoras.getHours() <= 5) {
+
                     if (sortedData_anterior[3].SDATA != null) {
                         let horas_min_anterior = new Date(sortedData_anterior[3].SDATA);
 
@@ -12986,27 +13017,73 @@
                 } else if (UserHoras.getHours() >= data1.getHours() && UserHoras.getHours() < data2.getHours()) {
 
                     mare_por_minuto = [];
-                    let delta_mare;
-                    let soma_ALT_Mare;
+                    let delta_mare, soma_ALT_Mare, h_mais_H, h_menos_H, h_mais_H_for, h_menos_H_for;
+                    var h, H, h_for, H_for, tempoPM_for, tempoBM_for;
+
 
                     if (eightMore == true) {
                         delta_mare = sortedData[2].ALT - sortedData[0].ALT;
                         soma_ALT_Mare = sortedData[0].ALT;
 
+
+                        if (sortedData[0].ALT > sortedData[2].ALT) {
+                            H = sortedData[0].ALT;
+                            h = sortedData[2].ALT;
+                            tempoPM_for = (data1.getHours() * 60) + data1.getMinutes();
+                            tempoBM_for = (data2.getHours() * 60) + data2.getMinutes();
+                        } else {
+                            h = sortedData[0].ALT;
+                            H = sortedData[2].ALT;
+                            tempoPM_for = (data2.getHours() * 60) + data2.getMinutes();
+                            tempoBM_for = (data1.getHours() * 60) + data1.getMinutes();
+                        }
+
                     } else {
-                        delta_mare = sortedData[1].ALT - sortedData[0].ALT;
+                        delta_mare = sortedData[1].ALT - sortedData[1].ALT;
                         soma_ALT_Mare = sortedData[0].ALT;
+
+                        if (sortedData[0].ALT > sortedData[1].ALT) {
+                            H = sortedData[0].ALT;
+                            h = sortedData[1].ALT;
+                            tempoPM_for = (data1.getHours() * 60) + data1.getMinutes();
+                            tempoBM_for = (data2.getHours() * 60) + data2.getMinutes();
+                        } else {
+                            h = sortedData[0].ALT;
+                            H = sortedData[1].ALT;
+                            tempoPM_for = (data2.getHours() * 60) + data2.getMinutes();
+                            tempoBM_for = (data1.getHours() * 60) + data1.getMinutes();
+                        }
+
                     }
 
 
-                    let usershr_min = UserHoras.getHours() * 60;
-                    let dateshr_min = data1.getHours() * 60;
+                    // let usershr_min = UserHoras.getHours() * 60;
+                    // let dateshr_min = data1.getHours() * 60;
 
-                    let count = (UserHoras.getMinutes() + usershr_min) - (data1.getMinutes() + dateshr_min);
-                    let total = delta_mare * (count / 375) + soma_ALT_Mare;
+                    // let count = (UserHoras.getMinutes() + usershr_min) - (data1.getMinutes() + dateshr_min);
+                    // let total = delta_mare * (count / 375) + soma_ALT_Mare;
 
-                    mareUser.push(total)
-                    for (let p = 1; p < horasdarota_medida.length; p++) {
+                    // mareUser.push(total)
+
+                    h_mais_H = H + h;
+                    h_menos_H = H - h;
+
+                    let usershr_min_for = UserHoras.getHours() * 60;
+                    let dateshr_min_2 = data1.getHours() * 60;
+                    let userSeconds = UserHoras.getSeconds() / 60;
+
+                    let T1_for = tempoPM_for - tempoBM_for;
+
+                    let t1_for = (UserHoras.getMinutes() + usershr_min_for + userSeconds) - (data1.getMinutes() + dateshr_min_2);
+
+                    let contaFinal_for = (parseFloat(h_mais_H)) / 2 + (parseFloat(h_menos_H) / 2) * (Math.cos((3.14 * t1_for) / T1_for));
+
+                    mareUser.push(contaFinal_for)
+
+
+                    horas_segundo = horas_rota_segundos.sort();
+
+                    for (let p = 1; p < horas_segundo.length; p++) {
                         if (mare_por_minuto == null) {
                             mare_por_minuto.push(mareUser[0])
                         } else {
@@ -13016,23 +13093,36 @@
                                 ndate = d.getDate(),
                                 nyear = d.getYear();
                             if (nyear < 1000) nyear += 1900;
-                            var splitTime1 = horasdarota_medida[p].split(':');
+                            var splitTime1 = horas_segundo[p].split(':');
                             UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
 
-                            let delta_mare;
-                            if (eightMore == true) {
-                                delta_mare = sortedData[2].ALT - sortedData[0].ALT;
+                            // let delta_mare;
+                            // if (eightMore == true) {
+                            //     delta_mare = sortedData[2].ALT - sortedData[0].ALT;
 
-                            } else {
-                                delta_mare = sortedData[1].ALT - sortedData[0].ALT;
-                            }
+                            // } else {
+                            //     delta_mare = sortedData[1].ALT - sortedData[0].ALT;
+                            // }
 
-                            let usershr_min = UserHor_Min.getHours() * 60;
-                            let dateshr_min = data1.getHours() * 60;
+                            // let usershr_min = UserHor_Min.getHours() * 60;
+                            // let dateshr_min = data1.getHours() * 60;
 
-                            let count = (UserHor_Min.getMinutes() + usershr_min) - (data1.getMinutes() + dateshr_min);
-                            let total = delta_mare * (count / 375) + soma_ALT_Mare;
-                            mare_por_minuto.push(total)
+                            // let count = (UserHor_Min.getMinutes() + usershr_min) - (data1.getMinutes() + dateshr_min);
+                            // let total = delta_mare * (count / 375) + soma_ALT_Mare;
+
+
+                            let usershr_min_for = UserHor_Min.getHours() * 60;
+                            let dateshr_min_2 = data1.getHours() * 60;
+                            let userSeconds = UserHor_Min.getSeconds() / 60;
+
+                            let T1_for = tempoPM_for - tempoBM_for;
+
+                            let t1_for = (UserHor_Min.getMinutes() + usershr_min_for + userSeconds) - (data1.getMinutes() + dateshr_min_2);
+
+                            let contaFinal_for = (parseFloat(h_mais_H)) / 2 + (parseFloat(h_menos_H) / 2) * (Math.cos((3.14 * t1_for) / T1_for));
+
+
+                            mare_por_minuto.push(contaFinal_for)
                         }
                     }
 
@@ -13042,19 +13132,42 @@
 
                     mare_por_minuto = [];
                     let delta_mare, soma_ALT_Mare, h_mais_H, h_menos_H, h_mais_H_for, h_menos_H_for;
-                    var h, H, h_for, H_for;
+                    var h, H, h_for, H_for, tempoPM_for, tempoBM_for;
 
 
                     if (eightMore == true) {
                         delta_mare = sortedData[4].ALT - sortedData[2].ALT;
                         soma_ALT_Mare = sortedData[2].ALT;
-                        h = sortedData[2].ALT;
-                        H = sortedData[4].ALT;
+
+
+                        if (sortedData[2].ALT > sortedData[4].ALT) {
+                            H = sortedData[2].ALT;
+                            h = sortedData[4].ALT;
+                            tempoPM_for = (data2.getHours() * 60) + data2.getMinutes();
+                            tempoBM_for = (data3.getHours() * 60) + data3.getMinutes();
+                        } else {
+                            h = sortedData[2].ALT;
+                            H = sortedData[4].ALT;
+                            tempoPM_for = (data3.getHours() * 60) + data3.getMinutes();
+                            tempoBM_for = (data2.getHours() * 60) + data2.getMinutes();
+                        }
+
                     } else {
                         delta_mare = sortedData[2].ALT - sortedData[1].ALT;
                         soma_ALT_Mare = sortedData[1].ALT;
-                        h = sortedData[1].ALT;
-                        H = sortedData[2].ALT;
+
+                        if (sortedData[1].ALT > sortedData[2].ALT) {
+                            H = sortedData[1].ALT;
+                            h = sortedData[2].ALT;
+                            tempoPM_for = (data2.getHours() * 60) + data2.getMinutes();
+                            tempoBM_for = (data3.getHours() * 60) + data3.getMinutes();
+                        } else {
+                            h = sortedData[1].ALT;
+                            H = sortedData[2].ALT;
+                            tempoPM_for = (data3.getHours() * 60) + data3.getMinutes();
+                            tempoBM_for = (data2.getHours() * 60) + data2.getMinutes();
+                        }
+
                     }
 
                     //console.log({ H: H, h: h });
@@ -13103,15 +13216,15 @@
                             var splitTime1 = horas_segundo[p].split(':');
                             UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1], splitTime1[2]);
                             let delta_mare;
-                            if (eightMore == true) {
-                                delta_mare = sortedData[4].ALT - sortedData[2].ALT;
-                                h_for = sortedData[2].ALT;
-                                H_for = sortedData[4].ALT;
-                            } else {
-                                delta_mare = sortedData[2].ALT - sortedData[1].ALT;
-                                h_for = sortedData[1].ALT;
-                                H_for = sortedData[2].ALT;
-                            }
+                            // if (eightMore == true) {
+                            //     delta_mare = sortedData[4].ALT - sortedData[2].ALT;
+                            //     h_for = sortedData[2].ALT;
+                            //     H_for = sortedData[4].ALT;
+                            // } else {
+                            //     delta_mare = sortedData[2].ALT - sortedData[1].ALT;
+                            //     h_for = sortedData[1].ALT;
+                            //     H_for = sortedData[2].ALT;
+                            // }
 
 
 
@@ -13123,17 +13236,15 @@
                             let userSeconds = UserHor_Min.getSeconds() / 60;
 
 
-                            let count = (UserHor_Min.getMinutes() + usershr_min_for + userSeconds) - (data2.getMinutes() + dateshr_min_2);
-                            let total = delta_mare * (count / 375) + soma_ALT_Mare;
+                            // let count = (UserHor_Min.getMinutes() + usershr_min_for + userSeconds) - (data2.getMinutes() + dateshr_min_2);
+                            // let total = delta_mare * (count / 375) + soma_ALT_Mare;
 
-                            let tempoPM_for = (data3.getHours() * 60) + data3.getMinutes();
-                            let tempoBM_for = (data2.getHours() * 60) + data2.getMinutes();
 
                             let T1_for = tempoPM_for - tempoBM_for;
 
                             let t1_for = (UserHor_Min.getMinutes() + usershr_min_for + userSeconds) - (data2.getMinutes() + dateshr_min_2);
 
-                            let contaFinal_for = (parseFloat(h_mais_H_for)) / 2 + (parseFloat(h_menos_H_for) / 2) * (Math.cos((3.14 * t1_for) / T1_for));
+                            let contaFinal_for = (parseFloat(h_mais_H)) / 2 + (parseFloat(h_menos_H) / 2) * (Math.cos((3.14 * t1_for) / T1_for));
 
                             //console.log({contaFinal: contaFinal_for});
                             // console.log({
@@ -13151,39 +13262,80 @@
                     }
                 } else if (UserHoras.getHours() >= data3.getHours() && UserHoras.getHours() < data4.getHours()) {
 
-                    console.log("Entras no >=data3 e <data4")
-
                     mare_por_minuto = [];
                     let delta_mare, soma_ALT_Mare, h_mais_H, h_menos_H;
                     var h, H;
+
+                    let tempoPM_for, tempoBM_for;
 
                     //let delta_mare = sortedData[3].ALT - sortedData[2].ALT;
                     if (eightMore == true) {
                         delta_mare = sortedData[6].ALT - sortedData[4].ALT;
                         soma_ALT_Mare = sortedData[4].ALT;
-                        h = sortedData[4].ALT;
-                        H = sortedData[6].ALT;
+
+
+                        if (sortedData[4].ALT > sortedData[6].ALT) {
+                            H = sortedData[4].ALT;
+                            h = sortedData[6].ALT;
+                            tempoPM_for = (data3.getHours() * 60) + data3.getMinutes();
+                            tempoBM_for = (data4.getHours() * 60) + data4.getMinutes();
+                        } else {
+                            h = sortedData[4].ALT;
+                            H = sortedData[6].ALT;
+                            tempoPM_for = (data4.getHours() * 60) + data4.getMinutes();
+                            tempoBM_for = (data3.getHours() * 60) + data3.getMinutes();
+                        }
 
                     } else {
                         delta_mare = sortedData[3].ALT - sortedData[2].ALT;
                         soma_ALT_Mare = sortedData[2].ALT;
 
-                        h = sortedData[2].ALT;
-                        H = sortedData[3].ALT;
+                        if (sortedData[2].ALT > sortedData[3].ALT) {
+                            H = sortedData[2].ALT;
+                            h = sortedData[3].ALT;
+                            tempoPM_for = (data3.getHours() * 60) + data3.getMinutes();
+                            tempoBM_for = (data4.getHours() * 60) + data4.getMinutes();
+                        } else {
+                            h = sortedData[2].ALT;
+                            H = sortedData[3].ALT;
+                            tempoPM_for = (data4.getHours() * 60) + data4.getMinutes();
+                            tempoBM_for = (data3.getHours() * 60) + data3.getMinutes();
+                        }
+
                     }
 
+                    h_mais_H = H + h;
+                    h_menos_H = H - h;
+
+                    // let usershr_min = UserHoras.getHours() * 60;
+                    // let dateshr_min = data3.getHours() * 60;
+
+                    // let count = (UserHoras.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
+
+                    let usershr_min_for = UserHoras.getHours() * 60;
+                    let dateshr_min_2 = data3.getHours() * 60;
+                    let userSeconds = UserHoras.getSeconds() / 60;
 
 
-                    let usershr_min = UserHoras.getHours() * 60;
-                    let dateshr_min = data3.getHours() * 60;
-
-                    let count = (UserHoras.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
-                    //let total = delta_mare * (count / 375) + soma_ALT_Mare;
+                    // let count = (UserHor_Min.getMinutes() + usershr_min_for + userSeconds) - (data3.getMinutes() + dateshr_min_2);
+                    // let total = delta_mare * (count / 375) + soma_ALT_Mare;
 
 
-                    mareUser.push(total)
 
-                    for (let p = 1; p < horasdarota_medida.length; p++) {
+
+                    let T1_for = tempoPM_for - tempoBM_for;
+
+                    let t1_for = (UserHoras.getMinutes() + usershr_min_for + userSeconds) - (data3.getMinutes() + dateshr_min_2);
+
+                    let contaFinal_for = (parseFloat(h_mais_H)) / 2 + (parseFloat(h_menos_H) / 2) * (Math.cos((3.14 * t1_for) / T1_for));
+
+                    mare_por_minuto.push(contaFinal_for)
+
+                    horas_segundo = horas_rota_segundos.sort();
+
+
+                    //for (let p = 1; p < horasdarota_medida.length; p++) {
+                    for (let p = 1; p < horas_segundo.length; p++) {
                         if (mare_por_minuto == null) {
                             mare_por_minuto.push(mareUser[0])
                         } else {
@@ -13193,28 +13345,25 @@
                                 ndate = d.getDate(),
                                 nyear = d.getYear();
                             if (nyear < 1000) nyear += 1900;
-                            var splitTime1 = horasdarota_medida[p].split(':');
+                            var splitTime1 = horas_segundo[p].split(':');
                             UserHor_Min = new Date(nyear, nmonth, nday, splitTime1[0], splitTime1[1]);
 
-                            //let delta_mare = sortedData[3].ALT - sortedData[2].ALT;
-                            let delta_mare;
-                            if (eightMore == true) {
-                                delta_mare = sortedData[6].ALT - sortedData[4].ALT;
-                            } else {
-                                delta_mare = sortedData[3].ALT - sortedData[2].ALT;
-                            }
+                            h_mais_H = H + h;
+                            h_menos_H = H - h;
+                            let usershr_min_for = UserHor_Min.getHours() * 60;
+                            let dateshr_min_2 = data3.getHours() * 60;
+                            let userSeconds = UserHor_Min.getSeconds() / 60;
+                            let T1_for = tempoPM_for - tempoBM_for;
 
-                            let usershr_min = UserHor_Min.getHours() * 60;
-                            let dateshr_min = data3.getHours() * 60;
+                            let t1_for = (UserHor_Min.getMinutes() + usershr_min_for + userSeconds) - (data3.getMinutes() + dateshr_min_2);
 
-                            //let count = (UserHor_Min.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
-                            let count = (UserHor_Min.getMinutes() + usershr_min) - (data3.getMinutes() + dateshr_min);
-                            let total = delta_mare * (count / 375) + soma_ALT_Mare;
-                            mare_por_minuto.push(total)
+                            let contaFinal_for = (parseFloat(h_mais_H)) / 2 + (parseFloat(h_menos_H) / 2) * (Math.cos((3.14 * t1_for) / T1_for));
+
+                            mare_por_minuto.push(contaFinal_for)
+
+
                         }
                     }
-
-                    console.log(mare_por_minuto);
 
                 } else if (UserHoras.getHours() >= data4.getHours()) {
 
@@ -13275,6 +13424,19 @@
                 console.log("API Hidrográfico sem dados");
                 console.log(arrayhidrografico.length > 0);
                 console.log(arrayhidrografico.length);
+                arrayhidrografico = [];
+                // getInfo();
+
+                if (mare_por_minuto.length > 0) {
+                    inicioAPICall = true;
+                } else {
+                    getInfo();
+                    console.log(arrayhidrografico.length > 0);
+                    if (arrayhidrografico.length > 0) {
+                        setTimeout(function () { calculo(valor_cal, cal_sup, cal_inf); }, 500);
+                    }
+                }
+
             }
             /*********************************************************************************/
             /********************************************************************************/
@@ -14082,7 +14244,18 @@
 
                         }
                     } else {
-                        console.log('Else_sem_rota')
+                        console.log('Else_sem_rota');
+                        console.log({ peso_mare_minuto2: mare_por_minuto2.length });
+
+                        //getInfo();
+                        console.log(arrayhidrografico);
+                        console.log(arrayhidrografico.length > 0);
+                        if (arrayhidrografico.length > 0) {
+                            setValor_rota = setValor_rota + 500;
+                            setTimeout(function () { calculo(valor_cal, cal_sup, cal_inf); }, 1000);
+                        }
+
+
                     }
                     if (modal_eta) {
 
