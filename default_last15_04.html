@@ -7821,6 +7821,8 @@
 
             } else {
 
+
+
                 if (array_hidrografico_simulacao_API[0][1].ALT > array_hidrografico_simulacao_API[0][2].ALT) {
 
                     document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
@@ -7833,7 +7835,8 @@
                         + "&nbsp" + "|" +
                         "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
 
-                    if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+
+                    if (array_hidrografico_simulacao_API[0][3] != null) {
                         document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
                             + "&nbsp" + "|" +
                             "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
@@ -7848,7 +7851,9 @@
                     document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
                         + "&nbsp" + "|" +
                         "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
-                    if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+
+
+                    if (array_hidrografico_simulacao_API[0][3] != null) {
                         document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
                             + "&nbsp" + "|" +
                             "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
@@ -8569,7 +8574,7 @@
 
         var hasLine = false;
         let inicoCountSeconds = 0;
-        
+
         function changeValue(e) {
 
             if (simularRota) {
@@ -8737,6 +8742,11 @@
         mymap.on('click', function (e) {
 
             mymap.removeLayer(start_boat);
+
+            if (start_boat) {
+                mymap.removeLayer(start_boat);
+            }
+
             if (tutorial) {
                 // document.getElementById('tutorial01').style.display = "none";
                 // document.getElementById('tutorial02').style.display = "block";
@@ -11461,7 +11471,7 @@
         var coord_long_API = [];
         var somaVelociUser;
         var distanciaPontosRota;
-        
+
 
         function calculo(valor_cal, cal_sup, cal_inf) {
 
@@ -11860,6 +11870,8 @@
 
                     let converInt = parseInt(segundosAPI);
 
+                    // esta variável -> segundosAPI_2 é utilizada para a fotografia da rota!
+
                     arrayTempoApi.push(moment(startDate).add(segundosAPI_2.toFixed(2), 's').toDate().toISOString());
 
                     console.log(moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString());
@@ -11867,6 +11879,8 @@
                     //tempoISO_API.push({  date: moment(startDate).add(y, 'm').toDate().toISOString() } );
                     //points.push({ "date": moment(startDate).add(somaVelociUser, 'm').toDate().toISOString(), "latitude": coord_lat_API[y], "longitude": coord_long_API[y] });
 
+                    // esta variável -> segundosAPI é utilizada para animar a rota 
+                    // e mostrar a hora igual em todos os pontos!
 
                     points.push({ "date": moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString(), "latitude": coord_lat_API[y], "longitude": coord_long_API[y] });
                 }
@@ -12560,7 +12574,7 @@
                 console.log(arrayhidrografico.length > 0);
                 console.log(arrayhidrografico.length);
                 arrayhidrografico = [];
-                // getInfo();
+                getInfo();
 
                 if (mare_por_minuto.length > 0) {
                     inicioAPICall = true;
@@ -12667,15 +12681,18 @@
 
                 //console.log(array_hidrografico_simulacao_API);
 
-                document.getElementById('info_mare_1').innerHTML = "&nbsp";
-                document.getElementById('info_mare_2').innerHTML = "&nbsp";
-                document.getElementById('info_mare_3').innerHTML = "&nbsp";
-                document.getElementById('info_mare_4').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_2').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_3').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_4').innerHTML = "&nbsp";
 
-                document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
-                document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
-                document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
-                document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
+
+              
+                console.log(sortedData2[3] != undefined)
                 if (sortedData2[3] != null || sortedData2[3] != undefined) {
                     let data4 = new Date(sortedData2[3].SDATA);
                     let data0_info = new Date(array_hidrografico_simulacao_API[0][0].SDATA);
@@ -12852,6 +12869,19 @@
                         }
                     }
 
+                } else {
+                    if(sortedData2[0] == undefined){
+                        document.getElementById('info_mare_1').innerHTML = "&nbsp";
+                    document.getElementById('info_mare_2').innerHTML = "&nbsp";
+                    document.getElementById('info_mare_3').innerHTML = "&nbsp";
+                    document.getElementById('info_mare_4').innerHTML = "&nbsp";
+
+                    document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
+                    document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
+                    document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
+                    document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
+                    }
+                
                 }
 
                 var verificarHorasMare_2;
