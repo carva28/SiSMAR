@@ -7302,6 +7302,399 @@
             mymap.setView([40.61, -8.745], 12.6);
         }
 
+
+        async function getData_IDA10_3_20_ReverseGPX() {
+
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+
+                }
+                markersAPI();
+            });
+
+            let url = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_ANGE_Vagueira_Reverse.gpx';
+
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#3064f3',
+                            weight: 10,
+                        },
+                        marker_options: {
+                            // 'startIcon': new L.icon({
+                            //     iconUrl: 'marker.png',
+                            //     iconSize: [22, 32, 5],
+                            //     iconAnchor: [10, 30],
+                            // }),
+                            startIconUrl: null,
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM_4 = gpx.get_distance(),
+                            distKm = distM_4 / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            tempoTotal = gpx.get_total_time();
+                        eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate();
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                        arrayGPX_4 = [];
+                        arrayGPX_4.push(gpx._gpx)
+                    });
+                    somarNumero = 0;
+
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        simularRota = true;
+                        changeValue();
+
+                        document.getElementById('cais_partida').innerHTML = "ANGE";
+                        //document.getElementById('cais_chegada').innerHTML = "Vagueira";
+
+                        document.getElementById('cais_chegada').innerHTML = "<select class='selectionModal' id='sel1' style='width: 85px;' onchange='selecioneLocal()'>" +
+                            "<option selected disabled>Selecione uma rota</option>" +
+                            "<option value='getCostaNovaGPX'>Costa Nova </option>" +
+                            "<option value='getTorreiraGPX_Revserse'>Para Torreira 10 em 10</option>" +
+                            "<option value='getTorreiraGPX_completa'>Torreira Completa 13_08</option>" +
+                            "<option value='getRioNovoGPX_completa_30'>Rio Novo - ANGE  3</option>" +
+                            "<option value='getData_IDA10_3_20_GPX' selected>Vagueira </option>" +
+                            "<option value='getIdaBicoGPX'>Bico (debugging) </option>" +
+                            "<option value='getDataGPX_ANGE_Torreira_1705'>Torreira 17/05 </option>" +
+                            "<option value='getDataGPX_ANGE_RioNovo_2006'>Lota Velha </option>" +
+                            "<option value='getDataGPX_PonteBarra_Testada'>Testada </option>"
+                        "</select>";
+
+
+                        //sidebar.open('infoRealTime');
+                        clicadoPrimeiroCais = false;
+                        clicadoSegundoCais = false;
+                        //sidebar.open('infoRealTime');
+
+                    })
+                    g.on('mouseover', function (e) {
+
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
+                        xmlDoc = parser.parseFromString(arrayGPX_4[0], "text/xml")
+                        let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
+
+                        var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
+                        var lon_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lon');
+
+
+                        //Calcular distância para NM
+
+                        let distNM_4 = distM_4 * 0.0005;
+
+                        let nm_4casasdeci = distNM_4.toFixed(2);
+                        var milesNauticalRoute = parseFloat(nm_4casasdeci);
+
+                        let velocidadeUser = document.getElementById('velocidade').value;
+
+                        var tempo = milesNauticalRoute / velocidadeUser;
+                        var n = new Date(0, 0);
+                        n.setMinutes(+tempo * 60);
+                        var result = n.toTimeString().slice(0, 5);
+
+                        var splitTime_inicio = result.split(':');
+
+                        let horas_inicio = parseInt(splitTime_inicio[0]);
+                        let minutos_inicio = parseInt(splitTime_inicio[1]);
+
+                        let total_Rota = (horas_inicio * 60) + minutos_inicio;
+
+                        //****** Tempo de partida ******//
+                        let tempoPrim = document.getElementById('time_partida').value;
+                        var splitTimePartida = tempoPrim.split(':');
+                        let horasPartida = parseInt(splitTimePartida[0]);
+                        let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+
+                        let total_Partida_Rota = total_Partida + total_Rota;
+
+
+                        var mRotaChegada = new Date(0, 0);
+                        let hours_ofsumRote = total_Partida_Rota / 60;
+
+                        let d2cHours = hours_ofsumRote.toFixed(2);
+                        let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+
+
+                        let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+
+                        //Colocar popup apenas sem marker
+
+                        let popup = L.popup().setContent("<b>Pelo canal de Mira por cima do sequeiro</b>" + "</br>"
+                            + milesNauticalRoute + " nm" + "</br>" +
+                            "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
+                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
+                            + " <br> Clique na rota que pretende simular");
+
+                        market_BindRoute = L.marker([lat_gpx_GPX, lon_gpx_GPX]);
+                        popup.setLatLng(market_BindRoute.getLatLng());
+                        mymap.openPopup(popup);
+                        // market_BindRoute = new L.marker([lat_gpx_GPX, lon_gpx_GPX]).addTo(mymap)
+                        //     .bindPopup("Veia da Testada").openPopup();
+                    });
+
+                    g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
+                        if (market_BindRoute) {
+                            setTimeout(function () {
+                                mymap.removeLayer(market_BindRoute);
+                            }, 2000);
+                        }
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.61, -8.745], 12.6);
+        }
+
+
+
+
+        async function getSismar10_boating49444_OVAR() {
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+
+            let url_simar10_ovar = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/30m_sismar10_i-boating49444.gpx';
+
+
+
+            fetch(url_simar10_ovar)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#616980',
+                            weight: 10,
+                        },
+                        marker_options: {
+
+                            startIconUrl: null,
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM_14 = gpx.get_distance(),
+                            distKm = distM_14 / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            tempoTotal = gpx.get_total_time();
+                        eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate();
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                        arrayGPX_14 = [];
+                        arrayGPX_14.push(gpx._gpx)
+                    });
+                    somarNumero = 0;
+
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        simularRota = true;
+                        changeValue();
+                        document.getElementById('cais_partida').innerHTML = "Vagueira";
+                        document.getElementById('cais_chegada').innerHTML = "Ovar";
+
+                        clicadoPrimeiroCais = false;
+                        clicadoSegundoCais = false;
+                        //sidebar.open('infoRealTime');
+
+                    })
+                    g.on('mouseover', function (e) {
+
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
+                        xmlDoc = parser.parseFromString(arrayGPX_14[0], "text/xml")
+                        let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
+
+                        var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
+                        var lon_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lon');
+
+
+                        //Calcular distância para NM
+
+                        let distNM_14 = distM_14 * 0.0005;
+
+                        let nm_14casasdeci = distNM_12.toFixed(2);
+                        var milesNauticalRoute = parseFloat(nm_14casasdeci);
+
+                        let velocidadeUser = document.getElementById('velocidade').value;
+
+                        var tempo = milesNauticalRoute / velocidadeUser;
+                        var n = new Date(0, 0);
+                        n.setMinutes(+tempo * 60);
+                        var result = n.toTimeString().slice(0, 5);
+
+                        var splitTime_inicio = result.split(':');
+
+                        let horas_inicio = parseInt(splitTime_inicio[0]);
+                        let minutos_inicio = parseInt(splitTime_inicio[1]);
+
+                        let total_Rota = (horas_inicio * 60) + minutos_inicio;
+
+                        //****** Tempo de partida ******//
+                        let tempoPrim = document.getElementById('time_partida').value;
+                        var splitTimePartida = tempoPrim.split(':');
+                        let horasPartida = parseInt(splitTimePartida[0]);
+                        let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+
+                        let total_Partida_Rota = total_Partida + total_Rota;
+
+
+                        var mRotaChegada = new Date(0, 0);
+                        let hours_ofsumRote = total_Partida_Rota / 60;
+
+                        let d2cHours = hours_ofsumRote.toFixed(2);
+                        let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+
+
+                        let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+
+                        //Colocar popup apenas sem marker
+
+                        let popup = L.popup().setContent("<b>Pelo canal de São Jacinto</b>" + "</br>"
+                            + milesNauticalRoute + " nm" + "</br>" +
+                            "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
+                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
+                            + " <br> Clique na rota que pretende simular");
+
+                        market_BindRoute = L.marker([lat_gpx_GPX, lon_gpx_GPX]);
+                        popup.setLatLng(market_BindRoute.getLatLng());
+                        mymap.openPopup(popup);
+                        // market_BindRoute = new L.marker([lat_gpx_GPX, lon_gpx_GPX]).addTo(mymap)
+                        //     .bindPopup("Veia da Testada").openPopup();
+                    });
+
+                    g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
+                        if (market_BindRoute) {
+                            setTimeout(function () {
+                                mymap.removeLayer(market_BindRoute);
+                            }, 2000);
+                        }
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.678, -8.7166], 11);
+        }
+
+
+
     </script>
 
     <script type="text/javascript">
@@ -9028,6 +9421,13 @@
             localiz_distan.push(distancia27);
             local_Nome_rota.push('caisVagueira');
 
+            var lat_gpx28 = 40.859770;
+            var lon_gpx28 = -8.656540;
+
+            distancia28 = mymap.distance([lat_gpx28, lon_gpx28], [arrayClicado.lat, arrayClicado.lng]);
+
+            localiz_distan.push(distancia28);
+            local_Nome_rota.push('caisOvar');
 
             let dataOrdenada, guardardistancia2 = [];
             let primeira_pos;
@@ -9286,6 +9686,32 @@
                         document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                         arrayURL = [];
                         arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v30_ANGE_Vagueira.gpx');
+                        clicadoPrimeiroCais = false;
+                        clicadoSegundoCais = false;
+
+                    } 
+                }else if (guardardistancia2[0][1] == 'caisOvar') {
+                    
+                     if (arrayCoordenadasPartida[0] == 'caisVagueira') {
+                        getSismar10_boating49444_OVAR();
+
+                        if (marker_Chegada) { // check
+                            mymap.removeLayer(marker_Chegada); // remove
+                        }
+
+                        marker_Chegada = L.marker([40.560641, -8.757953], {
+                            icon: issIcon_2
+                        }).addTo(mymap);
+
+                        distanciaCerto = 30;
+                        //setValor_rota = 10000;
+                        setValor_rota = 19000;
+                        //AnimacValor_rota = 120;
+                        AnimacValor_rota = 200;
+                        milesRoute.push(duracaoRotaChoosen[0]);
+                        document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                        arrayURL = [];
+                        arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/sismar10_i-boating49444.gpx');
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
 
@@ -9590,6 +10016,15 @@
             local_Nome_rota.push('caisVagueira');
 
 
+            var lat_gpx28 = 40.859770;
+            var lon_gpx28 = -8.656540;
+
+            distancia28 = mymap.distance([lat_gpx28, lon_gpx28], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia28);
+            local_Nome_rota.push('caisOvar');
+
+
             // document.getElementById('btn_legenda2').style.opacity = "1";
             // document.getElementById('btn_legenda').style.opacity = "1";
             document.getElementById('load_fetch').style.display = "none";
@@ -9756,6 +10191,22 @@
                     }).addTo(mymap);
 
                     arrayCoordenadasPartida.push('caisTorreira');
+
+                } else if (guardardistancia[0][1] == 'caisOvar') {
+
+                    document.getElementById('load_fetch').style.display = "none";
+
+
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+
+
+                    marker_Teste1 = L.marker([40.859770, -8.656540], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    arrayCoordenadasPartida.push('caisOvar');
 
                 } else if (guardardistancia[0][1] == 'caisVagueira') {
 
@@ -10553,39 +11004,40 @@
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
-                } else if (guardardistancia[0][1] == 'getData_Volta10_3_20_GPX') {
+                } 
+                // else if (guardardistancia[0][1] == 'getData_Volta10_3_20_GPX') {
 
-                    distance_gpx_real = [];
-                    if (marker_Teste1) { // check
-                        mymap.removeLayer(marker_Teste1); // remove
-                    }
-                    marker_Teste1 = L.marker([40.56078, -8.75765], {
-                        icon: issIcon
-                    }).addTo(mymap);
+                //     distance_gpx_real = [];
+                //     if (marker_Teste1) { // check
+                //         mymap.removeLayer(marker_Teste1); // remove
+                //     }
+                //     marker_Teste1 = L.marker([40.56078, -8.75765], {
+                //         icon: issIcon
+                //     }).addTo(mymap);
 
-                    var gpxMAIN2 = new L.GPX(json7, { async: true }).on('loaded', function (e) {
-                        var gpx = e.target;
-                        distM = gpx.get_distance();
-                        distNM = distM * 0.0005;
-                        distance_gpx_real.push(distNM);
-                    });
-                    // let distance_Ange = mymap.distance([40.56078, -8.75765], [40.612488, -8.738059]);
-                    // let convert_milesnaut = distance_Ange * 0.0005;
-                    setTimeout(function () {
-                        marker_Teste1.bindPopup("<div class='div_bind'>" +
-                            "<h5>Da sua atual posição deseja ir até</h5>" +
-                            "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                            "<option selected disabled>Selecione uma rota</option>" +
-                            "<option value='getData_Volta10_3_20_GPX'>Para Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
-                            "</div>").openPopup();
-                        duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
-                        document.getElementById('load_fetch').style.display = "none";
+                //     var gpxMAIN2 = new L.GPX(json7, { async: true }).on('loaded', function (e) {
+                //         var gpx = e.target;
+                //         distM = gpx.get_distance();
+                //         distNM = distM * 0.0005;
+                //         distance_gpx_real.push(distNM);
+                //     });
+                //     // let distance_Ange = mymap.distance([40.56078, -8.75765], [40.612488, -8.738059]);
+                //     // let convert_milesnaut = distance_Ange * 0.0005;
+                //     setTimeout(function () {
+                //         marker_Teste1.bindPopup("<div class='div_bind'>" +
+                //             "<h5>Da sua atual posição deseja ir até</h5>" +
+                //             "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
+                //             "<option selected disabled>Selecione uma rota</option>" +
+                //             "<option value='getData_Volta10_3_20_GPX'>Para Ange - " + distance_gpx_real[0].toFixed(2) + " milhas</option>" +
+                //             "</div>").openPopup();
+                //         duracaoRotaChoosen.push(distance_gpx_real[0].toFixed(2))
+                //         document.getElementById('load_fetch').style.display = "none";
 
-                    }, 500);
-                    marker_Teste1.on('click', function (e) {
-                        this.openPopup();
-                    });
-                }
+                //     }, 500);
+                //     marker_Teste1.on('click', function (e) {
+                //         this.openPopup();
+                //     });
+                // }
 
 
 
@@ -12691,7 +13143,7 @@
                 // document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
                 // document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
 
-              
+
                 console.log(sortedData2[3] != undefined)
                 if (sortedData2[3] != null || sortedData2[3] != undefined) {
                     let data4 = new Date(sortedData2[3].SDATA);
@@ -12870,18 +13322,18 @@
                     }
 
                 } else {
-                    if(sortedData2[0] == undefined){
+                    if (sortedData2[0] == undefined) {
                         document.getElementById('info_mare_1').innerHTML = "&nbsp";
-                    document.getElementById('info_mare_2').innerHTML = "&nbsp";
-                    document.getElementById('info_mare_3').innerHTML = "&nbsp";
-                    document.getElementById('info_mare_4').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_2').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_3').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_4').innerHTML = "&nbsp";
 
-                    document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
-                    document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
-                    document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
-                    document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
                     }
-                
+
                 }
 
                 var verificarHorasMare_2;
