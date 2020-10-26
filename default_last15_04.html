@@ -7566,6 +7566,7 @@
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
+                       
 
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
@@ -7618,7 +7619,7 @@
 
                         let distNM_14 = distM_14 * 0.0005;
 
-                        let nm_14casasdeci = distNM_12.toFixed(2);
+                        let nm_14casasdeci = distNM_14.toFixed(2);
                         var milesNauticalRoute = parseFloat(nm_14casasdeci);
 
                         let velocidadeUser = document.getElementById('velocidade').value;
@@ -12512,9 +12513,15 @@
                 // }
                 //arrayhidrografico_posdia
 
-
-                console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
+                    console.log(sortedData)
+                    if(sortedData[3] != undefined){
+                        console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
                 console.log({ IH_data1: sortedData[0].ALT, IH_data2: sortedData[1].ALT, IH_data3: sortedData[2].ALT, IH_data4: sortedData[3].ALT })
+                    }else{
+                        console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours()})
+                console.log({ IH_data1: sortedData[0].ALT, IH_data2: sortedData[1].ALT, IH_data3: sortedData[2].ALT, })
+                    }
+
                 // console.log({
                 //     userHoras: UserHoras.getHours(),
                 //     IH_1_com_User: UserHoras.getHours() >= data1.getHours(),
