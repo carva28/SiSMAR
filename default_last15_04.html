@@ -7694,6 +7694,189 @@
             mymap.setView([40.678, -8.7166], 11);
         }
 
+        async function getSismar12_boating48930() {
+            mymap.eachLayer(function (layer) {
+                //console.log(layer.options.pane)
+                if (layer.options.pane == "overlayPane") {
+                    mymap.removeLayer(layer);
+                }
+            });
+
+            let url_simar10_ovar = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/30_sismar12_i-boating48930.gpx';
+
+            
+
+            fetch(url_simar10_ovar)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (json) {
+                    VEri_text_gpx = json;
+
+                    var g = new L.GPX(json, {
+                        async: true,
+                        parseElements: ['track'],
+                        polyline_options: {
+                            color: '#616980',
+                            weight: 10,
+                        },
+                        marker_options: {
+
+                            startIconUrl: null,
+                            'endIcon': new L.icon({
+                                iconUrl: 'fim_icnon.png',
+                                iconSize: [22, 32, 5],
+                                iconAnchor: [10, 30],
+                            })
+                        }
+
+                    });
+
+                    g.on('loaded', function (e) {
+                        var gpx = e.target,
+                            elevation_data = gpx.get_elevation_data();
+                        data_hora = gpx.get_start_time();
+                        name = gpx.get_name(),
+                            distM_14 = gpx.get_distance(),
+                            distKm = distM_14 / 1000,
+                            distKmRnd = distKm.toFixed(1),
+                            eleGain = gpx.get_elevation_gain().toFixed(2),
+                            tempoTotal = gpx.get_total_time();
+                        eleLoss = gpx.get_elevation_loss().toFixed(2);
+                        var info = "Name: " + name + "</br>" +
+                            "Distance: " + distKmRnd + " km </br>" +
+                            "Elevation Gain: " + eleGain + " m </br>"
+
+                        //document.getElementById('km').innerHTML = info;
+                        gpx.getLayers()[0].bindPopup(info)
+
+                       
+
+                        let date = new Date(data_hora);
+                        let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
+
+                        //document.getElementById('time').value = hora_min_gpx;
+                        let nyear = date.getYear();
+                        if (nyear < 1000) nyear += 1900;
+
+                        var nday = date.getDay(),
+                            nmonth = date.getMonth() + 1,
+                            ndate = date.getDate();
+                        UserHoras = new Date(nyear, nmonth, nday, date.getHours(), date.getMinutes());
+
+                        dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
+                        var arrayhidrografico = [];
+                        getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
+                        arrayGPX_14 = [];
+                        arrayGPX_14.push(gpx._gpx)
+                    });
+                    somarNumero = 0;
+
+                    g.on('click', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                        simularRota = true;
+                        changeValue();
+                        document.getElementById('cais_partida').innerHTML = "Vagueira";
+                        document.getElementById('cais_chegada').innerHTML = "Ovar";
+
+                        clicadoPrimeiroCais = false;
+                        clicadoSegundoCais = false;
+                        //sidebar.open('infoRealTime');
+
+                    })
+                    g.on('mouseover', function (e) {
+
+                        this.setStyle({
+                            color: '#0230ad',
+                        });
+
+                        xmlDoc = parser.parseFromString(arrayGPX_14[0], "text/xml")
+                        let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
+
+                        var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
+                        var lon_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lon');
+
+
+                        //Calcular distância para NM
+
+                        let distNM_14 = distM_14 * 0.0005;
+
+                        let nm_14casasdeci = distNM_14.toFixed(2);
+                        var milesNauticalRoute = parseFloat(nm_14casasdeci);
+
+                        let velocidadeUser = document.getElementById('velocidade').value;
+
+                        var tempo = milesNauticalRoute / velocidadeUser;
+                        var n = new Date(0, 0);
+                        n.setMinutes(+tempo * 60);
+                        var result = n.toTimeString().slice(0, 5);
+
+                        var splitTime_inicio = result.split(':');
+
+                        let horas_inicio = parseInt(splitTime_inicio[0]);
+                        let minutos_inicio = parseInt(splitTime_inicio[1]);
+
+                        let total_Rota = (horas_inicio * 60) + minutos_inicio;
+
+                        //****** Tempo de partida ******//
+                        let tempoPrim = document.getElementById('time_partida').value;
+                        var splitTimePartida = tempoPrim.split(':');
+                        let horasPartida = parseInt(splitTimePartida[0]);
+                        let total_Partida = (horasPartida * 60) + parseInt(splitTimePartida[1]);
+
+                        let total_Partida_Rota = total_Partida + total_Rota;
+
+
+                        var mRotaChegada = new Date(0, 0);
+                        let hours_ofsumRote = total_Partida_Rota / 60;
+
+                        let d2cHours = hours_ofsumRote.toFixed(2);
+                        let sumRoute_Hours = hours_ofsumRote.toString().split(".");
+
+
+                        let min_SumRoute = (hours_ofsumRote - sumRoute_Hours[0]) * 60;
+                        let minutos_Sum_Root = parseInt(min_SumRoute);
+                        let hours_Sum_Root = parseInt(sumRoute_Hours[0]);
+
+                        //Colocar popup apenas sem marker
+
+                        let popup = L.popup().setContent("<b>Pelo canal de São Jacinto</b>" + "</br>"
+                            + milesNauticalRoute + " nm" + "</br>" +
+                            "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
+                            + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
+                            + " <br> Clique na rota que pretende simular");
+
+                        market_BindRoute = L.marker([lat_gpx_GPX, lon_gpx_GPX]);
+                        popup.setLatLng(market_BindRoute.getLatLng());
+                        mymap.openPopup(popup);
+                        // market_BindRoute = new L.marker([lat_gpx_GPX, lon_gpx_GPX]).addTo(mymap)
+                        //     .bindPopup("Veia da Testada").openPopup();
+                    });
+
+                    g.on('mouseout', function (e) {
+
+                        this.setStyle({
+                            color: '#616980'
+                        });
+
+                        if (market_BindRoute) {
+                            setTimeout(function () {
+                                mymap.removeLayer(market_BindRoute);
+                            }, 2000);
+                        }
+
+                    });
+                    g.on('addpoint', function (e) {
+                        var gpx = e.target;
+                        arrayGPX = [];
+                        arrayGPX.push(gpx._gpx)
+                    })
+                    g.addTo(mymap);
+                });
+            mymap.setView([40.678, -8.7166], 11);
+        }
 
 
     </script>
@@ -12328,6 +12511,7 @@
                     arrayTempoApi.push(moment(startDate).add(segundosAPI_2.toFixed(2), 's').toDate().toISOString());
 
                     console.log(moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString());
+                    //console.log({segundosAPI_2:moment(startDate).add(segundosAPI_2.toFixed(2), 's').toDate().toISOString()});
 
                     //tempoISO_API.push({  date: moment(startDate).add(y, 'm').toDate().toISOString() } );
                     //points.push({ "date": moment(startDate).add(somaVelociUser, 'm').toDate().toISOString(), "latitude": coord_lat_API[y], "longitude": coord_long_API[y] });
@@ -13575,6 +13759,7 @@
 
                             }
 
+
                             popup.setLatLng([coordenadas[i][1], coordenadas[i][0]])
                             if (modal_eta) {
                                 arrayHorasUser_Pontos.push(User_Tempo_cada_coor.getHours());
@@ -13587,7 +13772,8 @@
                                     '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                     '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
                                     //'<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' +
-                                    '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
+                                    // '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
+                                    '<p> <b>Horas do utilizador: </b>' + points[i].date + '</p>' +
                                     '<p> <b>Horas adquirida: </b>' + tempoAPI[i] + '</p>' +
                                     '</div>')
                             } else {
@@ -13601,6 +13787,7 @@
                                     '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
                                     //'<p> <b>Horas do utilizador: </b>' + arrayHorasUser_Pontos[i] + ' horas e ' + arrayMinutosUser_Pontos[i] + ' minutos ' + '</p>' +
                                     '<p> <b>Horas adquirida: </b>' + tempoAPI[i] + '</p>' +
+                                    //'<p> <b>Horas do utilizador: </b>' + points[i].date + '</p>' +
 
                                     '</div>')
                             }
@@ -13951,6 +14138,7 @@
 
 
                         var horasChegada_Array = new Date(arrayTempoApi[arrayTempoApi.length - 1]);
+                        
 
                         document.getElementById('eta_1').innerHTML = horasChegada_Array.getHours() + ":" + horasChegada_Array.getMinutes();
 
@@ -14380,7 +14568,8 @@
                                 '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
                                 '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                 '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
-                                '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
+                                //'<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
+                                '<p> <b>Horas do utilizador: </b>' + points[i].date + '</p>' +
                                 '<p> <b>Horas adquirida: </b>' + tempoAPI[i] + '</p>' +
 
                                 //'<p> <b>Horas do utilizador: </b>' + User_Tempo_cada_coor.getHours() + ' horas e ' + User_Tempo_cada_coor.getMinutes() + ' minutos ' + '</p>' +
@@ -14393,7 +14582,9 @@
                                 '<p> <b>DifM: </b>' + diferençaAlturaMare.toFixed(2) + '</p>' +
                                 '<p> <b>Z<sub>S</sub>: </b>' + Z2_NOvaRota.toFixed(2) + '</p>' +
                                 '<p> <b>F<sub>S</sub>: </b>' + z2_menos_calado.toFixed(2) + '</p>' +
-                                '<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
+                                //'<p> <b>Horas do utilizador: </b>' + arrayTempoApi[i] + '</p>' +
+
+                                '<p> <b>Horas do utilizador: </b>' + points[i].date + '</p>' +
                                 '<p> <b>Horas adquirida: </b>' + tempoAPI[i] + '</p>' +
 
                                 //'<p> <b>Horas do utilizador: </b>' + arrayHorasUser_Pontos[i] + ' horas e ' + arrayMinutosUser_Pontos[i] + ' minutos ' + '</p>' +
