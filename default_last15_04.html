@@ -2904,9 +2904,12 @@
             }).bindPopup('Entrocamento Terminal Norte.');
             entrocamento_ANGE = L.marker([40.61313, -8.74731], {
                 icon: entroca_image
-            }).bindPopup('Entrocamento ANGE.');
+            }).bindPopup('Entrocamento ANGE.'),
+            entrocamento_lota = L.marker([40.646005, -8.662849], {
+                    icon: entroca_image
+                }).bindPopup('Lota / COMPORTAS - não é entrocamento');
 
-            var entrocamentosRia = L.layerGroup([entrocamento_varela, entrocamento_moranzel, entrocamento_sjacinto, entrocamento_terminalSul, entrocamento_apara, entrocamento_gafanhaquem, entrocamento_terminalNorte, entrocamento_ANGE]);
+            var entrocamentosRia = L.layerGroup([entrocamento_varela, entrocamento_moranzel, entrocamento_sjacinto, entrocamento_terminalSul, entrocamento_apara, entrocamento_gafanhaquem, entrocamento_terminalNorte, entrocamento_ANGE,entrocamento_lota]);
             entrocamentosRia.addTo(mymap);
         }
 
@@ -13657,6 +13660,7 @@
                         }
                     }
                 }
+
                 let variableTruefromApi = getDATAPIHidromod(initialID, points);
                 let coordenadasSemMare = [];
                 setTimeout(function () {
@@ -14086,9 +14090,11 @@
                         console.log('Else_sem_rota');
                         console.log({ peso_mare_minuto2: mare_por_minuto2.length });
 
+                        
                         //getInfo();
                         console.log(arrayhidrografico);
                         console.log(arrayhidrografico.length > 0);
+
                         // if (arrayhidrografico.length > 0) {
                         //     setValor_rota = setValor_rota + 500;
                         //     setTimeout(function () { calculo(valor_cal, cal_sup, cal_inf); }, 1000);
@@ -14877,7 +14883,7 @@
 
                     }
                 } else {
-                    console.log('Else_sem_rota')
+                    console.log('Else_sem_rota mare_minuto2')
                 }
                 if (modal_eta) {
 
@@ -16803,6 +16809,8 @@
                                 // mare_por_minuto2 = [];
                                 // mare_por_minuto2.push(resultData.values[3])
                                 // console.log(mare_por_minuto2)
+
+                                
 
                                 try {
 
