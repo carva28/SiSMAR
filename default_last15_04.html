@@ -7566,7 +7566,7 @@
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
-                       
+
 
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
@@ -7702,11 +7702,11 @@
                 }
             });
 
-            let url_simar10_ovar = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/30_sismar12_i-boating48930.gpx';
+            let url_simar12_terminalSul = 'https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/30_sismar12_i-boating48930.gpx';
 
-            
 
-            fetch(url_simar10_ovar)
+
+            fetch(url_simar12_terminalSul)
                 .then(function (response) {
                     return response.text();
                 })
@@ -7737,8 +7737,8 @@
                             elevation_data = gpx.get_elevation_data();
                         data_hora = gpx.get_start_time();
                         name = gpx.get_name(),
-                            distM_14 = gpx.get_distance(),
-                            distKm = distM_14 / 1000,
+                            distM_15 = gpx.get_distance(),
+                            distKm = distM_15 / 1000,
                             distKmRnd = distKm.toFixed(1),
                             eleGain = gpx.get_elevation_gain().toFixed(2),
                             tempoTotal = gpx.get_total_time();
@@ -7750,7 +7750,7 @@
                         //document.getElementById('km').innerHTML = info;
                         gpx.getLayers()[0].bindPopup(info)
 
-                       
+
 
                         let date = new Date(data_hora);
                         let hora_min_gpx = date.getHours() + ":" + date.getMinutes();
@@ -7767,8 +7767,8 @@
                         dataViajaUser = [nyear, date.getMonth() + 1, date.getDate()];
                         var arrayhidrografico = [];
                         getInfo2(dataViajaUser[0], dataViajaUser[1], dataViajaUser[2])
-                        arrayGPX_14 = [];
-                        arrayGPX_14.push(gpx._gpx)
+                        arrayGPX_15 = [];
+                        arrayGPX_15.push(gpx._gpx)
                     });
                     somarNumero = 0;
 
@@ -7792,7 +7792,7 @@
                             color: '#0230ad',
                         });
 
-                        xmlDoc = parser.parseFromString(arrayGPX_14[0], "text/xml")
+                        xmlDoc = parser.parseFromString(arrayGPX_15[0], "text/xml")
                         let number_GPXPop = xmlDoc.getElementsByTagName("trkpt").length / 2;
 
                         var lat_gpx_GPX = xmlDoc.getElementsByTagName("trkpt")[parseInt(number_GPXPop)].getAttribute('lat');
@@ -7801,10 +7801,10 @@
 
                         //Calcular distância para NM
 
-                        let distNM_14 = distM_14 * 0.0005;
+                        let distNM_15 = distM_15 * 0.0005;
 
-                        let nm_14casasdeci = distNM_14.toFixed(2);
-                        var milesNauticalRoute = parseFloat(nm_14casasdeci);
+                        let nm_15casasdeci = distNM_15.toFixed(2);
+                        var milesNauticalRoute = parseFloat(nm_15casasdeci);
 
                         let velocidadeUser = document.getElementById('velocidade').value;
 
@@ -7842,7 +7842,7 @@
 
                         //Colocar popup apenas sem marker
 
-                        let popup = L.popup().setContent("<b>Pelo canal de São Jacinto</b>" + "</br>"
+                        let popup = L.popup().setContent("<b>Pelo canal da Vila</b>" + "</br>"
                             + milesNauticalRoute + " nm" + "</br>" +
                             "Duração: " + result + " <br> <span id='valor_veloc_sim'>Se for a uma velocidade de " + velocidadeUser + " Knots</span>"
                             + " <br> Tempo de chegada:" + hours_Sum_Root + ":" + minutos_Sum_Root
@@ -7875,7 +7875,7 @@
                     })
                     g.addTo(mymap);
                 });
-            mymap.setView([40.678, -8.7166], 11);
+            mymap.setView([40.646121, -8.668191], 14);
         }
 
 
@@ -8871,6 +8871,8 @@
                 .then(response => response.json())
                 .then(contents => arrayhidrografico_anteriordia.push(contents))
                 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+
+                
         }
 
         function onclick_modal_data_ondia15() {
@@ -9613,6 +9615,13 @@
             localiz_distan.push(distancia28);
             local_Nome_rota.push('caisOvar');
 
+            var lat_gpx29 = 40.63849;
+            var lon_gpx29 = -8.68979;
+            distancia29 = mymap.distance([lat_gpx29, lon_gpx29], [arrayClicado.lat, arrayClicado.lng]);
+
+            localiz_distan.push(distancia29);
+            local_Nome_rota.push('caisTerminalSul');
+
             let dataOrdenada, guardardistancia2 = [];
             let primeira_pos;
             if (localiz_distan != null) {
@@ -9873,10 +9882,10 @@
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
 
-                    } 
-                }else if (guardardistancia2[0][1] == 'caisOvar') {
-                    
-                     if (arrayCoordenadasPartida[0] == 'caisVagueira') {
+                    }
+                } else if (guardardistancia2[0][1] == 'caisOvar') {
+
+                    if (arrayCoordenadasPartida[0] == 'caisVagueira') {
                         getSismar10_boating49444_OVAR();
 
                         if (marker_Chegada) { // check
@@ -9900,7 +9909,35 @@
                         clicadoSegundoCais = false;
 
                     }
+                } else if (guardardistancia2[0][1] == 'caisTerminalSul') {
+
+                    if (arrayCoordenadasPartida[0] == 'caisLotaComportas') {
+                        getSismar12_boating48930();
+
+                        if (marker_Chegada) { // check
+                            mymap.removeLayer(marker_Chegada); // remove
+                        }
+
+                        marker_Chegada = L.marker([40.63849, -8.68979], {
+                            icon: issIcon_2
+                        }).addTo(mymap);
+
+                        distanciaCerto = 30;
+                        //setValor_rota = 10000;
+                        setValor_rota = 12000;
+                        //AnimacValor_rota = 120;
+                        AnimacValor_rota = 200;
+                        milesRoute.push(duracaoRotaChoosen[0]);
+                        document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                        arrayURL = [];
+                        arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/30_sismar12_i-boating48930.gpx');
+                        clicadoPrimeiroCais = false;
+                        clicadoSegundoCais = false;
+
+                    }
                 }
+
+
             }
 
         }
@@ -10209,6 +10246,18 @@
             local_Nome_rota.push('caisOvar');
 
 
+
+
+
+            var lat_gpx30 = 40.646005;
+            var lon_gpx30 = -8.662849;
+
+            distancia30 = mymap.distance([lat_gpx30, lon_gpx30], [arrayClicked.lat, arrayClicked.lng]);
+            localiz_distan.push(distancia30);
+            local_Nome_rota.push('caisLotaComportas');
+
+
+
             // document.getElementById('btn_legenda2').style.opacity = "1";
             // document.getElementById('btn_legenda').style.opacity = "1";
             document.getElementById('load_fetch').style.display = "none";
@@ -10392,6 +10441,22 @@
 
                     arrayCoordenadasPartida.push('caisOvar');
 
+                } else if (guardardistancia[0][1] == 'caisLotaComportas') {
+
+            
+                    document.getElementById('load_fetch').style.display = "none";
+
+
+                    if (marker_Teste1) { // check
+                        mymap.removeLayer(marker_Teste1); // remove
+                    }
+
+                    marker_Teste1 = L.marker([40.646005, -8.662849], {
+                        icon: issIcon
+                    }).addTo(mymap);
+
+                    arrayCoordenadasPartida.push('caisLotaComportas');
+                    
                 } else if (guardardistancia[0][1] == 'caisVagueira') {
 
                     document.getElementById('load_fetch').style.display = "none";
@@ -11057,47 +11122,8 @@
                     }, 250);
 
 
-                } else if (guardardistancia[0][1] == 'getData4GPX') {
-                    document.getElementById('load_fetch').style.display = "none";
-
-                    distance_gpx_real = [];
-                    if (marker_Teste1) { // check
-                        mymap.removeLayer(marker_Teste1); // remove
-                    }
-                    marker_Teste1 = L.marker([40.64138528006924, -8.654335141181946], {
-                        icon: issIcon
-                    }).addTo(mymap);
-
-                    var gpxMAINAv = new L.GPX(json3, { async: true }).on('loaded', function (e) {
-                        var gpx = e.target;
-                        distM = gpx.get_distance();
-                        distNM = distM * 0.0005;
-                        distance_gpx_real.push(distNM);
-                    });
-                    setTimeout(function () {
-                        let velocidadeUser = document.getElementById('velocidade').value;
-                        if (!velocidadeUser) {
-                            alert('insira uma velocidade')
-                        } else {
-                            let dc2_dist = distance_gpx_real[0].toFixed(2);
-                            let tempo = dc2_dist / velocidadeUser;
-                            var n = new Date(0, 0);
-                            n.setMinutes(+tempo * 60);
-                            var result = n.toTimeString().slice(0, 5);
-                            marker_Teste1.bindPopup("<div class='div_bind'>" +
-                                "<h5>Da sua atual posição deseja ir até</h5>" +
-                                "<select class='div_botoes_bind' id='sel1' onchange='selecioneLocal()'>" +
-                                "<option selected disabled>Selecione uma rota</option>" +
-                                "<option value='getData4GPX'>Para Aveiro - " + distance_gpx_real[0].toFixed(2) + "milhas</option>" +
-                                "</div>").openPopup();
-
-                        }
-
-                    }, 1000);
-                    marker_Teste1.on('click', function (e) {
-                        this.openPopup();
-                    });
-                } else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico'
+                } 
+                 else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico'
                     || guardardistancia[0][1] == 'NovaRotaCriada') {
 
                     distance_gpx_real = [];
@@ -11188,7 +11214,7 @@
                     marker_Teste1.on('click', function (e) {
                         this.openPopup();
                     });
-                } 
+                }
                 // else if (guardardistancia[0][1] == 'getData_Volta10_3_20_GPX') {
 
                 //     distance_gpx_real = [];
@@ -12632,6 +12658,8 @@
                     console.log("eu sou a rota com null")
                 }
 
+                console.log(sortedData);
+
                 let data1, data2, data3, data4;
                 var eightMore = false;
                 if (data_Anterior == true) {
@@ -12697,14 +12725,14 @@
                 // }
                 //arrayhidrografico_posdia
 
-                    console.log(sortedData)
-                    if(sortedData[3] != undefined){
-                        console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
-                console.log({ IH_data1: sortedData[0].ALT, IH_data2: sortedData[1].ALT, IH_data3: sortedData[2].ALT, IH_data4: sortedData[3].ALT })
-                    }else{
-                        console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours()})
-                console.log({ IH_data1: sortedData[0].ALT, IH_data2: sortedData[1].ALT, IH_data3: sortedData[2].ALT, })
-                    }
+                console.log(sortedData)
+                if (sortedData[3] != undefined) {
+                    console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours(), IH_data4: data4.getHours() })
+                    console.log({ IH_data1: sortedData[0].ALT, IH_data2: sortedData[1].ALT, IH_data3: sortedData[2].ALT, IH_data4: sortedData[3].ALT })
+                } else {
+                    console.log({ IH_data1: data1.getHours(), IH_data2: data2.getHours(), IH_data3: data3.getHours() })
+                    console.log({ IH_data1: sortedData[0].ALT, IH_data2: sortedData[1].ALT, IH_data3: sortedData[2].ALT, })
+                }
 
                 // console.log({
                 //     userHoras: UserHoras.getHours(),
@@ -14061,10 +14089,10 @@
                         //getInfo();
                         console.log(arrayhidrografico);
                         console.log(arrayhidrografico.length > 0);
-                        if (arrayhidrografico.length > 0) {
-                            setValor_rota = setValor_rota + 500;
-                            setTimeout(function () { calculo(valor_cal, cal_sup, cal_inf); }, 1000);
-                        }
+                        // if (arrayhidrografico.length > 0) {
+                        //     setValor_rota = setValor_rota + 500;
+                        //     setTimeout(function () { calculo(valor_cal, cal_sup, cal_inf); }, 1000);
+                        // }
 
 
                     }
@@ -14138,7 +14166,7 @@
 
 
                         var horasChegada_Array = new Date(arrayTempoApi[arrayTempoApi.length - 1]);
-                        
+
 
                         document.getElementById('eta_1').innerHTML = horasChegada_Array.getHours() + ":" + horasChegada_Array.getMinutes();
 
