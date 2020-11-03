@@ -1301,6 +1301,46 @@
             display: block;
         }
 
+
+
+        .container_route {
+            margin: 20px;
+        }
+
+        #p_info_rota_partida {
+            float: left;
+            margin-right: 4rem;
+        }
+
+        #p_info_rota_chegada {
+            clear: both;
+            float: left;
+            margin-right: 3rem;
+        }
+
+        #input_partida,
+        #input_chegada {
+            font-size: 1rem;
+            background-color: #fff;
+            border: 2px solid #214198;
+            border-radius: 5px;
+            width: 60%;
+            text-align: center;
+        }
+
+        #input_chegada {
+            height: 30px;
+        }
+
+        #input_partida {
+            margin-bottom: 22px;
+        }
+
+        #input_partida:focus,
+        #input_chegada:focus {
+            border: 4px solid #214198;
+        }
+
         /***** MEDIA QUERIES ***********/
 
         @media (min-width: 576px) {
@@ -1816,9 +1856,15 @@
         <p>Info maré</p>
     </div>
 
+    <div id="div_eight">
+        <p>Definições de Rota</p>
+    </div>
+
     <div id="div_five">
         <p>Simulação da Rota</p>
     </div>
+
+
 
     <div id="div_six">
         <p>Legenda</p>
@@ -1827,6 +1873,8 @@
     <div id="div_seven">
         <p>Definições</p>
     </div>
+
+
 
     <div id="sidebar" class="sidebar collapsed">
         <div id="mobile" class="sidebar-tabs">
@@ -2218,6 +2266,25 @@
             </div>
 
 
+            <div class="sidebar-pane" id="infoRoute">
+                <h1 class="sidebar-header">
+                    Definições de rota
+                    <span id="close_side" class="sidebar-close"> <i class="fas fa-times-circle"></i></span>
+                </h1>
+                <div class="container_route">
+                    <p id="p_info_rota_partida">Partida</p>
+                    <input type="text" id="input_partida" />
+                    <p id="p_info_rota_chegada">Chegada</p>
+                    <div id="route_chegada">
+                        <select id="input_chegada" onchange='selecioneLocal()'></select>
+                    </div>
+                    <!-- <input type="text" id="input_chegada" /> -->
+                </div>
+
+
+            </div>
+
+
             <!-- //****************************************************************************
             ************************************************************************************ -->
 
@@ -2313,6 +2380,8 @@
                 <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li> -->
                 <li id="tab_side4" onmouseover="MouseOver('div_four');" onmouseout="MouseOut('div_four');"><a
                         href="#infoMar" role="tab"><i class="fas fa-water"></i></a></li>
+                <li id="tab_side6" onmouseover="MouseOver('div_eight');" onmouseout="MouseOut('div_eight');"><a
+                        href="#infoRoute" role="tab"><i class="fas fa-route"></i></a></li>
                 <li id="tab_side5" onmouseover="MouseOver('div_five');" onmouseout="MouseOut('div_five');"><a
                         href="#infoRealTime" role="tab"><i class="fas fa-stopwatch"></i></a></li>
             </ul>
@@ -2343,6 +2412,13 @@
                     METOC
                 </p>
 
+            </div>
+
+            <div class="sidebar-pane" id="infoRoute">
+                <h1 class="sidebar-header">
+                    Definições de rota
+                    <span id="close_side" class="sidebar-close"> <i class="fas fa-times-circle"></i></span>
+                </h1>
             </div>
 
             <div class="sidebar-pane" id="profile">
@@ -2427,6 +2503,7 @@
                 </div>
             </div>
 
+
             <div class="sidebar-pane" id="messages">
 
                 <h1 class="sidebar-header">Rotas<span id="close_side3" class="sidebar-close">
@@ -2478,6 +2555,7 @@
                     </h5>
                 </div>
             </div>
+
 
 
             <div class="sidebar-pane" id="infoMar">
@@ -2558,6 +2636,8 @@
                 </h1>
 
             </div>
+
+
         </div>
     </div>
 
@@ -2905,11 +2985,11 @@
             entrocamento_ANGE = L.marker([40.61313, -8.74731], {
                 icon: entroca_image
             }).bindPopup('Entrocamento ANGE.'),
-            entrocamento_lota = L.marker([40.646005, -8.662849], {
+                entrocamento_lota = L.marker([40.646005, -8.662849], {
                     icon: entroca_image
                 }).bindPopup('Lota / COMPORTAS - não é entrocamento');
 
-            var entrocamentosRia = L.layerGroup([entrocamento_varela, entrocamento_moranzel, entrocamento_sjacinto, entrocamento_terminalSul, entrocamento_apara, entrocamento_gafanhaquem, entrocamento_terminalNorte, entrocamento_ANGE,entrocamento_lota]);
+            var entrocamentosRia = L.layerGroup([entrocamento_varela, entrocamento_moranzel, entrocamento_sjacinto, entrocamento_terminalSul, entrocamento_apara, entrocamento_gafanhaquem, entrocamento_terminalNorte, entrocamento_ANGE, entrocamento_lota]);
             entrocamentosRia.addTo(mymap);
         }
 
@@ -3116,6 +3196,7 @@
                                 let market_fim_meteo = L.marker([lat_gpx_GPX_fim, lon_gpx_GPX_fim]);
                                 popup_tempo_fim.setLatLng(market_fim_meteo.getLatLng());
                                 mymap.openPopup(popup_tempo_fim);
+
                             });
                         });
                     });
@@ -4807,7 +4888,7 @@
                         document.getElementById('cais_partida').innerHTML = "Bico";
                         document.getElementById('cais_chegada').innerHTML = "ANGE";
                         changeValue();
-                        //sidebar.open('infoRealTime');
+                        //sidebar.open('infoRoute');
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
                     })
@@ -5459,20 +5540,7 @@
                         changeValue();
 
                         document.getElementById('cais_partida').innerHTML = "ANGE";
-                        //document.getElementById('cais_chegada').innerHTML = "Vagueira";
-
-                        document.getElementById('cais_chegada').innerHTML = "<select class='selectionModal' id='sel1' style='width: 85px;' onchange='selecioneLocal()'>" +
-                            "<option selected disabled>Selecione uma rota</option>" +
-                            "<option value='getCostaNovaGPX'>Costa Nova </option>" +
-                            "<option value='getTorreiraGPX_Revserse'>Para Torreira 10 em 10</option>" +
-                            "<option value='getTorreiraGPX_completa'>Torreira Completa 13_08</option>" +
-                            "<option value='getRioNovoGPX_completa_30'>Rio Novo - ANGE  3</option>" +
-                            "<option value='getData_IDA10_3_20_GPX' selected>Vagueira </option>" +
-                            "<option value='getIdaBicoGPX'>Bico (debugging) </option>" +
-                            "<option value='getDataGPX_ANGE_Torreira_1705'>Torreira 17/05 </option>" +
-                            "<option value='getDataGPX_ANGE_RioNovo_2006'>Lota Velha </option>" +
-                            "<option value='getDataGPX_PonteBarra_Testada'>Testada </option>"
-                        "</select>";
+                        document.getElementById('cais_chegada').innerHTML = "Vagueira";
 
 
                         //sidebar.open('infoRealTime');
@@ -7600,6 +7668,12 @@
                         document.getElementById('cais_partida').innerHTML = "Vagueira";
                         document.getElementById('cais_chegada').innerHTML = "Ovar";
 
+                        document.getElementById('cais_chegada').innerHTML = "<select class='selectionModal' id='sel1' style='width: 85px;' onchange='selecioneLocal()'>" +
+                            "<option  disabled>Selecione uma rota</option>" +
+                            "<option selected value='getSismar10_boating49444_OVAR'>Ovar</option>" +
+                            "<option value='getData_Volta10_3_20_GPX'>ANGE</option>" +
+                            "</select>";
+
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
                         //sidebar.open('infoRealTime');
@@ -7783,6 +7857,8 @@
                         changeValue();
                         document.getElementById('cais_partida').innerHTML = "Vagueira";
                         document.getElementById('cais_chegada').innerHTML = "Ovar";
+
+
 
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
@@ -8176,6 +8252,7 @@
             } else {
                 horas_display_4 = horasInfo4.getHours();
             }
+
 
 
             if (horasInfo4.getHours() == 0 || horasInfo4.getHours() == 00) {
@@ -8875,7 +8952,7 @@
                 .then(contents => arrayhidrografico_anteriordia.push(contents))
                 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
 
-                
+
         }
 
         function onclick_modal_data_ondia15() {
@@ -9161,6 +9238,8 @@
 
             if (simularRota) {
 
+                SimulacaoRota = true;
+
                 markersAPI();
 
                 inicoCountSeconds = 0;
@@ -9282,6 +9361,7 @@
         var marker_CaisANGEVagueira;
         var marker_CaisTorreira;
 
+        var SimulacaoRota = false;
         var arrayCoor = [];
 
         // document.getElementById('btn_legenda3').onclick = function () {
@@ -9323,48 +9403,51 @@
 
         mymap.on('click', function (e) {
 
-            mymap.removeLayer(start_boat);
-
-            if (start_boat) {
+            if (SimulacaoRota == false) {
                 mymap.removeLayer(start_boat);
+
+                if (start_boat) {
+                    mymap.removeLayer(start_boat);
+                }
+
+                if (tutorial) {
+                    // document.getElementById('tutorial01').style.display = "none";
+                    // document.getElementById('tutorial02').style.display = "block";
+                    // document.getElementById('gps_ringit').style.display = "none";
+                    document.getElementById('tutorial01').style.display = "none";
+                    document.getElementById('gps_ringit').style.display = "none";
+                }
+
+
+
+                arrayCoor = [];
+                var coord = e.latlng;
+                var lat = coord.lat;
+                var lng = coord.lng;
+
+                if (newMarker) { // check
+                    mymap.removeLayer(newMarker); // remove
+                }
+                arrayCoor.push(coord);
+
+                newMarker = L.icon({
+                    iconUrl: 'user_marker.png',
+                    iconSize: [30, 40, 5],
+                    iconAnchor: [10, 30],
+                });
+                newMarker = new L.marker([coord.lat, coord.lng], {
+                    icon: newMarker
+                }).addTo(mymap);
+
+                if (clicadoPrimeiroCais) {
+                    escolherCaisChegada(arrayCoor[0]);
+                } else if (clicadoSegundoCais) {
+
+                } else {
+                    verificaClickCoor(arrayCoor[0]);
+                }
             }
 
-            if (tutorial) {
-                // document.getElementById('tutorial01').style.display = "none";
-                // document.getElementById('tutorial02').style.display = "block";
-                // document.getElementById('gps_ringit').style.display = "none";
-                document.getElementById('tutorial01').style.display = "none";
-                document.getElementById('gps_ringit').style.display = "none";
-            }
-
-
-
-            arrayCoor = [];
-            var coord = e.latlng;
-            var lat = coord.lat;
-            var lng = coord.lng;
-
-            if (newMarker) { // check
-                mymap.removeLayer(newMarker); // remove
-            }
-            arrayCoor.push(coord);
-
-            newMarker = L.icon({
-                iconUrl: 'user_marker.png',
-                iconSize: [30, 40, 5],
-                iconAnchor: [10, 30],
-            });
-            newMarker = new L.marker([coord.lat, coord.lng], {
-                icon: newMarker
-            }).addTo(mymap);
-
-            if (clicadoPrimeiroCais) {
-                escolherCaisChegada(arrayCoor[0]);
-            } else if (clicadoSegundoCais) {
-
-            } else {
-                verificaClickCoor(arrayCoor[0]);
-            }
 
         });
 
@@ -10249,9 +10332,6 @@
             local_Nome_rota.push('caisOvar');
 
 
-
-
-
             var lat_gpx30 = 40.646005;
             var lon_gpx30 = -8.662849;
 
@@ -10446,7 +10526,7 @@
 
                 } else if (guardardistancia[0][1] == 'caisLotaComportas') {
 
-            
+
                     document.getElementById('load_fetch').style.display = "none";
 
 
@@ -10459,7 +10539,7 @@
                     }).addTo(mymap);
 
                     arrayCoordenadasPartida.push('caisLotaComportas');
-                    
+
                 } else if (guardardistancia[0][1] == 'caisVagueira') {
 
                     document.getElementById('load_fetch').style.display = "none";
@@ -10474,6 +10554,12 @@
                     }).addTo(mymap);
 
                     arrayCoordenadasPartida.push('caisVagueira');
+
+                    document.getElementById('cais_chegada').innerHTML = "<select class='selectionModal' id='sel1' style='width: 85px;' onchange='selecioneLocal()'>" +
+                        "<option  selected disabled>Selecione uma rota</option>" +
+                        "<option  value='getSismar10_boating49444_OVAR'>Ovar</option>" +
+                        "<option value='getData_Volta10_3_20_GPX'>ANGE</option>" +
+                        "</select>";
 
                 } else if (guardardistancia[0][1] == 'caisBico') {
 
@@ -10491,6 +10577,23 @@
                     arrayCoordenadasPartida.push('caisBico');
 
                 } else if (guardardistancia[0][1] == 'caisANGE') {
+
+                    sidebar.open('infoRoute');
+
+
+                    document.getElementById('input_partida').value = "ANGE";
+                    document.getElementById('cais_partida').innerHTML = "ANGE";
+
+                    document.getElementById('input_partida').disabled = true;
+
+                    document.getElementById('input_chegada').innerHTML =
+                        "<option selected disabled> Escolha o destino </option>" +
+                        "<option value='getCostaNovaGPX'>Costa Nova </option>" +
+                        "<option value='getTorreiraGPX_completa'>Torreira Completa 13_08</option>" +
+                        "<option value='getRioNovoGPX_completa_30'>Rio Novo - ANGE  30</option>" +
+                        "<option value='getRioNovoGPX_completa_30'>Rio Novo - ANGE  30</option>" +
+                        "<option value='getData_IDA10_3_20_GPX'>Vagueira </option>" +
+                        "<option value='getDataGPX_PonteBarra_Testada'>Testada </option>";
 
                     document.getElementById('load_fetch').style.display = "none";
 
@@ -11125,8 +11228,8 @@
                     }, 250);
 
 
-                } 
-                 else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico'
+                }
+                else if (guardardistancia[0][1] == 'getDataGPX_RegressoBico'
                     || guardardistancia[0][1] == 'NovaRotaCriada') {
 
                     distance_gpx_real = [];
@@ -11269,8 +11372,16 @@
 
         function selecioneLocal() {
             comecAnimarfirst = false;
+            var value_escolhido = undefined;
 
-            var value_escolhido = document.getElementById("sel1").value;
+            console.log(document.getElementById("input_chegada"));
+
+            if (document.getElementById("input_chegada").value) {
+                value_escolhido = document.getElementById("input_chegada").value;
+            } else if (document.getElementById("sel1").value) {
+                value_escolhido = document.getElementById("sel1").value;
+            }
+
             $('#simuPlay').removeAttr("disabled");
 
             sidebar.open('infoRealTime');
@@ -11313,9 +11424,11 @@
 
 
 
-
+            document.getElementById('issMap').style.cursor = "grab";
+            document.getElementById('escolher_chegada').style.display = "none";
 
             switch (value_escolhido) {
+
                 case 'getTorreiraGPX':
                     getTorreiraGPX();
                     nomeDestino = [];
@@ -11671,6 +11784,57 @@
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
                         "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 7000);
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+                case 'getSismar12_boating48930':
+
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    arrayURL = [];
+                    distanciaCerto = 30;
+                    setValor_rota = 12000;
+                    AnimacValor_rota = 200;
+                    milesRoute.push(duracaoRotaChoosen[0]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/30_sismar12_i-boating48930.gpx');
+                    clicadoPrimeiroCais = false;
+                    clicadoSegundoCais = false;
+                    getSismar12_boating48930();
+                    nomeDestino = [];
+                    nomeDestino.push("Terminal sul");
+                    document.getElementById('tutorial03').style.display = "block";
+
+                    setTimeout(function () {
+                        marker_Teste1.closePopup();
+                    }, 7000);
+                    marker_Teste1.on('click', function (e) {
+                        marker_Teste1.openPopup();
+                    });
+                    break;
+                case 'getSismar10_boating49444_OVAR':
+
+
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    arrayURL = [];
+                    distanciaCerto = 30;
+                    setValor_rota = 12000;
+                    AnimacValor_rota = 200;
+                    milesRoute.push(duracaoRotaChoosen[0]);
+                    document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
+                    arrayURL = [];
+                    arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas%20Participantes/30m_sismar10_i-boating49444.gpx');
+                    clicadoPrimeiroCais = false;
+                    clicadoSegundoCais = false;
+                    getSismar10_boating49444_OVAR();
+                    nomeDestino = [];
+                    nomeDestino.push("Ovar");
+                    document.getElementById('tutorial03').style.display = "block";
+
                     setTimeout(function () {
                         marker_Teste1.closePopup();
                     }, 7000);
@@ -14090,7 +14254,7 @@
                         console.log('Else_sem_rota');
                         console.log({ peso_mare_minuto2: mare_por_minuto2.length });
 
-                        
+
                         //getInfo();
                         console.log(arrayhidrografico);
                         console.log(arrayhidrografico.length > 0);
@@ -16654,12 +16818,20 @@
         }
 
         function clearmap() {
+
+            document.getElementById('input_partida').disabled = false;
+            SimulacaoRota = false;
             mymap.eachLayer(function (layer) {
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
-                    mymap.removeLayer(markerAnimado);
-                    mymap.removeLayer(firstpolyline2);
+                    if(markerAnimado){
+                        mymap.removeLayer(markerAnimado);
+                    }
+                    if(firstpolyline2){
+                        mymap.removeLayer(firstpolyline2);
+                    }
+                    //mymap.removeLayer(firstpolyline2);
                 }
             });
             document.getElementById('date').value = "";
@@ -16810,7 +16982,7 @@
                                 // mare_por_minuto2.push(resultData.values[3])
                                 // console.log(mare_por_minuto2)
 
-                                
+
 
                                 try {
 
