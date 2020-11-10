@@ -1341,6 +1341,83 @@
             border: 4px solid #214198;
         }
 
+
+
+        .horizontal-scroll-wrapper {
+
+            display: block;
+            margin: auto;
+            width: 80px;
+            max-height: 420px;
+            margin: 0;
+            background: #abc;
+            overflow-y: auto;
+            overflow-x: hidden;
+            transform: rotate(-90deg) translateY(-80px);
+            transform-origin: right top;
+        }
+
+        .horizontal-scroll-wrapper>div {
+            display: block;
+            padding: 5px;
+            background: #cab;
+            transform: rotate(90deg);
+            transform-origin: right top;
+        }
+
+        .horizontal-scroll-wrapper.rectangles::-webkit-scrollbar-thumb {
+            background-color: transparent;
+        }
+
+        .horizontal-scroll-wrapper.rectangles::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .rectangles {
+            top: 100px;
+            padding: 100px 0 0 0;
+        }
+
+        .rectangles>div {
+            width: 140px;
+            height: 60px;
+            margin: 50px 10px;
+            padding: 5px;
+            background-color: #ffdc73;
+            transform: rotate(90deg) translateY(80px);
+            transform-origin: right top;
+        }
+
+        #mare_ontem_1,
+        #mare_ontem_3 {
+            background-color: #ffdc73;
+        }
+
+        #mare_ontem_2,
+        #mare_ontem_4 {
+            background-color: #d6b75b;
+        }
+
+        #mare_hoje_1,
+        #mare_hoje_3 {
+            background-color: #ffca2b;
+        }
+
+        #mare_hoje_2,
+        #mare_hoje_4 {
+            background-color: #d8ab22;
+        }
+
+        #mare_amanha_1,
+        #mare_amanha_3 {
+            background-color: #fcbe06;
+        }
+
+        #mare_amanha_2,
+        #mare_amanha_4 {
+            background-color: #cf9b00;
+        }
+
         /***** MEDIA QUERIES ***********/
 
         @media (min-width: 576px) {
@@ -1436,6 +1513,7 @@
                 width: 90px !important;
                 height: 90px !important;
             }
+
 
             .img_logo {
                 display: none;
@@ -2104,6 +2182,20 @@
                         Seguinte</button>
                 </div>
 
+                <!-- <div class="horizontal-scroll-wrapper  rectangles">
+                    <div id="mare_ontem_1">item 1</div>
+                    <div id="mare_ontem_2">item 2</div>
+                    <div id="mare_ontem_3">item 3</div>
+                    <div id="mare_ontem_4">item 4</div>
+                    <div id="mare_hoje_1">item 5</div>
+                    <div id="mare_hoje_2">item 6</div>
+                    <div id="mare_hoje_3">item 7</div>
+                    <div id="mare_hoje_4">item 8</div>
+                    <div id="mare_amanha_1">item 5</div>
+                    <div id="mare_amanha_2">item 6</div>
+                    <div id="mare_amanha_3">item 7</div>
+                    <div id="mare_amanha_4">item 8</div>
+                </div> -->
                 <div id="escrever_data"></div>
 
 
@@ -2364,6 +2456,19 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <button class="btn_showPois" id="btn_dontShow">
+                                Animar Barco
+                            </button>
+                            <button class="btn_showPois" id="btn_showAnimation">
+                                Não animar barco
+                            </button>
+                        </div>
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -7464,20 +7569,8 @@
                         changeValue();
 
                         document.getElementById('cais_partida').innerHTML = "ANGE";
-                        //document.getElementById('cais_chegada').innerHTML = "Vagueira";
+                        document.getElementById('cais_chegada').innerHTML = "Vagueira";
 
-                        document.getElementById('cais_chegada').innerHTML = "<select class='selectionModal' id='sel1' style='width: 85px;' onchange='selecioneLocal()'>" +
-                            "<option selected disabled>Selecione uma rota</option>" +
-                            "<option value='getCostaNovaGPX'>Costa Nova </option>" +
-                            "<option value='getTorreiraGPX_Revserse'>Para Torreira 10 em 10</option>" +
-                            "<option value='getTorreiraGPX_completa'>Torreira Completa 13_08</option>" +
-                            "<option value='getRioNovoGPX_completa_30'>Rio Novo - ANGE  3</option>" +
-                            "<option value='getData_IDA10_3_20_GPX' selected>Vagueira </option>" +
-                            "<option value='getIdaBicoGPX'>Bico (debugging) </option>" +
-                            "<option value='getDataGPX_ANGE_Torreira_1705'>Torreira 17/05 </option>" +
-                            "<option value='getDataGPX_ANGE_RioNovo_2006'>Lota Velha </option>" +
-                            "<option value='getDataGPX_PonteBarra_Testada'>Testada </option>"
-                        "</select>";
 
 
                         //sidebar.open('infoRealTime');
@@ -7668,11 +7761,7 @@
                         document.getElementById('cais_partida').innerHTML = "Vagueira";
                         document.getElementById('cais_chegada').innerHTML = "Ovar";
 
-                        document.getElementById('cais_chegada').innerHTML = "<select class='selectionModal' id='sel1' style='width: 85px;' onchange='selecioneLocal()'>" +
-                            "<option  disabled>Selecione uma rota</option>" +
-                            "<option selected value='getSismar10_boating49444_OVAR'>Ovar</option>" +
-                            "<option value='getData_Volta10_3_20_GPX'>ANGE</option>" +
-                            "</select>";
+
 
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
@@ -7968,6 +8057,7 @@
         var markerGrooupCais;
         var newMarker_Cais;
         var lat_cais = [], long_cais = [];
+        var verAnimarBarco = false;
 
 
 
@@ -8083,17 +8173,23 @@
             if (markerGroup) { // check
                 mymap.removeLayer(markerGroup); // remove
             }
-            document.getElementById('btn_mostrarPOIS').style.opacity = "1";
-            document.getElementById('btn_esconderPOIS').style.opacity = "0.4";
+            document.getElementById('btn_esconderPOIS').style.opacity = "1";
+            document.getElementById('btn_mostrarPOIS').style.opacity = "0.4";
         }
 
         document.getElementById('btn_mostrarPOIS').onclick = function () {
             markerGroup = L.layerGroup().addTo(mymap);
-            document.getElementById('btn_esconderPOIS').style.opacity = "1";
-            document.getElementById('btn_mostrarPOIS').style.opacity = "0.4";
+            document.getElementById('btn_mostrarPOIS').style.opacity = "1";
+            document.getElementById('btn_esconderPOIS').style.opacity = "0.4";
 
             markersAPI();
         }
+
+        document.getElementById('btn_mostrarPOIS').style.opacity = "1";
+        document.getElementById('btn_esconderPOIS').style.opacity = "0.4";
+
+
+
 
         document.getElementById('btn_esconderLinhas').onclick = function () {
             document.getElementById('btn_esconderLinhas').style.opacity = "1";
@@ -8107,6 +8203,37 @@
             clicadoLimites = true;
             limitesRotas();
 
+        }
+
+        if (clicadoLimites) {
+            document.getElementById('btn_mostrarLinhas').style.opacity = "1";
+            document.getElementById('btn_esconderLinhas').style.opacity = "0.4";
+        } else {
+            document.getElementById('btn_esconderLinhas').style.opacity = "1";
+            document.getElementById('btn_mostrarLinhas').style.opacity = "0.4";
+        }
+
+        document.getElementById('btn_dontShow').onclick = function () {
+            document.getElementById('btn_dontShow').style.opacity = "1";
+            document.getElementById('btn_showAnimation').style.opacity = "0.4";
+            verAnimarBarco = true;
+            console.log("true -> animarBarco")
+
+        }
+
+        document.getElementById('btn_showAnimation').onclick = function () {
+            document.getElementById('btn_showAnimation').style.opacity = "1";
+            document.getElementById('btn_dontShow').style.opacity = "0.4";
+            verAnimarBarco = false;
+            console.log("false -> animarBarco")
+        }
+
+        if (verAnimarBarco == false) {
+            document.getElementById('btn_showAnimation').style.opacity = "1";
+            document.getElementById('btn_dontShow').style.opacity = "0.4";
+        } else {
+            document.getElementById('btn_dontShow').style.opacity = "1";
+            document.getElementById('btn_showAnimation').style.opacity = "0.4";
         }
 
         var data_Anterior = false;
@@ -8157,6 +8284,8 @@
             const json3 = await response3.json();
             array_hidrografico_simulacao_API_anterior.push(json3)
 
+
+
             let horasInfo, horasInfo2, horasInfo3, horasInfo4;
 
 
@@ -8173,6 +8302,7 @@
                 horasInfo3 = new Date(array_hidrografico_simulacao_API[0][1].SDATA);
                 horasInfo4 = new Date(array_hidrografico_simulacao_API[0][2].SDATA);
 
+
             } else {
 
                 horasInfo = new Date(array_hidrografico_simulacao_API[0][0].SDATA);
@@ -8180,7 +8310,19 @@
                 horasInfo3 = new Date(array_hidrografico_simulacao_API[0][2].SDATA);
                 horasInfo4 = new Date(array_hidrografico_simulacao_API[0][3].SDATA);
 
+                // document.getElementById('mare_ontem_1').innerHTML = "&nbsp";
+                // document.getElementById('mare_ontem_2').innerHTML = "&nbsp";
+                // document.getElementById('mare_ontem_3').innerHTML = "&nbsp";
+                // document.getElementById('mare_ontem_4').innerHTML = "&nbsp";
+
+                // document.getElementById('mare_hoje_1').innerHTML = "&nbsp";
+                // document.getElementById('mare_hoje_2').innerHTML = "&nbsp";
+                // document.getElementById('mare_hoje_3').innerHTML = "&nbsp";
+                // document.getElementById('mare_hoje_4').innerHTML = "&nbsp";
+
             }
+
+
 
 
             //let horasInfo4 = new Date(array_hidrografico_simulacao_API[0][3].SDATA);
@@ -9708,6 +9850,21 @@
             localiz_distan.push(distancia29);
             local_Nome_rota.push('caisTerminalSul');
 
+            var lat_gpx30 = 40.645290;
+            var lon_gpx30 = -8.750704;
+            distancia30 = mymap.distance([lat_gpx30, lon_gpx30], [arrayClicado.lat, arrayClicado.lng]);
+
+            localiz_distan.push(distancia30);
+            local_Nome_rota.push('bocaBarra');
+
+            var lat_gpx31 = 40.728501;
+            var lon_gpx31 = -8.646610;
+            distancia31 = mymap.distance([lat_gpx31, lon_gpx31], [arrayClicado.lat, arrayClicado.lng]);
+
+            localiz_distan.push(distancia31);
+            local_Nome_rota.push('caisBico');
+
+
             let dataOrdenada, guardardistancia2 = [];
             let primeira_pos;
             if (localiz_distan != null) {
@@ -10339,7 +10496,19 @@
             localiz_distan.push(distancia30);
             local_Nome_rota.push('caisLotaComportas');
 
+            var lat_gpx31 = 40.645290;
+            var lon_gpx31 = -8.750704;
+            distancia31 = mymap.distance([lat_gpx31, lon_gpx31], [arrayClicked.lat, arrayClicked.lng]);
 
+            localiz_distan.push(distancia31);
+            local_Nome_rota.push('bocaBarra');
+
+            var lat_gpx32 = 40.728501;
+            var lon_gpx32 = -8.646610;
+            distancia32 = mymap.distance([lat_gpx32, lon_gpx32], [arrayClicked.lat, arrayClicked.lng]);
+
+            localiz_distan.push(distancia32);
+            local_Nome_rota.push('caisBico');
 
             // document.getElementById('btn_legenda2').style.opacity = "1";
             // document.getElementById('btn_legenda').style.opacity = "1";
@@ -10555,11 +10724,17 @@
 
                     arrayCoordenadasPartida.push('caisVagueira');
 
-                    document.getElementById('cais_chegada').innerHTML = "<select class='selectionModal' id='sel1' style='width: 85px;' onchange='selecioneLocal()'>" +
-                        "<option  selected disabled>Selecione uma rota</option>" +
+                    sidebar.open('infoRoute');
+
+                    document.getElementById('input_partida').value = "Vagueira";
+                    document.getElementById('cais_partida').innerHTML = "Vagueira";
+
+                    document.getElementById('input_partida').disabled = true;
+
+                    document.getElementById('input_chegada').innerHTML =
+                        "<option selected disabled> Escolha o destino </option>" +
                         "<option  value='getSismar10_boating49444_OVAR'>Ovar</option>" +
-                        "<option value='getData_Volta10_3_20_GPX'>ANGE</option>" +
-                        "</select>";
+                        "<option value='getData_Volta10_3_20_GPX'>ANGE</option>";
 
                 } else if (guardardistancia[0][1] == 'caisBico') {
 
@@ -10576,7 +10751,19 @@
 
                     arrayCoordenadasPartida.push('caisBico');
 
-                } else if (guardardistancia[0][1] == 'caisANGE') {
+                    sidebar.open('infoRoute');
+
+                    document.getElementById('input_partida').value = "Cais do Bico";
+                    document.getElementById('cais_partida').innerHTML = "Cais do Bico";
+
+                    document.getElementById('input_partida').disabled = true;
+
+                    document.getElementById('input_chegada').innerHTML =
+                        "<option selected disabled> Escolha o destino </option>" +
+                        "<option  value='getSismar10_boating49444_OVAR'>Barra</option>" +
+                        "<option value='getData_Volta10_3_20_GPX'>ANGE</option>";
+
+                }  else if (guardardistancia[0][1] == 'caisANGE') {
 
                     sidebar.open('infoRoute');
 
@@ -12670,15 +12857,18 @@
 
             let segundosAPI, segundosAPI_2;
             let arrayTempoApi = [];
-            if (inicoCountSeconds == 0) {
-                //console.log(somaVelociUser);
-                segundosAPI = somaVelociUser;
-                inicoCountSeconds++;
-            } else {
-                segundosAPI = segundosAPI + somaVelociUser;
-                //segundosAPI = segundosAPI + somaVelociUser;
-                inicoCountSeconds++;
+            if (verAnimarBarco) {
+                if (inicoCountSeconds == 0) {
+                    //console.log(somaVelociUser);
+                    segundosAPI = somaVelociUser;
+                    inicoCountSeconds++;
+                } else {
+                    segundosAPI = segundosAPI + somaVelociUser;
+                    //segundosAPI = segundosAPI + somaVelociUser;
+                    inicoCountSeconds++;
+                }
             }
+
 
             for (let y = 0; y < tempoAPI.length; y++) {
                 //for (let y = 0; y < tempoAPI.length +1; y++) {
@@ -12697,13 +12887,28 @@
 
                     }
 
+
+
+                    if (verAnimarBarco == false) {
+
+
+                        points.push({ "date": moment(startDate).add(segundosAPI_2.toFixed(2), 's').toDate().toISOString(), "latitude": coord_lat_API[y], "longitude": coord_long_API[y] });
+
+
+                    } else {
+                        points.push({ "date": moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString(), "latitude": coord_lat_API[y], "longitude": coord_long_API[y] });
+
+                    }
+
+
+
                     let converInt = parseInt(segundosAPI);
 
                     // esta variável -> segundosAPI_2 é utilizada para a fotografia da rota!
 
                     arrayTempoApi.push(moment(startDate).add(segundosAPI_2.toFixed(2), 's').toDate().toISOString());
 
-                    console.log(moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString());
+                    //console.log(moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString());
                     //console.log({segundosAPI_2:moment(startDate).add(segundosAPI_2.toFixed(2), 's').toDate().toISOString()});
 
                     //tempoISO_API.push({  date: moment(startDate).add(y, 'm').toDate().toISOString() } );
@@ -12712,10 +12917,11 @@
                     // esta variável -> segundosAPI é utilizada para animar a rota 
                     // e mostrar a hora igual em todos os pontos!
 
-                    points.push({ "date": moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString(), "latitude": coord_lat_API[y], "longitude": coord_long_API[y] });
+                    //points.push({ "date": moment(startDate).add(segundosAPI.toFixed(2), 's').toDate().toISOString(), "latitude": coord_lat_API[y], "longitude": coord_long_API[y] });
                 }
             }
-
+            console.log(verAnimarBarco)
+            console.log(points);
 
             //console.log(points);
 
@@ -14633,16 +14839,19 @@
 
                     }
 
-
-                    document.getElementById('simulControll_display').style.display = "block";
-
-                    //If para barco andar a fazer pedidos
-
-
-                    if (comecAnimarfirst) {
-                        parar = false;
-                        comecaAnimar();
+                    if (verAnimarBarco) {
+                        document.getElementById('simulControll_display').style.display = "block";
+                        //If para barco andar a fazer pedidos
+                        if (comecAnimarfirst) {
+                            parar = false;
+                            comecaAnimar();
+                        }
                     }
+
+
+
+
+
 
                     //}, 10000);
                     //}, 15000);
@@ -15364,14 +15573,14 @@
                 }
 
 
-                document.getElementById('simulControll_display').style.display = "block";
 
-                //If para barco andar a fazer pedidos
-
-
-                if (comecAnimarfirst) {
-                    parar = false;
-                    comecaAnimar();
+                if (verAnimarBarco) {
+                    document.getElementById('simulControll_display').style.display = "block";
+                    //If para barco andar a fazer pedidos
+                    if (comecAnimarfirst) {
+                        parar = false;
+                        comecaAnimar();
+                    }
                 }
             }
 
@@ -16825,10 +17034,10 @@
                 //console.log(layer.options.pane)
                 if (layer.options.pane == "overlayPane") {
                     mymap.removeLayer(layer);
-                    if(markerAnimado){
+                    if (markerAnimado) {
                         mymap.removeLayer(markerAnimado);
                     }
-                    if(firstpolyline2){
+                    if (firstpolyline2) {
                         mymap.removeLayer(firstpolyline2);
                     }
                     //mymap.removeLayer(firstpolyline2);
@@ -16860,6 +17069,8 @@
             var modal_eta = true;
             var time_partida_1 = true;
             document.getElementById('load_fetch').style.display = "none";
+            document.getElementById('load_fetch_2').style.display = "none";
+
 
             //document.getElementById('fileUploader').value = "";
             getInfo();
