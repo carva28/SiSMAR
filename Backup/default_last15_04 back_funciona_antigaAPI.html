@@ -2746,6 +2746,7 @@
         </div>
     </div>
 
+
     <script>
         function myFunction(x) {
             if (x.matches) { // If media query matches
@@ -2885,25 +2886,6 @@
                 $("#date").attr("max", data5D_future);
             });
 
-            document.getElementById('info_mare_1').innerHTML = "&nbsp";
-            document.getElementById('info_mare_2').innerHTML = "&nbsp";
-            document.getElementById('info_mare_3').innerHTML = "&nbsp";
-            document.getElementById('info_mare_4').innerHTML = "&nbsp";
-
-            document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
-            document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
-            document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
-            document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
-
-            document.getElementById('info_mare_1_troca').innerHTML = "&nbsp";
-            document.getElementById('info_mare_2_troca').innerHTML = "&nbsp";
-            document.getElementById('info_mare_3_troca').innerHTML = "&nbsp";
-            document.getElementById('info_mare_4_troca').innerHTML = "&nbsp";
-
-            document.getElementById('info_mare_1_1_troca').innerHTML = "&nbsp";
-            document.getElementById('info_mare_2_1_troca').innerHTML = "&nbsp";
-            document.getElementById('info_mare_3_1_troca').innerHTML = "&nbsp";
-            document.getElementById('info_mare_4_1_troca').innerHTML = "&nbsp";
             //document.getElementById('date').value = testData.toString();
 
 
@@ -4001,16 +3983,7 @@
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
-                        simularRota = true;
                         changeValue();
-                        document.getElementById('cais_partida').innerHTML = "Rio Novo";
-                        document.getElementById('cais_chegada').innerHTML = "ANGE";
-
-
-                        //sidebar.open('infoRealTime');
-                        clicadoPrimeiroCais = false;
-                        clicadoSegundoCais = false;
-
                     })
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -4833,8 +4806,8 @@
                         arrayGPX.push(gpx._gpx)
                         simularRota = true;
                         changeValue();
-                        document.getElementById('cais_partida').innerHTML = "ANGE";
-                        document.getElementById('cais_chegada').innerHTML = "Cais do Bico";
+                        document.getElementById('cais_partida').innerHTML = "Costa Nova";
+                        document.getElementById('cais_chegada').innerHTML = "ANGE";
                         //sidebar.open('infoRealTime');
                         clicadoPrimeiroCais = false;
                         clicadoSegundoCais = false;
@@ -6336,13 +6309,7 @@
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
-                        simularRota = true;
                         changeValue();
-                        document.getElementById('cais_partida').innerHTML = "Cale douro";
-                        document.getElementById('cais_chegada').innerHTML = "Testada";
-                        //sidebar.open('infoRealTime');
-                        clicadoPrimeiroCais = false;
-                        clicadoSegundoCais = false;
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -6434,13 +6401,7 @@
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
-                        simularRota = true;
                         changeValue();
-                        document.getElementById('cais_partida').innerHTML = "Testada";
-                        document.getElementById('cais_chegada').innerHTML = "Torreira";
-                        //sidebar.open('infoRealTime');
-                        clicadoPrimeiroCais = false;
-                        clicadoSegundoCais = false;
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -6627,13 +6588,7 @@
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
-                        simularRota = true;
                         changeValue();
-                        document.getElementById('cais_partida').innerHTML = "Rio Novo";
-                        document.getElementById('cais_chegada').innerHTML = "ANGE";
-                        //sidebar.open('infoRealTime');
-                        clicadoPrimeiroCais = false;
-                        clicadoSegundoCais = false;
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -6727,13 +6682,7 @@
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
-                        simularRota = true;
                         changeValue();
-                        document.getElementById('cais_partida').innerHTML = "Ponte da Barra";
-                        document.getElementById('cais_chegada').innerHTML = "Testada";
-                        clicadoPrimeiroCais = false;
-                        clicadoSegundoCais = false;
-
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -6823,16 +6772,10 @@
                     });
                     somarNumero = 0;
                     g.on('click', function (e) {
-                        
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
-                        simularRota = true;
                         changeValue();
-                        document.getElementById('cais_partida').innerHTML = "Testada";
-                        document.getElementById('cais_chegada').innerHTML = "Salreu";
-                        clicadoPrimeiroCais = false;
-                        clicadoSegundoCais = false;
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -6927,14 +6870,7 @@
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
-                        simularRota = true;
-
                         changeValue();
-                  
-                        document.getElementById('cais_partida').innerHTML = "Salreu";
-                        document.getElementById('cais_chegada').innerHTML = "Ponte Barra";
-                        clicadoPrimeiroCais = false;
-                        clicadoSegundoCais = false;
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -7436,14 +7372,7 @@
                         var gpx = e.target;
                         arrayGPX = [];
                         arrayGPX.push(gpx._gpx)
-                        
-                        simularRota = true;
                         changeValue();
-                        document.getElementById('cais_partida').innerHTML = "Carregal";
-                        document.getElementById('cais_chegada').innerHTML = "Areínho";
-                        //sidebar.open('infoRealTime');
-                        clicadoPrimeiroCais = false;
-                        clicadoSegundoCais = false;
                     });
                     g.on('addpoint', function (e) {
                         var gpx = e.target;
@@ -8379,16 +8308,524 @@
                 horasInfo = new Date(array_hidrografico_simulacao_API[0][0].SDATA);
                 horasInfo2 = new Date(array_hidrografico_simulacao_API[0][1].SDATA);
                 horasInfo3 = new Date(array_hidrografico_simulacao_API[0][2].SDATA);
-    
+                horasInfo4 = new Date(array_hidrografico_simulacao_API[0][3].SDATA);
+
+                // document.getElementById('mare_ontem_1').innerHTML = "&nbsp";
+                // document.getElementById('mare_ontem_2').innerHTML = "&nbsp";
+                // document.getElementById('mare_ontem_3').innerHTML = "&nbsp";
+                // document.getElementById('mare_ontem_4').innerHTML = "&nbsp";
+
+                // document.getElementById('mare_hoje_1').innerHTML = "&nbsp";
+                // document.getElementById('mare_hoje_2').innerHTML = "&nbsp";
+                // document.getElementById('mare_hoje_3').innerHTML = "&nbsp";
+                // document.getElementById('mare_hoje_4').innerHTML = "&nbsp";
 
             }
 
 
 
 
-            
+            //let horasInfo4 = new Date(array_hidrografico_simulacao_API[0][3].SDATA);
 
-      
+
+            document.getElementById('info_mare_1').innerHTML = "&nbsp";
+            document.getElementById('info_mare_2').innerHTML = "&nbsp";
+            document.getElementById('info_mare_3').innerHTML = "&nbsp";
+            document.getElementById('info_mare_4').innerHTML = "&nbsp";
+
+            document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
+            document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
+            document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
+            document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
+
+            document.getElementById('info_mare_1_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_2_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_3_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_4_troca').innerHTML = "&nbsp";
+
+            document.getElementById('info_mare_1_1_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_2_1_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_3_1_troca').innerHTML = "&nbsp";
+            document.getElementById('info_mare_4_1_troca').innerHTML = "&nbsp";
+
+            let minutos_display_1, minutos_display_2, minutos_display_3, minutos_display_4;
+            let horas_display_1, horas_display_2, horas_display_3, horas_display_4;
+
+            if (horasInfo.getMinutes() <= 9) {
+                minutos_display_1 = "0" + horasInfo.getMinutes();
+            } else {
+                minutos_display_1 = horasInfo.getMinutes();
+            }
+            if (horasInfo2.getMinutes() <= 9) {
+                minutos_display_2 = "0" + horasInfo2.getMinutes();
+            } else {
+                minutos_display_2 = horasInfo2.getMinutes();
+            }
+            if (horasInfo3.getMinutes() <= 9) {
+                minutos_display_3 = "0" + horasInfo3.getMinutes();
+            } else {
+                minutos_display_3 = horasInfo3.getMinutes();
+            }
+            if (horasInfo4.getMinutes() <= 9) {
+                minutos_display_4 = "0" + horasInfo4.getMinutes();
+            } else {
+                minutos_display_4 = horasInfo4.getMinutes();
+            }
+
+            //Horas
+
+            if (horasInfo.getHours() <= 9) {
+                horas_display_1 = "0" + horasInfo.getHours();
+            } else {
+                horas_display_1 = horasInfo.getHours();
+            }
+            if (horasInfo2.getHours() <= 9) {
+                horas_display_2 = "0" + horasInfo2.getHours();
+            } else {
+                horas_display_2 = horasInfo2.getHours();
+            }
+            if (horasInfo3.getHours() <= 9) {
+                horas_display_3 = "0" + horasInfo3.getHours();
+            } else {
+                horas_display_3 = horasInfo3.getHours();
+            }
+            if (horasInfo4.getHours() <= 9) {
+                horas_display_4 = "0" + horasInfo4.getHours();
+            } else {
+                horas_display_4 = horasInfo4.getHours();
+            }
+
+
+
+            if (horasInfo4.getHours() == 0 || horasInfo4.getHours() == 00) {
+                if (data_Anterior == true) {
+
+                    document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    if (array_hidrografico_simulacao_API[0][2].ALT != null) {
+                        document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                    }
+                    document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    if (array_hidrografico_simulacao_API[0][2].ALT != null) {
+                        document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                    }
+                } else if (array_hidrografico_simulacao_API[0].length == 4) {
+
+                    if (horasInfo3.getHours() > horasInfo4.getHours()) {
+                        //18 - 00
+                        if (array_hidrografico_simulacao_API[0][2].ALT > array_hidrografico_simulacao_API[0][3].ALT) {
+
+                            document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                        } else {
+
+                            document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+                        }
+                    } else {
+                        // 16 - 23
+
+                        if (array_hidrografico_simulacao_API[0][2].ALT > array_hidrografico_simulacao_API[0][3].ALT) {
+
+                            document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                        } else {
+
+                            document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+                        }
+                    }
+
+
+
+
+
+                } else if (array_hidrografico_simulacao_API[0][1].ALT > array_hidrografico_simulacao_API[0][2].ALT) {
+
+                    document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                    document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                } else {
+
+
+                    document.getElementById('info_mare_2').innerHTML = horas_display_1 + ":" + minutos_display_1
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horas_display_2 + ":" + minutos_display_2
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_4').innerHTML = horas_display_3 + ":" + minutos_display_3
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                    document.getElementById('info_mare_2_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_4_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                }
+
+
+            } else {
+
+
+
+                if (array_hidrografico_simulacao_API[0][1].ALT > array_hidrografico_simulacao_API[0][2].ALT) {
+
+                    document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                    if (array_hidrografico_simulacao_API[0][3] != null) {
+                        document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    }
+
+                    document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                    document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                        + "&nbsp" + "|" +
+                        "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                    document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                        + "&nbsp" + "|" +
+                        "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                    if (array_hidrografico_simulacao_API[0][3] != null) {
+                        document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                    }
+
+                    else {
+
+                        if (data_Anterior == true) {
+                            document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][2].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][2].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            }
+                        } else {
+                            document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+                        }
+                    }
+
+
+                } else {
+                    if (horasInfo.getMinutes() <= 9) {
+                        document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                        document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                        document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                        if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                            document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                        }
+
+                        document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                        document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                            + "&nbsp" + "|" +
+                            "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                        document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                            + "&nbsp" + "|" +
+                            "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                        if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                            document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                        }
+                    } else {
+
+                        if (data_Anterior == true) {
+
+                            document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][2].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API_anterior[0][3].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][2].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            }
+                        } else {
+
+                            document.getElementById('info_mare_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = horas_display_1 + ":" + minutos_display_1
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = horas_display_2 + ":" + minutos_display_2
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = horas_display_3 + ":" + minutos_display_3
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = horas_display_4 + ":" + minutos_display_4
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+                        }
+
+                    }
+                }
+            }
+
+
 
 
         }
@@ -8940,7 +9377,7 @@
         let inicoCountSeconds = 0;
 
         function changeValue(e) {
-            console.log(simularRota);
+
             if (simularRota) {
 
                 SimulacaoRota = true;
@@ -9555,7 +9992,7 @@
                         nomeDestino.push("Torreira");
                         milesRoute.push(duracaoRotaChoosen[0]);
                         distanciaCerto = 30;
-                        setValor_rota = 2000;
+                        setValor_rota = 50000;
                         AnimacValor_rota = 550;
 
                         arrayURL = [];
@@ -9678,9 +10115,9 @@
 
                         distanciaCerto = 30;
                         //setValor_rota = 10000;
-                        setValor_rota = 14000;
+                        setValor_rota = 12000;
                         //AnimacValor_rota = 120;
-                        AnimacValor_rota = 190;
+                        AnimacValor_rota = 170;
                         milesRoute.push(duracaoRotaChoosen[0]);
                         document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                         arrayURL = [];
@@ -10323,10 +10760,10 @@
 
                     document.getElementById('input_chegada').innerHTML =
                         "<option selected disabled> Escolha o destino </option>" +
-                        "<option  value='getDataGPX_RegressoBico'>Barra</option>" +
+                        "<option  value='getSismar10_boating49444_OVAR'>Barra</option>" +
                         "<option value='getData_Volta10_3_20_GPX'>ANGE</option>";
-           
-                } else if (guardardistancia[0][1] == 'caisANGE') {
+
+                }  else if (guardardistancia[0][1] == 'caisANGE') {
 
                     sidebar.open('infoRoute');
 
@@ -10340,6 +10777,7 @@
                         "<option selected disabled> Escolha o destino </option>" +
                         "<option value='getCostaNovaGPX'>Costa Nova </option>" +
                         "<option value='getTorreiraGPX_completa'>Torreira Completa 13_08</option>" +
+                        "<option value='getRioNovoGPX_completa_30'>Rio Novo - ANGE  30</option>" +
                         "<option value='getRioNovoGPX_completa_30'>Rio Novo - ANGE  30</option>" +
                         "<option value='getData_IDA10_3_20_GPX'>Vagueira </option>" +
                         "<option value='getDataGPX_PonteBarra_Testada'>Testada </option>";
@@ -11238,7 +11676,7 @@
                     marker_Teste1.closePopup();
 
                     distanciaCerto = 30;
-                    setValor_rota = 2000;
+                    setValor_rota = 50000;
                     AnimacValor_rota = 550;
 
                     arrayURL = [];
@@ -11515,7 +11953,6 @@
                 case 'getDataGPX_CALEDOURO_TESTADA_3005':
                     setValor_rota = 19000;
                     AnimacValor_rota = 190;
-                    distanciaCerto = 30;
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
@@ -11595,7 +12032,6 @@
                 case 'getIdaBicoGPX':
                     setValor_rota = 20000;
                     AnimacValor_rota = 200;
-                    distanciaCerto = 30;
                     milesRoute.push(duracaoRotaChoosen[3]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
@@ -11699,7 +12135,7 @@
                 case 'getDataGPX_RegressoBico':
                     setValor_rota = 16000;
                     AnimacValor_rota = 160;
-                    distanciaCerto = 30;
+
                     milesRoute.push(duracaoRotaChoosen[1]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     arrayURL = [];
@@ -11732,7 +12168,6 @@
                 case 'getDataGPX_ANGE_RioNovo_2006':
                     setValor_rota = 42000;
                     AnimacValor_rota = 450;
-                    distanciaCerto = 30;
                     arrayURL = [];
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/20_06_mytracks_ange_lota.gpx');
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_ANGE_LOTA_20200729020722-25038-data.gpx');
@@ -11762,7 +12197,6 @@
                 case 'NovaRotaCriada':
                     setValor_rota = 20000;
                     AnimacValor_rota = 200;
-                    distanciaCerto = 30;
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/NovaRotaCriada.gpx');
                     milesRoute.push(duracaoRotaChoosen[0]);
@@ -11793,7 +12227,7 @@
                     AnimacValor_rota = 400;
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Ponte_Barra_Veia_da_Testada.gpx');
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_veia_Testada_20200729025133-25038-data.gpx');
-                    distanciaCerto = 30;
+
                     milesRoute.push(duracaoRotaChoosen[6]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     getDataGPX_PonteBarra_Testada();
@@ -11827,12 +12261,6 @@
                     getDataGPX_Testada_Salreu_30();
                     setValor_rota = 16000;
                     AnimacValor_rota = 160;
-
-                    distanciaCerto = 30;
-                        //setValor_rota = 10000;
-                        setValor_rota = 19000;
-                        //AnimacValor_rota = 120;
-                        AnimacValor_rota = 200;
                     nomeDestino = [];
                     nomeDestino.push("Salreu");
                     document.getElementById('tutorial03').style.display = "block";
@@ -11861,9 +12289,7 @@
                     //arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v20_Salreu_PonteBarra_20200729034439-25038-data.gpx');
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v50_Salreu_PonteBarra_20200729034851-25038-data.gpx');
 
-                    distanciaCerto = 30;
-                        setValor_rota = 30000;
-                        AnimacValor_rota = 300;
+
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
                     getDataGPX_Salreu_PonteBarra();
@@ -11891,7 +12317,6 @@
                 case 'rotaOvar_28_07':
                     setValor_rota = 20000;
                     AnimacValor_rota = 200;
-                    distanciaCerto = 30;
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/v10_Canal_Ovar_28_07_20200729080108-25038-data.gpx');
 
@@ -11922,8 +12347,8 @@
                     /*setValor_rota = 40000;
                     AnimacValor_rota = 400;*/
 
-                    setValor_rota = 95000;
-                    AnimacValor_rota = 1000;
+                    setValor_rota = 80000;
+                    AnimacValor_rota = 900;
 
                     distanciaCerto = 30;
 
@@ -11957,25 +12382,27 @@
 
 
                 case 'getRioNovoGPX_completa_30':
-               
+                    getRioNovoGPX_completa_30();
                     setValor_rota = 30000;
+
                     AnimacValor_rota = 500;
+
                     distanciaCerto = 30;
                     arrayURL = [];
                     arrayURL.push('https://raw.githubusercontent.com/carva28/SiSMAR/master/Rotas_certas/mytracks_30_30_rio_novo_bico_ange.gpx');
-                    simularRota = true;
-                    getRioNovoGPX_completa_30();
+
                     milesRoute.push(duracaoRotaChoosen[0]);
                     document.getElementById('duracao_rota').innerHTML = "Clique em simular para calcular";
 
                     nomeDestino = [];
-                    nomeDestino.push("Rio novo");
+                    nomeDestino.push("TORREIRA");
                     document.getElementById('tutorial03').style.display = "block";
-
+                    document.getElementById('cais_partida').innerHTML = "Rio Novo";
+                    document.getElementById('cais_chegada').innerHTML = "ANGE";
                     marker_Teste1.bindPopup("<div class='div_bind'>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Partida</b> Rio Novo</p>" +
                         "<p style='font-size:0.9rem;'><b>Cais de Chegada</b> ANGE</p>" +
-                        "<p style='font-size:0.8rem;'><b>Rota</b> Rio Novo - ANGE</p>" +
+                        "<p style='font-size:0.8rem;'><b>Rota</b> ANGE - Rio Novo</p>" +
                         "<button class='btn_changeRotas' onclick='sendBack()'>Mudar Rota</button>" + "<br>" +
                         "<span style='font-size:1.0rem;'>Carregue no botão simular</span>" +
                         "</div>").openPopup();
@@ -12367,9 +12794,6 @@
             }
 
 
-            //pedir PM e BM à Hidromod API
-
-            amplitudePMBM(coordenadas);
 
             // tempoAPI
             // coord_lat_API
@@ -13301,9 +13725,208 @@
 
                 //console.log(array_hidrografico_simulacao_API);
 
+                // document.getElementById('info_mare_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_2').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_3').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_4').innerHTML = "&nbsp";
+
+                // document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
+                // document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
 
 
                 console.log(sortedData2[3] != undefined)
+                if (sortedData2[3] != null || sortedData2[3] != undefined) {
+                    let data4 = new Date(sortedData2[3].SDATA);
+                    let data0_info = new Date(array_hidrografico_simulacao_API[0][0].SDATA);
+                    // console.log(data0_info)
+                    // console.log(data0_info.getHours())
+                    if (array_hidrografico_simulacao_API[0][1].ALT < array_hidrografico_simulacao_API[0][0].ALT) {
+                        if (data4.getHours() == 0 || data4.getHours() == 00 || array_hidrografico_simulacao_API[0][3].ALT == null) {
+                            //console.log('if01-tabe Mare');
+                            document.getElementById('info_mare_2').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_4').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                            document.getElementById('info_mare_2_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_4_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                        } else {
+                            //console.log('if02-tabe Mare');
+                            document.getElementById('info_mare_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4').innerHTML = data4.getHours() + ":" + data4.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                            document.getElementById('info_mare_1_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                            document.getElementById('info_mare_2_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                            document.getElementById('info_mare_3_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                + "&nbsp" + "|" +
+                                "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+                                document.getElementById('info_mare_4_1').innerHTML = data4.getHours() + ":" + data4.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+                            else {
+                                //console.log('if03-tabe Mare');
+
+                                document.getElementById('info_mare_2').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                                document.getElementById('info_mare_3').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                                document.getElementById('info_mare_4').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                                document.getElementById('info_mare_2_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                                document.getElementById('info_mare_3_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                                document.getElementById('info_mare_4_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                            }
+                        }
+                    } else {
+
+                        if (data0_info.getHours() == 0 || data0_info.getHours() == 00 || array_hidrografico_simulacao_API[0][3].ALT == null) {
+
+                            if (data0_info.getHours() <= 4) {
+                                //console.log('if10-tabe Mare');
+
+                                document.getElementById('info_mare_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                                document.getElementById('info_mare_2').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                                document.getElementById('info_mare_3').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                                document.getElementById('info_mare_1_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                                document.getElementById('info_mare_2_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                                document.getElementById('info_mare_3_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                            } else {
+                                //console.log('if11-tabe Mare');
+
+                                document.getElementById('info_mare_2').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                                document.getElementById('info_mare_3').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                                document.getElementById('info_mare_4').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+
+                                document.getElementById('info_mare_2_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                                document.getElementById('info_mare_3_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                                document.getElementById('info_mare_4_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                            }
+
+
+                        } else {
+
+                            if (array_hidrografico_simulacao_API[0][3].ALT != null) {
+
+                                document.getElementById('info_mare_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                                document.getElementById('info_mare_2').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                                document.getElementById('info_mare_3').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+                                document.getElementById('info_mare_4').innerHTML = data4.getHours() + ":" + data4.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+
+
+                                document.getElementById('info_mare_1_1').innerHTML = data1.getHours() + ":" + data1.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][0].ALT + "</b></span>";
+                                document.getElementById('info_mare_2_1').innerHTML = data2.getHours() + ":" + data2.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][1].ALT + "</b></span>";
+                                document.getElementById('info_mare_3_1').innerHTML = data3.getHours() + ":" + data3.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:red;'><b>" + array_hidrografico_simulacao_API[0][2].ALT + "</b></span>";
+
+                                document.getElementById('info_mare_4_1').innerHTML = data4.getHours() + ":" + data4.getMinutes()
+                                    + "&nbsp" + "|" +
+                                    "<span style='color:green;'><b>" + array_hidrografico_simulacao_API[0][3].ALT + "</b></span>";
+                            }
+
+                        }
+                    }
+
+                } else {
+                    if (sortedData2[0] == undefined) {
+                        document.getElementById('info_mare_1').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_2').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_3').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_4').innerHTML = "&nbsp";
+
+                        document.getElementById('info_mare_1_1').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_2_1').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_3_1').innerHTML = "&nbsp";
+                        document.getElementById('info_mare_4_1').innerHTML = "&nbsp";
+                    }
+
+                }
 
                 var verificarHorasMare_2;
                 var splitTime1_verMarHor;
@@ -13396,8 +14019,7 @@
                     var elem = document.getElementById("myBar");
                     var width = 1;
 
-                    //var id = setInterval(frame, AnimacValor_rota);
-                    var id = setInterval(frame, 200);
+                    var id = setInterval(frame, AnimacValor_rota);
                     function frame() {
                         if (width >= 100) {
                             clearInterval(id);
@@ -13411,8 +14033,6 @@
 
                 let variableTruefromApi = getDATAPIHidromod(initialID, points);
                 let coordenadasSemMare = [];
-
-
                 setTimeout(function () {
 
                     if (mare_por_minuto2.length > 0) {
@@ -16545,13 +17165,13 @@
                 //var waitForResult = setInterval(getStatus, 150);
 
                 var waitForResult;
-                // if (simularRota == false) {
-                //     waitForResult = setInterval(getStatus, 90);
+                if (simularRota == false) {
+                    waitForResult = setInterval(getStatus, 90);
 
-                // } else {
-                //     waitForResult = setInterval(getStatus, 170);
-                // }
-                waitForResult = setInterval(getStatus, 30);
+                } else {
+                    waitForResult = setInterval(getStatus, 170);
+                }
+
                 function getStatus() {
                     //console.log("-------------");
                     //console.log(resultPost.id);
@@ -16568,7 +17188,7 @@
 
                                 var resultData = JSON.parse(xhr.responseText);
 
-                                console.log(resultData.values);
+                                //console.log(resultData.values);
                                 // mare_por_minuto2 = [];
                                 // mare_por_minuto2.push(resultData.values[3])
                                 // console.log(mare_por_minuto2)
@@ -16647,188 +17267,7 @@
             });
         }
 
-        async function amplitudePMBM(points_coord) {
-         
-            var initialID = 'BEC5D42AF6BA4A2D8A65E5D5CE8F4065';
 
-
-            var points = [
-                { latitude: parseFloat(points_coord[0][1]), longitude: parseFloat(points_coord[0][0]) },
-                { latitude: parseFloat(points_coord[points_coord.length - 1][1]), longitude: parseFloat(points_coord[points_coord.length - 1][0]) },
-            ];
-
-
-            var tempo;
-
-            httpClient = {
-                get: function (url, data, callback) {
-                    var xhr = new XMLHttpRequest();
-
-                    xhr.onreadystatechange = function () {
-                        var readyState = xhr.readyState;
-
-                        if (readyState == 4) {
-                            callback(xhr);
-                        }
-                    };
-
-                    var queryString = '';
-                    if (typeof data === 'object') {
-                        for (var propertyName in data) {
-                            queryString += (queryString.length === 0 ? '' : '&') + propertyName + '=' + encodeURIComponent(data[propertyName]);
-                        }
-                    }
-
-                    if (queryString.length !== 0) {
-                        url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
-                    }
-
-                    xhr.open('GET', url, true);
-                    xhr.send(null);
-                },
-
-                post: function (url, data, callback) {
-                    var xhr = new XMLHttpRequest();
-
-                    xhr.onreadystatechange = function () {
-                        var readyState = xhr.readyState;
-
-                        if (readyState == 4) {
-                            callback(xhr);
-                        }
-                    };
-
-                    var queryString = '';
-                    if (typeof data === 'object') {
-                        queryString = JSON.stringify(data);
-                    }
-
-                    xhr.open('POST', url, true);
-                    xhr.setRequestHeader('content-type', 'application/json');
-                    xhr.send(queryString);
-                },
-
-                delete: function (url, data, callback) {
-                    var xhr = new XMLHttpRequest();
-
-                    xhr.onreadystatechange = function () {
-                        var readyState = xhr.readyState;
-
-                        if (readyState == 4) {
-                            callback(xhr);
-                        }
-                    };
-
-                    var queryString = '';
-                    if (typeof data === 'object') {
-                        for (var propertyName in data) {
-                            queryString += (queryString.length === 0 ? '' : '&') + propertyName + '=' + encodeURIComponent(data[propertyName]);
-                        }
-                    }
-
-                    if (queryString.length !== 0) {
-                        url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
-                    }
-
-                    xhr.open('DELETE', url, true);
-                    xhr.send(queryString);
-                },
-            };
-            httpClient.post(`https://service.hidromod.com/valida4dapi/ExtremeEvent/Start/${initialID}`, points, function (xhr) {
-                var resultPost = JSON.parse(xhr.responseText);
-
-                console.log(resultPost);
-
-                //var waitForResult = setInterval(getStatus, 1000);
-                var waitForResult = setInterval(getStatus, 500);
-
-
-                function getStatus() {
-                    httpClient.get(`https://service.hidromod.com/valida4dapi/ExtremeEvent/Status/${resultPost.id}`, null, function (xhr) {
-                        var resultStatus = JSON.parse(xhr.responseText);
-
-                        // console.log(resultStatus);
-                        // console.log('loading...');
-
-                        if (resultStatus.status == 2) {
-                            clearInterval(waitForResult);
-                            httpClient.get(`https://service.hidromod.com/valida4dapi/ExtremeEvent/Results/${resultPost.id}`, null, function (xhr) {
-                                var resultData = JSON.parse(xhr.responseText);
-                                console.log(resultData);
-
-
-                                if(resultData.values[0][0] > resultData.values[0][1]){
-                                    
-                                    var tempo1 = moment().add(resultData.dates[0][0], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo2 = moment().add(resultData.dates[0][1], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo3 = moment().add(resultData.dates[0][2], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo4 = moment().add(resultData.dates[0][3], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-
-                                    var tempo1_HHMM = moment().add(resultData.dates[0][0], 'seconds').utc().format('HH:mm ');
-                                    
-
-                                    document.getElementById('info_mare_1').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo1 + "</span>" + "<span style='color:green;'><b>"+parseFloat(resultData.values[0][0]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_2').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo2 + "</span>" +"<span style='color:red;'><b>"+parseFloat(resultData.values[0][1]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_3').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo3 + "</span>" +"<span style='color:green;'><b>"+parseFloat(resultData.values[0][2]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_4').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo4 + "</span>" +"<span style='color:red;'><b>"+parseFloat(resultData.values[0][3]).toFixed(2)+"</b></span>";
-
-                                }else{
-
-                                    var tempo1 = moment().add(resultData.dates[0][0], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo2 = moment().add(resultData.dates[0][1], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo3 = moment().add(resultData.dates[0][2], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo4 = moment().add(resultData.dates[0][3], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-
-                                    var tempo1_HHMM = moment().add(resultData.dates[0][0], 'seconds').utc().format('HH:mm ');
-                                    
-                                    document.getElementById('info_mare_1_troca').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo1 + "</span>" + "<span style='color:red;'><b>"+parseFloat(resultData.values[0][0]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_2_troca').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo2 + "</span>" +"<span style='color:green;'><b>"+parseFloat(resultData.values[0][1]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_3_troca').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo3 + "</span>" +"<span style='color:red;'><b>"+parseFloat(resultData.values[0][2]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_4_troca').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo4 + "</span>" +"<span style='color:green;'><b>"+parseFloat(resultData.values[0][3]).toFixed(2)+"</b></span>";
-
-                                }
-                                
-                                
-                                if(resultData.values[1][0] > resultData.values[1][1]){
-                                    
-                                    var tempo1 = moment().add(resultData.dates[1][0], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo2 = moment().add(resultData.dates[1][1], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo3 = moment().add(resultData.dates[1][2], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo4 = moment().add(resultData.dates[1][3], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-
-                                    var tempo1_HHMM = moment().add(resultData.dates[1][0], 'seconds').utc().format('HH:mm ');
-                                    
-
-                                    document.getElementById('info_mare_1_1').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo1 + "</span>" + "<span style='color:green;'><b>"+parseFloat(resultData.values[1][0]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_2_1').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo2 + "</span>" +"<span style='color:red;'><b>"+parseFloat(resultData.values[1][1]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_3_1').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo3 + "</span>" +"<span style='color:green;'><b>"+parseFloat(resultData.values[1][2]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_4_1').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo4 + "</span>" +"<span style='color:red;'><b>"+parseFloat(resultData.values[1][3]).toFixed(2)+"</b></span>";
-
-                                }else{
-
-                                    var tempo1 = moment().add(resultData.dates[1][0], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo2 = moment().add(resultData.dates[1][1], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo3 = moment().add(resultData.dates[1][2], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-                                    var tempo4 = moment().add(resultData.dates[1][3], 'seconds').utc().format('DD/MM/YYYY HH:mm ');
-
-                                    var tempo1_HHMM = moment().add(resultData.dates[1][0], 'seconds').utc().format('HH:mm ');
-                                    
-                                    document.getElementById('info_mare_1_1_troca').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo1 + "</span>" + "<span style='color:red;'><b>"+parseFloat(resultData.values[1][0]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_2_1_troca').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo2 + "</span>" +"<span style='color:green;'><b>"+parseFloat(resultData.values[1][1]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_3_1_troca').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo3 + "</span>" +"<span style='color:red;'><b>"+parseFloat(resultData.values[1][2]).toFixed(2)+"</b></span>";
-                                    document.getElementById('info_mare_4_1_troca').innerHTML = "<span style='font-size:0.71rem;'>" +  tempo4 + "</span>" +"<span style='color:green;'><b>"+parseFloat(resultData.values[1][3]).toFixed(2)+"</b></span>";
-
-                                }
-
-                     
-
-                            });
-                        }
-                    });
-                }
-            });
-
-        }
 
     </script>
 
